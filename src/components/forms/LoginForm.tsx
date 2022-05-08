@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import axios from 'axios';
 import { SyntheticEvent, useState } from 'react';
 
 import BetaMessage from '../BetaMessage';
+import Backend from '../../lib/Backend';
 
 const FormContainer = styled.div`
   max-width: 720px;
@@ -28,15 +28,11 @@ function LoginForm({ onForgotPassword, onError }: LoginFormProps) {
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
-    const endpoint = '/users/login';
     setLoading(true);
 
     try {
-      const data = {
-        email,
-        password,
-      };
-      const res = await axios.post(endpoint, data);
+      const backend = new Backend();
+      const res = await backend.login(email, password);
       if (res.status === 200) {
         localStorage.setItem('token', res.data.token);
         window.location.href = '/search';

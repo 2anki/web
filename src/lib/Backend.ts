@@ -14,7 +14,7 @@ class Backend {
   lastCall = new Date();
 
   constructor() {
-    this.baseURL = '/';
+    this.baseURL = '/api/';
   }
 
   async logout() {
@@ -261,6 +261,10 @@ class Backend {
       ? this.getPage(f.object_id, true)
       : this.getDatabase(f.object_id, true));
     return Promise.all(response.data.map(async (f) => getObject(f)));
+  }
+
+  async login(email: string, password: string): Promise<any> {
+    return axios.post(`${this.baseURL}users/login`, { email, password });
   }
 }
 
