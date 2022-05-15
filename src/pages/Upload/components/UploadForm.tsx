@@ -72,7 +72,7 @@ function UploadForm({ setErrorMessage }: UploadFormProps) {
       const element = event.currentTarget as HTMLFormElement;
       const formData = new FormData(element);
       storedFields.forEach((sf) => formData.append(sf[0], sf[1]));
-      const request = await window.fetch('/api/upload', {
+      const request = await window.fetch('/api/upload/file', {
         method: 'post',
         body: formData,
       });
