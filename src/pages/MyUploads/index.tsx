@@ -54,7 +54,7 @@ function MyUploadsPage({ setError }: MyUploadsPageProps) {
                   key={u.key}
                   title={u.filename}
                   icon={null}
-                  url={`/download/u/${u.key}`}
+                  url={`/api/download/u/${u.key}`}
                   deleteUpload={() => deleteUpload(u.key)}
                 />
               ))}
