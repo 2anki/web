@@ -22,6 +22,7 @@ class Backend {
     sessionStorage.clear();
     const endpoint = `${this.baseURL}users/logout`;
     await axios.get(endpoint, { withCredentials: true });
+    document.cookie = '';
     window.location.href = '/';
   }
 
