@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import axios from 'axios';
 import { SyntheticEvent, useState } from 'react';
+import Backend from '../../lib/Backend';
 
 const FormContainer = styled.div`
   max-width: 720px;
@@ -18,16 +18,13 @@ function ForgotPasswordForm({ setError }: ForgotPasswordProps) {
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
-    const endpoint = '/users/forgot-password';
     setError('');
     setLoading(true);
     setDidReset(false);
 
     try {
-      const data = {
-        email,
-      };
-      await axios.post(endpoint, data);
+      const backend = new Backend();
+      await backend.forgotPassword(email);
       setLoading(false);
       setDidReset(true);
     } catch (error) {

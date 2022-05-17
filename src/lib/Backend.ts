@@ -267,6 +267,11 @@ class Backend {
   async login(email: string, password: string): Promise<any> {
     return axios.post(`${this.baseURL}users/login`, { email, password });
   }
+
+  async forgotPassword(email: string): Promise<void> {
+    const endpoint = `${this.baseURL}users/forgot-password`;
+    return axios.post(endpoint, { email });
+  }
 }
 
 export default Backend;
