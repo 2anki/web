@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 import NotionObject from './interfaces/NotionObject';
 import UserUpload from './interfaces/UserUpload';
@@ -271,6 +271,20 @@ class Backend {
   async forgotPassword(email: string): Promise<void> {
     const endpoint = `${this.baseURL}users/forgot-password`;
     return axios.post(endpoint, { email });
+  }
+
+  async newPassword(password: string, token: string): Promise<AxiosResponse> {
+    const endpoint = `${this.baseURL}users/new-password`;
+    return axios.post(endpoint, { password, reset_token: token });
+  }
+
+  async register(
+    name: string,
+    email: string,
+    password: string,
+  ): Promise<AxiosResponse> {
+    const endpoint = `${this.baseURL}users/register`;
+    return axios.post(endpoint, { name, email, password });
   }
 }
 

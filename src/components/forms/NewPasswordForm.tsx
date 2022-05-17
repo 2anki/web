@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import axios from 'axios';
 import { SyntheticEvent, useState } from 'react';
+import Backend from '../../lib/Backend';
 
 const FormContainer = styled.div`
   max-width: 720px;
@@ -20,17 +20,14 @@ function NewPasswordForm({ setErrorMessage }: Props) {
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
-    const endpoint = '/users/new-password';
     setErrorMessage('');
     setLoading(true);
 
     try {
       const paths = window.location.pathname.split('/');
-      const data = {
-        reset_token: paths[paths.length - 1],
-        password,
-      };
-      const res = await axios.post(endpoint, data);
+      const resetToken = paths[paths.length - 1];
+      const backend = new Backend();
+      const res = await backend.newPassword(password, resetToken);
       if (res.status === 200) {
         window.location.href = '/login#login';
       }

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import axios from 'axios';
 import { SyntheticEvent, useState } from 'react';
 import BetaMessage from '../BetaMessage';
+import Backend from '../../lib/Backend';
 
 const FormContainer = styled.div`
   max-width: 720px;
@@ -31,17 +31,12 @@ function RegisterForm({ setErrorMessage }: Props) {
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
-    const endpoint = '/users/register';
     setErrorMessage('');
     setLoading(true);
 
     try {
-      const data = {
-        name,
-        email,
-        password,
-      };
-      const res = await axios.post(endpoint, data);
+      const backend = new Backend();
+      const res = await backend.register(name, email, password);
       if (res.status === 200) {
         window.location.href = '/verify';
       } else {
