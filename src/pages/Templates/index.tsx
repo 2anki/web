@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import MonacoEditor from 'react-monaco-editor';
 import TemplateSelect from '../../components/TemplateSelect';
-import TemplateFile from '../../model/TemplateFile';
+import TemplateFile from '../../lib/types/TemplateFile';
 
 // Don't put in the render function, it gets recreated
 let files: TemplateFile[] = [];
@@ -39,7 +39,7 @@ function TemplatePage() {
     [currentCardType],
   );
 
-  const onChange = (newValue: any) => {
+  const onChange = (newValue: string) => {
     const card = getCurrentCardType();
     if (card) {
       if (isFront) {

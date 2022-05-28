@@ -7,6 +7,7 @@ import UserJob from './interfaces/UserJob';
 import getObjectTitle from './notion/getObjectTitle';
 import getObjectIcon from './notion/getObjectIcon';
 import FavoriteObject from './interfaces/FavoriteObject';
+import Settings from './types/Settings';
 
 class Backend {
   baseURL: string;
@@ -43,7 +44,7 @@ class Backend {
     return false;
   }
 
-  saveSettings(settings: { object_id: string; payload: any }) {
+  saveSettings(settings: Settings) {
     return axios.post(
       `${this.baseURL}settings/create/${settings.object_id}`,
       { settings },

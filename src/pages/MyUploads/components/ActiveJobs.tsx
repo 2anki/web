@@ -1,7 +1,8 @@
 import styled from 'styled-components';
+import ActiveJob from '../../../lib/types/ActiveJob';
 
 interface Props {
-  jobs: any[];
+  jobs: ActiveJob[];
   deleteJob: (id: string) => void;
 }
 
