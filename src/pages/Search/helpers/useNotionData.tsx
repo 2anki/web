@@ -3,7 +3,7 @@ import Backend from '../../../lib/Backend';
 
 export interface NotionData {
   loading: boolean;
-  workSpace: any;
+  workSpace: string;
   connected: boolean;
   connectionLink: string;
 }
