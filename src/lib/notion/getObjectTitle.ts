@@ -1,4 +1,6 @@
-export default function getObjectTitle(p: any): string {
+import ObjectTitle from '../types/ObjectTitle';
+
+export default function getObjectTitle(p: ObjectTitle): string {
   try {
     const { properties } = p;
     // Database
@@ -9,16 +11,7 @@ export default function getObjectTitle(p: any): string {
       return 'untitled';
     }
     if (properties.title) {
-      return properties.title.title[0].plain_text as string;
-    }
-    const desc = properties.Description;
-    if (desc) {
-      if (Array.isArray(desc.title) && desc.title.length > 0) {
-        return desc.title[0].plain_text as string;
-      }
-      if (Array.isArray(desc.rich_text) && desc.rich_text.length > 0) {
-        return desc.rich_text[0].plain_text;
-      }
+      return properties.title.title[0].plain_text;
     }
     if (properties.Name) {
       return properties.Name.title[0].plain_text;
