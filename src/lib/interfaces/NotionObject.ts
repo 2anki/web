@@ -1,10 +1,12 @@
+import { AxiosResponse } from 'axios';
+
 interface NotionObject {
   object: string;
   title: string;
   url: string;
   icon?: string;
   id: string;
-  data?: any;
+  data?: AxiosResponse;
   isFavorite?: boolean;
 }
 
