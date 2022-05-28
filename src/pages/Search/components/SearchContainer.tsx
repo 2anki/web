@@ -18,7 +18,6 @@ export default function SearchContainer(props: SearchContentProps) {
     myPages,
     inProgress,
     triggerSearch,
-    errorNotification,
     isLoading,
     setSearchQuery,
   } = useSearchQuery(backend);
@@ -33,7 +32,6 @@ export default function SearchContainer(props: SearchContentProps) {
         inProgress={inProgress}
         setSearchQuery={setSearchQuery}
         triggerSearch={triggerSearch}
-        errorNotification={new Error(errorNotification)}
       />
     </PageContainer>
   );

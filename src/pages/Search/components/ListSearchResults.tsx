@@ -16,8 +16,13 @@ export default function ListSearchResults(
 
   if (isEmpty && handleEmpty) {
     return (
-      <div className="subtitle is-3 my-4">
-        No search results, try typing something above 👌🏾
+      <div className="column is-main-content">
+        <div className="subtitle my-4">
+          No search results, try typing something above 👌🏾
+          Also ensure you
+          {' '}
+          <a target="_blank" rel="noreferrer" href="https://www.notion.so/help/guides/understanding-notions-sharing-settings">understand notions sharing settings</a>
+        </div>
       </div>
     );
   }
