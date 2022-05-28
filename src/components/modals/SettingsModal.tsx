@@ -129,7 +129,7 @@ function SettingsModal({
       onClickClose(event);
       return;
     }
-    const payload: any = {};
+    const payload: { [key: string]: string } = {};
     store.options.forEach((option) => {
       payload[option.key] = option.value.toString(); // use string for backwards compat
     });
