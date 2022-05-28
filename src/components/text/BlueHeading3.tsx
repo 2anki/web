@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
 const BlueHeading3 = styled.h3`
-  width: 485px;
-  height: 42px;
   left: 845px;
   top: 1608px;
 
