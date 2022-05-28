@@ -6,8 +6,11 @@ class CardOptionsStore {
 
   public error: Error | null;
 
-  constructor() {
+  constructor(loadDefaults: boolean) {
     this.options = supportedOptions();
+    if (loadDefaults) {
+      this.syncLocalStorage();
+    }
   }
 
   public get(key: string): CardOption | undefined {

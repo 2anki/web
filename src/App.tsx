@@ -31,7 +31,8 @@ const Layout = styled.div`
 `;
 
 function App() {
-  const store = useMemo(() => new CardOptionsStore(), []);
+  const loadDefaults = localStorage.getItem('skip-defaults') !== 'true';
+  const store = useMemo(() => new CardOptionsStore(loadDefaults), []);
   const [errorMessage, setErrorMessage] = useState('');
 
   return (
