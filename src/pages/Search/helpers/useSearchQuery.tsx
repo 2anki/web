@@ -1,11 +1,10 @@
 import {
-  useCallback, useContext, useEffect, useState,
+  useCallback, useEffect, useState,
 } from 'react';
 
 import Backend from '../../../lib/Backend';
 import useQuery from '../../../lib/hooks/useQuery';
 import NotionObject from '../../../lib/interfaces/NotionObject';
-import StoreContext from '../../../store/StoreContext';
 
 interface SearchQuery {
   isLoading: boolean;
@@ -26,8 +25,6 @@ export default function useSearchQuery(backend: Backend): SearchQuery {
   const [errorNotification, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const store = useContext(StoreContext);
-
   const triggerSearch = useCallback(
     (force) => {
       if (inProgress) {
@@ -42,10 +39,9 @@ export default function useSearchQuery(backend: Backend): SearchQuery {
           setInProgress(false);
           setIsLoading(false);
         })
-        .catch((error) => {
+        .catch(() => {
           setIsLoading(false);
           setInProgress(false);
-          store.error = error;
         });
     },
     [inProgress, searchQuery],
