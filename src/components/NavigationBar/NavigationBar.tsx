@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { captureException } from '@sentry/react';
 import { useState } from 'react';
 
 import getNavbarStartNewUser from './helpers/getNavbarStartNewUser';
@@ -9,6 +10,8 @@ import NavbarItem from './NavbarItem';
 import { Navbar } from './styled';
 import getNavbarStartRegularUser from './helpers/getNavbarStartRegularUser';
 import getNavbarEnd from './helpers/getNavbarEnd';
+import usePatreon from '../../pages/MyUploads/hooks/usePatreon';
+import BecomeAPatron from '../BecomeAPatron';
 
 const backend = new Backend();
 // eslint-disable-next-line import/prefer-default-export
@@ -17,6 +20,10 @@ export function NavigationBar() {
   const [active, setHamburgerMenu] = useState(false);
   const path = window.location.pathname;
   const { hash } = window.location;
+
+  const [isPatreon] = usePatreon(backend, (error) => {
+    captureException(error);
+  });
 
   const navbarStart = isSignedIn
     ? getNavbarStartRegularUser(hash)
@@ -50,6 +57,7 @@ export function NavigationBar() {
         <div className="navbar-start">{navbarStart}</div>
         {!isSignedIn && (
           <div className="navbar-end">
+            <BecomeAPatron />
             <NavbarItem path="login" href="/login#login">
               Login
             </NavbarItem>
@@ -62,7 +70,7 @@ export function NavigationBar() {
             </div>
           </div>
         )}
-        {isSignedIn && getNavbarEnd(path, backend)}
+        {isSignedIn && getNavbarEnd(path, backend, isPatreon)}
       </div>
     </Navbar>
   );
