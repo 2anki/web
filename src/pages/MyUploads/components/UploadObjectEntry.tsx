@@ -1,4 +1,3 @@
-import ReactHtmlParser from 'react-html-parser';
 import styled from 'styled-components';
 
 import ObjectAction from '../../Search/components/actions/ObjectAction';
@@ -59,7 +58,7 @@ export default function UploadObjectEntry({
         </div>
         <span>{icon}</span>
         <UploadTitle className="subtitle is-6">
-          {ReactHtmlParser(title)}
+          {title}
         </UploadTitle>
       </ObjectMeta>
       <ObjectActions>

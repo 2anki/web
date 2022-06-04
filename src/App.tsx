@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import ReactHtmlParser from 'react-html-parser';
 import { lazy, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
@@ -56,7 +55,7 @@ function App() {
                   onClick={() => setErrorMessage(null)}
                 />
                 <div>
-                  {ReactHtmlParser(errorMessage)}
+                  {errorMessage}
                 </div>
               </div>
             )}
