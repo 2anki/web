@@ -3,6 +3,11 @@ import { lazy, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import '@fremtind/jkl-accordion/accordion.min.css';
+import '@fremtind/jkl-alert-message/alert-message.min.css';
+
+import {
+  ErrorAlertMessage,
+} from '@fremtind/jkl-alert-message-react';
 
 import UploadPage from './pages/Upload';
 import HomePage from './pages/Home';
@@ -35,6 +40,7 @@ function App() {
   const loadDefaults = localStorage.getItem('skip-defaults') !== 'true';
   const store = useMemo(() => new CardOptionsStore(loadDefaults), []);
   const [errorMessage, setErrorMessage] = useState('');
+  const [dismissed, setDismissed] = useState(false);
 
   return (
     <>
@@ -49,17 +55,14 @@ function App() {
               ) : null)}
             />
             {errorMessage && (
-              <div className="is-info notification is-light my-4">
-                <button
-                  aria-label="dismiss error message"
-                  type="button"
-                  className="delete"
-                  onClick={() => setErrorMessage(null)}
-                />
-                <div>
-                  {errorMessage}
-                </div>
-              </div>
+            <ErrorAlertMessage
+              dismissed={dismissed}
+              dismissAction={{
+                handleDismiss: () => setDismissed(true),
+              }}
+            >
+              {errorMessage}
+            </ErrorAlertMessage>
             )}
             <Switch>
               <Route path="/uploads">
