@@ -5,6 +5,8 @@
   "dependencies": {
     "@fremtind/jkl-accordion": "^6.0.15",
     "@fremtind/jkl-accordion-react": "^6.0.18",
+    "@fremtind/jkl-alert-message": "^5.0.25",
+    "@fremtind/jkl-alert-message-react": "^7.0.19",
     "@sentry/react": "^6.12.0",
     "@sentry/tracing": "^6.12.0",
     "axios": "^0.21.4",
