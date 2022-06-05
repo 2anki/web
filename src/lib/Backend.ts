@@ -59,15 +59,15 @@ class Backend {
   saveRules(
     id: string,
     flashcard: string[],
-    deck: string,
-    subDecks: string,
+    deck: string[],
+    subDecks: string[],
     tags: string,
     email: boolean,
   ) {
     const payload = {
       FLASHCARD: flashcard.join(','),
-      DECK: deck,
-      SUB_DECKS: subDecks,
+      DECK: deck.join(','),
+      SUB_DECKS: subDecks.join(','),
       TAGS: tags,
       EMAIL_NOTIFICATION: email,
     };

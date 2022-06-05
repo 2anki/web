@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { lazy, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
+import '@fremtind/jkl-accordion/accordion.min.css';
+
 import UploadPage from './pages/Upload';
 import HomePage from './pages/Home';
 
