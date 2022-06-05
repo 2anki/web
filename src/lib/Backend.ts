@@ -255,14 +255,20 @@ class Backend {
     );
   }
 
+  async getFavoriteObject(f: FavoriteObject): Promise<NotionObject> {
+    return f.type === 'page'
+      ? this.getPage(f.object_id, true)
+      : this.getDatabase(f.object_id, true);
+  }
+
   async getFavorites(): Promise<NotionObject[]> {
     const response = await axios.get(`${this.baseURL}favorite`, {
       withCredentials: true,
     });
-    const getObject = (f: FavoriteObject) => (f.type === 'page'
-      ? this.getPage(f.object_id, true)
-      : this.getDatabase(f.object_id, true));
-    return Promise.all(response.data.map(async (f) => getObject(f)));
+    const favorites: NotionObject[] = await Promise.all(
+      response.data.map(async (f) => this.getFavoriteObject(f)),
+    );
+    return favorites.filter(Boolean);
   }
 
   async login(email: string, password: string): Promise<any> {
