@@ -1,5 +1,10 @@
+import { Accordion, AccordionItem } from '@fremtind/jkl-accordion-react';
 import {
-  Dispatch, SetStateAction, useContext, useEffect, useState,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
 } from 'react';
 
 import Switch from '../../../components/input/Switch';
@@ -8,7 +13,7 @@ import TemplateSelect from '../../../components/TemplateSelect';
 import Backend from '../../../lib/Backend';
 import NotionObject from '../../../lib/interfaces/NotionObject';
 import StoreContext from '../../../store/StoreContext';
-import FlashcardType from './FlashcardType';
+import RuleDefinition from './RuleDefinition';
 
 interface Props {
   type: string;
@@ -23,10 +28,14 @@ const flashCardOptions = [
   'toggle',
   'bulleted_list_item',
   'numbered_list_item',
-  'heading',
+  'heading_1',
+  'heading_2',
+  'heading_3',
   'column_list',
 ];
 const tagOptions = ['heading', 'strikethrough'];
+const subDeckOptions = ['child_page', ...flashCardOptions];
+const deckOptions = ['page', 'database', ...subDeckOptions];
 
 const backend = new Backend();
 function DefineRules(props: Props) {
@@ -35,15 +44,16 @@ function DefineRules(props: Props) {
   } = props;
   const [rules, setRules] = useState({
     flashcard_is: ['toggle'],
-    sub_deck_is: 'child_page',
+    sub_deck_is: ['child_page'],
     tags_is: 'strikethrough',
-    deck_is: 'page',
+    deck_is: ['page', 'database'],
     email_notification: false,
   });
 
   const [isLoading, setIsloading] = useState(true);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [flashcard, setFlashcard] = useState(rules.flashcard_is);
+  const [, setFlashcard] = useState(rules.flashcard_is);
+  const [, setSubDeck] = useState(rules.sub_deck_is);
+  const [, setDeck] = useState(rules.deck_is);
   const [tags, setTags] = useState(rules.tags_is);
   const [sendEmail, setSendEmail] = useState(rules.email_notification);
   const [more, setMore] = useState(false);
@@ -58,6 +68,8 @@ function DefineRules(props: Props) {
         if (response.data) {
           const newRules = response.data;
           newRules.flashcard_is = newRules.flashcard_is.split(',');
+          newRules.sub_deck_is = newRules.sub_deck_is.split(',');
+          newRules.deck_is = newRules.deck_is.split(',');
           setRules(newRules);
           setSendEmail(newRules.email_notification);
         }
@@ -79,8 +91,8 @@ function DefineRules(props: Props) {
       await backend.saveRules(
         id,
         rules.flashcard_is,
-        'page',
-        'child_page',
+        rules.deck_is,
+        rules.sub_deck_is,
         tags,
         sendEmail,
       );
@@ -98,6 +110,26 @@ function DefineRules(props: Props) {
       rules.flashcard_is = rules.flashcard_is.filter((f) => f !== fco);
     }
     setFlashcard((prevState) => Array.from(new Set([...prevState, ...rules.flashcard_is])));
+  };
+
+  const onSelectedSubDeckTypes = (fco: string) => {
+    const included = rules.sub_deck_is.includes(fco);
+    if (!included) {
+      rules.sub_deck_is.push(fco);
+    } else {
+      rules.sub_deck_is = rules.sub_deck_is.filter((f) => f !== fco);
+    }
+    setSubDeck((prevState) => Array.from(new Set([...prevState, ...rules.sub_deck_is])));
+  };
+
+  const onSelectedDeckTypes = (fco: string) => {
+    const included = rules.deck_is.includes(fco);
+    if (!included) {
+      rules.deck_is.push(fco);
+    } else {
+      rules.deck_is = rules.deck_is.filter((f) => f !== fco);
+    }
+    setDeck((prevState) => Array.from(new Set([...prevState, ...rules.deck_is])));
   };
 
   const toggleFavorite = async () => {
@@ -150,21 +182,29 @@ function DefineRules(props: Props) {
                   }}
                 />
               )}
-              <div className="card-content">
-                <h2 className="subtitle mb-1">What is a flashcard?</h2>
-                <p>Select the types of flashcards you want to enable</p>
-                <div className="is-group">
-                  {flashCardOptions.map((fco) => (
-                    <FlashcardType
-                      key={fco}
-                      active={rules.flashcard_is.includes(fco)}
-                      name={fco}
-                      onSwitch={(name) => onSelectedFlashcardTypes(name)}
-                    />
-                  ))}
-                </div>
-                <div className="my-4">
-                  <h2 className="subtitle">Card fields</h2>
+              <Accordion data-theme="light">
+                <RuleDefinition
+                  title="What is a deck?"
+                  description="This will be the first ones you see in the deck overview. When you"
+                  value={rules.deck_is}
+                  options={deckOptions}
+                  onSelected={onSelectedDeckTypes}
+                />
+                <RuleDefinition
+                  title="Children types - What is a sub deck?"
+                  description="You can organise the way you want it to be"
+                  value={rules.sub_deck_is}
+                  options={subDeckOptions}
+                  onSelected={onSelectedSubDeckTypes}
+                />
+                <RuleDefinition
+                  title="Flashcard Types - What is a flashcard?"
+                  description="Select the types of flashcards you want to enable"
+                  value={rules.flashcard_is}
+                  options={flashCardOptions}
+                  onSelected={onSelectedFlashcardTypes}
+                />
+                <AccordionItem title="Miscallenous">
                   <TemplateSelect
                     pickedTemplate={(name: string) => setTags(name)}
                     values={tagOptions.map((fco) => ({
@@ -174,25 +214,24 @@ function DefineRules(props: Props) {
                     name="Tags"
                     value={rules.tags_is}
                   />
-                </div>
-                <h2 className="subtitle">Miscallenous</h2>
-                <Switch
-                  key="email-notification"
-                  id="email-notification"
-                  title="Receive email notifications when deck(s) are ready"
-                  checked={sendEmail}
-                  onSwitched={() => {
-                    rules.email_notification = !rules.email_notification;
-                    setSendEmail(rules.email_notification);
-                  }}
-                />
-                <Switch
-                  key="is-favorite"
-                  id="is-favorite"
-                  title="Mark this as a favorite"
-                  checked={favorite}
-                  onSwitched={toggleFavorite}
-                />
+                  <Switch
+                    key="email-notification"
+                    id="email-notification"
+                    title="Receive email notifications when deck(s) are ready"
+                    checked={sendEmail}
+                    onSwitched={() => {
+                      rules.email_notification = !rules.email_notification;
+                      setSendEmail(rules.email_notification);
+                    }}
+                  />
+                  <Switch
+                    key="is-favorite"
+                    id="is-favorite"
+                    title="Mark this as a favorite"
+                    checked={favorite}
+                    onSwitched={toggleFavorite}
+                  />
+                </AccordionItem>
                 <div className="has-text-centered">
                   <hr />
                   <button
@@ -203,7 +242,7 @@ function DefineRules(props: Props) {
                     More!
                   </button>
                 </div>
-              </div>
+              </Accordion>
               <footer className="card-footer">
                 <a
                   href="/save-rules"
