@@ -9,6 +9,7 @@ import {
   ErrorAlertMessage,
 } from '@fremtind/jkl-alert-message-react';
 
+import { captureException } from '@sentry/react';
 import UploadPage from './pages/Upload';
 import HomePage from './pages/Home';
 
@@ -16,9 +17,11 @@ import Footer from './components/Footer';
 import CardOptionsStore from './store/CardOptionsStore';
 import StoreContext from './store/StoreContext';
 import GlobalStyle from './GlobalStyle';
-import { NavigationBar } from './components/NavigationBar/NavigationBar';
+import NavigationBar from './components/NavigationBar/NavigationBar';
 import SettingsPage from './pages/Settings';
 import ImportPage from './pages/Import/ImportPage';
+import usePatreon from './pages/MyUploads/hooks/usePatreon';
+import Backend from './lib/Backend';
 
 const TemplatePage = lazy(() => import('./pages/Templates'));
 const PreSignupPage = lazy(() => import('./pages/Register'));
@@ -36,11 +39,15 @@ const Layout = styled.div`
   height: 100vh;
 `;
 
+const backend = new Backend();
 function App() {
   const loadDefaults = localStorage.getItem('skip-defaults') !== 'true';
   const store = useMemo(() => new CardOptionsStore(loadDefaults), []);
   const [errorMessage, setErrorMessage] = useState('');
   const [dismissed, setDismissed] = useState(false);
+  const [isPatron] = usePatreon(backend, (error) => {
+    captureException(error);
+  });
 
   return (
     <>
@@ -51,7 +58,7 @@ function App() {
             {/* We don't want a header on the sign-up page */}
             <Route
               render={({ location }) => (location.pathname.match(/^(?!.*(login|search|signup)).*$/) ? (
-                <NavigationBar />
+                <NavigationBar isPatron={isPatron} />
               ) : null)}
             />
             {errorMessage && (
@@ -78,13 +85,13 @@ function App() {
                 <TemplatePage />
               </Route>
               <Route path="/upload">
-                <UploadPage setErrorMessage={setErrorMessage} />
+                <UploadPage setErrorMessage={setErrorMessage} isPatron={isPatron} />
               </Route>
               <Route path="/pre-signup">
                 <PreSignupPage />
               </Route>
               <Route path="/search">
-                <SearchPage />
+                <SearchPage isPatron={isPatron} />
               </Route>
               <Route path="/login">
                 <LoginPage setErrorMessage={setErrorMessage} />

@@ -19,9 +19,10 @@ import { PageContainer } from '../../components/styled';
 
 interface Props {
   setErrorMessage: (message: string) => void;
+  isPatron: boolean;
 }
 
-function UploadPage({ setErrorMessage }: Props) {
+function UploadPage({ setErrorMessage, isPatron }: Props) {
   const isDevelopment = window.location.host !== '2anki.net';
   const query = useQuery();
   const view = query.get('view');
@@ -52,7 +53,7 @@ function UploadPage({ setErrorMessage }: Props) {
             </SettingsLink>
           </FlexColumn>
           <div className="container">
-            <UploadForm setErrorMessage={setErrorMessage} />
+            <UploadForm setErrorMessage={setErrorMessage} isPatron={isPatron} />
             <InfoMessage>
               2anki.net currently only supports
               <a
