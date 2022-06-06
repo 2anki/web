@@ -5,14 +5,16 @@ import {
   useRef,
   useState,
 } from 'react';
+import isAboveFreeTier from '../helpers/isAboveFreeTier';
 import DownloadButton from './DownloadButton';
 import DropParagraph from './DropParagraph';
 
 interface UploadFormProps {
   setErrorMessage: (errorMessage: string) => void;
+  isPatron: boolean;
 }
 
-function UploadForm({ setErrorMessage }: UploadFormProps) {
+function UploadForm({ setErrorMessage, isPatron }: UploadFormProps) {
   const [uploading, setUploading] = useState(false);
   const [downloadLink, setDownloadLink] = useState('');
   const [deckName, setDeckName] = useState('');
@@ -27,9 +29,8 @@ function UploadForm({ setErrorMessage }: UploadFormProps) {
     for (let i = 0; i < files.length; i += 1) {
       size += files[i].size;
     }
-    const isOver100MB = size >= 100000000;
-    if (isOver100MB) {
-      setErrorMessage('Your upload is too big, there is a max of 100MB currently');
+    if (isAboveFreeTier(size, isPatron)) {
+      setErrorMessage('Your upload is too big, there is a max of 100MB currently. Become a patron to request unlimited access');
       setDownloadLink(null);
       return false;
     }

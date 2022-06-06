@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Backend from '../../../lib/Backend';
 
 export default function usePatreon(backend: Backend, setError: (error: string) => void) {
-  const [isPatreon, setIsPatreon] = useState(false);
+  const [isPatron, setIsPatreon] = useState(false);
 
   useEffect(() => {
     async function fetchIsPatreon() {
@@ -14,10 +14,10 @@ export default function usePatreon(backend: Backend, setError: (error: string) =
         setError(error.response.data.message);
       }
     }
-    if (!isPatreon) {
+    if (!isPatron) {
       fetchIsPatreon();
     }
-  }, [isPatreon]);
+  }, [isPatron]);
 
-  return [isPatreon];
+  return [isPatron];
 }
