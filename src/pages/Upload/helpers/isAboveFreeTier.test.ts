@@ -1,11 +1,14 @@
-import isAboveTier from "./isAboveFreeTier"
+import isAboveFreeTier from './isAboveFreeTier';
 
-describe("isAboveFreeTier", () => {
-	test("above max anon user", () => {
-		expect(isAboveTier(10 **10)).toBe(true)
-	})
-	test("patrons pass", () => {
-		const isPatron = true;
-		expect(isAboveTier(10 ** 10, isPatron)).toBe(false);
-	})
-})
+describe('isAboveFreeTier', () => {
+	it.each([
+		['above max anon user', 10 ** 10, false, true],
+		['patrons pass', 10 ** 10, true, false],
+		['below max anon user', 1000, false, false]
+	])(
+    '%s',
+    (_, sizeInBytes, isPatron, expected) => {
+      expect(isAboveFreeTier(sizeInBytes, isPatron)).toBe(expected);
+    }
+  );
+});
