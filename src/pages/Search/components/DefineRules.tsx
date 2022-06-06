@@ -185,21 +185,21 @@ function DefineRules(props: Props) {
               <Accordion data-theme="light">
                 <RuleDefinition
                   title="What is a deck?"
-                  description="This will be the first ones you see in the deck overview. When you"
+                  description="This will be the first ones you see in the deck overview in Anki."
                   value={rules.deck_is}
                   options={deckOptions}
                   onSelected={onSelectedDeckTypes}
                 />
                 <RuleDefinition
-                  title="Children types - What is a sub deck?"
-                  description="You can organise the way you want it to be"
+                  title="What is a sub deck?"
+                  description="These decks will be grouped under the decks above it."
                   value={rules.sub_deck_is}
                   options={subDeckOptions}
                   onSelected={onSelectedSubDeckTypes}
                 />
                 <RuleDefinition
-                  title="Flashcard Types - What is a flashcard?"
-                  description="Select the types of flashcards you want to enable"
+                  title="What is a flashcard?"
+                  description="Select the block types to create flashcards from."
                   value={rules.flashcard_is}
                   options={flashCardOptions}
                   onSelected={onSelectedFlashcardTypes}
