@@ -5,7 +5,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import isAboveTier from '../helpers/isAboveFreeTier';
+import isAboveFreeTier from '../helpers/isAboveFreeTier';
 import DownloadButton from './DownloadButton';
 import DropParagraph from './DropParagraph';
 
@@ -29,7 +29,7 @@ function UploadForm({ setErrorMessage, isPatron }: UploadFormProps) {
     for (let i = 0; i < files.length; i += 1) {
       size += files[i].size;
     }
-    if (isAboveTier(size, isPatron)) {
+    if (isAboveFreeTier(size, isPatron)) {
       setErrorMessage('Your upload is too big, there is a max of 100MB currently. Become a patron to request unlimited access');
       setDownloadLink(null);
       return false;
