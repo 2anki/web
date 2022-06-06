@@ -18,7 +18,9 @@ function SearchPage() {
     <>
       <NavigationBar activeWorkspace={workSpace} connectLink={connectionLink} />
       {!connected && <ConnectNotion connectionLink={connectionLink} />}
-      {connected && <SearchContainer notionData={notionData} backend={backend} />}
+      {connected && (
+        <SearchContainer notionData={notionData} backend={backend} />
+      )}
     </>
   );
 }

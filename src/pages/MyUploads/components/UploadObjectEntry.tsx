@@ -38,7 +38,11 @@ interface Props {
 }
 
 export default function UploadObjectEntry({
-  size, title, icon, url, deleteUpload,
+  size,
+  title,
+  icon,
+  url,
+  deleteUpload
 }: Props) {
   return (
     <Entry>
@@ -49,23 +53,14 @@ export default function UploadObjectEntry({
         <div className="control">
           <div className="tags has-addons">
             <span className="tag is-info">Size</span>
-            <span className="tag">
-              {size}
-              {' '}
-              MB
-            </span>
+            <span className="tag">{size} MB</span>
           </div>
         </div>
         <span>{icon}</span>
-        <UploadTitle className="subtitle is-6">
-          {title}
-        </UploadTitle>
+        <UploadTitle className="subtitle is-6">{title}</UploadTitle>
       </ObjectMeta>
       <ObjectActions>
-        <ObjectAction
-          url={url}
-          image="/icons/Anki_app_logo.png"
-        />
+        <ObjectAction url={url} image="/icons/Anki_app_logo.png" />
       </ObjectActions>
     </Entry>
   );

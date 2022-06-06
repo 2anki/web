@@ -17,10 +17,8 @@ interface MyUploadsPageProps {
 }
 
 function MyUploadsPage({ setError }: MyUploadsPageProps) {
-  const [
-    loading, uploads, deleteUpload, deleteAllUploads,
-    isDeletingAll,
-  ] = useUploads(backend, setError);
+  const [loading, uploads, deleteUpload, deleteAllUploads, isDeletingAll] =
+    useUploads(backend, setError);
   const [activeJobs, deleteJob] = useActiveJobs(backend, setError);
   const [isPatreon] = usePatreon(backend, setError);
   const [quota] = useQuota(uploads);
@@ -36,19 +34,17 @@ function MyUploadsPage({ setError }: MyUploadsPageProps) {
         <h2 className="title is -2">My Uploads</h2>
         {uploads.length === 0 && !loading && (
           <p>
-            You have no uploads! Make some from the
-            {' '}
+            You have no uploads! Make some from the{' '}
             <u>
               <a href="/search">search</a>
-            </u>
-            {' '}
+            </u>{' '}
             page.
           </p>
         )}
         {uploads.length > 0 && (
           <>
-            {uploads
-              && uploads.map((u) => (
+            {uploads &&
+              uploads.map((u) => (
                 <UploadObjectEntry
                   size={`${u.size_mb ? u.size_mb.toFixed(2) : 0}`}
                   key={u.key}
@@ -63,13 +59,8 @@ function MyUploadsPage({ setError }: MyUploadsPageProps) {
               <div className="card">
                 <header className="card-header" />
                 <div className="card-content">
-                  You have used
-                  {' '}
-                  {quota.toFixed(2)}
-                  {' '}
-                  MB
-                  {!isPatreon && ' of your quota (21MB)'}
-                  .
+                  You have used {quota.toFixed(2)} MB
+                  {!isPatreon && ' of your quota (21MB)'}.
                   <div className="is-pulled-right my-2">
                     <button
                       type="button"
@@ -84,7 +75,9 @@ function MyUploadsPage({ setError }: MyUploadsPageProps) {
                     </button>
                   </div>
                   <progress
-                    className={`progress ${quota > 16 ? 'is-danger' : 'is-info'}`}
+                    className={`progress ${
+                      quota > 16 ? 'is-danger' : 'is-info'
+                    }`}
                     value={quota}
                     max={21}
                   >
@@ -95,22 +88,22 @@ function MyUploadsPage({ setError }: MyUploadsPageProps) {
                   <div className="content">
                     <h2>Imposed limitations</h2>
                     <p>
-                      We have set quota limits on non-patrons to avoid increasing
-                      server load. The limitations are:
+                      We have set quota limits on non-patrons to avoid
+                      increasing server load. The limitations are:
                     </p>
                     <ul>
                       <li>
                         You can only make conversions totalling 21MB but this is
-                        not permanent. You can for example delete previous uploads
-                        to reclaim your space when using it all up.
+                        not permanent. You can for example delete previous
+                        uploads to reclaim your space when using it all up.
                       </li>
                       <li>
                         You can only convert at most 21 subpages (applies to
                         database entries as well) per conversion job.
                       </li>
                       <li>
-                        Max 1 conversion job but you can start new ones as soon as
-                        the last one is completed.
+                        Max 1 conversion job but you can start new ones as soon
+                        as the last one is completed.
                       </li>
                       <li>You can only load 21 blocks total per page.</li>
                     </ul>

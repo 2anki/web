@@ -13,7 +13,7 @@ import {
   HeroSubtitle,
   HeroTitle,
   HeroTitleContainer,
-  HeroSubtitleAlignRight,
+  HeroSubtitleAlignRight
 } from './styled';
 
 function HeroSection() {

@@ -79,5 +79,5 @@ export function NavigationBar() {
 NavigationBar.defaultProps = {
   workspaces: [],
   activeWorkspace: '',
-  connectLink: null,
+  connectLink: null
 };

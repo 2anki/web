@@ -17,9 +17,7 @@ function FeaturedEntry() {
           wanted to give you a special update.
           <br />
         </div>
-        <ReadMore
-          href="https://www.patreon.com/posts/state-of-2anki-60331662?utm_medium=clipboard_copy&utm_source=copy_to_clipboard&utm_campaign=postshareI"
-        />
+        <ReadMore href="https://www.patreon.com/posts/state-of-2anki-60331662?utm_medium=clipboard_copy&utm_source=copy_to_clipboard&utm_campaign=postshareI" />
       </div>
     </div>
   );

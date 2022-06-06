@@ -4,12 +4,15 @@ export interface NavbarItemProps {
   path: string;
   href: string;
   // eslint-disable-next-line react/require-default-props
-  onClick?: React.MouseEventHandler<HTMLAnchorElement>
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>;
   children: React.ReactNode;
 }
 
 export default function NavbarItem({
-  path, href, onClick, children,
+  path,
+  href,
+  onClick,
+  children
 }: NavbarItemProps) {
   return (
     <StyledNavbarItem

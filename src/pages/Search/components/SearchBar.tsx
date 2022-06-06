@@ -6,7 +6,11 @@ interface SearchBarProps {
   inProgress: boolean;
 }
 
-function SearchBar({ onSearchQueryChanged, onSearchClicked, inProgress }: SearchBarProps) {
+function SearchBar({
+  onSearchQueryChanged,
+  onSearchClicked,
+  inProgress
+}: SearchBarProps) {
   return (
     <div className="my-1 mt-4 has-text-centered is-flex is-justify-content-center">
       <div className="field has-addons">

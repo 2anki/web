@@ -3,7 +3,7 @@ import { BenefitIcon } from './styled';
 import { Benefit } from './benefits';
 
 interface BenefitsListProps {
-  benefits: Benefit[]
+  benefits: Benefit[];
 }
 
 export default function BenefitsList({ benefits }: BenefitsListProps) {

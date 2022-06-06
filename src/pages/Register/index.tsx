@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import {
-  Card, Container, PricingPlans, SelectButton, StyledPage,
+  Card,
+  Container,
+  PricingPlans,
+  SelectButton,
+  StyledPage
 } from './styled';
 
 interface ITier {
@@ -10,18 +14,13 @@ interface ITier {
   cta: string;
 }
 
-function Tier({
-  title, description, price, cta,
-}: ITier) {
+function Tier({ title, description, price, cta }: ITier) {
   return (
     <Card>
       <h3 className="subtitle is-4">{title}</h3>
       <p>{description}</p>
       <p className="title is-5">
-        <span className="title is-3">{price}</span>
-        {' '}
-        $
-        {' '}
+        <span className="title is-3">{price}</span> ${' '}
         {price > 10 ? 'once' : 'month'}
       </p>
       <div>
@@ -59,16 +58,14 @@ function PreSignupPage() {
           </ImageWrapper>
           <p className="mx-6 has-text-left">
             2anki.net is open source and will remain free but to dedicate more
-            time and effort to providing a great service. We need to invest a lot
-            of time in the project. Continuing down a free path for the hosted
-            version is not sustainable, hence we are offering you the option to
-            show your interest for a PRO version with less restrictions and more
-            power to you.
+            time and effort to providing a great service. We need to invest a
+            lot of time in the project. Continuing down a free path for the
+            hosted version is not sustainable, hence we are offering you the
+            option to show your interest for a PRO version with less
+            restrictions and more power to you.
           </p>
           <h3 className="subtitle is-3 has-text-white">
-            Get a 10% discount if you pre-signup.
-            {' '}
-            <br />
+            Get a 10% discount if you pre-signup. <br />
             No creditcard required.
           </h3>
           <p className="is-4 subtitle has-text-white">Select your plan</p>

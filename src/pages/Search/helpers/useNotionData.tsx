@@ -12,7 +12,7 @@ export default function useNotionData(backend: Backend): NotionData {
   const [connectionLink, updateConnectionLink] = useState('');
   const [connected, updateConnected] = useState(false);
   const [workSpace, setWorkSpace] = useState(
-    localStorage.getItem('__workspace'),
+    localStorage.getItem('__workspace')
   );
 
   const [loading, setIsLoading] = useState(false);
@@ -38,6 +38,9 @@ export default function useNotionData(backend: Backend): NotionData {
   }, []);
 
   return {
-    loading, workSpace, connected, connectionLink,
+    loading,
+    workSpace,
+    connected,
+    connectionLink
   };
 }

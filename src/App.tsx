@@ -5,9 +5,7 @@ import styled from 'styled-components';
 import '@fremtind/jkl-accordion/accordion.min.css';
 import '@fremtind/jkl-alert-message/alert-message.min.css';
 
-import {
-  ErrorAlertMessage,
-} from '@fremtind/jkl-alert-message-react';
+import { ErrorAlertMessage } from '@fremtind/jkl-alert-message-react';
 
 import UploadPage from './pages/Upload';
 import HomePage from './pages/Home';
@@ -50,19 +48,21 @@ function App() {
           <Layout>
             {/* We don't want a header on the sign-up page */}
             <Route
-              render={({ location }) => (location.pathname.match(/^(?!.*(login|search|signup)).*$/) ? (
-                <NavigationBar />
-              ) : null)}
+              render={({ location }) =>
+                location.pathname.match(/^(?!.*(login|search|signup)).*$/) ? (
+                  <NavigationBar />
+                ) : null
+              }
             />
             {errorMessage && (
-            <ErrorAlertMessage
-              dismissed={dismissed}
-              dismissAction={{
-                handleDismiss: () => setDismissed(true),
-              }}
-            >
-              {errorMessage}
-            </ErrorAlertMessage>
+              <ErrorAlertMessage
+                dismissed={dismissed}
+                dismissAction={{
+                  handleDismiss: () => setDismissed(true)
+                }}
+              >
+                {errorMessage}
+              </ErrorAlertMessage>
             )}
             <Switch>
               <Route path="/uploads">

@@ -16,7 +16,8 @@ function NewPasswordForm({ setErrorMessage }: Props) {
   const [passwd, setPasswd] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const isValid = () => password === passwd && password.length > 0 && password.length < 256;
+  const isValid = () =>
+    password === passwd && password.length > 0 && password.length < 256;
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();

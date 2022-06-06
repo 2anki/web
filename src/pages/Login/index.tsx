@@ -23,25 +23,30 @@ function LoginPage({ setErrorMessage }: Props) {
     setLoginState(false);
     window.location.hash = 'register';
   };
-  const login = <LoginForm onForgotPassword={() => setIsForgot(true)} onError={setErrorMessage} />;
+  const login = (
+    <LoginForm
+      onForgotPassword={() => setIsForgot(true)}
+      onError={setErrorMessage}
+    />
+  );
   return (
     <Container>
       {!isLogin && (
-      <TopSection onClick={() => onClickLogin()}>
-        <span className="mx-2">Already have an account?</span>
-        <NavButtonCTA href="/login#login">Sign in</NavButtonCTA>
-      </TopSection>
+        <TopSection onClick={() => onClickLogin()}>
+          <span className="mx-2">Already have an account?</span>
+          <NavButtonCTA href="/login#login">Sign in</NavButtonCTA>
+        </TopSection>
       )}
       {isLogin && (
-      <TopSection onClick={onClickRegister}>
-        Don&apos;t have an account?
-        <NavButtonCTA href="/login#register">
-          Join Now
-        </NavButtonCTA>
-      </TopSection>
+        <TopSection onClick={onClickRegister}>
+          Don&apos;t have an account?
+          <NavButtonCTA href="/login#register">Join Now</NavButtonCTA>
+        </TopSection>
       )}
-      {!isLogin && !isForgot && <RegisterForm setErrorMessage={setErrorMessage} />}
-      {isLogin && !isForgot && login }
+      {!isLogin && !isForgot && (
+        <RegisterForm setErrorMessage={setErrorMessage} />
+      )}
+      {isLogin && !isForgot && login}
       {isForgot && <ForgotPasswordForm setError={setErrorMessage} />}
     </Container>
   );

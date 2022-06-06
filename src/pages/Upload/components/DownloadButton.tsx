@@ -7,9 +7,7 @@ interface Props {
 }
 
 function DownloadButton(props: Props) {
-  const {
-    downloadLink, deckName, uploading,
-  } = props;
+  const { downloadLink, deckName, uploading } = props;
   const isDownloadable = downloadLink && deckName;
   const downloadRef = useRef(null);
 
@@ -40,7 +38,15 @@ function DownloadButton(props: Props) {
       >
         Download
       </button>
-      <a hidden target="_blank" aria-label="download link" href={downloadLink} download={deckName} ref={downloadRef} rel="noreferrer">
+      <a
+        hidden
+        target="_blank"
+        aria-label="download link"
+        href={downloadLink}
+        download={deckName}
+        ref={downloadRef}
+        rel="noreferrer"
+      >
         {downloadLink}
       </a>
     </div>

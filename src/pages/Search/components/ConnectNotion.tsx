@@ -10,7 +10,7 @@ export default function ConnectNotion({ connectionLink }: Props) {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100vh',
+        height: '100vh'
       }}
       className="column is-half is-centered"
     >

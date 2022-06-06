@@ -5,7 +5,7 @@ import UserJob from '../../../lib/interfaces/UserJob';
 
 export default function useActiveJobs(
   backend: Backend,
-  setError: (error: string) => void,
+  setError: (error: string) => void
 ): [UserJob[], (id: string) => void] {
   const [jobs, setJobs] = useState([]);
 

@@ -15,7 +15,7 @@ function FontSizePicker(delegate: FontPickerDelegate) {
             justifyContent: 'center',
             alignItems: 'center',
             padding: '0',
-            flexDirection: 'column',
+            flexDirection: 'column'
           }}
         >
           <label htmlFor="font-size" className="label">

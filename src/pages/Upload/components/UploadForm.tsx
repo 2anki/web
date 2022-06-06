@@ -3,7 +3,7 @@ import {
   useCallback,
   useEffect,
   useRef,
-  useState,
+  useState
 } from 'react';
 import DownloadButton from './DownloadButton';
 import DropParagraph from './DropParagraph';
@@ -29,7 +29,9 @@ function UploadForm({ setErrorMessage }: UploadFormProps) {
     }
     const isOver100MB = size >= 100000000;
     if (isOver100MB) {
-      setErrorMessage('Your upload is too big, there is a max of 100MB currently');
+      setErrorMessage(
+        'Your upload is too big, there is a max of 100MB currently'
+      );
       setDownloadLink(null);
       return false;
     }
@@ -74,7 +76,7 @@ function UploadForm({ setErrorMessage }: UploadFormProps) {
       storedFields.forEach((sf) => formData.append(sf[0], sf[1]));
       const request = await window.fetch('/api/upload/file', {
         method: 'post',
-        body: formData,
+        body: formData
       });
       const contentType = request.headers.get('Content-Type');
       const notOK = request.status !== 200;
@@ -87,9 +89,10 @@ function UploadForm({ setErrorMessage }: UploadFormProps) {
       if (fileNameHeader) {
         setDeckName(fileNameHeader);
       } else {
-        const fallback = contentType === 'application/zip'
-          ? 'Your Decks.zip'
-          : 'Your deck.apkg';
+        const fallback =
+          contentType === 'application/zip'
+            ? 'Your Decks.zip'
+            : 'Your deck.apkg';
         setDeckName(fallback);
       }
       const blob = await request.blob();
@@ -98,7 +101,7 @@ function UploadForm({ setErrorMessage }: UploadFormProps) {
     } catch (error) {
       setDownloadLink(null);
       setErrorMessage(
-        `<h1 class='title is-4'>${error.message}</h1><pre>${error.stack}</pre>`,
+        `<h1 class='title is-4'>${error.message}</h1><pre>${error.stack}</pre>`
       );
       setUploading(false);
       return false;

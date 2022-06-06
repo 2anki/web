@@ -5,9 +5,7 @@ interface ChevronProps {
   innerFill?: string;
 }
 
-function ArrowRight({
-  width, height, outerFill, innerFill,
-}: ChevronProps) {
+function ArrowRight({ width, height, outerFill, innerFill }: ChevronProps) {
   return (
     <svg
       width={width}
@@ -28,7 +26,7 @@ ArrowRight.defaultProps = {
   width: '24',
   height: '24',
   outerFill: 'none',
-  innerFill: '#fff',
+  innerFill: '#fff'
 };
 
 export default ArrowRight;

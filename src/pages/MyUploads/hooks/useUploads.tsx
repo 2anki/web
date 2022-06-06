@@ -5,8 +5,8 @@ import UserUpload from '../../../lib/interfaces/UserUpload';
 
 export default function useUploads(
   backend: Backend,
-  setError: (error: string) => void,
-):[boolean, UserUpload[], (id: string) => void, () => void, boolean] {
+  setError: (error: string) => void
+): [boolean, UserUpload[], (id: string) => void, () => void, boolean] {
   const [uploads, setUploads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deletingAll, setIsDeletingAll] = useState(false);
@@ -24,7 +24,7 @@ export default function useUploads(
     setIsDeletingAll(true);
     return uploads.reduce(
       (prev, arg) => prev.then(() => deleteUpload(arg.id)),
-      Promise.resolve().then(() => setIsDeletingAll(false)),
+      Promise.resolve().then(() => setIsDeletingAll(false))
     );
   }
 

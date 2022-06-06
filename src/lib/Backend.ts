@@ -48,7 +48,7 @@ class Backend {
     return axios.post(
       `${this.baseURL}settings/create/${settings.object_id}`,
       { settings },
-      { withCredentials: true },
+      { withCredentials: true }
     );
   }
 
@@ -62,19 +62,19 @@ class Backend {
     deck: string[],
     subDecks: string[],
     tags: string,
-    email: boolean,
+    email: boolean
   ) {
     const payload = {
       FLASHCARD: flashcard.join(','),
       DECK: deck.join(','),
       SUB_DECKS: subDecks.join(','),
       TAGS: tags,
-      EMAIL_NOTIFICATION: email,
+      EMAIL_NOTIFICATION: email
     };
     return axios.post(
       `${this.baseURL}rules/create/${id}`,
       { payload },
-      { withCredentials: true },
+      { withCredentials: true }
     );
   }
 
@@ -86,14 +86,14 @@ class Backend {
     return axios.post(
       `${this.baseURL}settings/delete/${pageId}`,
       { object_id: pageId },
-      { withCredentials: true },
+      { withCredentials: true }
     );
   }
 
   async search(query: string, force?: boolean): Promise<NotionObject[]> {
     if (!force && this.withinThreeSeconds()) {
       throw new Error(
-        'You are making too many requests. Please wait a few seconds before searching.',
+        'You are making too many requests. Please wait a few seconds before searching.'
       );
     }
     const favorites = await this.getFavorites();
@@ -104,13 +104,13 @@ class Backend {
       const res = await this.getPage(query);
       if (res && res.data) {
         data = {
-          results: [res.data],
+          results: [res.data]
         };
       } else {
         const dbResult = await this.getDatabase(query);
         if (dbResult && dbResult.data) {
           data = {
-            results: [dbResult.data],
+            results: [dbResult.data]
           };
         }
       }
@@ -118,7 +118,7 @@ class Backend {
       const response = await axios.post(
         `${this.baseURL}notion/pages`,
         { query },
-        { withCredentials: true },
+        { withCredentials: true }
       );
       data = response.data;
     }
@@ -130,7 +130,7 @@ class Backend {
         icon: getObjectIcon(p),
         url: p.url as string,
         id: p.id,
-        isFavorite: favorites.some((f) => f.id === p.id),
+        isFavorite: favorites.some((f) => f.id === p.id)
       }));
     }
     return [];
@@ -138,11 +138,11 @@ class Backend {
 
   async getPage(
     pageId: string,
-    isFavorite: boolean = false,
+    isFavorite: boolean = false
   ): Promise<NotionObject | null> {
     try {
       const response = await axios.get(`${this.baseURL}notion/page/${pageId}`, {
-        withCredentials: true,
+        withCredentials: true
       });
       return {
         object: response.data.object,
@@ -151,7 +151,7 @@ class Backend {
         url: response.data.url as string,
         id: response.data.id,
         data: response.data,
-        isFavorite,
+        isFavorite
       };
     } catch (error) {
       return null;
@@ -160,11 +160,11 @@ class Backend {
 
   async getDatabase(
     id: string,
-    isFavorite: boolean = false,
+    isFavorite: boolean = false
   ): Promise<NotionObject | null> {
     try {
       const response = await axios.get(`${this.baseURL}notion/database/${id}`, {
-        withCredentials: true,
+        withCredentials: true
       });
       return {
         object: response.data.object,
@@ -173,7 +173,7 @@ class Backend {
         url: response.data.url as string,
         id: response.data.id,
         data: response.data,
-        isFavorite,
+        isFavorite
       };
     } catch (error) {
       return null;
@@ -182,21 +182,21 @@ class Backend {
 
   async getBlocks(pageId: string): Promise<any> {
     const response = await axios.get(`${this.baseURL}notion/blocks/${pageId}`, {
-      withCredentials: true,
+      withCredentials: true
     });
     return response.data;
   }
 
   async getUploads(): Promise<UserUpload[]> {
     const response = await axios.get(`${this.baseURL}upload/mine`, {
-      withCredentials: true,
+      withCredentials: true
     });
     return response.data;
   }
 
   async getActiveJobs(): Promise<UserJob[]> {
     const response = await axios.get(`${this.baseURL}upload/active`, {
-      withCredentials: true,
+      withCredentials: true
     });
     return response.data;
   }
@@ -209,7 +209,7 @@ class Backend {
   async deleteUpload(key: string): Promise<boolean> {
     try {
       await axios.delete(`${this.baseURL}upload/mine/${key}`, {
-        withCredentials: true,
+        withCredentials: true
       });
       return true;
     } catch (error) {
@@ -219,7 +219,7 @@ class Backend {
 
   async deleteJob(id: string) {
     await axios.delete(`${this.baseURL}upload/active/${id}`, {
-      withCredentials: true,
+      withCredentials: true
     });
   }
 
@@ -230,7 +230,7 @@ class Backend {
 
   async isPatreon(): Promise<boolean> {
     const response = await axios.get(`${this.baseURL}users/is-patreon`, {
-      withCredentials: true,
+      withCredentials: true
     });
     return response.data.patreon;
   }
@@ -240,8 +240,8 @@ class Backend {
       `${this.baseURL}favorite/create`,
       { id, type },
       {
-        withCredentials: true,
-      },
+        withCredentials: true
+      }
     );
   }
 
@@ -250,8 +250,8 @@ class Backend {
       `${this.baseURL}favorite/remove`,
       { id },
       {
-        withCredentials: true,
-      },
+        withCredentials: true
+      }
     );
   }
 
@@ -263,10 +263,10 @@ class Backend {
 
   async getFavorites(): Promise<NotionObject[]> {
     const response = await axios.get(`${this.baseURL}favorite`, {
-      withCredentials: true,
+      withCredentials: true
     });
     const favorites: NotionObject[] = await Promise.all(
-      response.data.map(async (f) => this.getFavoriteObject(f)),
+      response.data.map(async (f) => this.getFavoriteObject(f))
     );
     return favorites.filter(Boolean);
   }
@@ -288,7 +288,7 @@ class Backend {
   async register(
     name: string,
     email: string,
-    password: string,
+    password: string
   ): Promise<AxiosResponse> {
     const endpoint = `${this.baseURL}users/register`;
     return axios.post(endpoint, { name, email, password });

@@ -13,7 +13,7 @@ import {
   InfoMessage,
   Main,
   SettingsLink,
-  UploadContainer,
+  UploadContainer
 } from './styled';
 import { PageContainer } from '../../components/styled';
 
@@ -27,7 +27,7 @@ function UploadPage({ setErrorMessage }: Props) {
   const view = query.get('view');
 
   const [isSettings, setShowSettings] = useState(
-    view === 'template' || view === 'deck-options' || view === 'card-options',
+    view === 'template' || view === 'deck-options' || view === 'card-options'
   );
 
   const store = useContext(StoreContext);
@@ -64,8 +64,7 @@ function UploadPage({ setErrorMessage }: Props) {
                 HTML and ZIP exports from Notion
               </a>
               . All files are automatically deleted after 21 minutes. Checkout
-              the
-              {' '}
+              the{' '}
               <a
                 rel="noreferrer"
                 target="_blank"

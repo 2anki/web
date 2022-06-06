@@ -5,9 +5,7 @@ interface SwitchProps {
   onSwitched: () => void;
 }
 
-function Switch({
-  title, id, checked, onSwitched,
-}: SwitchProps) {
+function Switch({ title, id, checked, onSwitched }: SwitchProps) {
   return (
     <div
       tabIndex={-12}

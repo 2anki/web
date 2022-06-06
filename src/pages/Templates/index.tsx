@@ -15,7 +15,7 @@ async function fetchBaseType(name: string) {
 
 const options = {
   minimap: { enabled: false },
-  colorDecorators: false,
+  colorDecorators: false
 };
 
 function TemplatePage() {
@@ -26,7 +26,7 @@ function TemplatePage() {
   const [language, setLanguage] = useState('html');
 
   const [currentCardType, setCurrentCardType] = useState(
-    localStorage.getItem('current-card-type') || 'n2a-basic',
+    localStorage.getItem('current-card-type') || 'n2a-basic'
   );
   const [ready, setReady] = useState(false);
 
@@ -36,7 +36,7 @@ function TemplatePage() {
 
   const getCurrentCardType = useCallback(
     () => files.find((x) => x.storageKey === currentCardType),
-    [currentCardType],
+    [currentCardType]
   );
 
   const onChange = (newValue: string) => {
@@ -56,16 +56,18 @@ function TemplatePage() {
   const fetchTemplates = useCallback(async () => {
     files = [];
     const templateTypes = ['n2a-basic', 'n2a-input', 'n2a-cloze'];
-    await Promise.all(templateTypes.map(async (name) => {
-      const local = localStorage.getItem(name);
-      if (local) {
-        files.push(JSON.parse(local));
-      } else {
-        const remote = await fetchBaseType(name);
-        files.push(remote);
-        localStorage.setItem(name, JSON.stringify(remote, null, 2));
-      }
-    }));
+    await Promise.all(
+      templateTypes.map(async (name) => {
+        const local = localStorage.getItem(name);
+        if (local) {
+          files.push(JSON.parse(local));
+        } else {
+          const remote = await fetchBaseType(name);
+          files.push(remote);
+          localStorage.setItem(name, JSON.stringify(remote, null, 2));
+        }
+      })
+    );
     setReady(true);
     setLanguage('html');
     // Use the first basic front template as default file to load.
@@ -127,10 +129,8 @@ function TemplatePage() {
             <hr />
             <p className="subtitle">
               No saving required, everything is saved instantly! You can always
-              revert the template changes in the
-              {' '}
-              <Link to="/upload?view=template">settings</Link>
-              . Adding /
+              revert the template changes in the{' '}
+              <Link to="/upload?view=template">settings</Link>. Adding /
               removing fields and preview is coming soon.
             </p>
             <div className="field is-horizontal">
@@ -139,7 +139,7 @@ function TemplatePage() {
                   <TemplateSelect
                     values={files.map((f) => ({
                       label: f.name,
-                      value: f.name,
+                      value: f.name
                     }))}
                     value={currentCardType}
                     name="current-card-type"

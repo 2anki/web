@@ -9,7 +9,10 @@ interface Props {
 }
 
 function LocalCheckbox({
-  label, storageKey, store, description = null,
+  label,
+  storageKey,
+  store,
+  description = null
 }: Props) {
   const value = store.get(storageKey)?.value || false;
   const [isChecked, setChecked] = useState(value);

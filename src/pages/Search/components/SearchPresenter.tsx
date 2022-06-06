@@ -16,9 +16,7 @@ interface SearchPresenterProps {
 
 export default function SearchPresenter(props: SearchPresenterProps) {
   const history = useHistory();
-  const {
-    inProgress, myPages, setSearchQuery, triggerSearch,
-  } = props;
+  const { inProgress, myPages, setSearchQuery, triggerSearch } = props;
 
   const [favorites, setFavorites] = useFavorites(new Backend());
 
@@ -29,7 +27,7 @@ export default function SearchPresenter(props: SearchPresenterProps) {
         onSearchQueryChanged={(s) => {
           history.push({
             pathname: '/search',
-            search: `?q=${s}`,
+            search: `?q=${s}`
           });
           setSearchQuery(s);
         }}

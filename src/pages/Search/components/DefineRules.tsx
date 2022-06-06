@@ -4,7 +4,7 @@ import {
   SetStateAction,
   useContext,
   useEffect,
-  useState,
+  useState
 } from 'react';
 
 import Switch from '../../../components/input/Switch';
@@ -31,7 +31,7 @@ const flashCardOptions = [
   'heading_1',
   'heading_2',
   'heading_3',
-  'column_list',
+  'column_list'
 ];
 const tagOptions = ['heading', 'strikethrough'];
 const subDeckOptions = ['child_page', ...flashCardOptions];
@@ -39,15 +39,13 @@ const deckOptions = ['page', 'database', ...subDeckOptions];
 
 const backend = new Backend();
 function DefineRules(props: Props) {
-  const {
-    type, id, setDone, parent, isFavorite, setFavorites,
-  } = props;
+  const { type, id, setDone, parent, isFavorite, setFavorites } = props;
   const [rules, setRules] = useState({
     flashcard_is: ['toggle'],
     sub_deck_is: ['child_page'],
     tags_is: 'strikethrough',
     deck_is: ['page', 'database'],
-    email_notification: false,
+    email_notification: false
   });
 
   const [isLoading, setIsloading] = useState(true);
@@ -94,7 +92,7 @@ function DefineRules(props: Props) {
         rules.deck_is,
         rules.sub_deck_is,
         tags,
-        sendEmail,
+        sendEmail
       );
       setDone();
     } catch (error) {
@@ -109,7 +107,9 @@ function DefineRules(props: Props) {
     } else if (included) {
       rules.flashcard_is = rules.flashcard_is.filter((f) => f !== fco);
     }
-    setFlashcard((prevState) => Array.from(new Set([...prevState, ...rules.flashcard_is])));
+    setFlashcard((prevState) =>
+      Array.from(new Set([...prevState, ...rules.flashcard_is]))
+    );
   };
 
   const onSelectedSubDeckTypes = (fco: string) => {
@@ -119,7 +119,9 @@ function DefineRules(props: Props) {
     } else {
       rules.sub_deck_is = rules.sub_deck_is.filter((f) => f !== fco);
     }
-    setSubDeck((prevState) => Array.from(new Set([...prevState, ...rules.sub_deck_is])));
+    setSubDeck((prevState) =>
+      Array.from(new Set([...prevState, ...rules.sub_deck_is]))
+    );
   };
 
   const onSelectedDeckTypes = (fco: string) => {
@@ -129,7 +131,9 @@ function DefineRules(props: Props) {
     } else {
       rules.deck_is = rules.deck_is.filter((f) => f !== fco);
     }
-    setDeck((prevState) => Array.from(new Set([...prevState, ...rules.deck_is])));
+    setDeck((prevState) =>
+      Array.from(new Set([...prevState, ...rules.deck_is]))
+    );
   };
 
   const toggleFavorite = async () => {
@@ -149,11 +153,7 @@ function DefineRules(props: Props) {
       <div className="modal-card">
         <div className="card" style={{ maxWidth: '480px' }}>
           <header className="card-header">
-            <p className="card-header-title">
-              Settings for
-              {' '}
-              {parent}
-            </p>
+            <p className="card-header-title">Settings for {parent}</p>
             {isLoading && (
               <button
                 aria-label="loading"
@@ -209,7 +209,7 @@ function DefineRules(props: Props) {
                     pickedTemplate={(name: string) => setTags(name)}
                     values={tagOptions.map((fco) => ({
                       label: `Tags are ${fco}`,
-                      value: fco,
+                      value: fco
                     }))}
                     name="Tags"
                     value={rules.tags_is}

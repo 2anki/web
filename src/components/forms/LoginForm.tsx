@@ -19,12 +19,11 @@ function LoginForm({ onForgotPassword, onError }: LoginFormProps) {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const isValid = () => (
-    email.length > 0
-      && email.length < 256
-      && password.length > 7
-      && password.length < 256
-  );
+  const isValid = () =>
+    email.length > 0 &&
+    email.length < 256 &&
+    password.length > 7 &&
+    password.length < 256;
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
@@ -49,7 +48,7 @@ function LoginForm({ onForgotPassword, onError }: LoginFormProps) {
         }
       } else {
         onError(
-          'Request failed. Do you remember your password? If not click forgot my password.',
+          'Request failed. Do you remember your password? If not click forgot my password.'
         );
       }
       setLoading(false);

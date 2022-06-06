@@ -48,7 +48,10 @@ interface PrimaryButtonProps {
 }
 
 export default function PrimaryButton({
-  text, destination, onClickLink, minHeight,
+  text,
+  destination,
+  onClickLink,
+  minHeight
 }: PrimaryButtonProps) {
   return (
     <StyledButton minHeight={minHeight}>
@@ -67,5 +70,5 @@ export default function PrimaryButton({
 }
 
 PrimaryButton.defaultProps = {
-  minHeight: '',
+  minHeight: ''
 };

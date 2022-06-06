@@ -79,7 +79,7 @@ function LearnPage({ setError }: Props) {
             style={{
               display: 'flex',
               alignItems: 'center',
-              flexDirection: 'column',
+              flexDirection: 'column'
             }}
           >
             {block && (
@@ -90,16 +90,9 @@ function LearnPage({ setError }: Props) {
                 <pre>{JSON.stringify(grandChild, null, 2)}</pre>
               </>
             )}
-            <progress
-              id="file"
-              value={location + 1}
-              max={children.length}
-            />
+            <progress id="file" value={location + 1} max={children.length} />
             <span style={{ fontSize: '11px' }}>
-              {location + 1}
-              {' '}
-              /
-              {children.length}
+              {location + 1} /{children.length}
             </span>
           </div>
         </Wrapper>

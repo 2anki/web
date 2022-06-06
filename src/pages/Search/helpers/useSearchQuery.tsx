@@ -1,6 +1,4 @@
-import {
-  useCallback, useEffect, useState,
-} from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import Backend from '../../../lib/Backend';
 import useQuery from '../../../lib/hooks/useQuery';
@@ -44,7 +42,7 @@ export default function useSearchQuery(backend: Backend): SearchQuery {
           setInProgress(false);
         });
     },
-    [inProgress, searchQuery],
+    [inProgress, searchQuery]
   );
 
   useEffect(() => {
@@ -59,6 +57,6 @@ export default function useSearchQuery(backend: Backend): SearchQuery {
     triggerSearch,
     errorNotification,
     isLoading,
-    setSearchQuery,
+    setSearchQuery
   };
 }

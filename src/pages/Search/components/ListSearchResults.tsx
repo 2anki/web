@@ -9,7 +9,7 @@ interface ListSearchResultsProps {
 }
 
 export default function ListSearchResults(
-  props: ListSearchResultsProps,
+  props: ListSearchResultsProps
 ): JSX.Element {
   const { results, handleEmpty, setFavorites } = props;
   const isEmpty = results.length < 1;
@@ -18,10 +18,14 @@ export default function ListSearchResults(
     return (
       <div className="column is-main-content">
         <div className="subtitle my-4">
-          No search results, try typing something above 👌🏾
-          Also ensure you
-          {' '}
-          <a target="_blank" rel="noreferrer" href="https://www.notion.so/help/guides/understanding-notions-sharing-settings">understand notions sharing settings</a>
+          No search results, try typing something above 👌🏾 Also ensure you{' '}
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://www.notion.so/help/guides/understanding-notions-sharing-settings"
+          >
+            understand notions sharing settings
+          </a>
         </div>
       </div>
     );
@@ -45,5 +49,5 @@ export default function ListSearchResults(
 }
 
 ListSearchResults.defaultProps = {
-  handleEmpty: true,
+  handleEmpty: true
 };

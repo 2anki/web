@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react';
 
 import Backend from '../../../lib/Backend';
 
-export default function usePatreon(backend: Backend, setError: (error: string) => void) {
+export default function usePatreon(
+  backend: Backend,
+  setError: (error: string) => void
+) {
   const [isPatreon, setIsPatreon] = useState(false);
 
   useEffect(() => {

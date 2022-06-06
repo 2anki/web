@@ -34,12 +34,12 @@ const availableTemplates = [
   { value: 'nostyle', label: 'Raw Note (no style)' },
   {
     value: 'abhiyan',
-    label: 'Abhiyan Bhandari (Night Mode)',
+    label: 'Abhiyan Bhandari (Night Mode)'
   },
   {
     value: 'alex_deluxe',
-    label: 'Alexander Deluxe (Blue)',
-  },
+    label: 'Alexander Deluxe (Blue)'
+  }
 ];
 
 interface Props {
@@ -50,9 +50,7 @@ interface Props {
 }
 
 const backend = new Backend();
-function SettingsModal({
-  pageTitle, pageId, isActive, onClickClose,
-}: Props) {
+function SettingsModal({ pageTitle, pageId, isActive, onClickClose }: Props) {
   const [settings, setSettings] = useState(null);
   const [loading, setLoading] = useState(!!pageId);
   const deckNameKey = 'deckName';
@@ -60,31 +58,31 @@ function SettingsModal({
     loadValue(
       deckNameKey,
       pageTitle || localStorage.getItem(deckNameKey) || '',
-      settings,
-    ),
+      settings
+    )
   );
   const store = useContext(StoreContext);
   const [options, setOptions] = useState(store.options);
   const [fontSize, setFontSize] = useState(
-    loadValue('font-size', '', settings),
+    loadValue('font-size', '', settings)
   );
   const [template, setTemplate] = useState(
-    loadValue('template', 'specialstyle', settings),
+    loadValue('template', 'specialstyle', settings)
   );
   const [toggleMode, setToggleMode] = useState(
-    loadValue('toggle-mode', 'close_toggle', settings),
+    loadValue('toggle-mode', 'close_toggle', settings)
   );
   const [pageEmoji, setPageEmoji] = useState(
-    loadValue('page-emoji', 'first_emoji', settings),
+    loadValue('page-emoji', 'first_emoji', settings)
   );
   const [basicName, setBasicName] = useState(
-    loadValue('basic_model_name', '', settings),
+    loadValue('basic_model_name', '', settings)
   );
   const [clozeName, setClozeName] = useState(
-    loadValue('cloze_model_name', '', settings),
+    loadValue('cloze_model_name', '', settings)
   );
   const [inputName, setInputName] = useState(
-    loadValue('input_model_name', '', settings),
+    loadValue('input_model_name', '', settings)
   );
 
   useEffect(() => {
@@ -104,7 +102,9 @@ function SettingsModal({
           }
           setLoading(false);
         })
-        .catch((error) => { store.error = error; });
+        .catch((error) => {
+          store.error = error;
+        });
     }
   }, [pageId]);
 
@@ -177,8 +177,9 @@ function SettingsModal({
                     the Notion page. If you have an existing deck in Anki you
                     want to update then you can also set the name here. It works
                     like Anki so you can create groupings (Parent::Child).
-                    Please don&apos;t change the deck name if you have subpages, it&apos;s
-                    more reliable to leave this empty if you have subpages.
+                    Please don&apos;t change the deck name if you have subpages,
+                    it&apos;s more reliable to leave this empty if you have
+                    subpages.
                   </p>
                   <div className="control">
                     <StyledInput
@@ -205,12 +206,12 @@ function SettingsModal({
                         { label: 'Icon first', value: 'first_emoji' },
                         {
                           label: 'Icon last',
-                          value: 'last_emoji',
+                          value: 'last_emoji'
                         },
                         {
                           label: 'Disable icon',
-                          value: 'disable_emoji',
-                        },
+                          value: 'disable_emoji'
+                        }
                       ]}
                       value={pageEmoji}
                       name="page-emoji"
@@ -235,8 +236,8 @@ function SettingsModal({
                         { label: 'Open nested toggles', value: 'open_toggle' },
                         {
                           label: 'Close nested toggles',
-                          value: 'close_toggle',
-                        },
+                          value: 'close_toggle'
+                        }
                       ]}
                       value={toggleMode}
                       name="toggle-mode"
@@ -315,10 +316,18 @@ function SettingsModal({
               </div>
             </section>
             <div className="modal-card-foot is-justify-content-center">
-              <button type="button" className="button is-link" onClick={onSubmit}>
+              <button
+                type="button"
+                className="button is-link"
+                onClick={onSubmit}
+              >
                 Save
               </button>
-              <button type="button" className="button" onClick={() => resetStore()}>
+              <button
+                type="button"
+                className="button"
+                onClick={() => resetStore()}
+              >
                 Delete
               </button>
             </div>
@@ -331,7 +340,7 @@ function SettingsModal({
 
 SettingsModal.defaultProps = {
   pageTitle: null,
-  pageId: null,
+  pageId: null
 };
 
 export default SettingsModal;
