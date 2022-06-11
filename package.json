@@ -61,7 +61,7 @@
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.9",
-    "@typescript-eslint/parser": "^5.14.0",
+    "@typescript-eslint/parser": "^5.27.1",
     "babel-jest": "^28.1.0",
     "cypress": "^9.6.0",
     "eslint": "^7.32.0",
