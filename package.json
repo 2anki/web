@@ -6,7 +6,7 @@
     "@fremtind/jkl-accordion": "^6.0.15",
     "@fremtind/jkl-accordion-react": "^6.0.18",
     "@fremtind/jkl-alert-message": "^5.0.25",
-    "@fremtind/jkl-alert-message-react": "^7.0.19",
+    "@fremtind/jkl-alert-message-react": "^8.0.3",
     "@sentry/react": "^6.12.0",
     "@sentry/tracing": "^7.1.1",
     "axios": "^0.21.4",
