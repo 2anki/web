@@ -35,7 +35,7 @@ function UploadForm({ setErrorMessage, isPatron }: UploadFormProps) {
       return false;
     }
     return true;
-  }, [setErrorMessage]);
+  }, [setErrorMessage, isPatron]);
 
   useEffect(() => {
     const body = document.getElementsByTagName('body')[0];
