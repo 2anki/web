@@ -1,4 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
+import Cookies from 'universal-cookie';
+import { captureException } from '@sentry/react';
 
 import NotionObject from './interfaces/NotionObject';
 import UserUpload from './interfaces/UserUpload';
@@ -24,10 +26,15 @@ class Backend {
     localStorage.clear();
     sessionStorage.clear();
     if (!isOffline) {
-      const endpoint = `${this.baseURL}users/logout`;
-      await axios.get(endpoint, { withCredentials: true });
+      try {
+        const endpoint = `${this.baseURL}users/logout`;
+        await axios.get(endpoint, { withCredentials: true });
+      } catch (error) {
+        captureException(error);
+      }
     }
-    document.cookie = '';
+    const cookies = new Cookies();
+    cookies.remove('token');
     window.location.href = '/';
   }
 
