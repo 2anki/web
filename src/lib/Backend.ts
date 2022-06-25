@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 import axios, { AxiosResponse } from "axios";
-=======
-import axios, { AxiosResponse } from 'axios';
-import Cookies from 'universal-cookie';
-import { captureException } from '@sentry/react';
->>>>>>> 6cf1b8232442 (fix: handle state inconsistency when logging out)
+import Cookies from "universal-cookie";
+import { captureException } from "@sentry/react";
 
 import NotionObject from "./interfaces/NotionObject";
 import UserUpload from "./interfaces/UserUpload";
@@ -14,7 +10,7 @@ import FavoriteObject from "./interfaces/FavoriteObject";
 import Settings from "./types/Settings";
 import getObjectIcon from "./notion/getObjectIcon";
 import getObjectTitle from "./notion/getObjectTitle";
-import isOfflineMode from './isOfflineMode';
+import isOfflineMode from "./isOfflineMode";
 
 class Backend {
   baseURL: string;
@@ -38,7 +34,7 @@ class Backend {
       }
     }
     const cookies = new Cookies();
-    cookies.remove('token');
+    cookies.remove("token");
     window.location.href = "/";
   }
 
