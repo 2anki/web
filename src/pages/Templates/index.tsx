@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import MonacoEditor from 'react-monaco-editor';
 import TemplateSelect from '../../components/TemplateSelect';
 import TemplateFile from '../../lib/types/TemplateFile';
+import isOfflineMode from '../../lib/isOfflineMode';
 
 // Don't put in the render function, it gets recreated
 let files: TemplateFile[] = [];
 
 async function fetchBaseType(name: string) {
+  if (isOfflineMode()) { return {}; }
   const url = `/templates/${name}.json`;
   const request = await window.fetch(url);
   return request.json();
