@@ -3,7 +3,7 @@
   "version": "0.1.1-0",
   "private": true,
   "dependencies": {
-    "@fremtind/jkl-accordion": "^6.0.15",
+    "@fremtind/jkl-accordion": "^7.0.3",
     "@fremtind/jkl-accordion-react": "^6.0.18",
     "@fremtind/jkl-alert-message": "^5.0.25",
     "@fremtind/jkl-alert-message-react": "^7.0.19",
