@@ -1,5 +1,6 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Dispatch, SetStateAction } from 'react';
+
 import SearchBar from './SearchBar';
 import NotionObject from '../../../lib/interfaces/NotionObject';
 import ListSearchResults from './ListSearchResults';
@@ -15,7 +16,7 @@ interface SearchPresenterProps {
 }
 
 export default function SearchPresenter(props: SearchPresenterProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const {
     inProgress, myPages, setSearchQuery, triggerSearch,
   } = props;
@@ -27,10 +28,7 @@ export default function SearchPresenter(props: SearchPresenterProps) {
       <SearchBar
         inProgress={inProgress}
         onSearchQueryChanged={(s) => {
-          history.push({
-            pathname: '/search',
-            search: `?q=${s}`,
-          });
+          navigate(`/search?q=${s}`);
           setSearchQuery(s);
         }}
         onSearchClicked={() => triggerSearch(false)}

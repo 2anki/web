@@ -1,4 +1,6 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {
+  BrowserRouter, Routes, Route,
+} from 'react-router-dom';
 import { lazy, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
@@ -10,6 +12,7 @@ import {
 } from '@fremtind/jkl-alert-message-react';
 
 import { captureException } from '@sentry/react';
+// import { useLocation } from 'react-router';
 import UploadPage from './pages/Upload';
 import HomePage from './pages/Home';
 
@@ -49,18 +52,18 @@ function App() {
     captureException(error);
   });
 
+  // const location = useLocation();
+  const { location } = window;// .pathnamegg;
+
   return (
     <>
       <GlobalStyle />
       <StoreContext.Provider value={store}>
-        <Router>
+        <BrowserRouter>
           <Layout>
             {/* We don't want a header on the sign-up page */}
-            <Route
-              render={({ location }) => (location.pathname.match(/^(?!.*(login|search|signup)).*$/) ? (
-                <NavigationBar isPatron={isPatron} />
-              ) : null)}
-            />
+            {location.pathname.match(/^(?!.*(login|search|signup)).*$/)
+              && <NavigationBar isPatron={isPatron} />}
             {errorMessage && (
             <ErrorAlertMessage
               dismissed={dismissed}
@@ -71,7 +74,7 @@ function App() {
               {errorMessage}
             </ErrorAlertMessage>
             )}
-            <Switch>
+            <Routes>
               <Route path="/uploads">
                 <MyUploadsPage setError={setErrorMessage} />
               </Route>
@@ -108,10 +111,10 @@ function App() {
               <Route path="/">
                 <HomePage />
               </Route>
-            </Switch>
+            </Routes>
             <Footer />
           </Layout>
-        </Router>
+        </BrowserRouter>
       </StoreContext.Provider>
     </>
   );
