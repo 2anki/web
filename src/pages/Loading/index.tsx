@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import { useState } from "react";
+import { useInterval } from "usehooks-ts";
+import styled from "styled-components";
 
-import LoadingBar from '../../components/LoadingBar';
+import LoadingBar from "../../components/LoadingBar";
 
 const StyledLoader = styled.div`
   display: flex;
@@ -13,47 +14,15 @@ const StyledLoader = styled.div`
   margin: 0 auto;
 `;
 
-// https://usehooks-ts.com/react-hook/use-interval
-function useInterval(callback: () => void, delay: number | null) {
-  const savedCallback = useRef(callback);
-
-  useEffect(() => {
-    if (!delay && delay !== 0) {
-      return;
-    }
-
-    const id = setInterval(() => savedCallback.current(), delay);
-
-    return () => { clearInterval(id); };
-  }, [delay]);
-}
-
 export default function LoadingPage() {
   const [loading, setLoading] = useState<number>(0);
-
-  useInterval(
-    () => setLoading(loading + 1),
-    100,
-  );
+  useInterval(() => setLoading(loading + 1), 50);
 
   return (
     <StyledLoader>
-      <LoadingBar segments={
-        [
-          {
-            value: loading % 100,
-            info: 'Loading',
-          },
-          {
-            value: 0,
-            info: 'Fixing magic',
-          },
-          {
-            value: 0,
-            info: 'Just a moment',
-          },
-        ]
-        }
+      <LoadingBar
+        value={loading}
+        texts={["Doing magic", "Just a moment", "Almost done"]}
       />
     </StyledLoader>
   );
