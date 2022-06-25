@@ -1,5 +1,5 @@
-import supportedOptions from './supportedOptions';
-import CardOption from './CardOption';
+import supportedOptions from "./supportedOptions";
+import CardOption from "./CardOption";
 
 class CardOptionsStore {
   public options: CardOption[];

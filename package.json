@@ -29,8 +29,8 @@
     "build": "GENERATE_SOURCEMAP=false react-app-rewired build --max_old_space_size=4096",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
-    "lint": "eslint src/**/*.ts src/**/*.tsx",
-    "lint:fix": "eslint --fix src/**/*.ts src/**/*.tsx"
+    "lint": "prettier src/**/*.ts src/**/*.tsx",
+    "lint:fix": "prettier --write src/**/*.ts src/**/*.tsx"
   },
   "eslintConfig": {
     "extends": [
@@ -67,7 +67,9 @@
     "eslint": "^8.18.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
-    "monaco-editor-webpack-plugin": "4.1.1"
+    "eslint-config-prettier": "^8.5.0",
+    "monaco-editor-webpack-plugin": "4.1.1",
+    "prettier": "^2.7.1"
   },
   "proxy": "http://localhost:2020"
 }
