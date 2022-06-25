@@ -55,11 +55,7 @@ function LoadingBar(options: BarOptions) {
           <StyledProgress
             className="progress is-large is-info"
             max={100}
-            value={
-              value > 100 * i && value < 100 * (i + 1)
-                ? value - i * 100
-                : value - i * 100
-            }
+            value={value - i * 100}
           />
           <StyledInformation
             style={{
