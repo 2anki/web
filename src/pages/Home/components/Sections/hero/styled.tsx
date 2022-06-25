@@ -99,7 +99,10 @@ display: block;
 
 export const HeroSubtitleAlignRight = styled(HeroTitle)`
   align-self: flex-end;
-  color: #5397f5
+  color: #5397f5;
+  @media (max-width: 1024px) {
+      align-self: flex-start;
+    }
 `;
 
 export const StyledParagraph = styled.p`
