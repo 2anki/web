@@ -19,5 +19,5 @@ export const HomeContainer = styled(Container)`
 `;
 
 export const PageContainer = styled.div`
-  margin: 0 auto;
+  margin: 2rem auto;
 `;
