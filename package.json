@@ -30,7 +30,7 @@
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "lint": "eslint src/**/*.ts src/**/*.tsx",
-    "lint:fix": "eslint --fix src/**/*.ts src/**/*.tsx"
+    "lint:fix": "eslint --fix src/**/*.ts src/**/*.tsx; prettier --write src/**/*.ts src/**/*.tsx"
   },
   "eslintConfig": {
     "extends": [
@@ -68,7 +68,8 @@
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.5.0",
-    "monaco-editor-webpack-plugin": "4.1.1"
+    "monaco-editor-webpack-plugin": "4.1.1",
+    "prettier": "^2.7.1"
   },
   "proxy": "http://localhost:2020"
 }
