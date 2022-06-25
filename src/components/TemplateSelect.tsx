@@ -11,7 +11,10 @@ interface TemplateSelectPicker {
 }
 
 function TemplateSelect({
-  name, value, pickedTemplate, values,
+  name,
+  value,
+  pickedTemplate,
+  values,
 }: TemplateSelectPicker) {
   return (
     <div className="field">

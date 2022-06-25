@@ -9,7 +9,7 @@ function loadOption(key: string, defaultValue: boolean): boolean {
   if (value === null) {
     return defaultValue;
   }
-  return value === 'true';
+  return value === "true";
 }
 class CardOption {
   key: string;
