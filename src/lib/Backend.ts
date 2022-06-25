@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 import axios, { AxiosResponse } from "axios";
+=======
+import axios, { AxiosResponse } from 'axios';
+import Cookies from 'universal-cookie';
+import { captureException } from '@sentry/react';
+>>>>>>> 6cf1b8232442 (fix: handle state inconsistency when logging out)
 
 import NotionObject from "./interfaces/NotionObject";
 import UserUpload from "./interfaces/UserUpload";
@@ -24,10 +30,15 @@ class Backend {
     localStorage.clear();
     sessionStorage.clear();
     if (!isOffline) {
-    const endpoint = `${this.baseURL}users/logout`;
-    await axios.get(endpoint, { withCredentials: true });
+      try {
+        const endpoint = `${this.baseURL}users/logout`;
+        await axios.get(endpoint, { withCredentials: true });
+      } catch (error) {
+        captureException(error);
+      }
     }
-    document.cookie = "";
+    const cookies = new Cookies();
+    cookies.remove('token');
     window.location.href = "/";
   }
 

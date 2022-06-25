@@ -3,6 +3,10 @@ import BecomeAPatron from '../../BecomeAPatron';
 import NavbarItem from '../NavbarItem';
 
 export default function getNavbarEnd(path: string, backend: Backend, isPatreon: boolean) {
+  const onLogOut = (event) => {
+    event.preventDefault();
+    backend.logout();
+  };
   return (
     <div className="navbar-end">
       {!isPatreon && (
@@ -14,10 +18,7 @@ export default function getNavbarEnd(path: string, backend: Backend, isPatreon: 
       <NavbarItem
         path={path}
         href="/users/logout"
-        onClick={(event) => {
-          event.preventDefault();
-          backend.logout();
-        }}
+        onClick={onLogOut}
       >
         🔒 log out
       </NavbarItem>
