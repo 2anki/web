@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState } from 'react';
+import { useCookies } from 'react-cookie';
 
 import getNavbarStartNewUser from './helpers/getNavbarStartNewUser';
 import NavButtonCTA from '../buttons/NavButtonCTA';
-import getCookie from './helpers/getCookie';
 import Backend from '../../lib/Backend';
 import NavbarItem from './NavbarItem';
 import { Navbar } from './styled';
@@ -17,12 +17,12 @@ interface NavigationBarProps {
 
 const backend = new Backend();
 function NavigationBar({ isPatron }: NavigationBarProps) {
-  const isSignedIn = getCookie('token');
+  const [cookies] = useCookies(['token']);
   const [active, setHamburgerMenu] = useState(false);
   const path = window.location.pathname;
   const { hash } = window.location;
 
-  const navbarStart = isSignedIn
+  const navbarStart = cookies.token
     ? getNavbarStartRegularUser(hash)
     : getNavbarStartNewUser(hash, path);
 
@@ -52,7 +52,7 @@ function NavigationBar({ isPatron }: NavigationBarProps) {
 
       <div id="navbar" className={`navbar-menu ${active ? 'is-active' : ''}`}>
         <div className="navbar-start">{navbarStart}</div>
-        {!isSignedIn && (
+        {!cookies.token && (
           <div className="navbar-end">
             <BecomeAPatron />
             <NavbarItem path="login" href="/login#login">
@@ -67,7 +67,7 @@ function NavigationBar({ isPatron }: NavigationBarProps) {
             </div>
           </div>
         )}
-        {isSignedIn && getNavbarEnd(path, backend, isPatron)}
+        {cookies.token && getNavbarEnd(path, backend, isPatron)}
       </div>
     </Navbar>
   );
