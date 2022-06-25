@@ -7,7 +7,11 @@ interface TemplateNameDelegate {
 }
 
 function TemplateName({
-  label, placeholder, name, value, pickedName,
+  label,
+  placeholder,
+  name,
+  value,
+  pickedName,
 }: TemplateNameDelegate) {
   return (
     <div className="field">
