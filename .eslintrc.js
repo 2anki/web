@@ -8,4 +8,5 @@ module.exports = {
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [1, { extensions: [".tsx"] }],
   },
+  ignorePatterns: [".eslintrc.js"],
 };
