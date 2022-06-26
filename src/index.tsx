@@ -6,7 +6,7 @@ import { Integrations } from '@sentry/tracing';
 
 import App from './App';
 
-import LoadingScreen from './components/LoadingScreen';
+import LoadingPage from './pages/Loading';
 
 if (window.location.hostname !== 'localhost') {
   Sentry.init({
@@ -22,7 +22,7 @@ if (window.location.hostname !== 'localhost') {
 
 ReactDOM.render(
   <React.StrictMode>
-    <Suspense fallback={<LoadingScreen />}>
+    <Suspense fallback={<LoadingPage />}>
       <App />
     </Suspense>
   </React.StrictMode>,
