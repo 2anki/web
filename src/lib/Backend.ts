@@ -1,13 +1,16 @@
 import axios, { AxiosResponse } from "axios";
+import Cookies from "universal-cookie";
+import { captureException } from "@sentry/react";
 
 import NotionObject from "./interfaces/NotionObject";
 import UserUpload from "./interfaces/UserUpload";
 import UserJob from "./interfaces/UserJob";
 
-import getObjectTitle from "./notion/getObjectTitle";
-import getObjectIcon from "./notion/getObjectIcon";
 import FavoriteObject from "./interfaces/FavoriteObject";
 import Settings from "./types/Settings";
+import getObjectIcon from "./notion/getObjectIcon";
+import getObjectTitle from "./notion/getObjectTitle";
+import isOfflineMode from "./isOfflineMode";
 
 class Backend {
   baseURL: string;
@@ -19,11 +22,19 @@ class Backend {
   }
 
   async logout() {
+    const isOffline = isOfflineMode();
     localStorage.clear();
     sessionStorage.clear();
-    const endpoint = `${this.baseURL}users/logout`;
-    await axios.get(endpoint, { withCredentials: true });
-    document.cookie = "";
+    if (!isOffline) {
+      try {
+        const endpoint = `${this.baseURL}users/logout`;
+        await axios.get(endpoint, { withCredentials: true });
+      } catch (error) {
+        captureException(error);
+      }
+    }
+    const cookies = new Cookies();
+    cookies.remove("token");
     window.location.href = "/";
   }
 

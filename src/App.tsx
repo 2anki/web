@@ -10,6 +10,7 @@ import {
 } from '@fremtind/jkl-alert-message-react';
 
 import { captureException } from '@sentry/react';
+import { useCookies } from 'react-cookie';
 import UploadPage from './pages/Upload';
 import HomePage from './pages/Home';
 
@@ -22,6 +23,7 @@ import SettingsPage from './pages/Settings';
 import ImportPage from './pages/Import/ImportPage';
 import usePatreon from './pages/MyUploads/hooks/usePatreon';
 import Backend from './lib/Backend';
+import isOfflineMode from './lib/isOfflineMode';
 
 const TemplatePage = lazy(() => import('./pages/Templates'));
 const PreSignupPage = lazy(() => import('./pages/Register'));
@@ -37,11 +39,15 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100vh;
 `;
 
 const backend = new Backend();
 function App() {
+  const [cookies, setCookie] = useCookies(['token']);
+  if (isOfflineMode() && !cookies.token) {
+    setCookie('token', '?');
+  }
+
   const loadDefaults = localStorage.getItem('skip-defaults') !== 'true';
   const store = useMemo(() => new CardOptionsStore(loadDefaults), []);
   const [errorMessage, setErrorMessage] = useState('');

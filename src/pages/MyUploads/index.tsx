@@ -28,7 +28,9 @@ function MyUploadsPage({ setError }: MyUploadsPageProps) {
   const [isPatreon] = usePatreon(backend, setError);
   const [quota] = useQuota(uploads);
 
-  if (loading) return <LoadingScreen />;
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <PageContainer>
