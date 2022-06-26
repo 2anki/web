@@ -1,6 +1,6 @@
-import LoadingScreen from '../../../components/LoadingScreen';
 import { PageContainer } from '../../../components/styled';
 import Backend from '../../../lib/Backend';
+import LoadingPage from '../../Loading';
 
 import { NotionData } from '../helpers/useNotionData';
 import useSearchQuery from '../helpers/useSearchQuery';
@@ -22,7 +22,7 @@ export default function SearchContainer(props: SearchContentProps) {
     setSearchQuery,
   } = useSearchQuery(backend);
 
-  if (isLoading) return <LoadingScreen />;
+  if (isLoading) return <LoadingPage />;
 
   return (
     <PageContainer>

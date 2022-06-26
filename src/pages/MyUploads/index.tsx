@@ -1,6 +1,5 @@
 import BecomeAPatron from '../../components/BecomeAPatron';
 import UploadObjectEntry from './components/UploadObjectEntry';
-import LoadingScreen from '../../components/LoadingScreen';
 import Backend from '../../lib/Backend';
 import ActiveJobs from './components/ActiveJobs';
 
@@ -9,6 +8,7 @@ import usePatreon from './hooks/usePatreon';
 import useQuota from './hooks/useQuota';
 import useActiveJobs from './hooks/useActiveJobs';
 import { Container, PageContainer } from '../../components/styled';
+import LoadingPage from '../Loading';
 
 const backend = new Backend();
 
@@ -29,7 +29,7 @@ function MyUploadsPage({ setError }: MyUploadsPageProps) {
   const [quota] = useQuota(uploads);
 
   if (loading) {
-    return <LoadingScreen />;
+    return <LoadingPage />;
   }
 
   return (
