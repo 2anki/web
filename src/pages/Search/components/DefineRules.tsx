@@ -204,7 +204,7 @@ function DefineRules(props: Props) {
                   options={flashCardOptions}
                   onSelected={onSelectedFlashcardTypes}
                 />
-                <AccordionItem title="Miscallenous">
+                <AccordionItem title="Miscellaneous">
                   <TemplateSelect
                     pickedTemplate={(name: string) => setTags(name)}
                     values={tagOptions.map((fco) => ({
