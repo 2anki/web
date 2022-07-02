@@ -40,6 +40,10 @@ const availableTemplates = [
     value: 'alex_deluxe',
     label: 'Alexander Deluxe (Blue)',
   },
+  {
+    value: 'custom',
+    label: 'Use custom style from the editor',
+  }
 ];
 
 interface Props {
