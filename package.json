@@ -9,7 +9,7 @@
     "@fremtind/jkl-alert-message-react": "^8.0.4",
     "@sentry/react": "^7.2.0",
     "@sentry/tracing": "^7.2.0",
-    "axios": "^0.21.4",
+    "axios": "^0.27.2",
     "bulma": "^0.9.4",
     "bulma-switch": "^2.0.0",
     "react": "^17.0.2",
