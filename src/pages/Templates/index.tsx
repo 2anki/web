@@ -127,6 +127,7 @@ function TemplatePage() {
           <>
             <p className="title">Template Manager</p>
             <hr />
+            <div className='is-warning notification'><strong>This page does not yet work with the Notion integration.</strong></div>
             <p className="subtitle">
               No saving required, everything is saved instantly! You can always
               revert the template changes in the
