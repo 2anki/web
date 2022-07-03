@@ -1,8 +1,9 @@
-import styled from 'styled-components';
-import { SyntheticEvent, useState } from 'react';
+import styled from "styled-components";
+import { SyntheticEvent, useState } from "react";
 
-import BetaMessage from '../BetaMessage';
-import Backend from '../../lib/Backend';
+import { useCookies } from "react-cookie";
+import BetaMessage from "../BetaMessage";
+import Backend from "../../lib/Backend";
 
 const FormContainer = styled.div`
   max-width: 720px;
@@ -15,16 +16,16 @@ interface LoginFormProps {
 }
 
 function LoginForm({ onForgotPassword, onError }: LoginFormProps) {
-  const [email, setEmail] = useState(localStorage.getItem('email') || '');
-  const [password, setPassword] = useState('');
+  const [, setCookie] = useCookies(["token"]);
+  const [email, setEmail] = useState(localStorage.getItem("email") || "");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const isValid = () => (
-    email.length > 0
-      && email.length < 256
-      && password.length > 7
-      && password.length < 256
-  );
+  const isValid = () =>
+    email.length > 0 &&
+    email.length < 256 &&
+    password.length > 7 &&
+    password.length < 256;
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
@@ -34,22 +35,23 @@ function LoginForm({ onForgotPassword, onError }: LoginFormProps) {
       const backend = new Backend();
       const res = await backend.login(email, password);
       if (res.status === 200) {
-        localStorage.setItem('token', res.data.token);
-        window.location.href = '/search';
+        const { token } = res.data;
+        setCookie("token", token);
+        window.location.href = "/search";
       }
       setLoading(false);
     } catch (error) {
       const { response } = error;
       if (response && response.data) {
         const { data } = response;
-        if (data.message === 'not verified') {
-          window.location.href = '/verify';
+        if (data.message === "not verified") {
+          window.location.href = "/verify";
         } else {
           onError(data.message);
         }
       } else {
         onError(
-          'Request failed. Do you remember your password? If not click forgot my password.',
+          "Request failed. Do you remember your password? If not click forgot my password."
         );
       }
       setLoading(false);
@@ -74,7 +76,7 @@ function LoginForm({ onForgotPassword, onError }: LoginFormProps) {
                       value={email}
                       onChange={(event) => {
                         setEmail(event.target.value);
-                        localStorage.setItem('email', event.target.value);
+                        localStorage.setItem("email", event.target.value);
                       }}
                       className="input"
                       type="email"
@@ -108,7 +110,7 @@ function LoginForm({ onForgotPassword, onError }: LoginFormProps) {
                   className="field"
                   onClick={() => onForgotPassword()}
                   onKeyDown={(event) => {
-                    if (event.key === 'F9') {
+                    if (event.key === "F9") {
                       onForgotPassword();
                     }
                   }}
