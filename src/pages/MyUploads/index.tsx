@@ -55,6 +55,7 @@ function MyUploadsPage({ setError }: MyUploadsPageProps) {
             {uploads
               && uploads.map((u) => (
                 <UploadObjectEntry
+                  isPatreon={isPatreon}
                   size={`${u.size_mb ? u.size_mb.toFixed(2) : 0}`}
                   key={u.key}
                   title={u.filename}
