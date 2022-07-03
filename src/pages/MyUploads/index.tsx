@@ -27,8 +27,6 @@ function MyUploadsPage({ setError }: MyUploadsPageProps) {
     return <LoadingPage />;
   }
 
-  console.log('uploads is', uploads);
-
   const showActiveJobs = activeJobs.length > 0 && (
     <ActiveJobs jobs={activeJobs} deleteJob={(id) => deleteJob(id)} />
   );
