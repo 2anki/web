@@ -1,5 +1,3 @@
-import styled from 'styled-components';
-
 import ObjectAction from '../../Search/components/actions/ObjectAction';
 import { Entry, ObjectActions, ObjectMeta, UploadTitle } from './styled';
 
@@ -30,10 +28,9 @@ export default function UploadObjectEntry({
             </span>
           </div>
         </div>
-        <span>{icon}</span>
-        <UploadTitle className="subtitle is-6">
-          {title}
-        </UploadTitle>
+        {icon && <span>{icon}</span>}
+        <div />
+        <UploadTitle className="subtitle ml-2 is-6" dangerouslySetInnerHTML={{ __html: title }} />
       </ObjectMeta>
       <ObjectActions>
         <ObjectAction
