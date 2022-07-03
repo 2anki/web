@@ -11,6 +11,7 @@ import Settings from "./types/Settings";
 import getObjectIcon from "./notion/getObjectIcon";
 import getObjectTitle from "./notion/getObjectTitle";
 import isOfflineMode from "./isOfflineMode";
+import handleRedirect from "./handleRedirect";
 
 class Backend {
   baseURL: string;
@@ -202,6 +203,7 @@ class Backend {
     const response = await axios.get(`${this.baseURL}upload/mine`, {
       withCredentials: true,
     });
+    handleRedirect(response);
     return response.data;
   }
 

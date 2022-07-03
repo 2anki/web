@@ -1,35 +1,8 @@
-import styled from 'styled-components';
-
 import ObjectAction from '../../Search/components/actions/ObjectAction';
-
-const Entry = styled.div`
-  display: flex;
-  align-items: center;
-  grid-gap: 1.2rem;
-  padding: 1rem;
-  font-size: 2.4vw;
-  justify-content: space-between;
-`;
-
-const ObjectMeta = styled.div`
-  align-items: center;
-  display: flex;
-  grid-gap: 1.2rem;
-`;
-
-const ObjectActions = styled.div`
-  display: flex;
-  grid-gap: 1rem;
-  min-width: 80px;
-  justify-content: center;
-`;
-
-const UploadTitle = styled.span`
-  display: flex;
-  align-items: center;
-`;
+import { Entry, ObjectActions, ObjectMeta, UploadTitle } from './styled';
 
 interface Props {
+  isPatreon: boolean;
   size: string;
   title: string;
   icon: string;
@@ -38,7 +11,7 @@ interface Props {
 }
 
 export default function UploadObjectEntry({
-  size, title, icon, url, deleteUpload,
+  size, title, icon, url, deleteUpload, isPatreon
 }: Props) {
   return (
     <Entry>
@@ -46,7 +19,7 @@ export default function UploadObjectEntry({
         <button type="button" className="delete" onClick={() => deleteUpload()}>
           Delete
         </button>
-        <div className="control">
+        {!isPatreon && <div className="control">
           <div className="tags has-addons">
             <span className="tag is-info">Size</span>
             <span className="tag">
@@ -55,11 +28,10 @@ export default function UploadObjectEntry({
               MB
             </span>
           </div>
-        </div>
-        <span>{icon}</span>
-        <UploadTitle className="subtitle is-6">
-          {title}
-        </UploadTitle>
+        </div>}
+        {icon && <span>{icon}</span>}
+        <div />
+        <UploadTitle className="subtitle ml-2 is-6" dangerouslySetInnerHTML={{ __html: title }} />
       </ObjectMeta>
       <ObjectActions>
         <ObjectAction
