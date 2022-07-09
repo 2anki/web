@@ -40,7 +40,9 @@ class Backend {
   }
 
   getNotionConnectionInfo() {
-    return axios.get(`${this.baseURL}notion/get-notion-link`);
+    return axios.get(`${this.baseURL}notion/get-notion-link`, {
+      withCredentials: true,
+    });
   }
 
   withinThreeSeconds(): boolean {
