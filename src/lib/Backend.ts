@@ -12,6 +12,7 @@ import getObjectIcon from "./notion/getObjectIcon";
 import getObjectTitle from "./notion/getObjectTitle";
 import isOfflineMode from "./isOfflineMode";
 import handleRedirect from "./handleRedirect";
+import TemplateFile from "./types/TemplateFile";
 
 class Backend {
   baseURL: string;
@@ -64,6 +65,21 @@ class Backend {
       { settings },
       { withCredentials: true }
     );
+  }
+
+  saveTemplate(templates: TemplateFile[]) {
+    console.log('saveTemplate', templates)
+    return axios.post(
+      `${this.baseURL}templates/create`,
+      { templates },
+      { withCredentials: true }
+    );
+  }
+
+  deleteTemplates() {
+    return axios.post(`${this.baseURL}templates/delete`, {
+      withCredentials: true,
+    });
   }
 
   getSettings(id: string) {
