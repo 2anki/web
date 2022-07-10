@@ -20,7 +20,7 @@ function HeroSection() {
   const [play, setPlay] = useState(false);
 
   return (
-    <StyledSection className="hero is-halfheight">
+    <StyledSection className="section hero is-halfheight">
       <div className="container">
         <HeroTitleContainer>
           <HeroTitle>Create </HeroTitle>

@@ -18,8 +18,8 @@ function AboutSection() {
             </Heading2>
             <p>
               2anki.net is a open source micro saas which takes Notion notes and
-              converts them to Anki flashcards. This project is used by students
-              and professionals around the world to practice for their exams.
+              converts them to Anki flashcards. This project is used by autodidacts, students
+              and professionals around the world.
             </p>
             <BlueHeading3>Fast, simple, easy and 100% Free!</BlueHeading3>
             <div className="is-flex is-justify-content-start">
