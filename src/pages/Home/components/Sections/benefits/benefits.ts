@@ -14,7 +14,7 @@ export default [
     icon: '/icons/benefit-icon-3.svg',
     title: 'Mobile friendly',
     description:
-        'The website works fine with your browser on iOS and Android. To see how people use it watch',
+        'The website works fine with your browser on iOS and Android.',
   },
 ];
 
