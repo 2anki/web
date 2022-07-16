@@ -5,6 +5,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import getHeadersFilename from '../helpers/getHeadersFilename';
 import isAboveFreeTier from '../helpers/isAboveFreeTier';
 import DownloadButton from './DownloadButton';
 import DropParagraph from './DropParagraph';
@@ -84,7 +85,7 @@ function UploadForm({ setErrorMessage, isPatron }: UploadFormProps) {
         setDownloadLink(null);
         return setErrorMessage(text);
       }
-      const fileNameHeader = request.headers.get('File-Name'.toLowerCase());
+      const fileNameHeader = getHeadersFilename(request.headers);
       if (fileNameHeader) {
         setDeckName(fileNameHeader);
       } else {
