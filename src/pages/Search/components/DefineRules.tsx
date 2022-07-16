@@ -206,6 +206,7 @@ function DefineRules(props: Props) {
                 />
                 <AccordionItem title="Miscellaneous">
                   <TemplateSelect
+                    data-hj-suppress
                     pickedTemplate={(name: string) => setTags(name)}
                     values={tagOptions.map((fco) => ({
                       label: `Tags are ${fco}`,
