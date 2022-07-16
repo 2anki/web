@@ -34,7 +34,7 @@ function SearchObjectEntry(props: Props) {
 
   return (
     <>
-      <Entry>
+      <Entry data-hj-suppress>
         <ObjectMeta>
           <ObjectType type={type} />
           {icon && (icon.includes('http') || icon.includes('data:image')) ? (

@@ -23,7 +23,7 @@ export default function WorkSpaceHeader(props: WorkspaceHeaderProps) {
             <div className="subtitle is-5">
               <span className="tag is-info">workspace</span>
               <header>
-                <h1>{workSpace}</h1>
+                <h1 data-hj-suppress>{workSpace}</h1>
               </header>
             </div>
           </div>
