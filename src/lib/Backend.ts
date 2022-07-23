@@ -7,7 +7,7 @@ import UserUpload from "./interfaces/UserUpload";
 import UserJob from "./interfaces/UserJob";
 
 import FavoriteObject from "./interfaces/FavoriteObject";
-import Settings from "./types/Settings";
+import SettingsType from "./types/Settings";
 import getObjectIcon from "./notion/getObjectIcon";
 import getObjectTitle from "./notion/getObjectTitle";
 import isOfflineMode from "./isOfflineMode";
@@ -57,7 +57,7 @@ class Backend {
     return false;
   }
 
-  saveSettings(settings: Settings) {
+  saveSettings(settings: SettingsType) {
     return axios.post(
       `${this.baseURL}settings/create/${settings.object_id}`,
       { settings },

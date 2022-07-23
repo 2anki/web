@@ -1,6 +1,6 @@
-interface Settings {
+interface SettingsType {
   object_id: string;
   payload: { [key: string]: string };
 }
 
-export default Settings;
+export default SettingsType;
