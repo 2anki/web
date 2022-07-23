@@ -1,3 +1,4 @@
+import { captureException } from '@sentry/react';
 import {
   SyntheticEvent,
   useCallback,
@@ -98,6 +99,7 @@ function UploadForm({ setErrorMessage, isPatron }: UploadFormProps) {
       setDownloadLink(window.URL.createObjectURL(blob));
       setUploading(false);
     } catch (error) {
+      captureException(error);
       setDownloadLink(null);
       setErrorMessage(
         `<h1 class='title is-4'>${error.message}</h1><pre>${error.stack}</pre>`,
