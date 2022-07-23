@@ -2,20 +2,16 @@ import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import 'bulma/css/bulma.css';
 import * as Sentry from '@sentry/react';
-import { Integrations } from '@sentry/tracing';
+import { BrowserTracing } from "@sentry/tracing";
 
 import App from './App';
 
 import LoadingPage from './pages/Loading';
 
-if (window.location.hostname !== 'localhost') {
+if (!process.env.REACT_SKIP_SENTRY) {
   Sentry.init({
-    dsn: 'https://d7943c67af2f4e82b9eece16f1eb842b@o404766.ingest.sentry.io/5965051',
-    integrations: [new Integrations.BrowserTracing()],
-
-    // Set tracesSampleRate to 1.0 to capture 100%
-    // of transactions for performance monitoring.
-    // We recommend adjusting this value in production
+    dsn: "https://962b127355704482be99c300f58d00f6@o1284472.ingest.sentry.io/6596166",
+    integrations: [new BrowserTracing()],
     tracesSampleRate: 1.0,
   });
 }
