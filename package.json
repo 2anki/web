@@ -5,7 +5,7 @@
   "dependencies": {
     "@fremtind/jkl-accordion": "^7.0.3",
     "@fremtind/jkl-accordion-react": "^7.0.4",
-    "@fremtind/jkl-alert-message": "^6.0.3",
+    "@fremtind/jkl-alert-message": "^6.0.6",
     "@fremtind/jkl-alert-message-react": "^8.0.4",
     "@sentry/react": "^7.7.0",
     "@sentry/tracing": "^7.7.0",
