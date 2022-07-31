@@ -68,7 +68,6 @@ class Backend {
   }
 
   saveTemplate(templates: TemplateFile[]) {
-    console.log('saveTemplate', templates)
     return axios.post(
       `${this.baseURL}templates/create`,
       { templates },

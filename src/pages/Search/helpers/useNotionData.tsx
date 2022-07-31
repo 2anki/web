@@ -1,3 +1,4 @@
+import { captureException } from "@sentry/react";
 import { useEffect, useState } from "react";
 import Backend from "../../../lib/Backend";
 
@@ -33,7 +34,7 @@ export default function useNotionData(backend: Backend): NotionData {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.log("error", error);
+        captureException(error);
         window.location.href = "/login#login";
       });
   }, []);
