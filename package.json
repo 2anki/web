@@ -29,7 +29,7 @@
   },
   "scripts": {
     "start": "REACT_SKIP_SENTRY=true react-scripts start",
-    "dev": "react-scripts start",
+    "dev": "react-scripts start --max_old_space_size=4096",
     "local": "REACT_APP_LOCALHOST=true react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-app-rewired build --max_old_space_size=4096",
     "test": "react-app-rewired test",
