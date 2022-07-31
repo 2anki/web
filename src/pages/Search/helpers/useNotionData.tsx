@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import Backend from '../../../lib/Backend';
+import { captureException } from "@sentry/react";
+import { useEffect, useState } from "react";
+import Backend from "../../../lib/Backend";
 
 export interface NotionData {
   loading: boolean;
@@ -9,10 +10,10 @@ export interface NotionData {
 }
 
 export default function useNotionData(backend: Backend): NotionData {
-  const [connectionLink, updateConnectionLink] = useState('');
+  const [connectionLink, updateConnectionLink] = useState("");
   const [connected, updateConnected] = useState(false);
   const [workSpace, setWorkSpace] = useState(
-    localStorage.getItem('__workspace'),
+    localStorage.getItem("__workspace")
   );
 
   const [loading, setIsLoading] = useState(false);
@@ -32,12 +33,16 @@ export default function useNotionData(backend: Backend): NotionData {
         setWorkSpace(data.workspace);
         setIsLoading(false);
       })
-      .catch(() => {
-        window.location.href = '/login#login';
+      .catch((error) => {
+        captureException(error);
+        window.location.href = "/login#login";
       });
   }, []);
 
   return {
-    loading, workSpace, connected, connectionLink,
+    loading,
+    workSpace,
+    connected,
+    connectionLink
   };
 }

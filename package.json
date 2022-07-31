@@ -12,6 +12,7 @@
     "axios": "^0.27.2",
     "bulma": "^0.9.4",
     "bulma-switch": "^2.0.0",
+    "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-app-rewired": "^2.2.1",
     "react-cookie": "^4.1.1",
@@ -28,7 +29,7 @@
   },
   "scripts": {
     "start": "REACT_SKIP_SENTRY=true react-scripts start",
-    "dev": "react-scripts start",
+    "dev": "react-scripts start --max_old_space_size=4096",
     "local": "REACT_APP_LOCALHOST=true react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-app-rewired build --max_old_space_size=4096",
     "test": "react-app-rewired test",

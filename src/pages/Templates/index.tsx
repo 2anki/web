@@ -1,15 +1,22 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import MonacoEditor from 'react-monaco-editor';
+import { useCookies } from 'react-cookie';
+import * as _ from 'lodash';
+
 import TemplateSelect from '../../components/TemplateSelect';
 import TemplateFile from '../../lib/types/TemplateFile';
 import isOfflineMode from '../../lib/isOfflineMode';
+import Backend from '../../lib/Backend';
 
 // Don't put in the render function, it gets recreated
 let files: TemplateFile[] = [];
+const ONE_SECOND_MS = 1000;
 
 async function fetchBaseType(name: string) {
-  if (isOfflineMode()) { return {}; }
+  if (isOfflineMode()) {
+    return {};
+  }
   const url = `/templates/${name}.json`;
   const request = await window.fetch(url);
   return request.json();
@@ -20,7 +27,9 @@ const options = {
   colorDecorators: false,
 };
 
+const backend = new Backend();
 function TemplatePage() {
+  const [token] = useCookies(['token']);
   const [code, setCode] = useState('');
   const [isFront, setIsFront] = useState(true);
   const [isBack, setIsBack] = useState(false);
@@ -28,7 +37,7 @@ function TemplatePage() {
   const [language, setLanguage] = useState('html');
 
   const [currentCardType, setCurrentCardType] = useState(
-    localStorage.getItem('current-card-type') || 'n2a-basic',
+    localStorage.getItem('current-card-type') || 'n2a-basic'
   );
   const [ready, setReady] = useState(false);
 
@@ -38,8 +47,11 @@ function TemplatePage() {
 
   const getCurrentCardType = useCallback(
     () => files.find((x) => x.storageKey === currentCardType),
-    [currentCardType],
+    [currentCardType]
   );
+
+  const debounceSaveTemplate = _.debounce(() => backend.saveTemplate(files), ONE_SECOND_MS);
+  useEffect(() => debounceSaveTemplate.cancel(), [debounceSaveTemplate]);
 
   const onChange = (newValue: string) => {
     const card = getCurrentCardType();
@@ -52,22 +64,27 @@ function TemplatePage() {
         card.styling = newValue;
       }
       localStorage.setItem(card.storageKey, JSON.stringify(card, null, 2));
+      if (token) {
+        debounceSaveTemplate(files);
+      }
     }
   };
 
   const fetchTemplates = useCallback(async () => {
     files = [];
     const templateTypes = ['n2a-basic', 'n2a-input', 'n2a-cloze'];
-    await Promise.all(templateTypes.map(async (name) => {
-      const local = localStorage.getItem(name);
-      if (local) {
-        files.push(JSON.parse(local));
-      } else {
-        const remote = await fetchBaseType(name);
-        files.push(remote);
-        localStorage.setItem(name, JSON.stringify(remote, null, 2));
-      }
-    }));
+    await Promise.all(
+      templateTypes.map(async (name) => {
+        const local = localStorage.getItem(name);
+        if (local) {
+          files.push(JSON.parse(local));
+        } else {
+          const remote = await fetchBaseType(name);
+          files.push(remote);
+          localStorage.setItem(name, JSON.stringify(remote, null, 2));
+        }
+      })
+    );
     setReady(true);
     setLanguage('html');
     // Use the first basic front template as default file to load.
@@ -127,13 +144,10 @@ function TemplatePage() {
           <>
             <p className="title">Template Manager</p>
             <hr />
-            <div className='is-warning notification'><strong>This page does not yet work with the Notion integration.</strong></div>
             <p className="subtitle">
               No saving required, everything is saved instantly! You can always
-              revert the template changes in the
-              {' '}
-              <Link to="/upload?view=template">settings</Link>
-              . Adding /
+              revert the template changes in the{' '}
+              <Link to="/upload?view=template">settings</Link>. Adding /
               removing fields and preview is coming soon.
             </p>
             <div className="field is-horizontal">
