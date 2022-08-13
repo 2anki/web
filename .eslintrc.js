@@ -1,12 +1,13 @@
 module.exports = {
-  extends: ["airbnb", "airbnb-typescript", "prettier"],
+  extends: ['airbnb', 'airbnb-typescript', 'prettier'],
   parserOptions: {
-    project: "./tsconfig.json",
+    project: './tsconfig.json',
     tsconfigRootDir: __dirname,
   },
   rules: {
-    "react/react-in-jsx-scope": "off",
-    "react/jsx-filename-extension": [1, { extensions: [".tsx"] }],
+    'import/prefer-default-export': 'off',
+    'react/react-in-jsx-scope': 'off',
+    'react/jsx-filename-extension': [1, { extensions: ['.tsx'] }],
   },
-  ignorePatterns: [".eslintrc.js"],
+  ignorePatterns: ['.eslintrc.js'],
 };
