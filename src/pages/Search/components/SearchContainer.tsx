@@ -14,13 +14,8 @@ interface SearchContentProps {
 
 export default function SearchContainer(props: SearchContentProps) {
   const { backend, notionData } = props;
-  const {
-    myPages,
-    inProgress,
-    triggerSearch,
-    isLoading,
-    setSearchQuery,
-  } = useSearchQuery(backend);
+  const { myPages, inProgress, triggerSearch, isLoading, setSearchQuery } =
+    useSearchQuery(backend);
 
   if (isLoading) return <LoadingPage />;
 

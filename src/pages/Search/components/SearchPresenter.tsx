@@ -10,18 +10,17 @@ import Backend from '../../../lib/Backend';
 interface SearchPresenterProps {
   inProgress: boolean;
   myPages: NotionObject[];
-  setSearchQuery: Dispatch<SetStateAction<string>>;
+  setSearchQuery: (value: string) => void;
   triggerSearch: (force: boolean) => void;
 }
 
 export default function SearchPresenter(props: SearchPresenterProps) {
   const history = useHistory();
-  const {
-    inProgress, myPages, setSearchQuery, triggerSearch,
-  } = props;
+  const { inProgress, myPages, setSearchQuery, triggerSearch } = props;
 
   const [favorites, setFavorites] = useFavorites(new Backend());
 
+  // TODO: replace this with react-router API
   return (
     <>
       <SearchBar
@@ -29,7 +28,7 @@ export default function SearchPresenter(props: SearchPresenterProps) {
         onSearchQueryChanged={(s) => {
           history.push({
             pathname: '/search',
-            search: `?q=${s}`,
+            search: `?q=${s}`
           });
           setSearchQuery(s);
         }}

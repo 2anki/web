@@ -12,15 +12,11 @@ import { ImposedLimits } from './components/ImposedLimits';
 
 const backend = new Backend();
 
-interface MyUploadsPageProps {
-  setError: (error: string) => void;
-}
-
-function MyUploadsPage({ setError }: MyUploadsPageProps) {
+function MyUploadsPage() {
   const [loading, uploads, deleteUpload, deleteAllUploads, isDeletingAll] =
-    useUploads(backend, setError);
-  const [activeJobs, deleteJob] = useActiveJobs(backend, setError);
-  const [isPatreon] = usePatreon(backend, setError);
+    useUploads(backend);
+  const [activeJobs, deleteJob] = useActiveJobs(backend);
+  const [isPatreon] = usePatreon(backend);
   const [quota] = useQuota(uploads);
 
   if (loading) {

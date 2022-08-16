@@ -11,6 +11,7 @@ class CardOptionsStore {
     if (loadDefaults) {
       this.syncLocalStorage();
     }
+    this.error = null;
   }
 
   public get(key: string): CardOption | undefined {

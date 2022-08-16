@@ -24,7 +24,7 @@ async function fetchBaseType(name: string) {
 
 const options = {
   minimap: { enabled: false },
-  colorDecorators: false,
+  colorDecorators: false
 };
 
 const backend = new Backend();
@@ -50,7 +50,10 @@ function TemplatePage() {
     [currentCardType]
   );
 
-  const debounceSaveTemplate = _.debounce(() => backend.saveTemplate(files), ONE_SECOND_MS);
+  const debounceSaveTemplate = _.debounce(
+    () => backend.saveTemplate(files),
+    ONE_SECOND_MS
+  );
   useEffect(() => debounceSaveTemplate.cancel(), [debounceSaveTemplate]);
 
   const onChange = (newValue: string) => {
@@ -65,7 +68,7 @@ function TemplatePage() {
       }
       localStorage.setItem(card.storageKey, JSON.stringify(card, null, 2));
       if (token) {
-        debounceSaveTemplate(files);
+        debounceSaveTemplate();
       }
     }
   };
@@ -156,7 +159,7 @@ function TemplatePage() {
                   <TemplateSelect
                     values={files.map((f) => ({
                       label: f.name,
-                      value: f.name,
+                      value: f.name
                     }))}
                     value={currentCardType}
                     name="current-card-type"

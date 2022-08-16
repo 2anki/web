@@ -20,7 +20,12 @@ class CardOption {
 
   description: string;
 
-  constructor(key, label, description, defaultValue = false) {
+  constructor(
+    key: string,
+    label: string,
+    description: string,
+    defaultValue = false
+  ) {
     this.key = key;
     this.label = label;
     this.description = description;

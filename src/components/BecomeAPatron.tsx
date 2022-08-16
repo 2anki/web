@@ -1,4 +1,4 @@
-import { StyledNavbarItem } from "./NavigationBar/styled";
+import { StyledNavbarItem } from './NavigationBar/styled';
 
 function BecomeAPatron() {
   return (

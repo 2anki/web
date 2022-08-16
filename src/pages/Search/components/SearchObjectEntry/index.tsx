@@ -1,6 +1,4 @@
-import {
-  Dispatch, SetStateAction, useContext, useState,
-} from 'react';
+import { Dispatch, SetStateAction, useContext, useState } from 'react';
 
 import Backend from '../../../../lib/Backend';
 import DefineRules from '../DefineRules';
@@ -16,9 +14,9 @@ import NotionObject from '../../../../lib/interfaces/NotionObject';
 const backend = new Backend();
 
 interface Props {
-  isFavorite: boolean;
+  isFavorite: boolean | undefined;
   title: string;
-  icon: string;
+  icon: string | undefined;
   url: string;
   id: string;
   type: string;
@@ -26,9 +24,7 @@ interface Props {
 }
 
 function SearchObjectEntry(props: Props) {
-  const {
-    title, icon, url, id, type, isFavorite, setFavorites,
-  } = props;
+  const { title, icon, url, id, type, isFavorite, setFavorites } = props;
   const [showSettings, setShowSettings] = useState(false);
   const store = useContext(StoreContext);
 

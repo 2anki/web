@@ -1,17 +1,15 @@
 import { useEffect, useRef } from 'react';
 
 interface Props {
-  downloadLink: string | undefined;
+  downloadLink: string | null | undefined;
   deckName: string | undefined;
   uploading: boolean;
 }
 
 function DownloadButton(props: Props) {
-  const {
-    downloadLink, deckName, uploading,
-  } = props;
+  const { downloadLink, deckName, uploading } = props;
   const isDownloadable = downloadLink && deckName;
-  const downloadRef = useRef(null);
+  const downloadRef = useRef<HTMLAnchorElement>(null);
 
   const className = `button cta
               ${isDownloadable ? 'is-primary' : 'is-light'} 
@@ -21,7 +19,7 @@ function DownloadButton(props: Props) {
 
   useEffect(() => {
     if (isReady) {
-      downloadRef.current.click();
+      downloadRef.current?.click();
     }
   }, [isReady, downloadRef]);
 
@@ -34,15 +32,25 @@ function DownloadButton(props: Props) {
           if (!isDownloadable) {
             event?.preventDefault();
           }
-          downloadRef.current.click();
+          downloadRef.current?.click();
         }}
         disabled={!isDownloadable}
       >
         Download
       </button>
-      <a hidden target="_blank" aria-label="download link" href={downloadLink} download={deckName} ref={downloadRef} rel="noreferrer">
-        {downloadLink}
-      </a>
+      {downloadLink && (
+        <a
+          hidden
+          target="_blank"
+          aria-label="download link"
+          href={downloadLink}
+          download={deckName}
+          ref={downloadRef}
+          rel="noreferrer"
+        >
+          {downloadLink}
+        </a>
+      )}
     </div>
   );
 }
