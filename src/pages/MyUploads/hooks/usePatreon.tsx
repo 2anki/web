@@ -1,7 +1,7 @@
 import { captureException } from '@sentry/react';
 import { useEffect, useState } from 'react';
 
-import Backend from '../../../lib/Backend';
+import Backend from '../../../lib/backend';
 
 export default function usePatreon(backend: Backend) {
   const [isPatron, setIsPatreon] = useState(false);

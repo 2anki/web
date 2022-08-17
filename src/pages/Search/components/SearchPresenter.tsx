@@ -5,7 +5,7 @@ import NotionObject from '../../../lib/interfaces/NotionObject';
 import ListSearchResults from './ListSearchResults';
 import Favorites from './Favorites';
 import useFavorites from '../helpers/useFavorites';
-import Backend from '../../../lib/Backend';
+import Backend from '../../../lib/backend';
 
 interface SearchPresenterProps {
   inProgress: boolean;

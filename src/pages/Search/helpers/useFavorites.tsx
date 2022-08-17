@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import Backend from '../../../lib/Backend';
+import Backend from '../../../lib/backend';
 import NotionObject from '../../../lib/interfaces/NotionObject';
 
 export default function useFavorites(

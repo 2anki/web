@@ -1,6 +1,6 @@
 import { captureException } from '@sentry/react';
 import { useEffect, useState } from 'react';
-import Backend from '../../../lib/Backend';
+import Backend from '../../../lib/backend';
 
 export interface NotionData {
   loading: boolean;

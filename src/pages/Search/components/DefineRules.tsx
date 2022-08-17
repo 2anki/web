@@ -11,9 +11,10 @@ import {
 import Switch from '../../../components/input/Switch';
 import SettingsModal from '../../../components/modals/SettingsModal';
 import TemplateSelect from '../../../components/TemplateSelect';
-import Backend from '../../../lib/Backend';
+import Backend from '../../../lib/backend';
 import NotionObject from '../../../lib/interfaces/NotionObject';
 import StoreContext from '../../../store/StoreContext';
+import { NewRule } from '../types';
 import RuleDefinition from './RuleDefinition';
 
 interface Props {
@@ -41,7 +42,10 @@ const deckOptions = ['page', 'database', ...subDeckOptions];
 const backend = new Backend();
 function DefineRules(props: Props) {
   const { type, id, setDone, parent, isFavorite, setFavorites } = props;
-  const [rules, setRules] = useState({
+  const [rules, setRules] = useState<NewRule>({
+    id: 0,
+    owner: 0,
+    object_id: '',
     flashcard_is: ['toggle'],
     sub_deck_is: ['child_page'],
     tags_is: 'strikethrough',
@@ -60,15 +64,18 @@ function DefineRules(props: Props) {
 
   const store = useContext(StoreContext);
 
+  // TODO: refactor into own hook
   useEffect(() => {
     backend
       .getRules(id)
-      .then((response) => {
-        if (response.data) {
-          const newRules = response.data;
-          newRules.flashcard_is = newRules.flashcard_is.split(',');
-          newRules.sub_deck_is = newRules.sub_deck_is.split(',');
-          newRules.deck_is = newRules.deck_is.split(',');
+      .then((rule) => {
+        if (rule) {
+          const newRules: NewRule = {
+            ...rule,
+            flashcard_is: rule.flashcard_is.split(','),
+            sub_deck_is: rule.sub_deck_is.split(','),
+            deck_is: rule.deck_is.split(',')
+          };
           setRules(newRules);
           setSendEmail(newRules.email_notification);
         }

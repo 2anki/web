@@ -1,10 +1,18 @@
-import ObjectTitle from '../types/ObjectTitle';
+import {
+  GetDatabaseResponse,
+  GetPageResponse
+} from '@notionhq/client/build/src/api-endpoints';
 
-export default function getObjectTitle(p: ObjectTitle): string {
+export default function getObjectTitle(
+  p: GetDatabaseResponse | GetPageResponse
+): string {
   try {
+    // TODO: remove the ignore lines
+    // @ts-ignore
     const { properties } = p;
-    // Database
+    // @ts-ignore
     if (p.object === 'database' && p.title) {
+      // @ts-ignore
       return p.title.map((text) => text.plain_text).join('');
     }
     if (!properties) {

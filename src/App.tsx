@@ -7,7 +7,6 @@ import '@fremtind/jkl-alert-message/alert-message.min.css';
 
 import { ErrorAlertMessage } from '@fremtind/jkl-alert-message-react';
 
-import { captureException } from '@sentry/react';
 import { useCookies } from 'react-cookie';
 import UploadPage from './pages/Upload';
 import HomePage from './pages/Home';
@@ -20,7 +19,7 @@ import NavigationBar from './components/NavigationBar/NavigationBar';
 import SettingsPage from './pages/Settings';
 import ImportPage from './pages/Import/ImportPage';
 import usePatreon from './pages/MyUploads/hooks/usePatreon';
-import Backend from './lib/Backend';
+import Backend from './lib/backend';
 import isOfflineMode from './lib/isOfflineMode';
 
 const TemplatePage = lazy(() => import('./pages/Templates'));
@@ -50,9 +49,7 @@ function App() {
   const store = useMemo(() => new CardOptionsStore(loadDefaults), []);
   const [errorMessage, setErrorMessage] = useState('');
   const [dismissed, setDismissed] = useState(false);
-  const [isPatron] = usePatreon(backend, (error) => {
-    captureException(error);
-  });
+  const [isPatron] = usePatreon(backend);
 
   return (
     <>
@@ -72,7 +69,7 @@ function App() {
               <ErrorAlertMessage
                 dismissed={dismissed}
                 dismissAction={{
-                  handleDismiss: () => setDismissed(true),
+                  handleDismiss: () => setDismissed(true)
                 }}
               >
                 {/* eslint-disable-next-line react/no-danger */}
@@ -81,7 +78,7 @@ function App() {
             )}
             <Switch>
               <Route path="/uploads">
-                <MyUploadsPage setError={setErrorMessage} />
+                <MyUploadsPage />
               </Route>
               <Route path="/verify">
                 <VerifyPage />

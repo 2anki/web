@@ -1,5 +1,5 @@
 import { PageContainer } from '../../../components/styled';
-import Backend from '../../../lib/Backend';
+import Backend from '../../../lib/backend';
 import LoadingPage from '../../Loading';
 
 import { NotionData } from '../helpers/useNotionData';

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { SyntheticEvent, useState } from 'react';
-import Backend from '../../lib/Backend';
+import { captureException } from '@sentry/react';
+import Backend from '../../lib/backend';
 
 const FormContainer = styled.div`
   max-width: 720px;
@@ -28,7 +29,8 @@ function ForgotPasswordForm({ setError }: ForgotPasswordProps) {
       setLoading(false);
       setDidReset(true);
     } catch (error) {
-      setError(error.response.data.message);
+      // TODO: handle
+      captureException(error);
       setLoading(false);
     }
   };

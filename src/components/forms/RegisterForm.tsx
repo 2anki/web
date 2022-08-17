@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { SyntheticEvent, useState } from 'react';
 import BetaMessage from '../BetaMessage';
-import Backend from '../../lib/Backend';
+import Backend from '../../lib/backend';
 
 const FormContainer = styled.div`
   max-width: 720px;
@@ -19,15 +19,14 @@ function RegisterForm({ setErrorMessage }: Props) {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const isValid = () => (
-    tos
-      && name.length > 0
-      && name.length < 256
-      && email.length > 0
-      && email.length < 256
-      && password.length > 7
-      && password.length < 256
-  );
+  const isValid = () =>
+    tos &&
+    name.length > 0 &&
+    name.length < 256 &&
+    email.length > 0 &&
+    email.length < 256 &&
+    password.length > 7 &&
+    password.length < 256;
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
@@ -41,11 +40,13 @@ function RegisterForm({ setErrorMessage }: Props) {
         window.location.href = '/verify';
       } else {
         setErrorMessage(
-          'Unknown error. Please try again or reach out to alexander@alemayhu.com for assistance if the issue persists.',
+          'Unknown error. Please try again or reach out to alexander@alemayhu.com for assistance if the issue persists.'
         );
       }
     } catch (error) {
-      setErrorMessage('Request failed. If you already have a user try login instead');
+      setErrorMessage(
+        'Request failed. If you already have a user try login instead'
+      );
       setLoading(false);
     }
   };
@@ -101,8 +102,7 @@ function RegisterForm({ setErrorMessage }: Props) {
                 </div>
                 <div className="field">
                   <label htmlFor="password" className="label">
-                    Password
-                    Minimum 8 characters
+                    Password Minimum 8 characters
                     <div className="control">
                       <input
                         name="password"
@@ -131,23 +131,19 @@ function RegisterForm({ setErrorMessage }: Props) {
                           setTos(event.target.checked);
                           localStorage.setItem(
                             'tos',
-                            event.target.checked.toString(),
+                            event.target.checked.toString()
                           );
                         }}
-                      />
-                      {' '}
-                      I agree to the
-                      {' '}
+                      />{' '}
+                      I agree to the{' '}
                       <a
                         rel="noreferrer"
                         target="_blank"
                         href="https://alemayhu.notion.site/Terms-of-services-931865161517453b99fb6495e400061d"
                       >
                         terms of service
-                      </a>
-                      {' '}
-                      and have read the
-                      {' '}
+                      </a>{' '}
+                      and have read the{' '}
                       <a
                         rel="noreferrer"
                         target="_blank"

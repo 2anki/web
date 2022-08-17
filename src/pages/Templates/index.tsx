@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 import TemplateSelect from '../../components/TemplateSelect';
 import TemplateFile from '../../lib/types/TemplateFile';
 import isOfflineMode from '../../lib/isOfflineMode';
-import Backend from '../../lib/Backend';
+import Backend from '../../lib/backend';
 
 // Don't put in the render function, it gets recreated
 let files: TemplateFile[] = [];

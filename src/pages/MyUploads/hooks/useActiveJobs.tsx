@@ -1,7 +1,7 @@
 import { captureException } from '@sentry/react';
 import { useEffect, useState } from 'react';
 
-import Backend from '../../../lib/Backend';
+import Backend from '../../../lib/backend';
 import UserJob from '../../../lib/interfaces/UserJob';
 
 export default function useActiveJobs(

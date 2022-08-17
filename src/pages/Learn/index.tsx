@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Container, PageContainer } from '../../components/styled';
-import Backend from '../../lib/Backend';
+import Backend from '../../lib/backend';
+import NotionObject from '../../lib/interfaces/NotionObject';
+import { BlockType, ChildrenType } from './types';
 import Wrapper from './Wrapper';
 
 interface Props {
@@ -9,11 +11,11 @@ interface Props {
 
 const backend = new Backend();
 function LearnPage({ setError }: Props) {
-  const [parentId, setParentId] = useState(null);
-  const [children, setChildren] = useState([]);
-  const [page, setPage] = useState(null);
-  const [block, setBlock] = useState(null);
-  const [grandChild, setGrandChild] = useState(null);
+  const [parentId, setParentId] = useState<string | null>(null);
+  const [children, setChildren] = useState<ChildrenType>([]);
+  const [page, setPage] = useState<NotionObject | null>(null);
+  const [block, setBlock] = useState<BlockType>(null);
+  const [grandChild, setGrandChild] = useState<ChildrenType>(null); // TODO: rename to grandChildren?
   const [location, setLocation] = useState(0);
 
   // Load parent page based on id
@@ -47,7 +49,9 @@ function LearnPage({ setError }: Props) {
   }, [page]);
 
   useEffect(() => {
-    setBlock(children[location]);
+    if (children) {
+      setBlock(children[location]);
+    }
   }, [children, location]);
 
   useEffect(() => {
@@ -79,7 +83,7 @@ function LearnPage({ setError }: Props) {
             style={{
               display: 'flex',
               alignItems: 'center',
-              flexDirection: 'column',
+              flexDirection: 'column'
             }}
           >
             {block && (
@@ -90,16 +94,9 @@ function LearnPage({ setError }: Props) {
                 <pre>{JSON.stringify(grandChild, null, 2)}</pre>
               </>
             )}
-            <progress
-              id="file"
-              value={location + 1}
-              max={children.length}
-            />
+            <progress id="file" value={location + 1} max={children.length} />
             <span style={{ fontSize: '11px' }}>
-              {location + 1}
-              {' '}
-              /
-              {children.length}
+              {location + 1} /{children.length}
             </span>
           </div>
         </Wrapper>

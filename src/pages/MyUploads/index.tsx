@@ -1,5 +1,5 @@
 import UploadObjectEntry from './components/UploadObjectEntry';
-import Backend from '../../lib/Backend';
+import Backend from '../../lib/backend';
 import ActiveJobs from './components/ActiveJobs';
 
 import useUploads from './hooks/useUploads';

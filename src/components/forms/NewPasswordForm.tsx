@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { SyntheticEvent, useState } from 'react';
-import Backend from '../../lib/Backend';
+import { captureException } from '@sentry/react';
+import Backend from '../../lib/backend';
 
 const FormContainer = styled.div`
   max-width: 720px;
@@ -16,7 +17,8 @@ function NewPasswordForm({ setErrorMessage }: Props) {
   const [passwd, setPasswd] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const isValid = () => password === passwd && password.length > 0 && password.length < 256;
+  const isValid = () =>
+    password === passwd && password.length > 0 && password.length < 256;
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
@@ -33,7 +35,8 @@ function NewPasswordForm({ setErrorMessage }: Props) {
       }
       setLoading(false);
     } catch (error) {
-      setErrorMessage(error.response.data.message);
+      // TODO: error handlign
+      captureException(error);
       setLoading(false);
     }
   };

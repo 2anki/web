@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useContext, useState } from 'react';
 
-import Backend from '../../../../lib/Backend';
+import Backend from '../../../../lib/backend';
 import DefineRules from '../DefineRules';
 
 import ObjectActions from '../actions/ObjectActions';

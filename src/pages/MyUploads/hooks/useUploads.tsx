@@ -1,7 +1,7 @@
 import { captureException } from '@sentry/react';
 import { useState, useEffect } from 'react';
 
-import Backend from '../../../lib/Backend';
+import Backend from '../../../lib/backend';
 import UserUpload from '../../../lib/interfaces/UserUpload';
 
 export default function useUploads(

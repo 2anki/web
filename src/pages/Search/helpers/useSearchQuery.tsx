@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import Backend from '../../../lib/Backend';
+import Backend from '../../../lib/backend';
 import useQuery from '../../../lib/hooks/useQuery';
 import NotionObject from '../../../lib/interfaces/NotionObject';
 
