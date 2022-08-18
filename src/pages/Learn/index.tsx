@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { ErrorHandlerType } from '../../components/errors/helpers/types';
 import { Container, PageContainer } from '../../components/styled';
 import Backend from '../../lib/backend';
 import NotionObject from '../../lib/interfaces/NotionObject';
@@ -6,7 +7,7 @@ import { BlockType, ChildrenType } from './types';
 import Wrapper from './Wrapper';
 
 interface Props {
-  setError: (error: string) => void;
+  setError: ErrorHandlerType;
 }
 
 const backend = new Backend();

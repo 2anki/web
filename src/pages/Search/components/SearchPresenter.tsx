@@ -1,5 +1,4 @@
 import { useHistory } from 'react-router-dom';
-import { Dispatch, SetStateAction } from 'react';
 import SearchBar from './SearchBar';
 import NotionObject from '../../../lib/interfaces/NotionObject';
 import ListSearchResults from './ListSearchResults';

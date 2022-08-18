@@ -1,8 +1,9 @@
+import { ErrorHandlerType } from '../../components/errors/helpers/types';
 import NewPassordForm from '../../components/forms/NewPasswordForm';
 import { Container } from '../../components/styled';
 
 interface Props {
-  setErrorMessage: (message: string) => void;
+  setErrorMessage: ErrorHandlerType;
 }
 
 function NewPasswordPage({ setErrorMessage }: Props) {

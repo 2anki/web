@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { SyntheticEvent, useState } from 'react';
 import { captureException } from '@sentry/react';
 import Backend from '../../lib/backend';
+import { ErrorHandlerType } from '../errors/helpers/types';
 
 const FormContainer = styled.div`
   max-width: 720px;
@@ -9,7 +10,7 @@ const FormContainer = styled.div`
 `;
 
 interface ForgotPasswordProps {
-  setError: (errorMessage: string) => void;
+  setError: ErrorHandlerType;
 }
 
 function ForgotPasswordForm({ setError }: ForgotPasswordProps) {

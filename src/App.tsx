@@ -5,9 +5,8 @@ import styled from 'styled-components';
 import '@fremtind/jkl-accordion/accordion.min.css';
 import '@fremtind/jkl-alert-message/alert-message.min.css';
 
-import { ErrorAlertMessage } from '@fremtind/jkl-alert-message-react';
-
 import { useCookies } from 'react-cookie';
+import { captureException } from '@sentry/react';
 import UploadPage from './pages/Upload';
 import HomePage from './pages/Home';
 
@@ -21,6 +20,8 @@ import ImportPage from './pages/Import/ImportPage';
 import usePatreon from './pages/MyUploads/hooks/usePatreon';
 import Backend from './lib/backend';
 import isOfflineMode from './lib/isOfflineMode';
+import { ErrorPresenter } from './components/errors/ErrorPresenter';
+import { ErrorType } from './components/errors/helpers/types';
 
 const TemplatePage = lazy(() => import('./pages/Templates'));
 const PreSignupPage = lazy(() => import('./pages/Register'));
@@ -47,9 +48,14 @@ function App() {
 
   const loadDefaults = localStorage.getItem('skip-defaults') !== 'true';
   const store = useMemo(() => new CardOptionsStore(loadDefaults), []);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [dismissed, setDismissed] = useState(false);
+  const [apiError, setError] = useState<ErrorType | null>(null);
   const [isPatron] = usePatreon(backend);
+
+  const handledError = (error: ErrorType) => {
+    const errorMessage = typeof error === 'string' ? new Error(error) : error;
+    captureException(errorMessage);
+    setError(errorMessage);
+  };
 
   return (
     <>
@@ -65,17 +71,7 @@ function App() {
                 ) : null
               }
             />
-            {errorMessage && (
-              <ErrorAlertMessage
-                dismissed={dismissed}
-                dismissAction={{
-                  handleDismiss: () => setDismissed(true)
-                }}
-              >
-                {/* eslint-disable-next-line react/no-danger */}
-                <div dangerouslySetInnerHTML={{ __html: errorMessage }} />
-              </ErrorAlertMessage>
-            )}
+            <ErrorPresenter error={apiError} />
             <Switch>
               <Route path="/uploads">
                 <MyUploadsPage />
@@ -84,14 +80,14 @@ function App() {
                 <VerifyPage />
               </Route>
               <Route path="/learn">
-                <LearnPage setError={setErrorMessage} />
+                <LearnPage setError={handledError} />
               </Route>
               <Route path="/tm">
                 <TemplatePage />
               </Route>
               <Route path="/upload">
                 <UploadPage
-                  setErrorMessage={setErrorMessage}
+                  setErrorMessage={handledError}
                   isPatron={isPatron}
                 />
               </Route>
@@ -102,10 +98,10 @@ function App() {
                 <SearchPage isPatron={isPatron} />
               </Route>
               <Route path="/login">
-                <LoginPage setErrorMessage={setErrorMessage} />
+                <LoginPage setErrorMessage={handledError} />
               </Route>
               <Route path="/users/r/:id">
-                <NewPasswordPage setErrorMessage={setErrorMessage} />
+                <NewPasswordPage setErrorMessage={handledError} />
               </Route>
               <Route path="/settings">
                 <SettingsPage />

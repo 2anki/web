@@ -1,4 +1,3 @@
-import { captureException } from '@sentry/react';
 import {
   SyntheticEvent,
   useCallback,
@@ -6,13 +5,14 @@ import {
   useRef,
   useState
 } from 'react';
+import { ErrorHandlerType } from '../../../components/errors/helpers/types';
 import getHeadersFilename from '../helpers/getHeadersFilename';
 import isAboveFreeTier from '../helpers/isAboveFreeTier';
 import DownloadButton from './DownloadButton';
 import DropParagraph from './DropParagraph';
 
 interface UploadFormProps {
-  setErrorMessage: (errorMessage: string) => void;
+  setErrorMessage: ErrorHandlerType;
   isPatron: boolean;
 }
 
@@ -106,13 +106,8 @@ function UploadForm({ setErrorMessage, isPatron }: UploadFormProps) {
       setDownloadLink(window.URL.createObjectURL(blob));
       setUploading(false);
     } catch (error) {
-      captureException(error);
       setDownloadLink(null);
-      let msg = 'Something went wrong';
-      if (error instanceof Error) {
-        msg = `<h1 class='title is-4'>${error.message}</h1><pre>${error.stack}</pre>`;
-      }
-      setErrorMessage(msg);
+      setErrorMessage(error as Error);
       setUploading(false);
       return false;
     }

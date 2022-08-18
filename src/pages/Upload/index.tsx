@@ -16,9 +16,10 @@ import {
   UploadContainer
 } from './styled';
 import { PageContainer } from '../../components/styled';
+import { ErrorHandlerType } from '../../components/errors/helpers/types';
 
 interface Props {
-  setErrorMessage: (message: string) => void;
+  setErrorMessage: ErrorHandlerType;
   isPatron: boolean;
 }
 

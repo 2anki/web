@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import { SyntheticEvent, useState } from 'react';
 
 import { useCookies } from 'react-cookie';
-import axios from 'axios';
-import { captureException } from '@sentry/react';
 import BetaMessage from '../BetaMessage';
 import Backend from '../../lib/backend';
+import { ErrorHandlerType, ErrorType } from '../errors/helpers/types';
+import { getErrorMessage } from '../errors/helpers/getErrorMessage';
 
 const FormContainer = styled.div`
   max-width: 720px;
@@ -14,7 +14,7 @@ const FormContainer = styled.div`
 
 interface LoginFormProps {
   onForgotPassword: () => void;
-  onError: (errorMessage: string) => void;
+  onError: ErrorHandlerType;
 }
 
 function LoginForm({ onForgotPassword, onError }: LoginFormProps) {
@@ -43,23 +43,11 @@ function LoginForm({ onForgotPassword, onError }: LoginFormProps) {
       }
       setLoading(false);
     } catch (error) {
-      // TODO: handle
-      captureException(error);
-      if (axios.isAxiosError(error)) {
-        const { response } = error;
-        if (response && response.data) {
-          // @ts-ignore
-          const { message } = response.data;
-          if (message === 'not verified') {
-            window.location.href = '/verify';
-          } else {
-            onError(message);
-          }
-        } else {
-          onError(
-            'Request failed. Do you remember your password? If not click forgot my password.'
-          );
-        }
+      const errorMessage = getErrorMessage(error as ErrorType);
+      if (errorMessage.includes('not verified')) {
+        window.location.href = '/verify';
+      } else {
+        onError(error as ErrorType);
       }
       setLoading(false);
     }

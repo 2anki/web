@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { SyntheticEvent, useState } from 'react';
-import { captureException } from '@sentry/react';
 import Backend from '../../lib/backend';
+import { ErrorHandlerType } from '../errors/helpers/types';
 
 const FormContainer = styled.div`
   max-width: 720px;
@@ -9,7 +9,7 @@ const FormContainer = styled.div`
 `;
 
 interface Props {
-  setErrorMessage: (errorMessage: string) => void;
+  setErrorMessage: ErrorHandlerType;
 }
 
 function NewPasswordForm({ setErrorMessage }: Props) {
@@ -35,8 +35,7 @@ function NewPasswordForm({ setErrorMessage }: Props) {
       }
       setLoading(false);
     } catch (error) {
-      // TODO: error handlign
-      captureException(error);
+      setErrorMessage(error as Error);
       setLoading(false);
     }
   };
