@@ -25,6 +25,7 @@ export default function SearchContainer(props: SearchContentProps) {
     <PageContainer>
       <WorkSpaceHeader notionData={notionData} />
       <SearchPresenter
+        setError={setError}
         myPages={myPages}
         inProgress={inProgress}
         setSearchQuery={setSearchQuery}

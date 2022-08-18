@@ -4,14 +4,11 @@ import CardOption from './CardOption';
 class CardOptionsStore {
   public options: CardOption[];
 
-  public error: Error | null;
-
   constructor(loadDefaults: boolean) {
     this.options = supportedOptions();
     if (loadDefaults) {
       this.syncLocalStorage();
     }
-    this.error = null;
   }
 
   public get(key: string): CardOption | undefined {

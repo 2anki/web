@@ -1,19 +1,15 @@
 import { Accordion, AccordionItem } from '@fremtind/jkl-accordion-react';
-import { captureException } from '@sentry/react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState
-} from 'react';
+  ErrorHandlerType,
+  ErrorType
+} from '../../../components/errors/helpers/types';
 
 import Switch from '../../../components/input/Switch';
 import SettingsModal from '../../../components/modals/SettingsModal';
 import TemplateSelect from '../../../components/TemplateSelect';
 import Backend from '../../../lib/backend';
 import NotionObject from '../../../lib/interfaces/NotionObject';
-import StoreContext from '../../../store/StoreContext';
 import { NewRule } from '../types';
 import RuleDefinition from './RuleDefinition';
 
@@ -24,6 +20,7 @@ interface Props {
   parent: string;
   isFavorite: boolean | undefined;
   setFavorites: Dispatch<SetStateAction<NotionObject[]>>;
+  setError: ErrorHandlerType;
 }
 
 const flashCardOptions = [
@@ -41,7 +38,8 @@ const deckOptions = ['page', 'database', ...subDeckOptions];
 
 const backend = new Backend();
 function DefineRules(props: Props) {
-  const { type, id, setDone, parent, isFavorite, setFavorites } = props;
+  const { type, id, setDone, parent, isFavorite, setFavorites, setError } =
+    props;
   const [rules, setRules] = useState<NewRule>({
     id: 0,
     owner: 0,
@@ -62,8 +60,6 @@ function DefineRules(props: Props) {
   const [more, setMore] = useState(false);
   const [favorite, setFavorite] = useState(isFavorite);
 
-  const store = useContext(StoreContext);
-
   // TODO: refactor into own hook
   useEffect(() => {
     backend
@@ -82,7 +78,7 @@ function DefineRules(props: Props) {
         setIsloading(false);
       })
       .catch((error) => {
-        store.error = error;
+        setError(error as ErrorType);
       });
   }, [id]);
 
@@ -106,8 +102,7 @@ function DefineRules(props: Props) {
       );
       setDone();
     } catch (error) {
-      // TODO: handle this error
-      captureException(error);
+      setError(error as ErrorType);
     }
   };
 
@@ -185,6 +180,7 @@ function DefineRules(props: Props) {
             <>
               {more && (
                 <SettingsModal
+                  setError={setError}
                   pageId={id}
                   pageTitle={parent}
                   isActive={more}

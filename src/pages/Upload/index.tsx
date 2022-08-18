@@ -77,6 +77,7 @@ function UploadPage({ setErrorMessage, isPatron }: Props) {
               . Notion API support is in the works and coming soon!
             </InfoMessage>
             <SettingsModal
+              setError={setErrorMessage}
               pageId={null}
               isActive={isSettings}
               onClickClose={() => {

@@ -6,6 +6,7 @@ import { SettingsPayload } from '../../lib/types';
 
 import StoreContext from '../../store/StoreContext';
 import BlueTintedBox from '../BlueTintedBox';
+import { ErrorHandlerType, ErrorType } from '../errors/helpers/types';
 import FontSizePicker from '../FontSizePicker';
 import LocalCheckbox from '../LocalCheckbox';
 import TemplateName from '../TemplateName';
@@ -56,10 +57,17 @@ interface Props {
   pageId: string | null;
   isActive: boolean;
   onClickClose: React.MouseEventHandler;
+  setError: ErrorHandlerType;
 }
 
 const backend = new Backend();
-function SettingsModal({ pageTitle, pageId, isActive, onClickClose }: Props) {
+function SettingsModal({
+  pageTitle,
+  pageId,
+  isActive,
+  onClickClose,
+  setError
+}: Props) {
   const [settings, setSettings] = useState<SettingsPayload>({});
   const [loading, setLoading] = useState(!!pageId);
   const deckNameKey = 'deckName';
@@ -113,7 +121,7 @@ function SettingsModal({ pageTitle, pageId, isActive, onClickClose }: Props) {
           setLoading(false);
         })
         .catch((error) => {
-          store.error = error;
+          setError(error as ErrorType);
         });
     }
   }, [pageId]);
@@ -161,7 +169,7 @@ function SettingsModal({ pageTitle, pageId, isActive, onClickClose }: Props) {
         onClickClose(event);
       })
       .catch((error) => {
-        store.error = error;
+        setError(error);
       });
   };
   return (
