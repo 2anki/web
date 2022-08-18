@@ -16,7 +16,7 @@ function LearnPage({ setError }: Props) {
   const [children, setChildren] = useState<ChildrenType>([]);
   const [page, setPage] = useState<NotionObject | null>(null);
   const [block, setBlock] = useState<BlockType>(null);
-  const [grandChild, setGrandChild] = useState<ChildrenType>(null); // TODO: rename to grandChildren?
+  const [grandChildren, setGrandChildren] = useState<ChildrenType>(null);
   const [location, setLocation] = useState(0);
 
   // Load parent page based on id
@@ -58,7 +58,7 @@ function LearnPage({ setError }: Props) {
   useEffect(() => {
     if (block) {
       backend.getBlocks(block.id).then((response) => {
-        setGrandChild(response.results);
+        setGrandChildren(response.results);
       });
     }
   }, [block]);
@@ -92,7 +92,7 @@ function LearnPage({ setError }: Props) {
                 <h1 className="title">{block.id}</h1>
                 <pre>{JSON.stringify(block, null, 4)}</pre>
                 <hr />
-                <pre>{JSON.stringify(grandChild, null, 2)}</pre>
+                <pre>{JSON.stringify(grandChildren, null, 2)}</pre>
               </>
             )}
             <progress id="file" value={location + 1} max={children.length} />

@@ -49,13 +49,12 @@ function App() {
   const loadDefaults = localStorage.getItem('skip-defaults') !== 'true';
   const store = useMemo(() => new CardOptionsStore(loadDefaults), []);
   const [apiError, setError] = useState<ErrorType | null>(null);
-  const [isPatron] = usePatreon(backend);
-
   const handledError = (error: ErrorType) => {
     const errorMessage = typeof error === 'string' ? new Error(error) : error;
     captureException(errorMessage);
     setError(errorMessage);
   };
+  const [isPatron] = usePatreon(backend, handledError);
 
   return (
     <>

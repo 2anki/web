@@ -24,8 +24,6 @@ export interface Favorite {
 
 export type SettingsPayload = { [key: string]: string };
 
-// TODO: add more types from lib/types
-
 export interface ActiveJob {
   object_id: string;
   status: string;
