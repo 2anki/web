@@ -5,9 +5,9 @@ import { useCookies } from 'react-cookie';
 import * as _ from 'lodash';
 
 import TemplateSelect from '../../components/TemplateSelect';
-import TemplateFile from '../../lib/types/TemplateFile';
 import isOfflineMode from '../../lib/isOfflineMode';
 import Backend from '../../lib/backend';
+import { TemplateFile } from '../../lib/types';
 
 // Don't put in the render function, it gets recreated
 let files: TemplateFile[] = [];

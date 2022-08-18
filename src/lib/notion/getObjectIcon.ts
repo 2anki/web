@@ -1,4 +1,4 @@
-import ObjectIcon from '../types/ObjectIcon';
+import { ObjectIcon } from '../types';
 
 export default function getObjectIcon(p: ObjectIcon): string {
   if (!p || !p.icon) {

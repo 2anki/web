@@ -15,8 +15,7 @@ import getObjectIcon from '../notion/getObjectIcon';
 import getObjectTitle from '../notion/getObjectTitle';
 import isOfflineMode from '../isOfflineMode';
 import handleRedirect from '../handleRedirect';
-import TemplateFile from '../types/TemplateFile';
-import { Favorite, Rules, Settings } from '../types';
+import { Favorite, Rules, Settings, TemplateFile } from '../types';
 
 class Backend {
   baseURL: string;
