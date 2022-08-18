@@ -1,3 +1,4 @@
+import { ErrorHandlerType } from '../../../components/errors/helpers/types';
 import { PageContainer } from '../../../components/styled';
 import Backend from '../../../lib/backend';
 import LoadingPage from '../../Loading';
@@ -10,12 +11,13 @@ import WorkSpaceHeader from './WorkspaceHeader';
 interface SearchContentProps {
   backend: Backend;
   notionData: NotionData;
+  setError: ErrorHandlerType;
 }
 
 export default function SearchContainer(props: SearchContentProps) {
-  const { backend, notionData } = props;
+  const { backend, notionData, setError } = props;
   const { myPages, inProgress, triggerSearch, isLoading, setSearchQuery } =
-    useSearchQuery(backend);
+    useSearchQuery(backend, setError);
 
   if (isLoading) return <LoadingPage />;
 

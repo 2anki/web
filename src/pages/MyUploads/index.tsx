@@ -9,13 +9,18 @@ import useActiveJobs from './hooks/useActiveJobs';
 import { Container, PageContainer } from '../../components/styled';
 import LoadingPage from '../Loading';
 import { ImposedLimits } from './components/ImposedLimits';
+import { ErrorHandlerType } from '../../components/errors/helpers/types';
 
 const backend = new Backend();
 
-function MyUploadsPage() {
+interface MyUploadsPageProps {
+  setError: ErrorHandlerType;
+}
+
+function MyUploadsPage({ setError }: MyUploadsPageProps) {
   const [loading, uploads, deleteUpload, deleteAllUploads, isDeletingAll] =
     useUploads(backend);
-  const [activeJobs, deleteJob] = useActiveJobs(backend);
+  const [activeJobs, deleteJob] = useActiveJobs(backend, setError);
   const [isPatreon] = usePatreon(backend);
   const [quota] = useQuota(uploads);
 

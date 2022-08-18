@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { ErrorHandlerType } from '../../../components/errors/helpers/types';
 
 import Backend from '../../../lib/backend';
 import useQuery from '../../../lib/hooks/useQuery';
@@ -12,7 +13,10 @@ interface SearchQuery {
   setSearchQuery: (value: string) => void;
 }
 
-export default function useSearchQuery(backend: Backend): SearchQuery {
+export default function useSearchQuery(
+  backend: Backend,
+  setError: ErrorHandlerType
+): SearchQuery {
   const query = useQuery();
 
   const [searchQuery, setSearchQuery] = useState<string>(query.get('q') || '');
@@ -33,8 +37,8 @@ export default function useSearchQuery(backend: Backend): SearchQuery {
           setInProgress(false);
           setIsLoading(false);
         })
-        .catch(() => {
-          // TODO: proper error handling
+        .catch((error) => {
+          setError(error);
           setIsLoading(false);
           setInProgress(false);
         });

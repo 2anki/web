@@ -74,7 +74,7 @@ function App() {
             <ErrorPresenter error={apiError} />
             <Switch>
               <Route path="/uploads">
-                <MyUploadsPage />
+                <MyUploadsPage setError={handledError} />
               </Route>
               <Route path="/verify">
                 <VerifyPage />
@@ -95,7 +95,7 @@ function App() {
                 <PreSignupPage />
               </Route>
               <Route path="/search">
-                <SearchPage isPatron={isPatron} />
+                <SearchPage setError={handledError} isPatron={isPatron} />
               </Route>
               <Route path="/login">
                 <LoginPage setErrorMessage={handledError} />

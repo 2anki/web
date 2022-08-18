@@ -1,11 +1,15 @@
-import { captureException } from '@sentry/react';
 import { useEffect, useState } from 'react';
+import {
+  ErrorHandlerType,
+  ErrorType
+} from '../../../components/errors/helpers/types';
 
 import Backend from '../../../lib/backend';
 import UserJob from '../../../lib/interfaces/UserJob';
 
 export default function useActiveJobs(
-  backend: Backend
+  backend: Backend,
+  setError: ErrorHandlerType
 ): [UserJob[], (id: string) => void] {
   const [jobs, setJobs] = useState<UserJob[]>([]);
 
@@ -14,8 +18,7 @@ export default function useActiveJobs(
       await backend.deleteJob(id);
       setJobs(jobs.filter((job: UserJob) => job.object_id !== id));
     } catch (error) {
-      // TODO: handle error
-      captureException(error);
+      setError(error as ErrorType);
     }
   }
 
@@ -25,8 +28,7 @@ export default function useActiveJobs(
         const active = await backend.getActiveJobs();
         setJobs(active);
       } catch (error) {
-        // TODO: handle error
-        captureException(error);
+        setError(error as ErrorType);
       }
     }
     fetchJobs();

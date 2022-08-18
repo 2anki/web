@@ -4,13 +4,15 @@ import useNotionData from './helpers/useNotionData';
 import Backend from '../../lib/backend';
 import ConnectNotion from './components/ConnectNotion';
 import LoadingPage from '../Loading';
+import { ErrorHandlerType } from '../../components/errors/helpers/types';
 
 interface SearchPageProps {
   isPatron: boolean;
+  setError: ErrorHandlerType;
 }
 
 const backend = new Backend();
-function SearchPage({ isPatron }: SearchPageProps) {
+function SearchPage({ isPatron, setError }: SearchPageProps) {
   const notionData = useNotionData(backend);
   if (notionData.loading) {
     return <LoadingPage />;
@@ -23,7 +25,11 @@ function SearchPage({ isPatron }: SearchPageProps) {
       <NavigationBar isPatron={isPatron} />
       {!connected && <ConnectNotion connectionLink={connectionLink} />}
       {connected && (
-        <SearchContainer notionData={notionData} backend={backend} />
+        <SearchContainer
+          notionData={notionData}
+          backend={backend}
+          setError={setError}
+        />
       )}
     </>
   );
