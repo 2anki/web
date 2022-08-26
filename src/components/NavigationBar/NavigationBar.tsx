@@ -4,7 +4,7 @@ import { useCookies } from 'react-cookie';
 
 import getNavbarStartNewUser from './helpers/getNavbarStartNewUser';
 import NavButtonCTA from '../buttons/NavButtonCTA';
-import Backend from '../../lib/Backend';
+import Backend from '../../lib/backend';
 import NavbarItem from './NavbarItem';
 import { Navbar } from './styled';
 import getNavbarStartRegularUser from './helpers/getNavbarStartRegularUser';

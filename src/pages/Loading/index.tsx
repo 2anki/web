@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { useInterval } from "usehooks-ts";
-import styled from "styled-components";
+import { useState } from 'react';
+import { useInterval } from 'usehooks-ts';
+import styled from 'styled-components';
 
-import LoadingBar from "../../components/LoadingBar";
+import LoadingBar from '../../components/LoadingBar';
 
 const StyledLoader = styled.div`
   display: flex;
@@ -22,7 +22,7 @@ export default function LoadingPage() {
     <StyledLoader>
       <LoadingBar
         value={loading}
-        texts={["Doing magic", "Just a moment", "Almost done"]}
+        texts={['Doing magic', 'Just a moment', 'Almost done']}
       />
     </StyledLoader>
   );

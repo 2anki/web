@@ -9,7 +9,7 @@ function loadOption(key: string, defaultValue: boolean): boolean {
   if (value === null) {
     return defaultValue;
   }
-  return value === "true";
+  return value === 'true';
 }
 class CardOption {
   key: string;
@@ -20,7 +20,12 @@ class CardOption {
 
   description: string;
 
-  constructor(key, label, description, defaultValue = false) {
+  constructor(
+    key: string,
+    label: string,
+    description: string,
+    defaultValue = false
+  ) {
     this.key = key;
     this.label = label;
     this.description = description;

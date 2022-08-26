@@ -1,18 +1,16 @@
 import { Accordion, AccordionItem } from '@fremtind/jkl-accordion-react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+  ErrorHandlerType,
+  ErrorType
+} from '../../../components/errors/helpers/types';
 
 import Switch from '../../../components/input/Switch';
 import SettingsModal from '../../../components/modals/SettingsModal';
 import TemplateSelect from '../../../components/TemplateSelect';
-import Backend from '../../../lib/Backend';
+import Backend from '../../../lib/backend';
 import NotionObject from '../../../lib/interfaces/NotionObject';
-import StoreContext from '../../../store/StoreContext';
+import { NewRule } from '../types';
 import RuleDefinition from './RuleDefinition';
 
 interface Props {
@@ -20,8 +18,9 @@ interface Props {
   id: string;
   setDone: () => void;
   parent: string;
-  isFavorite: boolean;
+  isFavorite: boolean | undefined;
   setFavorites: Dispatch<SetStateAction<NotionObject[]>>;
+  setError: ErrorHandlerType;
 }
 
 const flashCardOptions = [
@@ -31,7 +30,7 @@ const flashCardOptions = [
   'heading_1',
   'heading_2',
   'heading_3',
-  'column_list',
+  'column_list'
 ];
 const tagOptions = ['heading', 'strikethrough'];
 const subDeckOptions = ['child_page', ...flashCardOptions];
@@ -39,15 +38,17 @@ const deckOptions = ['page', 'database', ...subDeckOptions];
 
 const backend = new Backend();
 function DefineRules(props: Props) {
-  const {
-    type, id, setDone, parent, isFavorite, setFavorites,
-  } = props;
-  const [rules, setRules] = useState({
+  const { type, id, setDone, parent, isFavorite, setFavorites, setError } =
+    props;
+  const [rules, setRules] = useState<NewRule>({
+    id: 0,
+    owner: 0,
+    object_id: '',
     flashcard_is: ['toggle'],
     sub_deck_is: ['child_page'],
     tags_is: 'strikethrough',
     deck_is: ['page', 'database'],
-    email_notification: false,
+    email_notification: false
   });
 
   const [isLoading, setIsloading] = useState(true);
@@ -59,28 +60,31 @@ function DefineRules(props: Props) {
   const [more, setMore] = useState(false);
   const [favorite, setFavorite] = useState(isFavorite);
 
-  const store = useContext(StoreContext);
-
+  // TODO: refactor into own hook
   useEffect(() => {
     backend
       .getRules(id)
-      .then((response) => {
-        if (response.data) {
-          const newRules = response.data;
-          newRules.flashcard_is = newRules.flashcard_is.split(',');
-          newRules.sub_deck_is = newRules.sub_deck_is.split(',');
-          newRules.deck_is = newRules.deck_is.split(',');
+      .then((rule) => {
+        if (rule) {
+          const newRules: NewRule = {
+            ...rule,
+            flashcard_is: rule.flashcard_is.split(','),
+            sub_deck_is: rule.sub_deck_is.split(','),
+            deck_is: rule.deck_is.split(',')
+          };
           setRules(newRules);
           setSendEmail(newRules.email_notification);
         }
         setIsloading(false);
       })
       .catch((error) => {
-        store.error = error;
+        setError(error as ErrorType);
       });
   }, [id]);
 
-  const saveRules = async (event) => {
+  const saveRules = async (
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
     event.preventDefault();
     if (isLoading) {
       return;
@@ -94,11 +98,11 @@ function DefineRules(props: Props) {
         rules.deck_is,
         rules.sub_deck_is,
         tags,
-        sendEmail,
+        sendEmail
       );
       setDone();
     } catch (error) {
-      store.error = error;
+      setError(error as ErrorType);
     }
   };
 
@@ -109,7 +113,9 @@ function DefineRules(props: Props) {
     } else if (included) {
       rules.flashcard_is = rules.flashcard_is.filter((f) => f !== fco);
     }
-    setFlashcard((prevState) => Array.from(new Set([...prevState, ...rules.flashcard_is])));
+    setFlashcard((prevState) =>
+      Array.from(new Set([...prevState, ...rules.flashcard_is]))
+    );
   };
 
   const onSelectedSubDeckTypes = (fco: string) => {
@@ -119,7 +125,9 @@ function DefineRules(props: Props) {
     } else {
       rules.sub_deck_is = rules.sub_deck_is.filter((f) => f !== fco);
     }
-    setSubDeck((prevState) => Array.from(new Set([...prevState, ...rules.sub_deck_is])));
+    setSubDeck((prevState) =>
+      Array.from(new Set([...prevState, ...rules.sub_deck_is]))
+    );
   };
 
   const onSelectedDeckTypes = (fco: string) => {
@@ -129,7 +137,9 @@ function DefineRules(props: Props) {
     } else {
       rules.deck_is = rules.deck_is.filter((f) => f !== fco);
     }
-    setDeck((prevState) => Array.from(new Set([...prevState, ...rules.deck_is])));
+    setDeck((prevState) =>
+      Array.from(new Set([...prevState, ...rules.deck_is]))
+    );
   };
 
   const toggleFavorite = async () => {
@@ -149,11 +159,7 @@ function DefineRules(props: Props) {
       <div className="modal-card">
         <div className="card" style={{ maxWidth: '480px' }}>
           <header className="card-header">
-            <p className="card-header-title">
-              Settings for
-              {' '}
-              {parent}
-            </p>
+            <p className="card-header-title">Settings for {parent}</p>
             {isLoading && (
               <button
                 aria-label="loading"
@@ -174,6 +180,7 @@ function DefineRules(props: Props) {
             <>
               {more && (
                 <SettingsModal
+                  setError={setError}
                   pageId={id}
                   pageTitle={parent}
                   isActive={more}
@@ -210,7 +217,7 @@ function DefineRules(props: Props) {
                     pickedTemplate={(name: string) => setTags(name)}
                     values={tagOptions.map((fco) => ({
                       label: `Tags are ${fco}`,
-                      value: fco,
+                      value: fco
                     }))}
                     name="Tags"
                     value={rules.tags_is}
@@ -229,7 +236,7 @@ function DefineRules(props: Props) {
                     key="is-favorite"
                     id="is-favorite"
                     title="Mark this as a favorite"
-                    checked={favorite}
+                    checked={favorite || false} // TODO: review if we can make this assumption
                     onSwitched={toggleFavorite}
                   />
                 </AccordionItem>

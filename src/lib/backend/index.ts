@@ -1,18 +1,21 @@
-import axios, { AxiosResponse } from "axios";
-import Cookies from "universal-cookie";
-import { captureException } from "@sentry/react";
+import axios, { AxiosResponse } from 'axios';
+import Cookies from 'universal-cookie';
+import { captureException } from '@sentry/react';
 
-import NotionObject from "./interfaces/NotionObject";
-import UserUpload from "./interfaces/UserUpload";
-import UserJob from "./interfaces/UserJob";
+import {
+  GetDatabaseResponse,
+  GetPageResponse,
+  ListBlockChildrenResponse
+} from '@notionhq/client/build/src/api-endpoints';
+import NotionObject from '../interfaces/NotionObject';
+import UserUpload from '../interfaces/UserUpload';
+import UserJob from '../interfaces/UserJob';
 
-import FavoriteObject from "./interfaces/FavoriteObject";
-import Settings from "./types/Settings";
-import getObjectIcon from "./notion/getObjectIcon";
-import getObjectTitle from "./notion/getObjectTitle";
-import isOfflineMode from "./isOfflineMode";
-import handleRedirect from "./handleRedirect";
-import TemplateFile from "./types/TemplateFile";
+import getObjectIcon from '../notion/getObjectIcon';
+import getObjectTitle from '../notion/getObjectTitle';
+import isOfflineMode from '../isOfflineMode';
+import handleRedirect from '../handleRedirect';
+import { Favorite, Rules, Settings, TemplateFile } from '../types';
 
 class Backend {
   baseURL: string;
@@ -20,7 +23,7 @@ class Backend {
   lastCall = new Date();
 
   constructor() {
-    this.baseURL = "/api/";
+    this.baseURL = '/api/';
   }
 
   async logout() {
@@ -36,13 +39,13 @@ class Backend {
       }
     }
     const cookies = new Cookies();
-    cookies.remove("token");
-    window.location.href = "/";
+    cookies.remove('token');
+    window.location.href = '/';
   }
 
   getNotionConnectionInfo() {
     return axios.get(`${this.baseURL}notion/get-notion-link`, {
-      withCredentials: true,
+      withCredentials: true
     });
   }
 
@@ -77,12 +80,16 @@ class Backend {
 
   deleteTemplates() {
     return axios.post(`${this.baseURL}templates/delete`, {
-      withCredentials: true,
+      withCredentials: true
     });
   }
 
-  getSettings(id: string) {
-    return axios.get(`${this.baseURL}settings/find/${id}`);
+  async getSettings(id: string): Promise<Settings | null> {
+    const result = await axios.get(`${this.baseURL}settings/find/${id}`);
+    if (!result || !result.data) {
+      return null;
+    }
+    return result.data.payload;
   }
 
   saveRules(
@@ -94,11 +101,11 @@ class Backend {
     email: boolean
   ) {
     const payload = {
-      FLASHCARD: flashcard.join(","),
-      DECK: deck.join(","),
-      SUB_DECKS: subDecks.join(","),
+      FLASHCARD: flashcard.join(','),
+      DECK: deck.join(','),
+      SUB_DECKS: subDecks.join(','),
       TAGS: tags,
-      EMAIL_NOTIFICATION: email,
+      EMAIL_NOTIFICATION: email
     };
     return axios.post(
       `${this.baseURL}rules/create/${id}`,
@@ -107,8 +114,12 @@ class Backend {
     );
   }
 
-  getRules(id: string) {
-    return axios.get(`${this.baseURL}rules/find/${id}`);
+  async getRules(id: string): Promise<Rules | null> {
+    const result = await axios.get(`${this.baseURL}rules/find/${id}`);
+    if (!result || !result.data) {
+      return null;
+    }
+    return result.data;
   }
 
   deleteSettings(pageId: string) {
@@ -122,24 +133,24 @@ class Backend {
   async search(query: string, force?: boolean): Promise<NotionObject[]> {
     if (!force && this.withinThreeSeconds()) {
       throw new Error(
-        "You are making too many requests. Please wait a few seconds before searching."
+        'You are making too many requests. Please wait a few seconds before searching.'
       );
     }
     const favorites = await this.getFavorites();
 
-    const isObjectId = query.replace(/-/g, "").length === 32;
+    const isObjectId = query.replace(/-/g, '').length === 32;
     let data;
     if (isObjectId) {
       const res = await this.getPage(query);
       if (res && res.data) {
         data = {
-          results: [res.data],
+          results: [res.data]
         };
       } else {
         const dbResult = await this.getDatabase(query);
         if (dbResult && dbResult.data) {
           data = {
-            results: [dbResult.data],
+            results: [dbResult.data]
           };
         }
       }
@@ -153,13 +164,15 @@ class Backend {
     }
 
     if (data && data.results) {
-      return data.results.map((p) => ({
+      return data.results.map((p: GetDatabaseResponse | GetPageResponse) => ({
         object: p.object,
         title: getObjectTitle(p).slice(0, 58), // Don't show strings longer than 60 characters
+        // @ts-ignore
         icon: getObjectIcon(p),
+        // @ts-ignore
         url: p.url as string,
         id: p.id,
-        isFavorite: favorites.some((f) => f.id === p.id),
+        isFavorite: favorites.some((f) => f.id === p.id)
       }));
     }
     return [];
@@ -171,7 +184,7 @@ class Backend {
   ): Promise<NotionObject | null> {
     try {
       const response = await axios.get(`${this.baseURL}notion/page/${pageId}`, {
-        withCredentials: true,
+        withCredentials: true
       });
       return {
         object: response.data.object,
@@ -180,7 +193,7 @@ class Backend {
         url: response.data.url as string,
         id: response.data.id,
         data: response.data,
-        isFavorite,
+        isFavorite
       };
     } catch (error) {
       return null;
@@ -193,7 +206,7 @@ class Backend {
   ): Promise<NotionObject | null> {
     try {
       const response = await axios.get(`${this.baseURL}notion/database/${id}`, {
-        withCredentials: true,
+        withCredentials: true
       });
       return {
         object: response.data.object,
@@ -202,23 +215,23 @@ class Backend {
         url: response.data.url as string,
         id: response.data.id,
         data: response.data,
-        isFavorite,
+        isFavorite
       };
     } catch (error) {
       return null;
     }
   }
 
-  async getBlocks(pageId: string): Promise<any> {
+  async getBlocks(pageId: string): Promise<ListBlockChildrenResponse> {
     const response = await axios.get(`${this.baseURL}notion/blocks/${pageId}`, {
-      withCredentials: true,
+      withCredentials: true
     });
     return response.data;
   }
 
   async getUploads(): Promise<UserUpload[]> {
     const response = await axios.get(`${this.baseURL}upload/mine`, {
-      withCredentials: true,
+      withCredentials: true
     });
     handleRedirect(response);
     return response.data;
@@ -226,7 +239,7 @@ class Backend {
 
   async getActiveJobs(): Promise<UserJob[]> {
     const response = await axios.get(`${this.baseURL}upload/active`, {
-      withCredentials: true,
+      withCredentials: true
     });
     return response.data;
   }
@@ -239,7 +252,7 @@ class Backend {
   async deleteUpload(key: string): Promise<boolean> {
     try {
       await axios.delete(`${this.baseURL}upload/mine/${key}`, {
-        withCredentials: true,
+        withCredentials: true
       });
       return true;
     } catch (error) {
@@ -249,7 +262,7 @@ class Backend {
 
   async deleteJob(id: string) {
     await axios.delete(`${this.baseURL}upload/active/${id}`, {
-      withCredentials: true,
+      withCredentials: true
     });
   }
 
@@ -260,7 +273,7 @@ class Backend {
 
   async isPatreon(): Promise<boolean> {
     const response = await axios.get(`${this.baseURL}users/is-patreon`, {
-      withCredentials: true,
+      withCredentials: true
     });
     return response.data.patreon;
   }
@@ -270,7 +283,7 @@ class Backend {
       `${this.baseURL}favorite/create`,
       { id, type },
       {
-        withCredentials: true,
+        withCredentials: true
       }
     );
   }
@@ -280,23 +293,23 @@ class Backend {
       `${this.baseURL}favorite/remove`,
       { id },
       {
-        withCredentials: true,
+        withCredentials: true
       }
     );
   }
 
-  async getFavoriteObject(f: FavoriteObject): Promise<NotionObject> {
-    return f.type === "page"
+  async getFavoriteObject(f: Favorite): Promise<NotionObject | null> {
+    return f.type === 'page'
       ? this.getPage(f.object_id, true)
       : this.getDatabase(f.object_id, true);
   }
 
   async getFavorites(): Promise<NotionObject[]> {
     const response = await axios.get(`${this.baseURL}favorite`, {
-      withCredentials: true,
+      withCredentials: true
     });
     const favorites: NotionObject[] = await Promise.all(
-      response.data.map(async (f) => this.getFavoriteObject(f))
+      response.data.map(async (f: Favorite) => this.getFavoriteObject(f))
     );
     return favorites.filter(Boolean);
   }

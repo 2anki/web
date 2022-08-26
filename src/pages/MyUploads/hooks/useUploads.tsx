@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
+import {
+  ErrorHandlerType,
+  ErrorType
+} from '../../../components/errors/helpers/types';
 
-import Backend from '../../../lib/Backend';
+import Backend from '../../../lib/backend';
 import UserUpload from '../../../lib/interfaces/UserUpload';
 
 export default function useUploads(
   backend: Backend,
-  setError: (error: string) => void,
-):[boolean, UserUpload[], (id: string) => void, () => void, boolean] {
-  const [uploads, setUploads] = useState([]);
+  setError: ErrorHandlerType
+): [boolean, UserUpload[], (id: string) => void, () => void, boolean] {
+  const [uploads, setUploads] = useState<UserUpload[]>([]);
   const [loading, setLoading] = useState(true);
   const [deletingAll, setIsDeletingAll] = useState(false);
 
@@ -16,7 +20,7 @@ export default function useUploads(
       await backend.deleteUpload(key);
       setUploads(uploads.filter((upload: UserUpload) => upload.key !== key));
     } catch (error) {
-      setError(error.response.data.message);
+      setError(error as ErrorType);
     }
   }
 
@@ -24,7 +28,7 @@ export default function useUploads(
     setIsDeletingAll(true);
     return uploads.reduce(
       (prev, arg) => prev.then(() => deleteUpload(arg.id)),
-      Promise.resolve().then(() => setIsDeletingAll(false)),
+      Promise.resolve().then(() => setIsDeletingAll(false))
     );
   }
 
@@ -34,7 +38,7 @@ export default function useUploads(
         const data = await backend.getUploads();
         setUploads(data);
       } catch (error) {
-        setError(error.response.data.message);
+        setError(error as ErrorType);
       }
       setLoading(false);
     }

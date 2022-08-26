@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const StyledFooter = styled.footer`
   flex-shrink: 0;
@@ -93,7 +93,7 @@ function Footer() {
           <p>
             <a href="https://www.digitalocean.com/?refcode=c5a16996cd0e&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=CopyPaste">
               <img
-                style={{ width: "201px" }}
+                style={{ width: '201px' }}
                 src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/PoweredByDO/DO_Powered_by_Badge_blue.svg"
                 alt="Powered by DigitalOcean"
                 loading="lazy"
@@ -115,7 +115,7 @@ function Footer() {
                 src="https://fortress.no/icons/logo.svg"
                 alt="Sponsored by Fortress"
                 loading="lazy"
-                style={{ width: "60px" }}
+                style={{ width: '60px' }}
               />
             </a>
           </p>

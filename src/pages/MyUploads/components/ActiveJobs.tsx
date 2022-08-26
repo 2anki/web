@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import ActiveJob from '../../../lib/types/ActiveJob';
+import { ActiveJob } from '../../../lib/types';
 
 interface Props {
   jobs: ActiveJob[];

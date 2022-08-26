@@ -1,5 +1,5 @@
 import UploadObjectEntry from './components/UploadObjectEntry';
-import Backend from '../../lib/Backend';
+import Backend from '../../lib/backend';
 import ActiveJobs from './components/ActiveJobs';
 
 import useUploads from './hooks/useUploads';
@@ -9,11 +9,12 @@ import useActiveJobs from './hooks/useActiveJobs';
 import { Container, PageContainer } from '../../components/styled';
 import LoadingPage from '../Loading';
 import { ImposedLimits } from './components/ImposedLimits';
+import { ErrorHandlerType } from '../../components/errors/helpers/types';
 
 const backend = new Backend();
 
 interface MyUploadsPageProps {
-  setError: (error: string) => void;
+  setError: ErrorHandlerType;
 }
 
 function MyUploadsPage({ setError }: MyUploadsPageProps) {

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { SyntheticEvent, useState } from 'react';
-import Backend from '../../lib/Backend';
+import Backend from '../../lib/backend';
+import { ErrorHandlerType } from '../errors/helpers/types';
 
 const FormContainer = styled.div`
   max-width: 720px;
@@ -8,7 +9,7 @@ const FormContainer = styled.div`
 `;
 
 interface Props {
-  setErrorMessage: (errorMessage: string) => void;
+  setErrorMessage: ErrorHandlerType;
 }
 
 function NewPasswordForm({ setErrorMessage }: Props) {
@@ -16,7 +17,8 @@ function NewPasswordForm({ setErrorMessage }: Props) {
   const [passwd, setPasswd] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const isValid = () => password === passwd && password.length > 0 && password.length < 256;
+  const isValid = () =>
+    password === passwd && password.length > 0 && password.length < 256;
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
@@ -33,7 +35,7 @@ function NewPasswordForm({ setErrorMessage }: Props) {
       }
       setLoading(false);
     } catch (error) {
-      setErrorMessage(error.response.data.message);
+      setErrorMessage(error as Error);
       setLoading(false);
     }
   };

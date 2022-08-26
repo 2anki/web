@@ -1,19 +1,22 @@
 import { useState, useEffect } from 'react';
+import { ErrorHandlerType } from '../../components/errors/helpers/types';
 import { Container, PageContainer } from '../../components/styled';
-import Backend from '../../lib/Backend';
+import Backend from '../../lib/backend';
+import NotionObject from '../../lib/interfaces/NotionObject';
+import { BlockType, ChildrenType } from './types';
 import Wrapper from './Wrapper';
 
 interface Props {
-  setError: (error: string) => void;
+  setError: ErrorHandlerType;
 }
 
 const backend = new Backend();
 function LearnPage({ setError }: Props) {
-  const [parentId, setParentId] = useState(null);
-  const [children, setChildren] = useState([]);
-  const [page, setPage] = useState(null);
-  const [block, setBlock] = useState(null);
-  const [grandChild, setGrandChild] = useState(null);
+  const [parentId, setParentId] = useState<string | null>(null);
+  const [children, setChildren] = useState<ChildrenType>([]);
+  const [page, setPage] = useState<NotionObject | null>(null);
+  const [block, setBlock] = useState<BlockType>(null);
+  const [grandChildren, setGrandChildren] = useState<ChildrenType>(null);
   const [location, setLocation] = useState(0);
 
   // Load parent page based on id
@@ -47,13 +50,15 @@ function LearnPage({ setError }: Props) {
   }, [page]);
 
   useEffect(() => {
-    setBlock(children[location]);
+    if (children) {
+      setBlock(children[location]);
+    }
   }, [children, location]);
 
   useEffect(() => {
     if (block) {
       backend.getBlocks(block.id).then((response) => {
-        setGrandChild(response.results);
+        setGrandChildren(response.results);
       });
     }
   }, [block]);
@@ -79,7 +84,7 @@ function LearnPage({ setError }: Props) {
             style={{
               display: 'flex',
               alignItems: 'center',
-              flexDirection: 'column',
+              flexDirection: 'column'
             }}
           >
             {block && (
@@ -87,19 +92,12 @@ function LearnPage({ setError }: Props) {
                 <h1 className="title">{block.id}</h1>
                 <pre>{JSON.stringify(block, null, 4)}</pre>
                 <hr />
-                <pre>{JSON.stringify(grandChild, null, 2)}</pre>
+                <pre>{JSON.stringify(grandChildren, null, 2)}</pre>
               </>
             )}
-            <progress
-              id="file"
-              value={location + 1}
-              max={children.length}
-            />
+            <progress id="file" value={location + 1} max={children.length} />
             <span style={{ fontSize: '11px' }}>
-              {location + 1}
-              {' '}
-              /
-              {children.length}
+              {location + 1} /{children.length}
             </span>
           </div>
         </Wrapper>

@@ -1,8 +1,6 @@
-import {
-  Dispatch, SetStateAction, useContext, useState,
-} from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
-import Backend from '../../../../lib/Backend';
+import Backend from '../../../../lib/backend';
 import DefineRules from '../DefineRules';
 
 import ObjectActions from '../actions/ObjectActions';
@@ -10,27 +8,29 @@ import ObjectAction from '../actions/ObjectAction';
 import { Entry, ObjectMeta } from './styled';
 import ObjectType from '../ObjectType';
 import DotsHorizontal from '../../../../components/icons/DotsHorizontal';
-import StoreContext from '../../../../store/StoreContext';
 import NotionObject from '../../../../lib/interfaces/NotionObject';
+import {
+  ErrorHandlerType,
+  ErrorType
+} from '../../../../components/errors/helpers/types';
 
 const backend = new Backend();
 
 interface Props {
-  isFavorite: boolean;
+  isFavorite: boolean | undefined;
   title: string;
-  icon: string;
+  icon: string | undefined;
   url: string;
   id: string;
   type: string;
   setFavorites: Dispatch<SetStateAction<NotionObject[]>>;
+  setError: ErrorHandlerType;
 }
 
 function SearchObjectEntry(props: Props) {
-  const {
-    title, icon, url, id, type, isFavorite, setFavorites,
-  } = props;
+  const { title, icon, url, id, type, isFavorite, setFavorites, setError } =
+    props;
   const [showSettings, setShowSettings] = useState(false);
-  const store = useContext(StoreContext);
 
   return (
     <>
@@ -56,7 +56,7 @@ function SearchObjectEntry(props: Props) {
                   window.location.href = '/uploads';
                 })
                 .catch((error) => {
-                  store.error = error;
+                  setError(error as ErrorType);
                 });
             }}
           />
@@ -77,6 +77,7 @@ function SearchObjectEntry(props: Props) {
       </Entry>
       {showSettings && (
         <DefineRules
+          setError={setError}
           type={type}
           isFavorite={isFavorite}
           setFavorites={setFavorites}

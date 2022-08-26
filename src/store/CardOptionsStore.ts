@@ -1,10 +1,8 @@
-import supportedOptions from "./supportedOptions";
-import CardOption from "./CardOption";
+import supportedOptions from './supportedOptions';
+import CardOption from './CardOption';
 
 class CardOptionsStore {
   public options: CardOption[];
-
-  public error: Error | null;
 
   constructor(loadDefaults: boolean) {
     this.options = supportedOptions();
