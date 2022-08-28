@@ -35,6 +35,7 @@ export default function UploadObjectEntry({
         {icon && <span>{icon}</span>}
         <div />
         <UploadTitle
+          data-hj-suppress
           className="subtitle ml-2 is-6"
           dangerouslySetInnerHTML={{ __html: title }}
         />
