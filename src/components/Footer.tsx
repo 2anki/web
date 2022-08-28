@@ -91,12 +91,10 @@ function Footer() {
             </a>
           </p>
           <p>
-            <a href="https://www.digitalocean.com/?refcode=c5a16996cd0e&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=CopyPaste">
+            <a href="https://www.digitalocean.com/?refcode=c5a16996cd0e&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge">
               <img
-                style={{ width: '201px' }}
-                src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/PoweredByDO/DO_Powered_by_Badge_blue.svg"
-                alt="Powered by DigitalOcean"
-                loading="lazy"
+                src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg"
+                alt="DigitalOcean Referral Badge"
               />
             </a>
           </p>
