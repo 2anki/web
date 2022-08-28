@@ -2,6 +2,16 @@
   "name": "web",
   "version": "0.1.1",
   "private": true,
+  "resolve": {
+    "fallback": {
+      "assert": false,
+      "http": false,
+      "https": false,
+      "stream": false,
+      "url": false,
+      "zlib": false
+    }
+  },
   "dependencies": {
     "@fremtind/jkl-accordion": "^7.0.3",
     "@fremtind/jkl-accordion-react": "^7.0.10",
