@@ -159,7 +159,9 @@ function DefineRules(props: Props) {
       <div className="modal-card">
         <div className="card" style={{ maxWidth: '480px' }}>
           <header className="card-header">
-            <p className="card-header-title">Settings for {parent}</p>
+            <p data-hj-suppress className="card-header-title">
+              Settings for {parent}
+            </p>
             {isLoading && (
               <button
                 aria-label="loading"

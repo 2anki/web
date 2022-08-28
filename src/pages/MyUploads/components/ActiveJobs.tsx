@@ -13,7 +13,7 @@ const JobRow = styled.li`
 
 export default function ActiveJobs({ jobs, deleteJob }: Props) {
   return (
-    <div className="">
+    <div className="" data-hj-suppress>
       <h2 className="title is-2">Active Jobs</h2>
       <div className="is-pulled-right">
         <button
