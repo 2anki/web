@@ -13,7 +13,7 @@
     }
   },
   "dependencies": {
-    "@fremtind/jkl-accordion": "^7.0.3",
+    "@fremtind/jkl-accordion": "^7.0.11",
     "@fremtind/jkl-accordion-react": "^7.0.10",
     "@fremtind/jkl-alert-message": "^6.0.9",
     "@fremtind/jkl-alert-message-react": "^8.0.4",
