@@ -2,19 +2,24 @@ import { useEffect, useState } from 'react';
 import Backend from '../../../lib/backend';
 
 type BackSide = {
-  data: string;
+  backSide: string;
+  loading: boolean;
 };
 
-export const getBackSide = (id: string | undefined) => {
-  const backend = new Backend();
+export const getBackSide = (id: string | undefined): BackSide => {
   const [backSide, setBackSide] = useState('loading');
+  const [loading, setLoading] = useState(false);
+  const backend = new Backend();
+
   useEffect(() => {
+    setLoading(true);
     if (id) {
       backend.renderBlock(id).then((response: unknown) => {
-        const res = response as BackSide;
+        const res = response as { data: string };
         setBackSide(res.data);
+        setLoading(false);
       });
     }
   }, [id]);
-  return backSide;
+  return { loading, backSide };
 };

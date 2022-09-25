@@ -19,7 +19,7 @@ function LearnPage({ setError }: Props) {
   const location = useLocation();
 
   const block = children ? children[index - 1] : null;
-  const backSide = getBackSide(block?.id);
+  const { loading, backSide } = getBackSide(block?.id);
   // Load parent page based on id
   useEffect(() => {
     setParentId(location.pathname.split('/').at(-1) || null);
@@ -31,8 +31,6 @@ function LearnPage({ setError }: Props) {
   if (!parentId || !children) {
     return <LoadingPage />;
   }
-
-  console.log('block', block);
 
   return (
     <PageContainer>
@@ -69,6 +67,11 @@ function LearnPage({ setError }: Props) {
             <span style={{ fontSize: '11px' }}>
               {index + 1} /{children.length}
             </span>
+            {loading && (
+              <button type="button" className="is-loading button">
+                loading
+              </button>
+            )}
             <button
               type="button"
               onClick={() => setIndex(Math.max(index - 1, 0))}
