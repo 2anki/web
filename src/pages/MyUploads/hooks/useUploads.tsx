@@ -27,7 +27,7 @@ export default function useUploads(
   async function deleteAllUploads(): Promise<void> {
     setIsDeletingAll(true);
     return uploads.reduce(
-      (prev, arg) => prev.then(() => deleteUpload(arg.id)),
+      (prev, arg) => prev.then(() => deleteUpload(arg.key)),
       Promise.resolve().then(() => setIsDeletingAll(false))
     );
   }
