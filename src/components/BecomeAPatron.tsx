@@ -6,12 +6,9 @@ function BecomeAPatron() {
       rel="noreferrer"
       target="_blank"
       href="https://www.patreon.com/alemayhu"
+      className="navbar-item"
     >
-      <img
-        alt="Become a patreon button"
-        src="/become_a_patron_button.png"
-        loading="lazy"
-      />
+      🧡 Become a patron
     </StyledNavbarItem>
   );
 }
