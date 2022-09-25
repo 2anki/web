@@ -222,6 +222,16 @@ class Backend {
     }
   }
 
+  async renderBlock(blockId: string): Promise<string> {
+    const response = await axios.get(
+      `${this.baseURL}notion/render-block/${blockId}`,
+      {
+        withCredentials: true
+      }
+    );
+    return response.data;
+  }
+
   async getBlocks(pageId: string): Promise<ListBlockChildrenResponse> {
     const response = await axios.get(`${this.baseURL}notion/blocks/${pageId}`, {
       withCredentials: true
