@@ -3,6 +3,7 @@ import { useLocation } from 'react-router';
 import { ErrorHandlerType } from '../../components/errors/helpers/types';
 import { Container, PageContainer } from '../../components/styled';
 import LoadingPage from '../Loading';
+import { getBackSide } from './helpers/getBackSide';
 import { useLearnData } from './helpers/useLearnData';
 import Wrapper from './Wrapper';
 
@@ -12,10 +13,13 @@ interface Props {
 
 function LearnPage({ setError }: Props) {
   const [parentId, setParentId] = useState<string | null>(null);
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(1);
 
   const { children, page, error } = useLearnData(parentId);
   const location = useLocation();
+
+  const block = children ? children[index - 1] : null;
+  const backSide = getBackSide(block?.id);
   // Load parent page based on id
   useEffect(() => {
     setParentId(location.pathname.split('/').at(-1) || null);
@@ -28,7 +32,7 @@ function LearnPage({ setError }: Props) {
     return <LoadingPage />;
   }
 
-  const block = children[index - 1];
+  console.log('block', block);
 
   return (
     <PageContainer>
@@ -54,11 +58,14 @@ function LearnPage({ setError }: Props) {
             {block && (
               <>
                 <h1 className="title">{block.id}</h1>
-                <pre>{JSON.stringify(block, null, 4)}</pre>
+                {backSide && (
+                  // eslint-disable-next-line react/no-danger
+                  <div dangerouslySetInnerHTML={{ __html: backSide }} />
+                )}
                 <hr />
               </>
             )}
-            <progress id="file" value={index + 1} max={children.length} />
+            <progress id="file" value={index} max={children.length} />
             <span style={{ fontSize: '11px' }}>
               {index + 1} /{children.length}
             </span>
