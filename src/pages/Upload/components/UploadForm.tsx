@@ -128,7 +128,9 @@ function UploadForm({ setErrorMessage, isPatron }: UploadFormProps) {
         handleSubmit(event);
       }}
     >
-      <div>
+      <div
+        class="container"
+      >
         <div>
           <div className="field">
             <DropParagraph hover={dropHover}>
