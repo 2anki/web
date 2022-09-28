@@ -129,7 +129,7 @@ function UploadForm({ setErrorMessage, isPatron }: UploadFormProps) {
       }}
     >
       <div
-        class="container"
+        className="container"
       >
         <div>
           <div className="field">
