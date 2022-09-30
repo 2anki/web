@@ -18,13 +18,13 @@ function AboutSection() {
             </Heading2>
             <p>
               2anki.net is a open source micro saas which takes Notion notes and
-              converts them to Anki flashcards. This project is used by autodidacts, students
-              and professionals around the world.
+              converts them to Anki flashcards. This project is used by
+              autodidacts, students and professionals around the world.
             </p>
             <BlueHeading3>Fast, simple, easy and 100% Free!</BlueHeading3>
             <div className="is-flex is-justify-content-start">
               <PrimaryButton
-                destination="/upload"
+                destination="https://getting-started.2anki.net/"
                 text="Get Started"
                 onClickLink={() => {}}
               />
