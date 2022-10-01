@@ -3,7 +3,7 @@ import { useLocation } from 'react-router';
 import { ErrorHandlerType } from '../../components/errors/helpers/types';
 import { Container, PageContainer } from '../../components/styled';
 import LoadingPage from '../Loading';
-import { getBackSide } from './helpers/getBackSide';
+import { useRenderBlock } from './helpers/useRenderBlock';
 import { useLearnData } from './helpers/useLearnData';
 import Wrapper from './Wrapper';
 
@@ -19,7 +19,7 @@ function LearnPage({ setError }: Props) {
   const location = useLocation();
 
   const block = children ? children[index - 1] : null;
-  const { loading, backSide } = getBackSide(block?.id);
+  const { loading, backSide, frontSide } = useRenderBlock(block?.id);
   // Load parent page based on id
   useEffect(() => {
     setParentId(location.pathname.split('/').at(-1) || null);
@@ -47,6 +47,7 @@ function LearnPage({ setError }: Props) {
             </nav>
           )}
           <div
+            className="container"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -55,7 +56,10 @@ function LearnPage({ setError }: Props) {
           >
             {block && (
               <>
-                <h1 className="title">{block.id}</h1>
+                {frontSide && (
+                  // eslint-disable-next-line react/no-danger
+                  <div dangerouslySetInnerHTML={{ __html: frontSide }} />
+                )}
                 {backSide && (
                   // eslint-disable-next-line react/no-danger
                   <div dangerouslySetInnerHTML={{ __html: backSide }} />
