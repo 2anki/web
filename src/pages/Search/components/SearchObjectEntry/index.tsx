@@ -31,6 +31,7 @@ function SearchObjectEntry(props: Props) {
   const { title, icon, url, id, type, isFavorite, setFavorites, setError } =
     props;
   const [showSettings, setShowSettings] = useState(false);
+  const learnMode = localStorage.getItem('learn-mode');
 
   return (
     <>
@@ -45,6 +46,9 @@ function SearchObjectEntry(props: Props) {
           <span className="subtitle is-6">{title}</span>
         </ObjectMeta>
         <ObjectActions>
+          {learnMode && (
+            <ObjectAction url={`/learn/${id}`} image="/icons/bulb_on.svg" />
+          )}
           <ObjectAction
             url={url}
             image="/icons/Anki_app_logo.png"

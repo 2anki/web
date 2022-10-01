@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { ErrorHandlerType } from '../../components/errors/helpers/types';
-import { Container, PageContainer } from '../../components/styled';
+import { PageContainer } from '../../components/styled';
 import LoadingPage from '../Loading';
-import { getBackSide } from './helpers/getBackSide';
+import { useRenderBlock } from './helpers/useRenderBlock';
 import { useLearnData } from './helpers/useLearnData';
-import Wrapper from './Wrapper';
+import PageControls from './components/PageControls';
 
 interface Props {
   setError: ErrorHandlerType;
@@ -13,13 +13,13 @@ interface Props {
 
 function LearnPage({ setError }: Props) {
   const [parentId, setParentId] = useState<string | null>(null);
-  const [index, setIndex] = useState(1);
+  const [index, setIndex] = useState(0);
 
   const { children, page, error } = useLearnData(parentId);
   const location = useLocation();
 
-  const block = children ? children[index - 1] : null;
-  const { loading, backSide } = getBackSide(block?.id);
+  const block = children ? children[index] : null;
+  const { loading, backSide, frontSide } = useRenderBlock(block?.id);
   // Load parent page based on id
   useEffect(() => {
     setParentId(location.pathname.split('/').at(-1) || null);
@@ -34,59 +34,38 @@ function LearnPage({ setError }: Props) {
 
   return (
     <PageContainer>
-      <h1>Learn</h1>
-      <Container>
-        <Wrapper>
-          {page && (
-            <nav className="breadcrumb" aria-label="breadcrumbs">
-              <ul>
-                <li>
-                  <a href={page.url}>{page.title}</a>
-                </li>
-              </ul>
-            </nav>
-          )}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              flexDirection: 'column'
-            }}
-          >
-            {block && (
-              <>
-                <h1 className="title">{block.id}</h1>
-                {backSide && (
-                  // eslint-disable-next-line react/no-danger
-                  <div dangerouslySetInnerHTML={{ __html: backSide }} />
-                )}
-                <hr />
-              </>
+      {page && (
+        <nav className="breadcrumb" aria-label="breadcrumbs">
+          <ul>
+            <li>
+              <h1 className="title">
+                <a href={page.url}>{page.title}</a>
+              </h1>
+            </li>
+          </ul>
+        </nav>
+      )}
+      <div className="container">
+        {block && (
+          <>
+            {frontSide && (
+              // eslint-disable-next-line react/no-danger
+              <div dangerouslySetInnerHTML={{ __html: frontSide }} />
             )}
-            <progress id="file" value={index} max={children.length} />
-            <span style={{ fontSize: '11px' }}>
-              {index + 1} /{children.length}
-            </span>
-            {loading && (
-              <button type="button" className="is-loading button">
-                loading
-              </button>
+            {backSide && (
+              // eslint-disable-next-line react/no-danger
+              <div dangerouslySetInnerHTML={{ __html: backSide }} />
             )}
-            <button
-              type="button"
-              onClick={() => setIndex(Math.max(index - 1, 0))}
-            >
-              previous
-            </button>
-            <button
-              type="button"
-              onClick={() => setIndex(Math.min(index + 1, children.length - 1))}
-            >
-              Next
-            </button>
-          </div>
-        </Wrapper>
-      </Container>
+            <hr />
+          </>
+        )}
+        <PageControls
+          loading={loading}
+          index={index}
+          setIndex={setIndex}
+          total={children.length}
+        />
+      </div>
     </PageContainer>
   );
 }
