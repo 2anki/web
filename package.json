@@ -70,7 +70,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.5",
     "@types/jest": "^28.1.4",
-    "@types/jsonwebtoken": "^8.5.8",
+    "@types/jsonwebtoken": "^8.5.9",
     "@types/lodash": "^4.14.182",
     "@types/node": "^18.0.6",
     "@types/react": "^17.0.0",
