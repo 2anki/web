@@ -8,12 +8,14 @@ interface PrimaryButtonProps {
 }
 
 export default function PrimaryButton({
-  text, destination, onClickLink,
+  text,
+  destination,
+  onClickLink
 }: PrimaryButtonProps) {
   return (
     <StyledButton>
       {destination.includes('http') ? (
-        <a href={destination} target="_blank" rel="noopener noreferrer">
+        <a href={destination} rel="noopener noreferrer">
           {text}
         </a>
       ) : (
