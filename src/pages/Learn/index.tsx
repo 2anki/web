@@ -3,13 +3,12 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import { ErrorHandlerType } from '../../components/errors/helpers/types';
-import { PageContainer } from '../../components/styled';
+import { Main, PageContainer } from '../../components/styled';
 import LoadingPage from '../Loading';
 import { useRenderBlock } from './helpers/useRenderBlock';
 import { useLearnData } from './helpers/useLearnData';
 import BlockControls from './components/BlockControls';
 import useQuery from '../../lib/hooks/useQuery';
-import { Container } from '../Register/styled';
 import Backend from '../../lib/backend';
 
 interface Props {
@@ -75,17 +74,17 @@ function LearnPage({ setError }: Props) {
           </ul>
         </nav>
       )}
-      {block && (
-        <Container>
-          <header className="card-header">
+      <Main>
+        {block && (
+          <div className="box container">
             {frontSide && (
               <div dangerouslySetInnerHTML={{ __html: frontSide }} />
             )}
-          </header>
-          <div className="tile">
-            {backSide && <div dangerouslySetInnerHTML={{ __html: backSide }} />}
-          </div>
-          <footer className="card-footer">
+            <div className="tile">
+              {backSide && (
+                <div dangerouslySetInnerHTML={{ __html: backSide }} />
+              )}
+            </div>
             <BlockControls
               isDeleting={isDeleting}
               onDelete={onDeleteBlock}
@@ -98,9 +97,9 @@ function LearnPage({ setError }: Props) {
               }}
               total={children.length}
             />
-          </footer>
-        </Container>
-      )}
+          </div>
+        )}
+      </Main>
     </PageContainer>
   );
 }
