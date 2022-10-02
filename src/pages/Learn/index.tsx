@@ -1,19 +1,27 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { ErrorHandlerType } from '../../components/errors/helpers/types';
 import { PageContainer } from '../../components/styled';
 import LoadingPage from '../Loading';
 import { useRenderBlock } from './helpers/useRenderBlock';
 import { useLearnData } from './helpers/useLearnData';
 import PageControls from './components/PageControls';
+import useQuery from '../../lib/hooks/useQuery';
 
 interface Props {
   setError: ErrorHandlerType;
 }
 
+const BLOCK_INDEX_QUERY_PARAM = 'index';
+
 function LearnPage({ setError }: Props) {
+  const query = useQuery();
+  const history = useHistory();
   const [parentId, setParentId] = useState<string | null>(null);
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(
+    Number(query.get(BLOCK_INDEX_QUERY_PARAM)) || 0
+  );
 
   const { children, page, error } = useLearnData(parentId);
   const location = useLocation();
@@ -28,6 +36,7 @@ function LearnPage({ setError }: Props) {
   if (error) {
     setError(error.toString());
   }
+
   if (!parentId || !children) {
     return <LoadingPage />;
   }
@@ -62,7 +71,11 @@ function LearnPage({ setError }: Props) {
         <PageControls
           loading={loading}
           index={index}
-          setIndex={setIndex}
+          setIndex={(next) => {
+            query.set(BLOCK_INDEX_QUERY_PARAM, `${next}`);
+            history.push({ search: query.toString() });
+            setIndex(next);
+          }}
           total={children.length}
         />
       </div>
