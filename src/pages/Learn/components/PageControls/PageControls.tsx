@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 interface PageControlsProps {
   total: number;
   index: number;
@@ -8,6 +10,24 @@ interface PageControlsProps {
 export function PageControls(props: PageControlsProps) {
   const { loading, total, index, setIndex } = props;
 
+  const goToNextBlock = () => setIndex(Math.min(index + 1, total - 1));
+  const gotToPreviousBlock = () => setIndex(Math.max(index - 1, 0));
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const { key } = event;
+      if (key === 'ArrowLeft') {
+        gotToPreviousBlock();
+      } else if (key === 'ArrowRight') {
+        goToNextBlock();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  });
+
   return (
     <div className="field has-addons">
       <p className="control">
@@ -15,7 +35,7 @@ export function PageControls(props: PageControlsProps) {
           aria-label="previous block"
           className="button is-small"
           type="button"
-          onClick={() => setIndex(Math.max(index - 1, 0))}
+          onClick={() => gotToPreviousBlock()}
         >
           ←
         </button>
@@ -43,7 +63,7 @@ export function PageControls(props: PageControlsProps) {
           aria-label="Next block"
           className="button is-small"
           type="button"
-          onClick={() => setIndex(Math.min(index + 1, total - 1))}
+          onClick={() => goToNextBlock()}
         >
           →
         </button>

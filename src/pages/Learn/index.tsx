@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { useHistory } from 'react-router-dom';
@@ -8,6 +9,7 @@ import { useRenderBlock } from './helpers/useRenderBlock';
 import { useLearnData } from './helpers/useLearnData';
 import PageControls from './components/PageControls';
 import useQuery from '../../lib/hooks/useQuery';
+import { Container } from '../Register/styled';
 
 interface Props {
   setError: ErrorHandlerType;
@@ -54,31 +56,30 @@ function LearnPage({ setError }: Props) {
           </ul>
         </nav>
       )}
-      <div className="container">
-        {block && (
-          <>
+      {block && (
+        <Container>
+          <header className="card-header">
             {frontSide && (
-              // eslint-disable-next-line react/no-danger
               <div dangerouslySetInnerHTML={{ __html: frontSide }} />
             )}
-            {backSide && (
-              // eslint-disable-next-line react/no-danger
-              <div dangerouslySetInnerHTML={{ __html: backSide }} />
-            )}
-            <hr />
-          </>
-        )}
-        <PageControls
-          loading={loading}
-          index={index}
-          setIndex={(next) => {
-            query.set(BLOCK_INDEX_QUERY_PARAM, `${next}`);
-            history.push({ search: query.toString() });
-            setIndex(next);
-          }}
-          total={children.length}
-        />
-      </div>
+          </header>
+          <div className="tile">
+            {backSide && <div dangerouslySetInnerHTML={{ __html: backSide }} />}
+          </div>
+          <footer className="card-footer">
+            <PageControls
+              loading={loading}
+              index={index}
+              setIndex={(next) => {
+                query.set(BLOCK_INDEX_QUERY_PARAM, `${next}`);
+                history.push({ search: query.toString() });
+                setIndex(next);
+              }}
+              total={children.length}
+            />
+          </footer>
+        </Container>
+      )}
     </PageContainer>
   );
 }
