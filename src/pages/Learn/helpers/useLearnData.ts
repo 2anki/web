@@ -9,7 +9,10 @@ interface LearnData {
   children: ChildrenType;
 }
 
-export const useLearnData = (id: string | null): LearnData => {
+export const useLearnData = (
+  id: string | null,
+  refetch: boolean
+): LearnData => {
   const [page, setPage] = useState<NotionObject | null>(null);
   const [error, setError] = useState(null);
   const [children, setChildren] = useState<ChildrenType>([]);
@@ -28,7 +31,7 @@ export const useLearnData = (id: string | null): LearnData => {
         })
         .catch(setError);
     }
-  }, [id]);
+  }, [id, refetch]);
 
   return {
     error,
