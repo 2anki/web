@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 
-interface PageControlsProps {
+interface BlockControlsProps {
   total: number;
   index: number;
   loading: boolean;
   setIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export function PageControls(props: PageControlsProps) {
+export function BlockControls(props: BlockControlsProps) {
   const { loading, total, index, setIndex } = props;
 
   const goToNextBlock = () => setIndex(Math.min(index + 1, total - 1));

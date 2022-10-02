@@ -7,7 +7,7 @@ import { PageContainer } from '../../components/styled';
 import LoadingPage from '../Loading';
 import { useRenderBlock } from './helpers/useRenderBlock';
 import { useLearnData } from './helpers/useLearnData';
-import PageControls from './components/PageControls';
+import BlockControls from './components/BlockControls';
 import useQuery from '../../lib/hooks/useQuery';
 import { Container } from '../Register/styled';
 
@@ -67,7 +67,7 @@ function LearnPage({ setError }: Props) {
             {backSide && <div dangerouslySetInnerHTML={{ __html: backSide }} />}
           </div>
           <footer className="card-footer">
-            <PageControls
+            <BlockControls
               loading={loading}
               index={index}
               setIndex={(next) => {
