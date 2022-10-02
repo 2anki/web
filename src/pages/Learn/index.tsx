@@ -48,7 +48,6 @@ function LearnPage({ setError }: Props) {
       .deleteBlock(block.id)
       .then(() => {
         setIsDeleting(false);
-        setIndex(index);
       })
       .catch(() => setIsDeleting(false));
   };
