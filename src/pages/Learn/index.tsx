@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { useHistory } from 'react-router-dom';
-import { ErrorHandlerType } from '../../components/errors/helpers/types';
 import { Main, PageContainer } from '../../components/styled';
 import LoadingPage from '../Loading';
 import { useRenderBlock } from './helpers/useRenderBlock';
@@ -10,23 +9,20 @@ import { useLearnData } from './helpers/useLearnData';
 import BlockControls from './components/BlockControls';
 import useQuery from '../../lib/hooks/useQuery';
 import Backend from '../../lib/backend';
-
-interface Props {
-  setError: ErrorHandlerType;
-}
+import { createParagraphBlock } from './helpers/createParagrapBlock';
 
 const BLOCK_INDEX_QUERY_PARAM = 'index';
 
-function LearnPage({ setError }: Props) {
+function LearnPage() {
   const query = useQuery();
   const history = useHistory();
   const [parentId, setParentId] = useState<string | null>(null);
   const [index, setIndex] = useState(
     Number(query.get(BLOCK_INDEX_QUERY_PARAM)) || 0
   );
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [isMutating, setIsMutating] = useState(false);
 
-  const { children, page, error } = useLearnData(parentId, isDeleting);
+  const { children, page, error } = useLearnData(parentId, isMutating);
   const location = useLocation();
 
   const block = children ? children[index] : null;
@@ -36,24 +32,36 @@ function LearnPage({ setError }: Props) {
     setParentId(location.pathname.split('/').at(-1) || null);
   }, []);
 
+  const backend = new Backend();
   const onDeleteBlock = () => {
-    const backend = new Backend();
     const id = block?.id;
     if (!id) {
       return;
     }
 
-    setIsDeleting(true);
+    setIsMutating(true);
     backend
       .deleteBlock(block.id)
       .then(() => {
-        setIsDeleting(false);
+        setIsMutating(false);
       })
-      .catch(() => setIsDeleting(false));
+      .catch(() => setIsMutating(false));
+  };
+
+  const onExtract = () => {
+    const selection = window.getSelection()?.toString();
+    const parent = block?.id;
+    if (selection && parent && !isMutating) {
+      setIsMutating(true);
+      backend
+        .createBlock(parent, createParagraphBlock(selection))
+        .then(() => setIsMutating(false))
+        .catch(() => setIsMutating(false));
+    }
   };
 
   if (error) {
-    setError(error.toString());
+    window.location.href = '/search';
   }
 
   if (!parentId || !children) {
@@ -62,6 +70,7 @@ function LearnPage({ setError }: Props) {
 
   return (
     <PageContainer>
+      <link rel="stylesheet" href="https://2anki.net/templates/notion.css" />
       {page && (
         <nav className="breadcrumb" aria-label="breadcrumbs">
           <ul>
@@ -85,9 +94,9 @@ function LearnPage({ setError }: Props) {
               )}
             </div>
             <BlockControls
-              isDeleting={isDeleting}
+              onExtract={onExtract}
               onDelete={onDeleteBlock}
-              loading={loading}
+              loading={loading || isMutating}
               index={index}
               setIndex={(next) => {
                 query.set(BLOCK_INDEX_QUERY_PARAM, `${next}`);

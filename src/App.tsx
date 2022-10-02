@@ -65,7 +65,9 @@ function App() {
             {/* We don't want a header on the sign-up page */}
             <Route
               render={({ location }) =>
-                location.pathname.match(/^(?!.*(login|search|signup)).*$/) ? (
+                location.pathname.match(
+                  /^(?!.*(login|search|signup|learn)).*$/
+                ) ? (
                   <NavigationBar isPatron={isPatron} />
                 ) : null
               }
@@ -79,7 +81,7 @@ function App() {
                 <VerifyPage />
               </Route>
               <Route path="/learn">
-                <LearnPage setError={handledError} />
+                <LearnPage />
               </Route>
               <Route path="/tm">
                 <TemplatePage />
@@ -115,7 +117,11 @@ function App() {
                 <HomePage />
               </Route>
             </Switch>
-            <Footer />
+            <Route
+              render={({ location }) =>
+                location.pathname.match(/^(?!.*(learn)).*$/) ? <Footer /> : null
+              }
+            />
           </Layout>
         </Router>
       </StoreContext.Provider>
