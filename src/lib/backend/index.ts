@@ -3,6 +3,7 @@ import Cookies from 'universal-cookie';
 import { captureException } from '@sentry/react';
 
 import {
+  GetBlockResponse,
   GetDatabaseResponse,
   GetPageResponse,
   ListBlockChildrenResponse
@@ -225,6 +226,16 @@ class Backend {
   async renderBlock(blockId: string): Promise<string> {
     const response = await axios.get(
       `${this.baseURL}notion/render-block/${blockId}`,
+      {
+        withCredentials: true
+      }
+    );
+    return response.data;
+  }
+
+  async deleteBlock(blockId: string): Promise<GetBlockResponse> {
+    const response = await axios.delete(
+      `${this.baseURL}notion/block/${blockId}`,
       {
         withCredentials: true
       }

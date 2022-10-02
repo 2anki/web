@@ -10,6 +10,7 @@ import { useLearnData } from './helpers/useLearnData';
 import BlockControls from './components/BlockControls';
 import useQuery from '../../lib/hooks/useQuery';
 import { Container } from '../Register/styled';
+import Backend from '../../lib/backend';
 
 interface Props {
   setError: ErrorHandlerType;
@@ -24,8 +25,9 @@ function LearnPage({ setError }: Props) {
   const [index, setIndex] = useState(
     Number(query.get(BLOCK_INDEX_QUERY_PARAM)) || 0
   );
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  const { children, page, error } = useLearnData(parentId);
+  const { children, page, error } = useLearnData(parentId, isDeleting);
   const location = useLocation();
 
   const block = children ? children[index] : null;
@@ -34,6 +36,23 @@ function LearnPage({ setError }: Props) {
   useEffect(() => {
     setParentId(location.pathname.split('/').at(-1) || null);
   }, []);
+
+  const onDeleteBlock = () => {
+    const backend = new Backend();
+    const id = block?.id;
+    if (!id) {
+      return;
+    }
+
+    setIsDeleting(true);
+    backend
+      .deleteBlock(block.id)
+      .then(() => {
+        setIsDeleting(false);
+        setIndex(index);
+      })
+      .catch(() => setIsDeleting(false));
+  };
 
   if (error) {
     setError(error.toString());
@@ -68,6 +87,8 @@ function LearnPage({ setError }: Props) {
           </div>
           <footer className="card-footer">
             <BlockControls
+              isDeleting={isDeleting}
+              onDelete={onDeleteBlock}
               loading={loading}
               index={index}
               setIndex={(next) => {
