@@ -117,7 +117,11 @@ function App() {
                 <HomePage />
               </Route>
             </Switch>
-            <Footer />
+            <Route
+              render={({ location }) =>
+                location.pathname.match(/^(?!.*(learn)).*$/) ? <Footer /> : null
+              }
+            />
           </Layout>
         </Router>
       </StoreContext.Provider>

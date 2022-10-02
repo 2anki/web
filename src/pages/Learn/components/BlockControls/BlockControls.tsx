@@ -1,24 +1,21 @@
 import { useEffect, useState } from 'react';
+import { DeleteIcon } from './DeleteIcon';
 
 interface BlockControlsProps {
   total: number;
   index: number;
   loading: boolean;
   setIndex: React.Dispatch<React.SetStateAction<number>>;
-  isDeleting: boolean;
   onDelete: () => void;
   onExtract: () => void;
 }
 
 export function BlockControls(props: BlockControlsProps) {
   const [metaPressed, setMeta] = useState(false);
-  const { loading, total, index, setIndex, isDeleting, onDelete, onExtract } =
-    props;
+  const { loading, total, index, setIndex, onDelete, onExtract } = props;
 
   const goToNextBlock = () => setIndex(Math.min(index + 1, total - 1));
   const gotToPreviousBlock = () => setIndex(Math.max(index - 1, 0));
-
-  const deleteButton = isDeleting ? 'is-loading' : 'delete is-danger';
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -90,14 +87,20 @@ export function BlockControls(props: BlockControlsProps) {
           →
         </button>
       </p>
-      <button
-        aria-label="delete"
-        className={`mx-2 is-large button ${deleteButton}`}
-        type="button"
-        onClick={() => {
-          onDelete();
-        }}
-      />
+      <p className="control">
+        <button
+          aria-label="delete"
+          className="button is-small"
+          type="button"
+          onClick={() => {
+            onDelete();
+          }}
+        >
+          <span className="icon is-small">
+            <DeleteIcon />
+          </span>
+        </button>
+      </p>
     </div>
   );
 }

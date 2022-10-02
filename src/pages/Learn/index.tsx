@@ -95,9 +95,8 @@ function LearnPage() {
             </div>
             <BlockControls
               onExtract={onExtract}
-              isDeleting={isMutating}
               onDelete={onDeleteBlock}
-              loading={loading}
+              loading={loading || isMutating}
               index={index}
               setIndex={(next) => {
                 query.set(BLOCK_INDEX_QUERY_PARAM, `${next}`);
