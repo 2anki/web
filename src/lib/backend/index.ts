@@ -243,6 +243,20 @@ class Backend {
     return response.data;
   }
 
+  async createBlock(
+    parentId: string,
+    block: object
+  ): Promise<ListBlockChildrenResponse> {
+    const response = await axios.post(
+      `${this.baseURL}notion/block/${parentId}`,
+      { newBlock: block },
+      {
+        withCredentials: true
+      }
+    );
+    return response.data;
+  }
+
   async getBlocks(pageId: string): Promise<ListBlockChildrenResponse> {
     const response = await axios.get(`${this.baseURL}notion/blocks/${pageId}`, {
       withCredentials: true

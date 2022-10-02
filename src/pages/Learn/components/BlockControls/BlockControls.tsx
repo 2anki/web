@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface BlockControlsProps {
   total: number;
@@ -7,10 +7,13 @@ interface BlockControlsProps {
   setIndex: React.Dispatch<React.SetStateAction<number>>;
   isDeleting: boolean;
   onDelete: () => void;
+  onExtract: () => void;
 }
 
 export function BlockControls(props: BlockControlsProps) {
-  const { loading, total, index, setIndex, isDeleting, onDelete } = props;
+  const [metaPressed, setMeta] = useState(false);
+  const { loading, total, index, setIndex, isDeleting, onDelete, onExtract } =
+    props;
 
   const goToNextBlock = () => setIndex(Math.min(index + 1, total - 1));
   const gotToPreviousBlock = () => setIndex(Math.max(index - 1, 0));
@@ -22,15 +25,28 @@ export function BlockControls(props: BlockControlsProps) {
       const { key } = event;
       if (key === 'ArrowLeft') {
         gotToPreviousBlock();
-      } else if (key === 'ArrowRight') {
+      } else if (key === 'ArrowRight' || key === 'Enter') {
         goToNextBlock();
       } else if (key === 'Backspace' || key === 'Delete') {
         onDelete();
+      } else if (key === 'Meta') {
+        setMeta(true);
+      } else if (key === 'x' && metaPressed) {
+        onExtract();
+        setMeta(false);
+      }
+    };
+    const handleKeyUp = (event: KeyboardEvent) => {
+      const { key } = event;
+      if (key === 'Meta') {
+        setMeta(false);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
     };
   });
 
