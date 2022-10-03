@@ -29,7 +29,11 @@ function LearnPage() {
   const { loading, backSide, frontSide } = useRenderBlock(block?.id);
   // Load parent page based on id
   useEffect(() => {
+    localStorage.getItem('learn-mode');
     setParentId(location.pathname.split('/').at(-1) || null);
+    return () => {
+      localStorage.removeItem('learn-mode');
+    };
   }, []);
 
   const backend = new Backend();
