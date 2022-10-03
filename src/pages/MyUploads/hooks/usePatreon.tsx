@@ -19,7 +19,9 @@ export default function usePatreon(
       try {
         const is = await backend.isPatreon();
         setIsPatreon(is);
-        localStorage.setItem(IS_PATREON_KEY, is.toString());
+        if (is !== undefined) {
+          localStorage.setItem(IS_PATREON_KEY, is.toString());
+        }
       } catch (error) {
         setError(error as ErrorType);
         localStorage.removeItem(IS_PATREON_KEY);
