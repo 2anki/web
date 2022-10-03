@@ -13,6 +13,7 @@ import {
   ErrorHandlerType,
   ErrorType
 } from '../../../../components/errors/helpers/types';
+import { IS_PATREON_KEY } from '../../../MyUploads/hooks/usePatreon';
 
 const backend = new Backend();
 
@@ -31,7 +32,7 @@ function SearchObjectEntry(props: Props) {
   const { title, icon, url, id, type, isFavorite, setFavorites, setError } =
     props;
   const [showSettings, setShowSettings] = useState(false);
-  const isPatreon = localStorage.getItem('is-patron');
+  const isPatreon = localStorage.getItem(IS_PATREON_KEY);
 
   return (
     <>
