@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { DeleteIcon } from './DeleteIcon';
+import { SearchIcon } from './SearchIcon';
 
 interface BlockControlsProps {
   total: number;
@@ -100,6 +101,13 @@ export function BlockControls(props: BlockControlsProps) {
             <DeleteIcon />
           </span>
         </button>
+      </p>
+      <p className="control">
+        <a className="button is-small" href="/search">
+          <span className="icon is-small">
+            <SearchIcon />
+          </span>
+        </a>
       </p>
     </div>
   );
