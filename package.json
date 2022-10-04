@@ -16,7 +16,7 @@
     "@fremtind/jkl-accordion": "^7.0.12",
     "@fremtind/jkl-accordion-react": "^7.0.10",
     "@fremtind/jkl-alert-message": "^7.0.2",
-    "@fremtind/jkl-alert-message-react": "^8.0.4",
+    "@fremtind/jkl-alert-message-react": "^9.0.3",
     "@notionhq/client": "^2.1.1",
     "@sentry/react": "^7.12.1",
     "@sentry/tracing": "^7.12.1",
