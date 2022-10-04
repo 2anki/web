@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@fremtind/jkl-accordion": "^7.0.12",
-    "@fremtind/jkl-accordion-react": "^8.0.2",
+    "@fremtind/jkl-accordion-react": "^7.0.10",
     "@fremtind/jkl-alert-message": "^7.0.2",
     "@fremtind/jkl-alert-message-react": "^8.0.4",
     "@notionhq/client": "^2.1.1",
@@ -72,7 +72,7 @@
     "@types/jest": "^28.1.4",
     "@types/jsonwebtoken": "^8.5.9",
     "@types/lodash": "^4.14.182",
-    "@types/node": "^18.0.6",
+    "@types/node": "^18.8.2",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.7",
