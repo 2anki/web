@@ -1,4 +1,5 @@
 import { useHistory } from 'react-router-dom';
+import { useState } from 'react';
 import SearchBar from './SearchBar';
 import NotionObject from '../../../lib/interfaces/NotionObject';
 import ListSearchResults from './ListSearchResults';
@@ -19,6 +20,7 @@ export default function SearchPresenter(props: SearchPresenterProps) {
   const history = useHistory();
   const { inProgress, myPages, setSearchQuery, triggerSearch, setError } =
     props;
+  const [hideFavorites, setHideFavorites] = useState<boolean>(false);
 
   const [favorites, setFavorites] = useFavorites(new Backend());
 
@@ -33,14 +35,17 @@ export default function SearchPresenter(props: SearchPresenterProps) {
             search: `?q=${s}`
           });
           setSearchQuery(s);
+          setHideFavorites(s.length > 0);
         }}
         onSearchClicked={() => triggerSearch(false)}
       />
-      <Favorites
-        setError={setError}
-        setFavorites={setFavorites}
-        favorites={favorites}
-      />
+      {hideFavorites && (
+        <Favorites
+          setError={setError}
+          setFavorites={setFavorites}
+          favorites={favorites}
+        />
+      )}
       <ListSearchResults
         setError={setError}
         setFavorites={setFavorites}
