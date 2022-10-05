@@ -27,7 +27,7 @@ export function BlockControls(props: BlockControlsProps) {
         goToNextBlock();
       } else if (key === 'Backspace' || key === 'Delete') {
         onDelete();
-      } else if (key === 'Meta' || 'Alt') {
+      } else if (key === 'Meta' || key === 'Alt') {
         setMeta(true);
       } else if (key === 'x' && metaPressed) {
         onExtract();
