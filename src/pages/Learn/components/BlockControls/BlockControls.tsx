@@ -23,11 +23,11 @@ export function BlockControls(props: BlockControlsProps) {
       const { key } = event;
       if (key === 'ArrowLeft') {
         gotToPreviousBlock();
-      } else if (key === 'ArrowRight' || key === 'Enter') {
+      } else if (key === 'ArrowRight') {
         goToNextBlock();
       } else if (key === 'Backspace' || key === 'Delete') {
         onDelete();
-      } else if (key === 'Meta') {
+      } else if (key === 'Meta' || 'Alt') {
         setMeta(true);
       } else if (key === 'x' && metaPressed) {
         onExtract();
