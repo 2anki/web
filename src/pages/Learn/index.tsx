@@ -27,6 +27,7 @@ function LearnPage() {
   const { location } = window;
 
   const block = children ? children[index] : null;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { loading, backSide, frontSide } = useRenderBlock(block?.id);
   // Load parent page based on id
   useEffect(() => {
@@ -84,7 +85,12 @@ function LearnPage() {
     <UploadContainer>
       <link rel="stylesheet" href="https://2anki.net/templates/notion.css" />
       <Main className="tile" id="main-content">
-        {!loading && block && (
+        <progress
+          className="is-link progress"
+          value={index}
+          max={children.length}
+        />
+        {block && (
           <>
             {frontSide && (
               <div
@@ -103,7 +109,6 @@ function LearnPage() {
           onCreateNote={onCreateNote}
           onExtract={onExtract}
           onDelete={onDeleteBlock}
-          loading={loading || isMutating}
           index={index}
           setIndex={(next) => {
             query.set(BLOCK_INDEX_QUERY_PARAM, `${next}`);
