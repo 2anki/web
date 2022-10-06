@@ -9,21 +9,33 @@ import SearchPresenter from './SearchPresenter';
 import WorkSpaceHeader from './WorkspaceHeader';
 
 interface SearchContentProps {
+  isPatron: boolean;
   backend: Backend;
   notionData: NotionData;
   setError: ErrorHandlerType;
 }
 
 export default function SearchContainer(props: SearchContentProps) {
-  const { backend, notionData, setError } = props;
+  const { backend, notionData, setError, isPatron } = props;
   const { myPages, inProgress, triggerSearch, isLoading, setSearchQuery } =
     useSearchQuery(backend, setError);
+  const randomId = () => {
+    const r = Math.floor(Math.random() * myPages.length);
+    if (!r) {
+      return null;
+    }
+    return myPages[r].id;
+  };
 
   if (isLoading) return <LoadingPage />;
 
   return (
     <PageContainer>
-      <WorkSpaceHeader notionData={notionData} />
+      <WorkSpaceHeader
+        isPatron={isPatron}
+        randomId={randomId()}
+        notionData={notionData}
+      />
       <SearchPresenter
         setError={setError}
         myPages={myPages}

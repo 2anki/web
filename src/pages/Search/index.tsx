@@ -26,6 +26,7 @@ function SearchPage({ isPatron, setError }: SearchPageProps) {
       {!connected && <ConnectNotion connectionLink={connectionLink} />}
       {connected && (
         <SearchContainer
+          isPatron={isPatron}
           notionData={notionData}
           backend={backend}
           setError={setError}
