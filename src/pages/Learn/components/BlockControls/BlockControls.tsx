@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useSpeechSynthesis } from '../../helpers/useSpeechSynthesis';
 import { DeleteIcon } from './DeleteIcon';
+import { ScissorsIcon } from './ScissorsIcon';
 import { SearchIcon } from './SearchIcon';
+import { SpeakerWaveIcon } from './SpeakerWaveIcon';
 
 interface BlockControlsProps {
   total: number;
@@ -13,6 +16,7 @@ interface BlockControlsProps {
 
 export function BlockControls(props: BlockControlsProps) {
   const [metaPressed, setMeta] = useState(false);
+  const speak = useSpeechSynthesis();
   const { loading, total, index, setIndex, onDelete, onExtract } = props;
 
   const goToNextBlock = () => setIndex(Math.min(index + 1, total - 1));
@@ -108,6 +112,30 @@ export function BlockControls(props: BlockControlsProps) {
             <SearchIcon />
           </span>
         </a>
+      </p>
+      <p className="control">
+        <button
+          aria-label="speak"
+          className="button is-small"
+          type="button"
+          onClick={() => speak()}
+        >
+          <span className="icon is-small">
+            <SpeakerWaveIcon />
+          </span>
+        </button>
+      </p>
+      <p className="control">
+        <button
+          aria-label="extract"
+          className="button is-small"
+          type="button"
+          onClick={() => onExtract()}
+        >
+          <span className="icon is-small">
+            <ScissorsIcon />
+          </span>
+        </button>
       </p>
     </div>
   );

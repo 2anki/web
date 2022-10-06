@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { useHistory } from 'react-router-dom';
-import { Main, PageContainer } from '../../components/styled';
 import LoadingPage from '../Loading';
 import { useRenderBlock } from './helpers/useRenderBlock';
 import { useLearnData } from './helpers/useLearnData';
@@ -10,9 +9,12 @@ import BlockControls from './components/BlockControls';
 import useQuery from '../../lib/hooks/useQuery';
 import Backend from '../../lib/backend';
 import { createParagraphBlock } from './helpers/createParagrapBlock';
+import { UploadContainer } from '../Upload/styled';
+import { Main } from '../../components/styled';
+import { SourceLink } from './components/BlockControls/SourceLink';
 
 const BLOCK_INDEX_QUERY_PARAM = 'index';
-
+const backend = new Backend();
 function LearnPage() {
   const query = useQuery();
   const history = useHistory();
@@ -36,7 +38,6 @@ function LearnPage() {
     };
   }, []);
 
-  const backend = new Backend();
   const onDeleteBlock = () => {
     const id = block?.id;
     if (!id) {
@@ -73,46 +74,43 @@ function LearnPage() {
   }
 
   return (
-    <PageContainer>
+    <UploadContainer>
       <link rel="stylesheet" href="https://2anki.net/templates/notion.css" />
-      {page && (
-        <nav className="breadcrumb" aria-label="breadcrumbs">
-          <ul>
-            <li>
-              <h1 className="title">
-                <a href={page.url}>{page.title}</a>
-              </h1>
-            </li>
-          </ul>
-        </nav>
-      )}
-      <Main>
-        {block && (
-          <div className="box container">
+      <Main className="tile" id="main-content">
+        {!loading && block && (
+          <>
             {frontSide && (
-              <div dangerouslySetInnerHTML={{ __html: frontSide }} />
+              <div
+                className="box"
+                dangerouslySetInnerHTML={{ __html: frontSide }}
+              />
             )}
-            <div className="tile">
-              {backSide && (
+            {backSide && (
+              <div className="box">
                 <div dangerouslySetInnerHTML={{ __html: backSide }} />
-              )}
-            </div>
-            <BlockControls
-              onExtract={onExtract}
-              onDelete={onDeleteBlock}
-              loading={loading || isMutating}
-              index={index}
-              setIndex={(next) => {
-                query.set(BLOCK_INDEX_QUERY_PARAM, `${next}`);
-                history.push({ search: query.toString() });
-                setIndex(next);
-              }}
-              total={children.length}
-            />
-          </div>
+              </div>
+            )}
+          </>
         )}
+        <BlockControls
+          onExtract={onExtract}
+          onDelete={onDeleteBlock}
+          loading={loading || isMutating}
+          index={index}
+          setIndex={(next) => {
+            query.set(BLOCK_INDEX_QUERY_PARAM, `${next}`);
+            history.push({ search: query.toString() });
+            setIndex(next);
+          }}
+          total={children.length}
+        />
       </Main>
-    </PageContainer>
+      {page && (
+        <small>
+          <SourceLink link={page.url} title={page.title} />
+        </small>
+      )}
+    </UploadContainer>
   );
 }
 

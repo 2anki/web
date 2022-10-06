@@ -13,11 +13,11 @@ import {
   ErrorHandlerType,
   ErrorType
 } from '../../../../components/errors/helpers/types';
-import { IS_PATREON_KEY } from '../../../MyUploads/hooks/usePatreon';
 
 const backend = new Backend();
 
 interface Props {
+  isPatron: boolean;
   isFavorite: boolean | undefined;
   title: string;
   icon: string | undefined;
@@ -29,10 +29,18 @@ interface Props {
 }
 
 function SearchObjectEntry(props: Props) {
-  const { title, icon, url, id, type, isFavorite, setFavorites, setError } =
-    props;
+  const {
+    title,
+    icon,
+    url,
+    id,
+    type,
+    isFavorite,
+    setFavorites,
+    setError,
+    isPatron
+  } = props;
   const [showSettings, setShowSettings] = useState(false);
-  const isPatreon = localStorage.getItem(IS_PATREON_KEY);
 
   return (
     <>
@@ -47,7 +55,7 @@ function SearchObjectEntry(props: Props) {
           <span className="subtitle is-6">{title}</span>
         </ObjectMeta>
         <ObjectActions>
-          {isPatreon && (
+          {isPatron && (
             <ObjectAction url={`/learn/${id}`} image="/icons/bulb_on.svg" />
           )}
           <ObjectAction

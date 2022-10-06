@@ -10,8 +10,10 @@ export const Container = styled.div`
 `;
 
 export const Main = styled.main`
+  flex-direction: column;
   max-width: 720px;
   margin: 0 auto;
+  padding: 2rem;
 `;
 
 export const HomeContainer = styled(Container)`
