@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { useHistory } from 'react-router-dom';
-import { Main, PageContainer } from '../../components/styled';
 import LoadingPage from '../Loading';
 import { useRenderBlock } from './helpers/useRenderBlock';
 import { useLearnData } from './helpers/useLearnData';
@@ -10,6 +9,8 @@ import BlockControls from './components/BlockControls';
 import useQuery from '../../lib/hooks/useQuery';
 import Backend from '../../lib/backend';
 import { createParagraphBlock } from './helpers/createParagrapBlock';
+import { UploadContainer } from '../Upload/styled';
+import { Main } from '../../components/styled';
 
 const BLOCK_INDEX_QUERY_PARAM = 'index';
 
@@ -73,46 +74,43 @@ function LearnPage() {
   }
 
   return (
-    <PageContainer>
+    <UploadContainer>
       <link rel="stylesheet" href="https://2anki.net/templates/notion.css" />
-      {page && (
-        <nav className="breadcrumb" aria-label="breadcrumbs">
-          <ul>
-            <li>
-              <h1 className="title">
-                <a href={page.url}>{page.title}</a>
-              </h1>
-            </li>
-          </ul>
-        </nav>
-      )}
-      <Main>
+      <Main className="tile">
         {block && (
-          <div className="box container">
+          <>
             {frontSide && (
-              <div dangerouslySetInnerHTML={{ __html: frontSide }} />
+              <div
+                className="box"
+                dangerouslySetInnerHTML={{ __html: frontSide }}
+              />
             )}
-            <div className="tile">
-              {backSide && (
+            {backSide && (
+              <div className="box">
                 <div dangerouslySetInnerHTML={{ __html: backSide }} />
-              )}
-            </div>
-            <BlockControls
-              onExtract={onExtract}
-              onDelete={onDeleteBlock}
-              loading={loading || isMutating}
-              index={index}
-              setIndex={(next) => {
-                query.set(BLOCK_INDEX_QUERY_PARAM, `${next}`);
-                history.push({ search: query.toString() });
-                setIndex(next);
-              }}
-              total={children.length}
-            />
-          </div>
+              </div>
+            )}
+          </>
+        )}
+        <BlockControls
+          onExtract={onExtract}
+          onDelete={onDeleteBlock}
+          loading={loading || isMutating}
+          index={index}
+          setIndex={(next) => {
+            query.set(BLOCK_INDEX_QUERY_PARAM, `${next}`);
+            history.push({ search: query.toString() });
+            setIndex(next);
+          }}
+          total={children.length}
+        />
+        {page && (
+          <small>
+            <a href={page.url}>{page.title}</a>
+          </small>
         )}
       </Main>
-    </PageContainer>
+    </UploadContainer>
   );
 }
 
