@@ -1,6 +1,5 @@
 /* eslint-disable react/no-danger */
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import LoadingPage from '../Loading';
 import { useRenderBlock } from './helpers/useRenderBlock';
@@ -25,7 +24,7 @@ function LearnPage() {
   const [isMutating, setIsMutating] = useState(false);
 
   const { children, page, error } = useLearnData(parentId, isMutating);
-  const location = useLocation();
+  const { location } = window;
 
   const block = children ? children[index] : null;
   const { loading, backSide, frontSide } = useRenderBlock(block?.id);

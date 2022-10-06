@@ -1,4 +1,3 @@
-import NavigationBar from '../../components/NavigationBar/NavigationBar';
 import SearchContainer from './components/SearchContainer';
 import useNotionData from './helpers/useNotionData';
 import Backend from '../../lib/backend';
@@ -22,7 +21,6 @@ function SearchPage({ isPatron, setError }: SearchPageProps) {
 
   return (
     <>
-      <NavigationBar isPatron={isPatron} />
       {!connected && <ConnectNotion connectionLink={connectionLink} />}
       {connected && (
         <SearchContainer
