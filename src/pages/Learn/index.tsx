@@ -65,6 +65,14 @@ function LearnPage() {
     }
   };
 
+  const onCreateNote = () => {
+    const selection = window.getSelection()?.toString();
+    if (selection) {
+      const ankiCallbackUrl = `anki://x-callback-url/addnote?type=basic&deck=2anki&fldFront=${frontSide}&fldBack=${backSide}&x-success=${window.location.href}`;
+      window.open(ankiCallbackUrl, '_blank');
+    }
+  };
+
   if (error) {
     window.location.href = '/search';
   }
@@ -93,6 +101,7 @@ function LearnPage() {
           </>
         )}
         <BlockControls
+          onCreateNote={onCreateNote}
           onExtract={onExtract}
           onDelete={onDeleteBlock}
           loading={loading || isMutating}

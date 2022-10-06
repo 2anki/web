@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useSpeechSynthesis } from '../../helpers/useSpeechSynthesis';
-import { DeleteIcon } from './DeleteIcon';
-import { ScissorsIcon } from './ScissorsIcon';
-import { SearchIcon } from './SearchIcon';
-import { SpeakerWaveIcon } from './SpeakerWaveIcon';
+import { DeleteIcon } from './icons/DeleteIcon';
+import { ScissorsIcon } from './icons/ScissorsIcon';
+import { SearchIcon } from './icons/SearchIcon';
+import { SpeakerWaveIcon } from './icons/SpeakerWaveIcon';
 
 interface BlockControlsProps {
   total: number;
@@ -12,12 +12,14 @@ interface BlockControlsProps {
   setIndex: React.Dispatch<React.SetStateAction<number>>;
   onDelete: () => void;
   onExtract: () => void;
+  onCreateNote: () => void;
 }
 
 export function BlockControls(props: BlockControlsProps) {
   const [metaPressed, setMeta] = useState(false);
   const speak = useSpeechSynthesis();
-  const { loading, total, index, setIndex, onDelete, onExtract } = props;
+  const { loading, total, index, setIndex, onDelete, onExtract, onCreateNote } =
+    props;
 
   const goToNextBlock = () => setIndex(Math.min(index + 1, total - 1));
   const gotToPreviousBlock = () => setIndex(Math.max(index - 1, 0));
@@ -134,6 +136,18 @@ export function BlockControls(props: BlockControlsProps) {
         >
           <span className="icon is-small">
             <ScissorsIcon />
+          </span>
+        </button>
+      </p>
+      <p className="control">
+        <button
+          aria-label="create note"
+          className="button is-small"
+          type="button"
+          onClick={() => onCreateNote()}
+        >
+          <span className="icon is-small">
+            <img alt="create flashcard" src="/icons/Anki_app_logo.png" />
           </span>
         </button>
       </p>
