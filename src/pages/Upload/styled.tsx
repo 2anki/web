@@ -30,14 +30,9 @@ export const SettingsLink = styled.div`
   }
 `;
 
-export const Main = styled.main`
-  max-width: 768px;
-  margin: 0 auto;
-`;
-
 export const UploadContainer = styled(Container)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content:center;
+  justify-content: center;
 `;

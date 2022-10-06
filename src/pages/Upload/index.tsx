@@ -11,11 +11,10 @@ import {
   FlexColumn,
   ImportTitle,
   InfoMessage,
-  Main,
   SettingsLink,
   UploadContainer
 } from './styled';
-import { PageContainer } from '../../components/styled';
+import { Main, PageContainer } from '../../components/styled';
 import { ErrorHandlerType } from '../../components/errors/helpers/types';
 
 interface Props {
