@@ -19,7 +19,7 @@
     "@fremtind/jkl-alert-message-react": "^9.0.3",
     "@notionhq/client": "^2.1.1",
     "@sentry/react": "^7.12.1",
-    "@sentry/tracing": "^7.12.1",
+    "@sentry/tracing": "^7.14.2",
     "axios": "^0.27.2",
     "bulma": "^0.9.4",
     "bulma-switch": "^2.0.4",
