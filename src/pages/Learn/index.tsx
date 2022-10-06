@@ -11,6 +11,7 @@ import Backend from '../../lib/backend';
 import { createParagraphBlock } from './helpers/createParagrapBlock';
 import { UploadContainer } from '../Upload/styled';
 import { Main } from '../../components/styled';
+import { SourceLink } from './components/BlockControls/SourceLink';
 
 const BLOCK_INDEX_QUERY_PARAM = 'index';
 const backend = new Backend();
@@ -105,7 +106,7 @@ function LearnPage() {
         />
         {page && (
           <small>
-            <a href={page.url}>{page.title}</a>
+            <SourceLink link={page.url} title={page.title} />
           </small>
         )}
       </Main>
