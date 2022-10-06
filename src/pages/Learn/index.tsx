@@ -13,7 +13,7 @@ import { UploadContainer } from '../Upload/styled';
 import { Main } from '../../components/styled';
 
 const BLOCK_INDEX_QUERY_PARAM = 'index';
-
+const backend = new Backend();
 function LearnPage() {
   const query = useQuery();
   const history = useHistory();
@@ -37,7 +37,6 @@ function LearnPage() {
     };
   }, []);
 
-  const backend = new Backend();
   const onDeleteBlock = () => {
     const id = block?.id;
     if (!id) {
@@ -77,7 +76,7 @@ function LearnPage() {
     <UploadContainer>
       <link rel="stylesheet" href="https://2anki.net/templates/notion.css" />
       <Main className="tile">
-        {block && (
+        {!loading && block && (
           <>
             {frontSide && (
               <div

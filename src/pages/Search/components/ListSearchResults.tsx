@@ -1,6 +1,8 @@
 import { Dispatch, SetStateAction } from 'react';
 import { ErrorHandlerType } from '../../../components/errors/helpers/types';
+import Backend from '../../../lib/backend';
 import NotionObject from '../../../lib/interfaces/NotionObject';
+import usePatreon from '../../MyUploads/hooks/usePatreon';
 import SearchObjectEntry from './SearchObjectEntry';
 
 interface ListSearchResultsProps {
@@ -15,6 +17,7 @@ export default function ListSearchResults(
 ): JSX.Element {
   const { results, handleEmpty, setFavorites, setError } = props;
   const isEmpty = results.length < 1;
+  const [isPatron] = usePatreon(new Backend(), setError);
 
   if (isEmpty && handleEmpty) {
     return (
@@ -36,6 +39,7 @@ export default function ListSearchResults(
     <>
       {results.map((p) => (
         <SearchObjectEntry
+          isPatron={isPatron}
           setError={setError}
           setFavorites={setFavorites}
           isFavorite={p.isFavorite}
