@@ -76,7 +76,7 @@ function LearnPage() {
   return (
     <UploadContainer>
       <link rel="stylesheet" href="https://2anki.net/templates/notion.css" />
-      <Main className="tile">
+      <Main className="tile" id="main-content">
         {!loading && block && (
           <>
             {frontSide && (
@@ -104,12 +104,12 @@ function LearnPage() {
           }}
           total={children.length}
         />
-        {page && (
-          <small>
-            <SourceLink link={page.url} title={page.title} />
-          </small>
-        )}
       </Main>
+      {page && (
+        <small>
+          <SourceLink link={page.url} title={page.title} />
+        </small>
+      )}
     </UploadContainer>
   );
 }
