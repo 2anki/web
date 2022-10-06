@@ -8,7 +8,6 @@ import { SpeakerWaveIcon } from './icons/SpeakerWaveIcon';
 interface BlockControlsProps {
   total: number;
   index: number;
-  loading: boolean;
   setIndex: React.Dispatch<React.SetStateAction<number>>;
   onDelete: () => void;
   onExtract: () => void;
@@ -18,8 +17,7 @@ interface BlockControlsProps {
 export function BlockControls(props: BlockControlsProps) {
   const [metaPressed, setMeta] = useState(false);
   const speak = useSpeechSynthesis();
-  const { loading, total, index, setIndex, onDelete, onExtract, onCreateNote } =
-    props;
+  const { total, index, setIndex, onDelete, onExtract, onCreateNote } = props;
 
   const goToNextBlock = () => setIndex(Math.min(index + 1, total - 1));
   const gotToPreviousBlock = () => setIndex(Math.max(index - 1, 0));
@@ -66,24 +64,6 @@ export function BlockControls(props: BlockControlsProps) {
           ←
         </button>
       </p>
-      {loading && (
-        <p className="control">
-          <button type="button" className="is-small is-loading button">
-            loading
-          </button>
-        </p>
-      )}
-      {!loading && (
-        <p className="control">
-          <button
-            aria-label="current block"
-            type="button"
-            className="button is-small"
-          >
-            {index + 1} /{total}
-          </button>
-        </p>
-      )}
       <p className="control">
         <button
           aria-label="Next block"
