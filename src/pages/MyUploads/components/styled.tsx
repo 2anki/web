@@ -18,7 +18,6 @@ export const ObjectMeta = styled.div`
 export const ObjectActions = styled.div`
   display: flex;
   grid-gap: 1rem;
-  min-width: 80px;
   justify-content: center;
 `;
 
