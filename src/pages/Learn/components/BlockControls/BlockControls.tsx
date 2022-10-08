@@ -87,8 +87,10 @@ export function BlockControls(props: BlockControlsProps) {
         loading={loadPreviousBlock}
         label="Previous"
         onClick={() => {
-          setLoadPreviousBlock(true);
-          gotToPreviousBlock();
+          if (!loading) {
+            setLoadPreviousBlock(true);
+            gotToPreviousBlock();
+          }
         }}
         icon="←"
       />
@@ -96,8 +98,10 @@ export function BlockControls(props: BlockControlsProps) {
         loading={loadNextBlock}
         label="Next"
         onClick={() => {
-          setLoadNextBlock(true);
-          goToNextBlock();
+          if (!loading) {
+            setLoadNextBlock(true);
+            goToNextBlock();
+          }
         }}
         icon="→"
       />
@@ -105,8 +109,10 @@ export function BlockControls(props: BlockControlsProps) {
         loading={loadDeleteBlock}
         label="delete"
         onClick={() => {
-          setLoadDelete(true);
-          onDelete();
+          if (!loading) {
+            setLoadDelete(true);
+            onDelete();
+          }
         }}
         icon={<DeleteIcon />}
       />
@@ -126,8 +132,10 @@ export function BlockControls(props: BlockControlsProps) {
         loading={loadExtract}
         label="extract"
         onClick={() => {
-          setLoadExtract(true);
-          onExtract();
+          if (!loading) {
+            setLoadExtract(true);
+            onExtract();
+          }
         }}
         icon={<ScissorsIcon />}
       />
@@ -135,8 +143,10 @@ export function BlockControls(props: BlockControlsProps) {
         loading={loadCreatingNote}
         label="create note"
         onClick={() => {
-          setLoadCreatingNote(true);
-          onCreateNote();
+          if (!loading) {
+            setLoadCreatingNote(true);
+            onCreateNote();
+          }
         }}
         icon={<img alt="create flashcard" src="/icons/Anki_app_logo.png" />}
       />
