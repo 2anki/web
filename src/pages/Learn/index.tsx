@@ -10,7 +10,7 @@ import Backend from '../../lib/backend';
 import { createParagraphBlock } from './helpers/createParagrapBlock';
 import { UploadContainer } from '../Upload/styled';
 import { Main } from '../../components/styled';
-import { SourceLink } from './components/BlockControls/SourceLink';
+import { SourceLink } from './components/SourceLink';
 
 const BLOCK_INDEX_QUERY_PARAM = 'index';
 const backend = new Backend();
@@ -106,6 +106,7 @@ function LearnPage() {
           </>
         )}
         <BlockControls
+          loading={isMutating || loading}
           onCreateNote={onCreateNote}
           onExtract={onExtract}
           onDelete={onDeleteBlock}
