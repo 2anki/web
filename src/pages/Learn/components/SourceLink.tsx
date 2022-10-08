@@ -6,13 +6,13 @@ interface SourceLinkProps {
 }
 
 const Link = styled.a`
-  background-color: hotpink;
+  background-color: #5397f5;
 `;
 
 const List = styled.ul`
   li {
     list-style: none;
-    color: #863262;
+    color: white;
   }
 `;
 

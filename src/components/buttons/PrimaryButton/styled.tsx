@@ -32,7 +32,6 @@ export const StyledButton = styled.div`
 
   @media (max-width: 1024px) {
     font-size: 16px;
-    /* width: 221px; */
     height: 54px;
     margin-right: auto;
   }
