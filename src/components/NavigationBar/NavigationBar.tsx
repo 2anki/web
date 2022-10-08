@@ -10,6 +10,7 @@ import { Navbar } from './styled';
 import getNavbarStartRegularUser from './helpers/getNavbarStartRegularUser';
 import getNavbarEnd from './helpers/getNavbarEnd';
 import BecomeAPatron from '../BecomeAPatron';
+import { isLearnPage } from './helpers/isLearnPage';
 
 interface NavigationBarProps {
   isPatron: boolean;
@@ -25,6 +26,10 @@ function NavigationBar({ isPatron }: NavigationBarProps) {
   const navbarStart = cookies.token
     ? getNavbarStartRegularUser(hash)
     : getNavbarStartNewUser(hash, path);
+
+  if (isLearnPage(path)) {
+    return null;
+  }
 
   return (
     <Navbar className="navbar" role="navigation" aria-label="main navigation">

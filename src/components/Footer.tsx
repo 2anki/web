@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { isLearnPage } from './NavigationBar/helpers/isLearnPage';
 
 const StyledFooter = styled.footer`
   flex-shrink: 0;
@@ -18,6 +19,10 @@ const Header = styled.p`
 `;
 
 function Footer() {
+  if (isLearnPage(window.location.pathname)) {
+    return null;
+  }
+
   return (
     <StyledFooter>
       <div className="columns">
