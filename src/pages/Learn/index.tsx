@@ -90,7 +90,7 @@ function LearnPage() {
             max={children.length}
           />
           {block && (
-            <div className="box">
+            <div id="main-content" className="box">
               {frontSide && (
                 <div
                   className="content"
