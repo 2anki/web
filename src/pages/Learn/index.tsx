@@ -8,8 +8,6 @@ import BlockControls from './components/BlockControls';
 import useQuery from '../../lib/hooks/useQuery';
 import Backend from '../../lib/backend';
 import { createParagraphBlock } from './helpers/createParagrapBlock';
-import { UploadContainer } from '../Upload/styled';
-import { Main } from '../../components/styled';
 import { SourceLink } from './components/SourceLink';
 
 const BLOCK_INDEX_QUERY_PARAM = 'index';
@@ -82,49 +80,53 @@ function LearnPage() {
   }
 
   return (
-    <UploadContainer>
+    <>
       <link rel="stylesheet" href="https://2anki.net/templates/notion.css" />
-      <Main className="tile" id="main-content">
-        <progress
-          className="is-link progress"
-          value={index}
-          max={children.length}
-        />
-        {block && (
-          <>
-            {frontSide && (
-              <div
-                className="box"
-                dangerouslySetInnerHTML={{ __html: frontSide }}
-              />
+      <section className="section">
+        <div className="container">
+          <progress
+            className="is-link progress"
+            value={index}
+            max={children.length}
+          />
+          {block && (
+            <div className="box">
+              {frontSide && (
+                <div
+                  className="content"
+                  dangerouslySetInnerHTML={{ __html: frontSide }}
+                />
+              )}
+              {backSide && (
+                <div className="content">
+                  <div dangerouslySetInnerHTML={{ __html: backSide }} />
+                </div>
+              )}
+            </div>
+          )}
+          <BlockControls
+            loading={isMutating || loading}
+            onCreateNote={onCreateNote}
+            onExtract={onExtract}
+            onDelete={onDeleteBlock}
+            index={index}
+            setIndex={(next) => {
+              query.set(BLOCK_INDEX_QUERY_PARAM, `${next}`);
+              history.push({ search: query.toString() });
+              setIndex(next);
+            }}
+            total={children.length}
+          />
+          <p className="subtitle">
+            {page && (
+              <small>
+                <SourceLink link={page.url} title={page.title} />
+              </small>
             )}
-            {backSide && (
-              <div className="box">
-                <div dangerouslySetInnerHTML={{ __html: backSide }} />
-              </div>
-            )}
-          </>
-        )}
-        <BlockControls
-          loading={isMutating || loading}
-          onCreateNote={onCreateNote}
-          onExtract={onExtract}
-          onDelete={onDeleteBlock}
-          index={index}
-          setIndex={(next) => {
-            query.set(BLOCK_INDEX_QUERY_PARAM, `${next}`);
-            history.push({ search: query.toString() });
-            setIndex(next);
-          }}
-          total={children.length}
-        />
-      </Main>
-      {page && (
-        <small>
-          <SourceLink link={page.url} title={page.title} />
-        </small>
-      )}
-    </UploadContainer>
+          </p>
+        </div>
+      </section>
+    </>
   );
 }
 

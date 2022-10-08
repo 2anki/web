@@ -17,11 +17,10 @@ interface BlockControlsProps {
 }
 
 export function BlockControls(props: BlockControlsProps) {
-  const [metaPressed, setMeta] = useState(false);
-  const speak = useSpeechSynthesis();
   const { loading, total, index, setIndex, onDelete, onExtract, onCreateNote } =
     props;
-
+  const [metaPressed, setMeta] = useState(false);
+  const speak = useSpeechSynthesis();
   const goToNextBlock = () => setIndex(Math.min(index + 1, total - 1));
   const gotToPreviousBlock = () => setIndex(Math.max(index - 1, 0));
 
@@ -119,7 +118,9 @@ export function BlockControls(props: BlockControlsProps) {
       <ControlButton
         loading={false}
         label="search"
-        onClick={() => speak()}
+        onClick={() => {
+          window.location.href = '/learn';
+        }}
         icon={<SearchIcon />}
       />
       <ControlButton
