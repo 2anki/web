@@ -64,11 +64,8 @@ function LearnPage() {
   };
 
   const onCreateNote = () => {
-    const selection = window.getSelection()?.toString();
-    if (selection) {
-      const ankiCallbackUrl = `anki://x-callback-url/addnote?type=basic&deck=2anki&fldFront=${frontSide}&fldBack=${backSide}&x-success=${window.location.href}`;
-      window.open(ankiCallbackUrl, '_blank');
-    }
+    const ankiCallbackUrl = `anki://x-callback-url/addnote?type=basic&deck=2anki&fldFront=${frontSide}&fldBack=${backSide}&x-success=${window.location.href}`;
+    window.open(ankiCallbackUrl, '_blank');
   };
 
   if (error) {
