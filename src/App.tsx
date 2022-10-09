@@ -62,16 +62,7 @@ function App() {
       <StoreContext.Provider value={store}>
         <Router>
           <Layout>
-            {/* We don't want a header on the sign-up page */}
-            <Route
-              render={({ location }) =>
-                location.pathname.match(
-                  /^(?!.*(login|search|signup|learn)).*$/
-                ) ? (
-                  <NavigationBar isPatron={isPatron} />
-                ) : null
-              }
-            />
+            <NavigationBar isPatron={isPatron} />
             <ErrorPresenter error={apiError} />
             <Switch>
               <Route path="/uploads">
@@ -117,11 +108,7 @@ function App() {
                 <HomePage />
               </Route>
             </Switch>
-            <Route
-              render={({ location }) =>
-                location.pathname.match(/^(?!.*(learn)).*$/) ? <Footer /> : null
-              }
-            />
+            <Footer />
           </Layout>
         </Router>
       </StoreContext.Provider>

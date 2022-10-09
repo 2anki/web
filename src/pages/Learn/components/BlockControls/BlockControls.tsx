@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useSpeechSynthesis } from '../../helpers/useSpeechSynthesis';
+import { ControlButton } from '../ControlButton';
 import { DeleteIcon } from './icons/DeleteIcon';
 import { ScissorsIcon } from './icons/ScissorsIcon';
 import { SearchIcon } from './icons/SearchIcon';
 import { SpeakerWaveIcon } from './icons/SpeakerWaveIcon';
 
 interface BlockControlsProps {
+  loading: boolean;
   total: number;
   index: number;
-  loading: boolean;
   setIndex: React.Dispatch<React.SetStateAction<number>>;
   onDelete: () => void;
   onExtract: () => void;
@@ -16,13 +17,38 @@ interface BlockControlsProps {
 }
 
 export function BlockControls(props: BlockControlsProps) {
-  const [metaPressed, setMeta] = useState(false);
-  const speak = useSpeechSynthesis();
   const { loading, total, index, setIndex, onDelete, onExtract, onCreateNote } =
     props;
-
+  const [metaPressed, setMeta] = useState(false);
+  const speak = useSpeechSynthesis();
   const goToNextBlock = () => setIndex(Math.min(index + 1, total - 1));
   const gotToPreviousBlock = () => setIndex(Math.max(index - 1, 0));
+
+  const [loadCreatingNote, setLoadCreatingNote] = useState(false);
+  const [loadExtract, setLoadExtract] = useState(false);
+  const [loadDeleteBlock, setLoadDelete] = useState(false);
+  const [loadNextBlock, setLoadNextBlock] = useState(false);
+  const [loadPreviousBlock, setLoadPreviousBlock] = useState(false);
+
+  useEffect(() => {
+    if (!loading) {
+      if (loadCreatingNote) {
+        setLoadCreatingNote(false);
+      }
+      if (loadExtract) {
+        setLoadExtract(false);
+      }
+      if (loadDeleteBlock) {
+        setLoadDelete(false);
+      }
+      if (loadNextBlock) {
+        setLoadNextBlock(false);
+      }
+      if (loadPreviousBlock) {
+        setLoadPreviousBlock(false);
+      }
+    }
+  }, [loading]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -56,101 +82,75 @@ export function BlockControls(props: BlockControlsProps) {
 
   return (
     <div className="field has-addons">
-      <p className="control">
-        <button
-          aria-label="previous block"
-          className="button is-small"
-          type="button"
-          onClick={() => gotToPreviousBlock()}
-        >
-          ←
-        </button>
-      </p>
-      {loading && (
-        <p className="control">
-          <button type="button" className="is-small is-loading button">
-            loading
-          </button>
-        </p>
-      )}
-      {!loading && (
-        <p className="control">
-          <button
-            aria-label="current block"
-            type="button"
-            className="button is-small"
-          >
-            {index + 1} /{total}
-          </button>
-        </p>
-      )}
-      <p className="control">
-        <button
-          aria-label="Next block"
-          className="button is-small"
-          type="button"
-          onClick={() => goToNextBlock()}
-        >
-          →
-        </button>
-      </p>
-      <p className="control">
-        <button
-          aria-label="delete"
-          className="button is-small"
-          type="button"
-          onClick={() => {
+      <ControlButton
+        loading={loadPreviousBlock}
+        label="Previous"
+        onClick={() => {
+          if (!loading) {
+            setLoadPreviousBlock(true);
+            gotToPreviousBlock();
+          }
+        }}
+        icon="←"
+      />
+      <ControlButton
+        loading={loadNextBlock}
+        label="Next"
+        onClick={() => {
+          if (!loading) {
+            setLoadNextBlock(true);
+            goToNextBlock();
+          }
+        }}
+        icon="→"
+      />
+      <ControlButton
+        loading={loadDeleteBlock}
+        label="delete"
+        onClick={() => {
+          if (!loading) {
+            setLoadDelete(true);
             onDelete();
-          }}
-        >
-          <span className="icon is-small">
-            <DeleteIcon />
-          </span>
-        </button>
-      </p>
-      <p className="control">
-        <a className="button is-small" href="/search">
-          <span className="icon is-small">
-            <SearchIcon />
-          </span>
-        </a>
-      </p>
-      <p className="control">
-        <button
-          aria-label="speak"
-          className="button is-small"
-          type="button"
-          onClick={() => speak()}
-        >
-          <span className="icon is-small">
-            <SpeakerWaveIcon />
-          </span>
-        </button>
-      </p>
-      <p className="control">
-        <button
-          aria-label="extract"
-          className="button is-small"
-          type="button"
-          onClick={() => onExtract()}
-        >
-          <span className="icon is-small">
-            <ScissorsIcon />
-          </span>
-        </button>
-      </p>
-      <p className="control">
-        <button
-          aria-label="create note"
-          className="button is-small"
-          type="button"
-          onClick={() => onCreateNote()}
-        >
-          <span className="icon is-small">
-            <img alt="create flashcard" src="/icons/Anki_app_logo.png" />
-          </span>
-        </button>
-      </p>
+          }
+        }}
+        icon={<DeleteIcon />}
+      />
+      <ControlButton
+        loading={false}
+        label="search"
+        onClick={() => {
+          window.location.href = '/learn';
+        }}
+        icon={<SearchIcon />}
+      />
+      <ControlButton
+        loading={false}
+        label="Read text"
+        onClick={() => speak()}
+        icon={<SpeakerWaveIcon />}
+      />
+      <ControlButton
+        loading={loadExtract}
+        label="extract"
+        onClick={() => {
+          if (!loading) {
+            setLoadExtract(true);
+            onExtract();
+          }
+        }}
+        icon={<ScissorsIcon />}
+      />
+      <ControlButton
+        loading={loadCreatingNote}
+        label="create note"
+        onClick={() => {
+          if (!loading) {
+            setLoadCreatingNote(true);
+            onCreateNote();
+          }
+        }}
+        icon={<img alt="create flashcard" src="/icons/Anki_app_logo.png" />}
+      />
     </div>
   );
 }

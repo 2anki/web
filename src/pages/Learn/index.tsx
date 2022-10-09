@@ -1,6 +1,5 @@
 /* eslint-disable react/no-danger */
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import LoadingPage from '../Loading';
 import { useRenderBlock } from './helpers/useRenderBlock';
@@ -9,9 +8,7 @@ import BlockControls from './components/BlockControls';
 import useQuery from '../../lib/hooks/useQuery';
 import Backend from '../../lib/backend';
 import { createParagraphBlock } from './helpers/createParagrapBlock';
-import { UploadContainer } from '../Upload/styled';
-import { Main } from '../../components/styled';
-import { SourceLink } from './components/BlockControls/SourceLink';
+import { SourceLink } from './components/SourceLink';
 
 const BLOCK_INDEX_QUERY_PARAM = 'index';
 const backend = new Backend();
@@ -25,9 +22,10 @@ function LearnPage() {
   const [isMutating, setIsMutating] = useState(false);
 
   const { children, page, error } = useLearnData(parentId, isMutating);
-  const location = useLocation();
+  const { location } = window;
 
   const block = children ? children[index] : null;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { loading, backSide, frontSide } = useRenderBlock(block?.id);
   // Load parent page based on id
   useEffect(() => {
@@ -82,44 +80,53 @@ function LearnPage() {
   }
 
   return (
-    <UploadContainer>
+    <>
       <link rel="stylesheet" href="https://2anki.net/templates/notion.css" />
-      <Main className="tile" id="main-content">
-        {!loading && block && (
-          <>
-            {frontSide && (
-              <div
-                className="box"
-                dangerouslySetInnerHTML={{ __html: frontSide }}
-              />
+      <section className="section">
+        <div className="container">
+          <progress
+            className="is-link progress"
+            value={index}
+            max={children.length}
+          />
+          {block && (
+            <div id="main-content" className="box">
+              {frontSide && (
+                <div
+                  className="content"
+                  dangerouslySetInnerHTML={{ __html: frontSide }}
+                />
+              )}
+              {backSide && (
+                <div className="content">
+                  <div dangerouslySetInnerHTML={{ __html: backSide }} />
+                </div>
+              )}
+            </div>
+          )}
+          <BlockControls
+            loading={isMutating || loading}
+            onCreateNote={onCreateNote}
+            onExtract={onExtract}
+            onDelete={onDeleteBlock}
+            index={index}
+            setIndex={(next) => {
+              query.set(BLOCK_INDEX_QUERY_PARAM, `${next}`);
+              history.push({ search: query.toString() });
+              setIndex(next);
+            }}
+            total={children.length}
+          />
+          <p className="subtitle">
+            {page && (
+              <small>
+                <SourceLink link={page.url} title={page.title} />
+              </small>
             )}
-            {backSide && (
-              <div className="box">
-                <div dangerouslySetInnerHTML={{ __html: backSide }} />
-              </div>
-            )}
-          </>
-        )}
-        <BlockControls
-          onCreateNote={onCreateNote}
-          onExtract={onExtract}
-          onDelete={onDeleteBlock}
-          loading={loading || isMutating}
-          index={index}
-          setIndex={(next) => {
-            query.set(BLOCK_INDEX_QUERY_PARAM, `${next}`);
-            history.push({ search: query.toString() });
-            setIndex(next);
-          }}
-          total={children.length}
-        />
-      </Main>
-      {page && (
-        <small>
-          <SourceLink link={page.url} title={page.title} />
-        </small>
-      )}
-    </UploadContainer>
+          </p>
+        </div>
+      </section>
+    </>
   );
 }
 
