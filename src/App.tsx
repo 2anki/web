@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { lazy, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
@@ -64,7 +64,7 @@ function App() {
           <Layout>
             <NavigationBar isPatron={isPatron} />
             <ErrorPresenter error={apiError} />
-            <Switch>
+            <Routes>
               <Route path="/uploads">
                 <MyUploadsPage setError={handledError} />
               </Route>
@@ -107,7 +107,7 @@ function App() {
               <Route path="/">
                 <HomePage />
               </Route>
-            </Switch>
+            </Routes>
             <Footer />
           </Layout>
         </Router>

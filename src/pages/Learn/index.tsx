@@ -1,6 +1,5 @@
 /* eslint-disable react/no-danger */
 import { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import LoadingPage from '../Loading';
 import { useRenderBlock } from './helpers/useRenderBlock';
 import { useLearnData } from './helpers/useLearnData';
@@ -14,7 +13,6 @@ const BLOCK_INDEX_QUERY_PARAM = 'index';
 const backend = new Backend();
 function LearnPage() {
   const query = useQuery();
-  const history = useHistory();
   const [parentId, setParentId] = useState<string | null>(null);
   const [index, setIndex] = useState(
     Number(query.get(BLOCK_INDEX_QUERY_PARAM)) || 0
@@ -112,7 +110,11 @@ function LearnPage() {
             index={index}
             setIndex={(next) => {
               query.set(BLOCK_INDEX_QUERY_PARAM, `${next}`);
-              history.push({ search: query.toString() });
+              window.history.pushState(
+                { search: query.toString() },
+                '',
+                '/learn'
+              );
               setIndex(next);
             }}
             total={children.length}
