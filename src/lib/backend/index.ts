@@ -6,7 +6,7 @@ import {
   GetBlockResponse,
   GetDatabaseResponse,
   GetPageResponse,
-  ListBlockChildrenResponse,
+  ListBlockChildrenResponse
 } from '@notionhq/client/build/src/api-endpoints';
 import NotionObject from '../interfaces/NotionObject';
 import UserUpload from '../interfaces/UserUpload';
@@ -46,7 +46,7 @@ class Backend {
 
   getNotionConnectionInfo() {
     return axios.get(`${this.baseURL}notion/get-notion-link`, {
-      withCredentials: true,
+      withCredentials: true
     });
   }
 
@@ -81,7 +81,7 @@ class Backend {
 
   deleteTemplates() {
     return axios.post(`${this.baseURL}templates/delete`, {
-      withCredentials: true,
+      withCredentials: true
     });
   }
 
@@ -106,7 +106,7 @@ class Backend {
       DECK: deck.join(','),
       SUB_DECKS: subDecks.join(','),
       TAGS: tags,
-      EMAIL_NOTIFICATION: email,
+      EMAIL_NOTIFICATION: email
     };
     return axios.post(
       `${this.baseURL}rules/create/${id}`,
@@ -145,13 +145,13 @@ class Backend {
       const res = await this.getPage(query);
       if (res && res.data) {
         data = {
-          results: [res.data],
+          results: [res.data]
         };
       } else {
         const dbResult = await this.getDatabase(query);
         if (dbResult && dbResult.data) {
           data = {
-            results: [dbResult.data],
+            results: [dbResult.data]
           };
         }
       }
@@ -173,7 +173,7 @@ class Backend {
         // @ts-ignore
         url: p.url as string,
         id: p.id,
-        isFavorite: favorites.some((f) => f.id === p.id),
+        isFavorite: favorites.some((f) => f.id === p.id)
       }));
     }
     return [];
@@ -185,7 +185,7 @@ class Backend {
   ): Promise<NotionObject | null> {
     try {
       const response = await axios.get(`${this.baseURL}notion/page/${pageId}`, {
-        withCredentials: true,
+        withCredentials: true
       });
       return {
         object: response.data.object,
@@ -194,7 +194,7 @@ class Backend {
         url: response.data.url as string,
         id: response.data.id,
         data: response.data,
-        isFavorite,
+        isFavorite
       };
     } catch (error) {
       return null;
@@ -207,7 +207,7 @@ class Backend {
   ): Promise<NotionObject | null> {
     try {
       const response = await axios.get(`${this.baseURL}notion/database/${id}`, {
-        withCredentials: true,
+        withCredentials: true
       });
       return {
         object: response.data.object,
@@ -216,7 +216,7 @@ class Backend {
         url: response.data.url as string,
         id: response.data.id,
         data: response.data,
-        isFavorite,
+        isFavorite
       };
     } catch (error) {
       return null;
@@ -227,7 +227,7 @@ class Backend {
     const response = await axios.get(
       `${this.baseURL}notion/render-block/${blockId}`,
       {
-        withCredentials: true,
+        withCredentials: true
       }
     );
     handleRedirect(response);
@@ -238,7 +238,7 @@ class Backend {
     const response = await axios.delete(
       `${this.baseURL}notion/block/${blockId}`,
       {
-        withCredentials: true,
+        withCredentials: true
       }
     );
     handleRedirect(response);
@@ -253,7 +253,7 @@ class Backend {
       `${this.baseURL}notion/block/${parentId}`,
       { newBlock: block },
       {
-        withCredentials: true,
+        withCredentials: true
       }
     );
     handleRedirect(response);
@@ -262,14 +262,14 @@ class Backend {
 
   async getBlocks(pageId: string): Promise<ListBlockChildrenResponse> {
     const response = await axios.get(`${this.baseURL}notion/blocks/${pageId}`, {
-      withCredentials: true,
+      withCredentials: true
     });
     return response.data;
   }
 
   async getUploads(): Promise<UserUpload[]> {
     const response = await axios.get(`${this.baseURL}upload/mine`, {
-      withCredentials: true,
+      withCredentials: true
     });
     handleRedirect(response);
     return response.data;
@@ -277,7 +277,7 @@ class Backend {
 
   async getActiveJobs(): Promise<UserJob[]> {
     const response = await axios.get(`${this.baseURL}upload/active`, {
-      withCredentials: true,
+      withCredentials: true
     });
     return response.data;
   }
@@ -290,7 +290,7 @@ class Backend {
   async deleteUpload(key: string): Promise<boolean> {
     try {
       await axios.delete(`${this.baseURL}upload/mine/${key}`, {
-        withCredentials: true,
+        withCredentials: true
       });
       return true;
     } catch (error) {
@@ -300,7 +300,7 @@ class Backend {
 
   async deleteJob(id: string) {
     await axios.delete(`${this.baseURL}upload/active/${id}`, {
-      withCredentials: true,
+      withCredentials: true
     });
   }
 
@@ -311,7 +311,7 @@ class Backend {
 
   async isPatreon(): Promise<boolean> {
     const response = await axios.get(`${this.baseURL}users/is-patreon`, {
-      withCredentials: true,
+      withCredentials: true
     });
     return response.data.patreon;
   }
@@ -321,7 +321,7 @@ class Backend {
       `${this.baseURL}favorite/create`,
       { id, type },
       {
-        withCredentials: true,
+        withCredentials: true
       }
     );
   }
@@ -331,7 +331,7 @@ class Backend {
       `${this.baseURL}favorite/remove`,
       { id },
       {
-        withCredentials: true,
+        withCredentials: true
       }
     );
   }
@@ -344,7 +344,7 @@ class Backend {
 
   async getFavorites(): Promise<NotionObject[]> {
     const response = await axios.get(`${this.baseURL}favorite`, {
-      withCredentials: true,
+      withCredentials: true
     });
     const favorites: NotionObject[] = await Promise.all(
       response.data.map(async (f: Favorite) => this.getFavoriteObject(f))
