@@ -23,7 +23,7 @@ interface Props {
 }
 
 function UploadPage({ setErrorMessage, isPatron }: Props) {
-  const isDevelopment = window.location.host.match(/2anki.(com|net|de)/);
+  const isDevelopment = !window.location.host.match(/2anki.(com|net|de)/);
   const query = useQuery();
   const view = query.get('view');
 
