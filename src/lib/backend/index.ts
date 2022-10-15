@@ -346,6 +346,9 @@ class Backend {
     const response = await axios.get(`${this.baseURL}favorite`, {
       withCredentials: true
     });
+    if (!response) {
+      return [];
+    }
     const favorites: NotionObject[] = await Promise.all(
       response.data.map(async (f: Favorite) => this.getFavoriteObject(f))
     );
