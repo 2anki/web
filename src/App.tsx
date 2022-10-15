@@ -22,6 +22,7 @@ import Backend from './lib/backend';
 import isOfflineMode from './lib/isOfflineMode';
 import { ErrorPresenter } from './components/errors/ErrorPresenter';
 import { ErrorType } from './components/errors/helpers/types';
+import DebugPage from './pages/Debug';
 
 const TemplatePage = lazy(() => import('./pages/Templates'));
 const PreSignupPage = lazy(() => import('./pages/Register'));
@@ -103,6 +104,9 @@ function App() {
               </Route>
               <Route path="/loading">
                 <LoadingPage />
+              </Route>
+              <Route path="/debug">
+                <DebugPage />
               </Route>
               <Route path="/">
                 <HomePage />
