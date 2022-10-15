@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
+import { PartialBlockObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import LoadingPage from '../Loading';
 import { useRenderBlock } from './helpers/useRenderBlock';
 import { useLearnData } from './helpers/useLearnData';
@@ -29,8 +30,8 @@ function LearnPage() {
   const { children, page, error } = useLearnData(parentId, isMutating);
   const { location } = window;
   const [textSelection, setTextSelection] = useState('');
+  const [block, setBlock] = useState<PartialBlockObjectResponse | null>(null);
 
-  const block = children ? children[index] : null;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { loading, backSide, frontSide } = useRenderBlock(
     block?.id,
@@ -44,6 +45,12 @@ function LearnPage() {
       localStorage.removeItem('learn-mode');
     };
   }, []);
+
+  useEffect(() => {
+    if (children) {
+      setBlock(children[index]);
+    }
+  }, [children, index]);
 
   const debounceSelection = _.debounce((selection) => {
     setTextSelection(selection);
@@ -76,6 +83,7 @@ function LearnPage() {
         .createBlock(parent, createParagraphBlock(textSelection))
         .then(() => {
           setLoadExtract(false);
+          setTextSelection('');
         })
         .catch(() => setLoadExtract(false));
     }
