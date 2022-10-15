@@ -1,35 +1,32 @@
 import { ReactNode } from 'react';
-import styled from 'styled-components';
 
-interface ControlButtonProps {
-  label: string;
+interface SelectionButtonProps {
+  label: ReactNode;
   onClick: () => void;
   icon: ReactNode;
   loading: boolean;
+  disabled: boolean;
 }
 
-const Paragraph = styled.p`
-  * {
-    user-select: none;
-  }
-`;
-
-export function ControlButton({
+export function SelectionButton({
   loading,
   label,
   onClick,
-  icon
-}: ControlButtonProps) {
+  icon,
+  disabled
+}: SelectionButtonProps) {
   return (
-    <Paragraph className="control">
+    <p className="control">
       <button
-        aria-label={label}
+        disabled={disabled}
+        // aria-label={label}
         className={`button is-small ${loading ? 'is-loading' : ''}`}
         type="button"
         onClick={onClick}
       >
         <span className="icon is-small">{icon}</span>
+        {label}
       </button>
-    </Paragraph>
+    </p>
   );
 }

@@ -12,7 +12,10 @@ type RenderBlockResponse = {
   backSide: string;
 };
 
-export const useRenderBlock = (id: string | undefined): BackSide => {
+export const useRenderBlock = (
+  id: string | undefined,
+  refetch: boolean
+): BackSide => {
   const [backSide, setBackSide] = useState('loading');
   const [frontSide, setFrontSide] = useState('loading');
   const [loading, setLoading] = useState(false);
@@ -30,6 +33,6 @@ export const useRenderBlock = (id: string | undefined): BackSide => {
         }
       });
     }
-  }, [id]);
+  }, [id, refetch]);
   return { loading, backSide, frontSide };
 };

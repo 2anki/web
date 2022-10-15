@@ -1,6 +1,7 @@
 /* eslint-disable react/no-danger */
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import _ from 'lodash';
 import LoadingPage from '../Loading';
 import { useRenderBlock } from './helpers/useRenderBlock';
 import { useLearnData } from './helpers/useLearnData';
@@ -9,9 +10,13 @@ import useQuery from '../../lib/hooks/useQuery';
 import Backend from '../../lib/backend';
 import { createParagraphBlock } from './helpers/createParagrapBlock';
 import { SourceLink } from './components/SourceLink';
+import { useSelection } from './helpers/useSelection';
+import { ScissorsIcon } from './components/BlockControls/icons/ScissorsIcon';
+import { SelectionButton } from './components/SelectionButton';
 
 const BLOCK_INDEX_QUERY_PARAM = 'index';
 const backend = new Backend();
+
 function LearnPage() {
   const query = useQuery();
   const history = useHistory();
@@ -20,13 +25,17 @@ function LearnPage() {
     Number(query.get(BLOCK_INDEX_QUERY_PARAM)) || 0
   );
   const [isMutating, setIsMutating] = useState(false);
-
+  const [loadExtract, setLoadExtract] = useState(false);
   const { children, page, error } = useLearnData(parentId, isMutating);
   const { location } = window;
+  const [textSelection, setTextSelection] = useState('');
 
   const block = children ? children[index] : null;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { loading, backSide, frontSide } = useRenderBlock(block?.id);
+  const { loading, backSide, frontSide } = useRenderBlock(
+    block?.id,
+    loadExtract
+  );
   // Load parent page based on id
   useEffect(() => {
     localStorage.getItem('learn-mode');
@@ -35,6 +44,14 @@ function LearnPage() {
       localStorage.removeItem('learn-mode');
     };
   }, []);
+
+  const debounceSelection = _.debounce((selection) => {
+    setTextSelection(selection);
+  }, 300);
+
+  useSelection((selection) => {
+    debounceSelection(selection);
+  });
 
   const onDeleteBlock = () => {
     const id = block?.id;
@@ -52,14 +69,15 @@ function LearnPage() {
   };
 
   const onExtract = () => {
-    const selection = window.getSelection()?.toString();
     const parent = block?.id;
-    if (selection && parent && !isMutating) {
-      setIsMutating(true);
+    if (textSelection && parent && !loadExtract) {
+      setLoadExtract(true);
       backend
-        .createBlock(parent, createParagraphBlock(selection))
-        .then(() => setIsMutating(false))
-        .catch(() => setIsMutating(false));
+        .createBlock(parent, createParagraphBlock(textSelection))
+        .then(() => {
+          setLoadExtract(false);
+        })
+        .catch(() => setLoadExtract(false));
     }
   };
 
@@ -86,6 +104,13 @@ function LearnPage() {
             value={index}
             max={children.length}
           />
+          <SelectionButton
+            disabled={!textSelection}
+            loading={loadExtract}
+            label={<u>{textSelection}</u>}
+            onClick={() => onExtract()}
+            icon={<ScissorsIcon />}
+          />
           {block && (
             <div id="main-content" className="box">
               {frontSide && (
@@ -104,7 +129,6 @@ function LearnPage() {
           <BlockControls
             loading={isMutating || loading}
             onCreateNote={onCreateNote}
-            onExtract={onExtract}
             onDelete={onDeleteBlock}
             index={index}
             setIndex={(next) => {
