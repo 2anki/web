@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 interface SelectionButtonProps {
-  label: ReactNode;
+  label: string;
   onClick: () => void;
   icon: ReactNode;
   loading: boolean;
@@ -15,17 +15,18 @@ export function SelectionButton({
   icon,
   disabled
 }: SelectionButtonProps) {
+  const isLoading = loading ? 'is-loading' : '';
+  const isActive = label && label.length > 0 ? 'is-link' : '';
   return (
     <p className="control">
       <button
         disabled={disabled}
         // aria-label={label}
-        className={`button is-small ${loading ? 'is-loading' : ''}`}
+        className={`button is-small ${isLoading} ${isActive}`}
         type="button"
         onClick={onClick}
       >
         <span className="icon is-small">{icon}</span>
-        {label}
       </button>
     </p>
   );

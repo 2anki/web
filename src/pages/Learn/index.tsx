@@ -82,8 +82,8 @@ function LearnPage() {
       backend
         .createBlock(parent, createParagraphBlock(textSelection))
         .then(() => {
-          setLoadExtract(false);
           setTextSelection('');
+          setLoadExtract(false);
         })
         .catch(() => setLoadExtract(false));
     }
@@ -115,7 +115,7 @@ function LearnPage() {
           <SelectionButton
             disabled={!textSelection}
             loading={loadExtract}
-            label={<u>{textSelection}</u>}
+            label={textSelection}
             onClick={() => onExtract()}
             icon={<ScissorsIcon />}
           />
