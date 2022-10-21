@@ -1,7 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import blockControlReducer from '../pages/Learn/state/blockControlSlice';
+
 export const store = configureStore({
-  reducer: {}
+  reducer: {
+    blockControl: blockControlReducer
+  }
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { PartialBlockObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import _ from 'lodash';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import LoadingPage from '../../Loading';
 import { useRenderBlock } from '../helpers/useRenderBlock';
 import { useLearnData } from '../helpers/useLearnData';
@@ -11,6 +12,8 @@ import { createParagraphBlock } from '../helpers/createParagrapBlock';
 import { useSelection } from '../helpers/useSelection';
 import Backend from '../../../lib/backend';
 import { LearnPresenter } from './LearnPresenter';
+import { RootState } from '../../../store';
+import { updateIndex } from '../state/blockControlSlice';
 
 const backend = new Backend();
 
@@ -20,9 +23,9 @@ export function LearnContainer() {
   const query = useQuery();
   const history = useHistory();
   const [parentId, setParentId] = useState<string | null>(null);
-  const [index, setIndex] = useState(
-    Number(query.get(BLOCK_INDEX_QUERY_PARAM)) || 0
-  );
+  const index = useSelector((state: RootState) => state.blockControl.index);
+  const dispatch = useDispatch();
+
   const [isMutating, setIsMutating] = useState(false);
   const [loadExtract, setLoadExtract] = useState(false);
   const { children, page, error } = useLearnData(parentId, isMutating);
@@ -101,7 +104,7 @@ export function LearnContainer() {
       <link rel="stylesheet" href="https://2anki.net/templates/notion.css" />
       <div className="container">
         <LearnPresenter
-          setIndex={setIndex}
+          setIndex={(v) => dispatch(updateIndex(v as number))}
           page={page}
           blocks={children}
           index={index}
