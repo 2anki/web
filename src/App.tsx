@@ -7,6 +7,7 @@ import '@fremtind/jkl-alert-message/alert-message.min.css';
 
 import { useCookies } from 'react-cookie';
 import { captureException } from '@sentry/react';
+import { Provider } from 'react-redux';
 import UploadPage from './pages/Upload';
 import HomePage from './pages/Home';
 
@@ -23,6 +24,7 @@ import isOfflineMode from './lib/isOfflineMode';
 import { ErrorPresenter } from './components/errors/ErrorPresenter';
 import { ErrorType } from './components/errors/helpers/types';
 import DebugPage from './pages/Debug';
+import { store } from './store';
 
 const TemplatePage = lazy(() => import('./pages/Templates'));
 const PreSignupPage = lazy(() => import('./pages/Register'));
@@ -48,7 +50,7 @@ function App() {
   }
 
   const loadDefaults = localStorage.getItem('skip-defaults') !== 'true';
-  const store = useMemo(() => new CardOptionsStore(loadDefaults), []);
+  const oldStore = useMemo(() => new CardOptionsStore(loadDefaults), []);
   const [apiError, setError] = useState<ErrorType | null>(null);
   const handledError = (error: ErrorType) => {
     const errorMessage = typeof error === 'string' ? new Error(error) : error;
@@ -58,9 +60,9 @@ function App() {
   const [isPatron] = usePatreon(backend, handledError);
 
   return (
-    <>
+    <Provider store={store}>
       <GlobalStyle />
-      <StoreContext.Provider value={store}>
+      <StoreContext.Provider value={oldStore}>
         <Router>
           <Layout>
             <NavigationBar isPatron={isPatron} />
@@ -116,7 +118,7 @@ function App() {
           </Layout>
         </Router>
       </StoreContext.Provider>
-    </>
+    </Provider>
   );
 }
 
