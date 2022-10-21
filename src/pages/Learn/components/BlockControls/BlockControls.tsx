@@ -87,7 +87,7 @@ export function BlockControls(props: BlockControlsProps) {
         loading={loadDeleteBlock}
         label="delete"
         onClick={() => {
-          if (!loading) {
+          if (!loadDeleteBlock && !loading) {
             setLoadDelete(true);
             onDelete();
           }
