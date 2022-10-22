@@ -1,4 +1,3 @@
-import axios, { AxiosResponse } from 'axios';
 import Cookies from 'universal-cookie';
 import { captureException } from '@sentry/react';
 
@@ -18,6 +17,9 @@ import isOfflineMode from '../isOfflineMode';
 import handleRedirect from '../handleRedirect';
 import { Favorite, Rules, Settings, TemplateFile } from '../types';
 import { isDeletedPageResponse } from './isDeletedPageResponse';
+import { ConnectionInfo } from '../interfaces/ConnectionInfo';
+
+const OK = 200;
 
 class Backend {
   baseURL: string;
@@ -35,7 +37,7 @@ class Backend {
     if (!isOffline) {
       try {
         const endpoint = `${this.baseURL}users/logout`;
-        await axios.get(endpoint, { withCredentials: true });
+        await fetch(endpoint, { credentials: 'include' });
       } catch (error) {
         captureException(error);
       }
@@ -45,10 +47,11 @@ class Backend {
     window.location.href = '/';
   }
 
-  getNotionConnectionInfo() {
-    return axios.get(`${this.baseURL}notion/get-notion-link`, {
-      withCredentials: true
+  async getNotionConnectionInfo(): Promise<ConnectionInfo> {
+    const response = await fetch(`${this.baseURL}notion/get-notion-link`, {
+      credentials: 'include'
     });
+    return response.json();
   }
 
   withinThreeSeconds(): boolean {
@@ -65,29 +68,38 @@ class Backend {
   }
 
   saveSettings(settings: Settings) {
-    return axios.post(
-      `${this.baseURL}settings/create/${settings.object_id}`,
-      { settings },
-      { withCredentials: true }
-    );
+    return fetch(`${this.baseURL}settings/create/${settings.object_id}`, {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify(settings),
+      headers: {
+        'Content-Type': 'application-json'
+      }
+    }).then((response) => response.json());
   }
 
   saveTemplate(templates: TemplateFile[]) {
-    return axios.post(
-      `${this.baseURL}templates/create`,
-      { templates },
-      { withCredentials: true }
-    );
+    return fetch(`${this.baseURL}templates/create`, {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify(templates)
+    }).then((response) => response.json());
   }
 
   deleteTemplates() {
-    return axios.post(`${this.baseURL}templates/delete`, {
-      withCredentials: true
-    });
+    return fetch(`${this.baseURL}templates/delete`, {
+      credentials: 'include'
+    }).then((response) => response.json());
   }
 
   async getSettings(id: string): Promise<Settings | null> {
-    const result = await axios.get(`${this.baseURL}settings/find/${id}`);
+    const findSettings = async () => {
+      const response = await fetch(`${this.baseURL}settings/find/${id}`, {
+        credentials: 'include'
+      });
+      return response.json();
+    };
+    const result = await findSettings();
     if (!result || !result.data) {
       return null;
     }
@@ -109,15 +121,21 @@ class Backend {
       TAGS: tags,
       EMAIL_NOTIFICATION: email
     };
-    return axios.post(
-      `${this.baseURL}rules/create/${id}`,
-      { payload },
-      { withCredentials: true }
-    );
+    return fetch(`${this.baseURL}rules/create/${id}`, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      credentials: 'include'
+    }).then((response) => response.json());
   }
 
   async getRules(id: string): Promise<Rules | null> {
-    const result = await axios.get(`${this.baseURL}rules/find/${id}`);
+    const findRules = async () => {
+      const response = await fetch(`${this.baseURL}rules/find/${id}`, {
+        credentials: 'include'
+      });
+      return response.json();
+    };
+    const result = await findRules();
     if (!result || !result.data) {
       return null;
     }
@@ -125,11 +143,11 @@ class Backend {
   }
 
   deleteSettings(pageId: string) {
-    return axios.post(
-      `${this.baseURL}settings/delete/${pageId}`,
-      { object_id: pageId },
-      { withCredentials: true }
-    );
+    return fetch(`${this.baseURL}settings/delete/${pageId}`, {
+      method: 'POST',
+      body: JSON.stringify({ object_id: pageId }),
+      credentials: 'include'
+    }).then((response) => response.json());
   }
 
   async search(query: string, force?: boolean): Promise<NotionObject[]> {
@@ -157,12 +175,13 @@ class Backend {
         }
       }
     } else {
-      const response = await axios.post(
-        `${this.baseURL}notion/pages`,
-        { query },
-        { withCredentials: true }
-      );
-      data = response.data;
+      const response = await fetch(`${this.baseURL}notion/pages`, {
+        method: 'POST',
+        body: JSON.stringify({ query }),
+        credentials: 'include'
+      });
+
+      data = await response.json();
     }
 
     if (data && data.results) {
@@ -185,9 +204,9 @@ class Backend {
     isFavorite: boolean = false
   ): Promise<NotionObject | null> {
     try {
-      const response = await axios.get(`${this.baseURL}notion/page/${pageId}`, {
-        withCredentials: true
-      });
+      const response = await fetch(`${this.baseURL}notion/page/${pageId}`, {
+        credentials: 'include'
+      }).then((res) => res.json());
       return {
         object: response.data.object,
         title: getObjectTitle(response.data),
@@ -210,9 +229,9 @@ class Backend {
     isFavorite: boolean = false
   ): Promise<NotionObject | null> {
     try {
-      const response = await axios.get(`${this.baseURL}notion/database/${id}`, {
-        withCredentials: true
-      });
+      const response = await fetch(`${this.baseURL}notion/database/${id}`, {
+        credentials: 'include'
+      }).then((r) => r.json());
       return {
         object: response.data.object,
         title: getObjectTitle(response.data),
@@ -228,62 +247,57 @@ class Backend {
   }
 
   async renderBlock(blockId: string): Promise<string> {
-    const response = await axios.get(
+    const response = await fetch(
       `${this.baseURL}notion/render-block/${blockId}`,
       {
-        withCredentials: true
+        credentials: 'include'
       }
     );
     handleRedirect(response);
-    return response.data;
+    return response.json();
   }
 
   async deleteBlock(blockId: string): Promise<GetBlockResponse> {
-    const response = await axios.delete(
-      `${this.baseURL}notion/block/${blockId}`,
-      {
-        withCredentials: true
-      }
-    );
+    const response = await fetch(`${this.baseURL}notion/block/${blockId}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    });
     handleRedirect(response);
-    return response.data;
+    return response.json();
   }
 
   async createBlock(
     parentId: string,
     block: object
   ): Promise<ListBlockChildrenResponse> {
-    const response = await axios.post(
-      `${this.baseURL}notion/block/${parentId}`,
-      { newBlock: block },
-      {
-        withCredentials: true
-      }
-    );
+    const response = await fetch(`${this.baseURL}notion/block/${parentId}`, {
+      body: JSON.stringify({ newBlock: block }),
+      credentials: 'include'
+    });
     handleRedirect(response);
-    return response.data;
+    return response.json();
   }
 
   async getBlocks(pageId: string): Promise<ListBlockChildrenResponse> {
-    const response = await axios.get(`${this.baseURL}notion/blocks/${pageId}`, {
-      withCredentials: true
+    const response = await fetch(`${this.baseURL}notion/blocks/${pageId}`, {
+      credentials: 'include'
     });
-    return response.data;
+    return response.json();
   }
 
   async getUploads(): Promise<UserUpload[]> {
-    const response = await axios.get(`${this.baseURL}upload/mine`, {
-      withCredentials: true
+    const response = await fetch(`${this.baseURL}upload/mine`, {
+      credentials: 'include'
     });
     handleRedirect(response);
-    return response.data;
+    return response.json();
   }
 
   async getActiveJobs(): Promise<UserJob[]> {
-    const response = await axios.get(`${this.baseURL}upload/active`, {
-      withCredentials: true
+    const response = await fetch(`${this.baseURL}upload/active`, {
+      credentials: 'include'
     });
-    return response.data;
+    return response.json();
   }
 
   /**
@@ -293,8 +307,9 @@ class Backend {
    */
   async deleteUpload(key: string): Promise<boolean> {
     try {
-      await axios.delete(`${this.baseURL}upload/mine/${key}`, {
-        withCredentials: true
+      await fetch(`${this.baseURL}upload/mine/${key}`, {
+        credentials: 'include',
+        method: 'DELETE'
       });
       return true;
     } catch (error) {
@@ -303,41 +318,43 @@ class Backend {
   }
 
   async deleteJob(id: string) {
-    await axios.delete(`${this.baseURL}upload/active/${id}`, {
-      withCredentials: true
+    await fetch(`${this.baseURL}upload/active/${id}`, {
+      method: 'DELETE',
+      credentials: 'include'
     });
   }
 
   async convert(id: string, type: string) {
     const link = `${this.baseURL}notion/convert/${id}?type=${type}`;
-    return axios.get(link, { withCredentials: true });
+    return fetch(link, { credentials: 'include' });
   }
 
   async isPatreon(): Promise<boolean> {
-    const response = await axios.get(`${this.baseURL}users/is-patreon`, {
-      withCredentials: true
+    const response = await fetch(`${this.baseURL}users/is-patreon`, {
+      credentials: 'include'
     });
-    return response.data.patreon;
+    const data = await response.json();
+    return data.patreon;
   }
 
   async addFavorite(id: string, type: string): Promise<boolean> {
-    return axios.post(
-      `${this.baseURL}favorite/create`,
-      { id, type },
-      {
-        withCredentials: true
-      }
-    );
+    const response = await fetch(`${this.baseURL}favorite/create`, {
+      method: 'POST',
+      body: JSON.stringify({ id, type }),
+      credentials: 'include'
+    });
+    return response.status === OK;
   }
 
   async deleteFavorite(id: string): Promise<boolean> {
-    return axios.post(
-      `${this.baseURL}favorite/remove`,
-      { id },
-      {
-        withCredentials: true
-      }
-    );
+    const response = await fetch(`${this.baseURL}favorite/remove`, {
+      method: 'DELETE',
+      body: JSON.stringify({
+        id
+      }),
+      credentials: 'include'
+    });
+    return response.status === OK;
   }
 
   async getFavoriteObject(f: Favorite): Promise<NotionObject | null> {
@@ -347,39 +364,58 @@ class Backend {
   }
 
   async getFavorites(): Promise<NotionObject[]> {
-    const response = await axios.get(`${this.baseURL}favorite`, {
-      withCredentials: true
+    const response = await fetch(`${this.baseURL}favorite`, {
+      credentials: 'include'
     });
     if (!response) {
       return [];
     }
+    const data = (await response.json()) ?? [];
     const favorites: NotionObject[] = await Promise.all(
-      response.data.map(async (f: Favorite) => this.getFavoriteObject(f))
+      data.map(async (f: Favorite) => this.getFavoriteObject(f))
     );
     return favorites.filter(Boolean);
   }
 
   async login(email: string, password: string): Promise<any> {
-    return axios.post(`${this.baseURL}users/login`, { email, password });
+    return fetch(`${this.baseURL}users/login`, {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+      credentials: 'include'
+    });
   }
 
   async forgotPassword(email: string): Promise<void> {
     const endpoint = `${this.baseURL}users/forgot-password`;
-    return axios.post(endpoint, { email });
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify({
+        email
+      })
+    });
+    return response.json();
   }
 
-  async newPassword(password: string, token: string): Promise<AxiosResponse> {
+  async newPassword(password: string, token: string): Promise<Response> {
     const endpoint = `${this.baseURL}users/new-password`;
-    return axios.post(endpoint, { password, reset_token: token });
+    return fetch(endpoint, {
+      method: 'POST',
+      body: JSON.stringify({ password, reset_token: token })
+    });
   }
 
   async register(
     name: string,
     email: string,
     password: string
-  ): Promise<AxiosResponse> {
+  ): Promise<Response> {
     const endpoint = `${this.baseURL}users/register`;
-    return axios.post(endpoint, { name, email, password });
+    return fetch(endpoint, {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify({ name, email, password })
+    });
   }
 }
 

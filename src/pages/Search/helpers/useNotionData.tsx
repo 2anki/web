@@ -21,8 +21,7 @@ export default function useNotionData(backend: Backend): NotionData {
   useEffect(() => {
     backend
       .getNotionConnectionInfo()
-      .then((response) => {
-        const { data } = response;
+      .then((data) => {
         if (data && !data.isConnected) {
           updateConnectionLink(data.link);
           updateConnected(data.isConnected);
