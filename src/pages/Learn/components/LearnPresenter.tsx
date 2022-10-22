@@ -55,7 +55,7 @@ export function LearnPresenter(props: LearnPresenterProps) {
 
   return (
     <>
-      <progress className="is-link progress" value={index} max={length} />
+      <progress className="is-link progress" value={index} max={length - 1} />
       <div className="field is-grouped is-justify-content-space-between	">
         <SelectionButton
           disabled={!textSelection}
