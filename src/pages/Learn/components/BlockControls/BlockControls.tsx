@@ -55,6 +55,7 @@ export function BlockControls(props: BlockControlsProps) {
   return (
     <div className="field has-addons">
       <ControlButton
+        disabled={index === 0}
         loading={loadPreviousBlock}
         label="Previous"
         onClick={() => {
@@ -68,6 +69,7 @@ export function BlockControls(props: BlockControlsProps) {
       <ControlButton
         loading={loadNextBlock}
         label="Next"
+        disabled={index === total - 1}
         onClick={() => {
           if (!loading) {
             setLoadNextBlock(true);
