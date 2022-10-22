@@ -18,7 +18,7 @@ import handleRedirect from '../handleRedirect';
 import { Favorite, Rules, Settings, TemplateFile } from '../types';
 import { isDeletedPageResponse } from './isDeletedPageResponse';
 import { ConnectionInfo } from '../interfaces/ConnectionInfo';
-import { get, getLoginURL, post } from './api';
+import { del, get, getLoginURL, post } from './api';
 
 const OK = 200;
 
@@ -38,7 +38,7 @@ class Backend {
     if (!isOffline) {
       try {
         const endpoint = `${this.baseURL}users/logout`;
-        await fetch(endpoint, { credentials: 'include' });
+        await get(endpoint);
       } catch (error) {
         captureException(error);
       }
@@ -49,10 +49,7 @@ class Backend {
   }
 
   async getNotionConnectionInfo(): Promise<ConnectionInfo> {
-    const response = await fetch(`${this.baseURL}notion/get-notion-link`, {
-      credentials: 'include'
-    });
-    return response.json();
+    return get(`${this.baseURL}notion/get-notion-link`);
   }
 
   withinThreeSeconds(): boolean {
@@ -80,9 +77,9 @@ class Backend {
   }
 
   deleteTemplates() {
-    return fetch(`${this.baseURL}templates/delete`, {
+    return post(`${this.baseURL}templates/delete`, {
       credentials: 'include'
-    }).then((response) => response.json());
+    });
   }
 
   async getSettings(id: string): Promise<Settings | null> {
@@ -178,9 +175,7 @@ class Backend {
     isFavorite: boolean = false
   ): Promise<NotionObject | null> {
     try {
-      const response = await fetch(`${this.baseURL}notion/page/${pageId}`, {
-        credentials: 'include'
-      }).then((res) => res.json());
+      const response = await get(`${this.baseURL}notion/page/${pageId}`);
       return {
         object: response.data.object,
         title: getObjectTitle(response.data),
@@ -203,9 +198,7 @@ class Backend {
     isFavorite: boolean = false
   ): Promise<NotionObject | null> {
     try {
-      const response = await fetch(`${this.baseURL}notion/database/${id}`, {
-        credentials: 'include'
-      }).then((r) => r.json());
+      const response = await get(`${this.baseURL}notion/database/${id}`);
       return {
         object: response.data.object,
         title: getObjectTitle(response.data),
@@ -221,22 +214,11 @@ class Backend {
   }
 
   async renderBlock(blockId: string): Promise<string> {
-    const response = await fetch(
-      `${this.baseURL}notion/render-block/${blockId}`,
-      {
-        credentials: 'include'
-      }
-    );
-    handleRedirect(response);
-    return response.json();
+    return get(`${this.baseURL}notion/render-block/${blockId}`);
   }
 
   async deleteBlock(blockId: string): Promise<GetBlockResponse> {
-    const response = await fetch(`${this.baseURL}notion/block/${blockId}`, {
-      method: 'DELETE',
-      credentials: 'include'
-    });
-    handleRedirect(response);
+    const response = await del(`${this.baseURL}notion/block/${blockId}`);
     return response.json();
   }
 
@@ -252,25 +234,15 @@ class Backend {
   }
 
   async getBlocks(pageId: string): Promise<ListBlockChildrenResponse> {
-    const response = await fetch(`${this.baseURL}notion/blocks/${pageId}`, {
-      credentials: 'include'
-    });
-    return response.json();
+    return get(`${this.baseURL}notion/blocks/${pageId}`);
   }
 
   async getUploads(): Promise<UserUpload[]> {
-    const response = await fetch(`${this.baseURL}upload/mine`, {
-      credentials: 'include'
-    });
-    handleRedirect(response);
-    return response.json();
+    return get(`${this.baseURL}upload/mine`);
   }
 
   async getActiveJobs(): Promise<UserJob[]> {
-    const response = await fetch(`${this.baseURL}upload/active`, {
-      credentials: 'include'
-    });
-    return response.json();
+    return get(`${this.baseURL}upload/active`);
   }
 
   /**
@@ -280,10 +252,7 @@ class Backend {
    */
   async deleteUpload(key: string): Promise<boolean> {
     try {
-      await fetch(`${this.baseURL}upload/mine/${key}`, {
-        credentials: 'include',
-        method: 'DELETE'
-      });
+      await del(`${this.baseURL}upload/mine/${key}`);
       return true;
     } catch (error) {
       return false;
@@ -291,10 +260,7 @@ class Backend {
   }
 
   async deleteJob(id: string) {
-    await fetch(`${this.baseURL}upload/active/${id}`, {
-      method: 'DELETE',
-      credentials: 'include'
-    });
+    await del(`${this.baseURL}upload/active/${id}`);
   }
 
   async convert(id: string, type: string) {
@@ -303,11 +269,8 @@ class Backend {
   }
 
   async isPatreon(): Promise<boolean> {
-    const response = await fetch(`${this.baseURL}users/is-patreon`, {
-      credentials: 'include'
-    });
-    const data = await response.json();
-    return data.patreon;
+    const data = await get(`${this.baseURL}users/is-patreon`);
+    return data?.patreon ?? false;
   }
 
   async addFavorite(id: string, type: string): Promise<boolean> {
@@ -316,13 +279,7 @@ class Backend {
   }
 
   async deleteFavorite(id: string): Promise<boolean> {
-    const response = await fetch(`${this.baseURL}favorite/remove`, {
-      method: 'DELETE',
-      body: JSON.stringify({
-        id
-      }),
-      credentials: 'include'
-    });
+    const response = await post(`${this.baseURL}favorite/remove`, { id });
     return response.status === OK;
   }
 
@@ -333,13 +290,10 @@ class Backend {
   }
 
   async getFavorites(): Promise<NotionObject[]> {
-    const response = await fetch(`${this.baseURL}favorite`, {
-      credentials: 'include'
-    });
-    if (!response) {
+    const data = await get(`${this.baseURL}favorite`);
+    if (!data) {
       return [];
     }
-    const data = (await response.json()) ?? [];
     const favorites: NotionObject[] = await Promise.all(
       data.map(async (f: Favorite) => this.getFavoriteObject(f))
     );
