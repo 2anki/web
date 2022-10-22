@@ -17,7 +17,7 @@ export default function ListSearchResults(
 ): JSX.Element {
   const { results, handleEmpty, setFavorites, setError } = props;
   const isEmpty = results.length < 1;
-  const [isPatron] = usePatreon(new Backend(), setError);
+  const [isPatron] = usePatreon(new Backend());
 
   if (isEmpty && handleEmpty) {
     return (

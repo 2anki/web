@@ -18,6 +18,7 @@ import handleRedirect from '../handleRedirect';
 import { Favorite, Rules, Settings, TemplateFile } from '../types';
 import { isDeletedPageResponse } from './isDeletedPageResponse';
 import { ConnectionInfo } from '../interfaces/ConnectionInfo';
+import { getLoginURL, post } from './api';
 
 const OK = 200;
 
@@ -68,22 +69,14 @@ class Backend {
   }
 
   saveSettings(settings: Settings) {
-    return fetch(`${this.baseURL}settings/create/${settings.object_id}`, {
-      method: 'POST',
-      credentials: 'include',
-      body: JSON.stringify(settings),
-      headers: {
-        'Content-Type': 'application-json'
-      }
-    }).then((response) => response.json());
+    return post(
+      `${this.baseURL}settings/create/${settings.object_id}`,
+      settings
+    );
   }
 
   saveTemplate(templates: TemplateFile[]) {
-    return fetch(`${this.baseURL}templates/create`, {
-      method: 'POST',
-      credentials: 'include',
-      body: JSON.stringify(templates)
-    }).then((response) => response.json());
+    return post(`${this.baseURL}templates/create`, templates);
   }
 
   deleteTemplates() {
@@ -121,11 +114,7 @@ class Backend {
       TAGS: tags,
       EMAIL_NOTIFICATION: email
     };
-    return fetch(`${this.baseURL}rules/create/${id}`, {
-      method: 'POST',
-      body: JSON.stringify(payload),
-      credentials: 'include'
-    }).then((response) => response.json());
+    return post(`${this.baseURL}rules/create/${id}`, { payload });
   }
 
   async getRules(id: string): Promise<Rules | null> {
@@ -143,11 +132,9 @@ class Backend {
   }
 
   deleteSettings(pageId: string) {
-    return fetch(`${this.baseURL}settings/delete/${pageId}`, {
-      method: 'POST',
-      body: JSON.stringify({ object_id: pageId }),
-      credentials: 'include'
-    }).then((response) => response.json());
+    return post(`${this.baseURL}settings/delete/${pageId}`, {
+      object_id: pageId
+    });
   }
 
   async search(query: string, force?: boolean): Promise<NotionObject[]> {
@@ -175,12 +162,7 @@ class Backend {
         }
       }
     } else {
-      const response = await fetch(`${this.baseURL}notion/pages`, {
-        method: 'POST',
-        body: JSON.stringify({ query }),
-        credentials: 'include'
-      });
-
+      const response = await post(`${this.baseURL}notion/pages`, { query });
       data = await response.json();
     }
 
@@ -338,11 +320,7 @@ class Backend {
   }
 
   async addFavorite(id: string, type: string): Promise<boolean> {
-    const response = await fetch(`${this.baseURL}favorite/create`, {
-      method: 'POST',
-      body: JSON.stringify({ id, type }),
-      credentials: 'include'
-    });
+    const response = await post(`${this.baseURL}favorite/create`, { id, type });
     return response.status === OK;
   }
 
@@ -377,31 +355,23 @@ class Backend {
     return favorites.filter(Boolean);
   }
 
-  async login(email: string, password: string): Promise<any> {
-    return fetch(`${this.baseURL}users/login`, {
-      method: 'POST',
-      body: JSON.stringify({ email, password }),
-      credentials: 'include'
+  async login(email: string, password: string): Promise<Response> {
+    const response = await post(getLoginURL(this.baseURL), {
+      email,
+      password
     });
+    return response;
   }
 
   async forgotPassword(email: string): Promise<void> {
     const endpoint = `${this.baseURL}users/forgot-password`;
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      credentials: 'include',
-      body: JSON.stringify({
-        email
-      })
-    });
-    return response.json();
+    await post(endpoint, { email });
   }
 
   async newPassword(password: string, token: string): Promise<Response> {
-    const endpoint = `${this.baseURL}users/new-password`;
-    return fetch(endpoint, {
-      method: 'POST',
-      body: JSON.stringify({ password, reset_token: token })
+    return post(`${this.baseURL}users/new-password`, {
+      password,
+      reset_token: token
     });
   }
 
@@ -411,11 +381,7 @@ class Backend {
     password: string
   ): Promise<Response> {
     const endpoint = `${this.baseURL}users/register`;
-    return fetch(endpoint, {
-      method: 'POST',
-      credentials: 'include',
-      body: JSON.stringify({ name, email, password })
-    });
+    return post(endpoint, { name, email, password });
   }
 }
 
