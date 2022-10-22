@@ -71,6 +71,7 @@ export function LearnContainer() {
     }
 
     setIsMutating(true);
+    setLoadDelete(true);
     backend
       .deleteBlock(id)
       .then(() => {
