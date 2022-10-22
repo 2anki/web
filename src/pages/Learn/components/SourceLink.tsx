@@ -6,22 +6,19 @@ interface SourceLinkProps {
 }
 
 const Link = styled.a`
-  background-color: #5397f5;
-`;
+  padding: 0 0.2rem;
 
-const List = styled.ul`
-  li {
-    list-style: none;
+  background: white;
+  color: #5397f5;
+  text-decoration: underline;
+
+  :hover {
+    background-color: #5397f5;
     color: white;
+    text-decoration: none;
   }
 `;
 
 export function SourceLink({ link, title }: SourceLinkProps) {
-  return (
-    <List>
-      <li>
-        <Link href={link}>#Title: {title}</Link>
-      </li>
-    </List>
-  );
+  return <Link href={link}># {title}</Link>;
 }

@@ -6,6 +6,7 @@ interface ControlButtonProps {
   onClick: () => void;
   icon: ReactNode;
   loading: boolean;
+  disabled?: boolean;
 }
 
 const Paragraph = styled.p`
@@ -18,11 +19,13 @@ export function ControlButton({
   loading,
   label,
   onClick,
-  icon
+  icon,
+  disabled
 }: ControlButtonProps) {
   return (
     <Paragraph className="control">
       <button
+        disabled={disabled}
         aria-label={label}
         className={`button is-small ${loading ? 'is-loading' : ''}`}
         type="button"
@@ -33,3 +36,7 @@ export function ControlButton({
     </Paragraph>
   );
 }
+
+ControlButton.defaultProps = {
+  disabled: false
+};

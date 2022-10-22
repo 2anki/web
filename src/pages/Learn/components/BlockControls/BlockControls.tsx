@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useSpeechSynthesis } from '../../helpers/useSpeechSynthesis';
+import { useSpeechSynthesis } from '../../hooks/useSpeechSynthesis';
 import { ControlButton } from '../ControlButton';
-import { DeleteIcon } from './icons/DeleteIcon';
 import { SearchIcon } from './icons/SearchIcon';
 import { SpeakerWaveIcon } from './icons/SpeakerWaveIcon';
 
@@ -10,18 +9,16 @@ interface BlockControlsProps {
   total: number;
   index: number;
   setIndex: React.Dispatch<React.SetStateAction<number>>;
-  onDelete: () => void;
   onCreateNote: () => void;
 }
 
 export function BlockControls(props: BlockControlsProps) {
-  const { loading, total, index, setIndex, onDelete, onCreateNote } = props;
+  const { loading, total, index, setIndex, onCreateNote } = props;
   const speak = useSpeechSynthesis();
   const goToNextBlock = () => setIndex(Math.min(index + 1, total - 1));
   const gotToPreviousBlock = () => setIndex(Math.max(index - 1, 0));
 
   const [loadCreatingNote, setLoadCreatingNote] = useState(false);
-  const [loadDeleteBlock, setLoadDelete] = useState(false);
   const [loadNextBlock, setLoadNextBlock] = useState(false);
   const [loadPreviousBlock, setLoadPreviousBlock] = useState(false);
 
@@ -30,9 +27,7 @@ export function BlockControls(props: BlockControlsProps) {
       if (loadCreatingNote) {
         setLoadCreatingNote(false);
       }
-      if (loadDeleteBlock) {
-        setLoadDelete(false);
-      }
+
       if (loadNextBlock) {
         setLoadNextBlock(false);
       }
@@ -49,8 +44,6 @@ export function BlockControls(props: BlockControlsProps) {
         gotToPreviousBlock();
       } else if (key === 'ArrowRight') {
         goToNextBlock();
-      } else if (key === 'Backspace' || key === 'Delete') {
-        onDelete();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -62,6 +55,7 @@ export function BlockControls(props: BlockControlsProps) {
   return (
     <div className="field has-addons">
       <ControlButton
+        disabled={index === 0}
         loading={loadPreviousBlock}
         label="Previous"
         onClick={() => {
@@ -75,6 +69,7 @@ export function BlockControls(props: BlockControlsProps) {
       <ControlButton
         loading={loadNextBlock}
         label="Next"
+        disabled={index === total - 1}
         onClick={() => {
           if (!loading) {
             setLoadNextBlock(true);
@@ -84,21 +79,10 @@ export function BlockControls(props: BlockControlsProps) {
         icon="→"
       />
       <ControlButton
-        loading={loadDeleteBlock}
-        label="delete"
-        onClick={() => {
-          if (!loading) {
-            setLoadDelete(true);
-            onDelete();
-          }
-        }}
-        icon={<DeleteIcon />}
-      />
-      <ControlButton
         loading={false}
         label="search"
         onClick={() => {
-          window.location.href = '/learn';
+          window.location.href = '/search';
         }}
         icon={<SearchIcon />}
       />
