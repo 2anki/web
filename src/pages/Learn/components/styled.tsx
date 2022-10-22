@@ -10,6 +10,7 @@ export const Box = styled.div.attrs({ className: 'box' })`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: scroll;
   * {
     max-height: 45vh;
   }

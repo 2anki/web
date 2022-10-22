@@ -3,6 +3,7 @@ import NotionObject from '../../../lib/interfaces/NotionObject';
 import { getBasicAnkiCallbackURL } from '../helpers/getBasicAnkiCallbackURL';
 import { ChildrenType } from '../types';
 import BlockControls from './BlockControls';
+import { DeleteIcon } from './BlockControls/icons/DeleteIcon';
 import { ScissorsIcon } from './BlockControls/icons/ScissorsIcon';
 import { MainContent } from './MainContent';
 import { PresentableLink } from './PresentableLink';
@@ -21,6 +22,7 @@ interface LearnPresenterProps {
   block: PartialBlockObjectResponse | null;
   setIndex: React.Dispatch<React.SetStateAction<number>>;
   isMutating: boolean;
+  isDeletingBlock: boolean;
   loading: boolean;
 }
 
@@ -38,7 +40,8 @@ export function LearnPresenter(props: LearnPresenterProps) {
     loadExtract,
     setIndex,
     isMutating,
-    loading
+    loading,
+    isDeletingBlock
   } = props;
   const length = blocks?.length ?? 0;
   const isValidCard = frontSide && backSide;
@@ -53,13 +56,24 @@ export function LearnPresenter(props: LearnPresenterProps) {
   return (
     <>
       <progress className="is-link progress" value={index} max={length} />
-      <SelectionButton
-        disabled={!textSelection}
-        loading={loadExtract}
-        label={textSelection}
-        onClick={() => onExtract()}
-        icon={<ScissorsIcon />}
-      />
+      <div className="field is-grouped is-justify-content-space-between	">
+        <SelectionButton
+          disabled={!textSelection}
+          loading={loadExtract}
+          label={textSelection}
+          onClick={() => onExtract()}
+          icon={<ScissorsIcon />}
+        />
+        <SelectionButton
+          loading={isDeletingBlock}
+          disabled={isDeletingBlock}
+          label=""
+          onClick={() => {
+            onDeleteBlock();
+          }}
+          icon={<DeleteIcon />}
+        />
+      </div>
       <MainContent
         loading={loading}
         frontSide={frontSide}
@@ -69,7 +83,6 @@ export function LearnPresenter(props: LearnPresenterProps) {
       <BlockControls
         loading={isMutating || loading}
         onCreateNote={onCreateNote}
-        onDelete={onDeleteBlock}
         index={index}
         setIndex={(next) => {
           setIndex(next);

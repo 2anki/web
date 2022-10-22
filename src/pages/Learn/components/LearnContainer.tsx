@@ -28,6 +28,7 @@ export function LearnContainer() {
 
   const [isMutating, setIsMutating] = useState(false);
   const [loadExtract, setLoadExtract] = useState(false);
+  const [isDeletingBlock, setLoadDelete] = useState(false);
   const { children, page, error } = useLearnData(parentId, isMutating);
   const { location } = window;
   const [textSelection, setTextSelection] = useState('');
@@ -73,10 +74,14 @@ export function LearnContainer() {
     backend
       .deleteBlock(id)
       .then(() => {
+        setLoadDelete(false);
         setIsMutating(false);
         refreshCurrentBlock();
       })
-      .catch(() => setIsMutating(false));
+      .catch(() => {
+        setIsMutating(false);
+        setLoadDelete(false);
+      });
   };
 
   const onExtract = () => {
@@ -118,6 +123,7 @@ export function LearnContainer() {
           backSide={backSide}
           textSelection={textSelection}
           onExtract={onExtract}
+          isDeletingBlock={isDeletingBlock}
           onDeleteBlock={onDeleteBlock}
           loadExtract={loadExtract}
           block={getBlock(children, index)}
