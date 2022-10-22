@@ -19,7 +19,7 @@ export const useLearnData = (
   const backend = new Backend();
 
   useEffect(() => {
-    if (id) {
+    if (id && id !== 'learn') {
       backend
         .getPage(id)
         .then((res) => setPage(res))

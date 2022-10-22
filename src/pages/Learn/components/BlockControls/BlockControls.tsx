@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSpeechSynthesis } from '../../helpers/useSpeechSynthesis';
+import { useSpeechSynthesis } from '../../hooks/useSpeechSynthesis';
 import { ControlButton } from '../ControlButton';
 import { DeleteIcon } from './icons/DeleteIcon';
 import { SearchIcon } from './icons/SearchIcon';

@@ -4,11 +4,11 @@ import _ from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingPage from '../../Loading';
-import { useRenderBlock } from '../helpers/useRenderBlock';
-import { useLearnData } from '../helpers/useLearnData';
+import { useRenderBlock } from '../hooks/useRenderBlock';
+import { useLearnData } from '../hooks/useLearnData';
 import useQuery from '../../../lib/hooks/useQuery';
 import { createParagraphBlock } from '../helpers/createParagrapBlock';
-import { useSelection } from '../helpers/useSelection';
+import { useSelection } from '../hooks/useSelection';
 import Backend from '../../../lib/backend';
 import { LearnPresenter } from './LearnPresenter';
 import { RootState } from '../../../store';
@@ -32,7 +32,6 @@ export function LearnContainer() {
   const { location } = window;
   const [textSelection, setTextSelection] = useState('');
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { loading, backSide, frontSide } = useRenderBlock(
     getBlock(children, index)?.id,
     loadExtract
@@ -47,8 +46,10 @@ export function LearnContainer() {
 
   // Load parent page based on id
   useEffect(() => {
-    localStorage.getItem('learn-mode');
+    localStorage.setItem('learn-mode', 'true');
     setParentId(location.pathname.split('/').at(-1) || null);
+    const newIndex = Number(query.get(BLOCK_INDEX_QUERY_PARAM));
+    dispatch(updateIndex(newIndex));
     return () => {
       localStorage.removeItem('learn-mode');
     };
@@ -106,7 +107,10 @@ export function LearnContainer() {
       <link rel="stylesheet" href="https://2anki.net/templates/notion.css" />
       <div className="container">
         <LearnPresenter
-          setIndex={(v) => dispatch(updateIndex(v as number))}
+          setIndex={(v) => {
+            dispatch(updateIndex(v as number));
+            refreshCurrentBlock();
+          }}
           page={page}
           blocks={children}
           index={index}

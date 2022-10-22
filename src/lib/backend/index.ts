@@ -17,6 +17,7 @@ import getObjectTitle from '../notion/getObjectTitle';
 import isOfflineMode from '../isOfflineMode';
 import handleRedirect from '../handleRedirect';
 import { Favorite, Rules, Settings, TemplateFile } from '../types';
+import { isDeletedPageResponse } from './isDeletedPageResponse';
 
 class Backend {
   baseURL: string;
@@ -197,6 +198,9 @@ class Backend {
         isFavorite
       };
     } catch (error) {
+      if (isDeletedPageResponse(error)) {
+        this.deleteFavorite(pageId);
+      }
       return null;
     }
   }

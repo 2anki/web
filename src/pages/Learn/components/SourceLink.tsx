@@ -20,5 +20,5 @@ const Link = styled.a`
 `;
 
 export function SourceLink({ link, title }: SourceLinkProps) {
-  return <Link href={link}>#Title: {title}</Link>;
+  return <Link href={link}># {title}</Link>;
 }

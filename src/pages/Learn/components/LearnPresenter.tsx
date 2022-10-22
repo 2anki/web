@@ -1,10 +1,10 @@
 import { PartialBlockObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import NotionObject from '../../../lib/interfaces/NotionObject';
 import { getBasicAnkiCallbackURL } from '../helpers/getBasicAnkiCallbackURL';
-import { renderContent } from '../helpers/renderContent';
 import { ChildrenType } from '../types';
 import BlockControls from './BlockControls';
 import { ScissorsIcon } from './BlockControls/icons/ScissorsIcon';
+import { MainContent } from './MainContent';
 import { PresentableLink } from './PresentableLink';
 import { SelectionButton } from './SelectionButton';
 
@@ -60,13 +60,12 @@ export function LearnPresenter(props: LearnPresenterProps) {
         onClick={() => onExtract()}
         icon={<ScissorsIcon />}
       />
-      {block && (
-        <div id="main-content" className="box">
-          {frontSide && renderContent(frontSide)}
-          {backSide && renderContent(backSide)}
-          {block.id}
-        </div>
-      )}
+      <MainContent
+        loading={loading}
+        frontSide={frontSide}
+        backSide={backSide}
+        block={block}
+      />
       <BlockControls
         loading={isMutating || loading}
         onCreateNote={onCreateNote}
