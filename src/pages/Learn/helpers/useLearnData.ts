@@ -6,7 +6,7 @@ import { ChildrenType } from '../types';
 interface LearnData {
   error: Error | null;
   page: NotionObject | null;
-  children: ChildrenType;
+  children: ChildrenType | null;
 }
 
 export const useLearnData = (
@@ -15,7 +15,7 @@ export const useLearnData = (
 ): LearnData => {
   const [page, setPage] = useState<NotionObject | null>(null);
   const [error, setError] = useState(null);
-  const [children, setChildren] = useState<ChildrenType>([]);
+  const [children, setChildren] = useState<ChildrenType | null>(null);
   const backend = new Backend();
 
   useEffect(() => {

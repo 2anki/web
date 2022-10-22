@@ -1,6 +1,7 @@
 import { PartialBlockObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import NotionObject from '../../../lib/interfaces/NotionObject';
 import { getBasicAnkiCallbackURL } from '../helpers/getBasicAnkiCallbackURL';
+import { renderContent } from '../helpers/renderContent';
 import { ChildrenType } from '../types';
 import BlockControls from './BlockControls';
 import { ScissorsIcon } from './BlockControls/icons/ScissorsIcon';
@@ -61,17 +62,9 @@ export function LearnPresenter(props: LearnPresenterProps) {
       />
       {block && (
         <div id="main-content" className="box">
-          {frontSide && (
-            <div
-              className="content"
-              dangerouslySetInnerHTML={{ __html: frontSide }}
-            />
-          )}
-          {backSide && (
-            <div className="content">
-              <div dangerouslySetInnerHTML={{ __html: backSide }} />
-            </div>
-          )}
+          {frontSide && renderContent(frontSide)}
+          {backSide && renderContent(backSide)}
+          {block.id}
         </div>
       )}
       <BlockControls

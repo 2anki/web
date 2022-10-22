@@ -1,6 +1,5 @@
 /* eslint-disable react/no-danger */
 import { useState, useEffect } from 'react';
-import { PartialBlockObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import _ from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +13,7 @@ import Backend from '../../../lib/backend';
 import { LearnPresenter } from './LearnPresenter';
 import { RootState } from '../../../store';
 import { updateIndex } from '../state/blockControlSlice';
+import { getBlock } from '../helpers/getBlock';
 
 const backend = new Backend();
 
@@ -31,13 +31,20 @@ export function LearnContainer() {
   const { children, page, error } = useLearnData(parentId, isMutating);
   const { location } = window;
   const [textSelection, setTextSelection] = useState('');
-  const [block, setBlock] = useState<PartialBlockObjectResponse | null>(null);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { loading, backSide, frontSide } = useRenderBlock(
-    block?.id,
+    getBlock(children, index)?.id,
     loadExtract
   );
+  const refreshCurrentBlock = () => {
+    if (!children) {
+      return;
+    }
+    query.set(BLOCK_INDEX_QUERY_PARAM, `${index}`);
+    history.push({ search: query.toString() });
+  };
+
   // Load parent page based on id
   useEffect(() => {
     localStorage.getItem('learn-mode');
@@ -46,14 +53,6 @@ export function LearnContainer() {
       localStorage.removeItem('learn-mode');
     };
   }, []);
-
-  useEffect(() => {
-    if (children) {
-      setBlock(children[index]);
-      query.set(BLOCK_INDEX_QUERY_PARAM, `${index}`);
-      history.push({ search: query.toString() });
-    }
-  }, [children, index]);
 
   const debounceSelection = _.debounce((selection) => {
     setTextSelection(selection);
@@ -64,22 +63,23 @@ export function LearnContainer() {
   });
 
   const onDeleteBlock = () => {
-    const id = block?.id;
+    const id = getBlock(children, index)?.id;
     if (!id) {
       return;
     }
 
     setIsMutating(true);
     backend
-      .deleteBlock(block.id)
+      .deleteBlock(id)
       .then(() => {
         setIsMutating(false);
+        refreshCurrentBlock();
       })
       .catch(() => setIsMutating(false));
   };
 
   const onExtract = () => {
-    const parent = block?.id;
+    const parent = getBlock(children, index)?.id;
     if (textSelection && parent && !loadExtract) {
       setLoadExtract(true);
       backend
@@ -87,12 +87,14 @@ export function LearnContainer() {
         .then(() => {
           setTextSelection('');
           setLoadExtract(false);
+          refreshCurrentBlock();
         })
         .catch(() => setLoadExtract(false));
     }
   };
 
-  if (error) {
+  const isEmpty = children && children.length === 0;
+  if (error || isEmpty) {
     window.location.href = '/search';
   }
 
@@ -114,7 +116,7 @@ export function LearnContainer() {
           onExtract={onExtract}
           onDeleteBlock={onDeleteBlock}
           loadExtract={loadExtract}
-          block={block}
+          block={getBlock(children, index)}
           isMutating={isMutating}
           loading={loading}
         />
