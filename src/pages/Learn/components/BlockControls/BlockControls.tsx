@@ -80,7 +80,7 @@ export function BlockControls(props: BlockControlsProps) {
         loading={false}
         label="search"
         onClick={() => {
-          window.location.href = '/learn';
+          window.location.href = '/search';
         }}
         icon={<SearchIcon />}
       />
