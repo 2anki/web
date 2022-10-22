@@ -18,7 +18,7 @@ import handleRedirect from '../handleRedirect';
 import { Favorite, Rules, Settings, TemplateFile } from '../types';
 import { isDeletedPageResponse } from './isDeletedPageResponse';
 import { ConnectionInfo } from '../interfaces/ConnectionInfo';
-import { getLoginURL, post } from './api';
+import { get, getLoginURL, post } from './api';
 
 const OK = 200;
 
@@ -86,17 +86,11 @@ class Backend {
   }
 
   async getSettings(id: string): Promise<Settings | null> {
-    const findSettings = async () => {
-      const response = await fetch(`${this.baseURL}settings/find/${id}`, {
-        credentials: 'include'
-      });
-      return response.json();
-    };
-    const result = await findSettings();
-    if (!result || !result.data) {
+    const result = await get(`${this.baseURL}settings/find/${id}`);
+    if (!result) {
       return null;
     }
-    return result.data.payload;
+    return result.payload;
   }
 
   saveRules(
@@ -119,16 +113,14 @@ class Backend {
 
   async getRules(id: string): Promise<Rules | null> {
     const findRules = async () => {
-      const response = await fetch(`${this.baseURL}rules/find/${id}`, {
-        credentials: 'include'
-      });
-      return response.json();
+      const response = await get(`${this.baseURL}rules/find/${id}`);
+      return response;
     };
     const result = await findRules();
-    if (!result || !result.data) {
+    if (!result) {
       return null;
     }
-    return result.data;
+    return result;
   }
 
   deleteSettings(pageId: string) {
@@ -252,9 +244,8 @@ class Backend {
     parentId: string,
     block: object
   ): Promise<ListBlockChildrenResponse> {
-    const response = await fetch(`${this.baseURL}notion/block/${parentId}`, {
-      body: JSON.stringify({ newBlock: block }),
-      credentials: 'include'
+    const response = await post(`${this.baseURL}notion/block/${parentId}`, {
+      newBlock: block
     });
     handleRedirect(response);
     return response.json();
