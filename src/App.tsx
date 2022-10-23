@@ -57,7 +57,7 @@ function App() {
     captureException(errorMessage);
     setError(errorMessage);
   };
-  const [isPatron] = usePatreon(backend, handledError);
+  const [isPatron] = usePatreon(backend);
 
   return (
     <Provider store={store}>

@@ -21,7 +21,7 @@ function MyUploadsPage({ setError }: MyUploadsPageProps) {
   const [loading, uploads, deleteUpload, deleteAllUploads, isDeletingAll] =
     useUploads(backend, setError);
   const [activeJobs, deleteJob] = useActiveJobs(backend, setError);
-  const [isPatreon] = usePatreon(backend, setError);
+  const [isPatreon] = usePatreon(backend);
   const [quota] = useQuota(uploads);
 
   if (loading) {
