@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSpeechSynthesis } from '../../hooks/useSpeechSynthesis';
 import { ControlButton } from '../ControlButton';
+import { GoogleIcon } from './icons/GoogleIcon';
 import { SpeakerWaveIcon } from './icons/SpeakerWaveIcon';
 
 interface BlockControlsProps {
@@ -94,6 +95,19 @@ export function BlockControls(props: BlockControlsProps) {
           }
         }}
         icon={<img alt="create flashcard" src="/icons/Anki_app_logo.png" />}
+      />
+      <ControlButton
+        loading={false}
+        label="search"
+        onClick={() => {
+          const selection =
+            window.getSelection()?.toString() || 'incremental learning';
+          window.open(
+            `https://www.google.com/search?q=${selection}`,
+            '_target'
+          );
+        }}
+        icon={<GoogleIcon />}
       />
     </div>
   );
