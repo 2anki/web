@@ -1,4 +1,3 @@
-import axios, { AxiosResponse } from 'axios';
 import Cookies from 'universal-cookie';
 import { captureException } from '@sentry/react';
 
@@ -6,7 +5,7 @@ import {
   GetBlockResponse,
   GetDatabaseResponse,
   GetPageResponse,
-  ListBlockChildrenResponse,
+  ListBlockChildrenResponse
 } from '@notionhq/client/build/src/api-endpoints';
 import NotionObject from '../interfaces/NotionObject';
 import UserUpload from '../interfaces/UserUpload';
@@ -17,6 +16,11 @@ import getObjectTitle from '../notion/getObjectTitle';
 import isOfflineMode from '../isOfflineMode';
 import handleRedirect from '../handleRedirect';
 import { Favorite, Rules, Settings, TemplateFile } from '../types';
+import { isDeletedPageResponse } from './isDeletedPageResponse';
+import { ConnectionInfo } from '../interfaces/ConnectionInfo';
+import { del, get, getLoginURL, post } from './api';
+
+const OK = 200;
 
 class Backend {
   baseURL: string;
@@ -34,7 +38,7 @@ class Backend {
     if (!isOffline) {
       try {
         const endpoint = `${this.baseURL}users/logout`;
-        await axios.get(endpoint, { withCredentials: true });
+        await get(endpoint);
       } catch (error) {
         captureException(error);
       }
@@ -44,10 +48,8 @@ class Backend {
     window.location.href = '/';
   }
 
-  getNotionConnectionInfo() {
-    return axios.get(`${this.baseURL}notion/get-notion-link`, {
-      withCredentials: true,
-    });
+  async getNotionConnectionInfo(): Promise<ConnectionInfo> {
+    return get(`${this.baseURL}notion/get-notion-link`);
   }
 
   withinThreeSeconds(): boolean {
@@ -64,33 +66,28 @@ class Backend {
   }
 
   saveSettings(settings: Settings) {
-    return axios.post(
+    return post(
       `${this.baseURL}settings/create/${settings.object_id}`,
-      { settings },
-      { withCredentials: true }
+      settings
     );
   }
 
   saveTemplate(templates: TemplateFile[]) {
-    return axios.post(
-      `${this.baseURL}templates/create`,
-      { templates },
-      { withCredentials: true }
-    );
+    return post(`${this.baseURL}templates/create`, templates);
   }
 
   deleteTemplates() {
-    return axios.post(`${this.baseURL}templates/delete`, {
-      withCredentials: true,
+    return post(`${this.baseURL}templates/delete`, {
+      credentials: 'include'
     });
   }
 
   async getSettings(id: string): Promise<Settings | null> {
-    const result = await axios.get(`${this.baseURL}settings/find/${id}`);
-    if (!result || !result.data) {
+    const result = await get(`${this.baseURL}settings/find/${id}`);
+    if (!result) {
       return null;
     }
-    return result.data.payload;
+    return result.payload;
   }
 
   saveRules(
@@ -106,29 +103,27 @@ class Backend {
       DECK: deck.join(','),
       SUB_DECKS: subDecks.join(','),
       TAGS: tags,
-      EMAIL_NOTIFICATION: email,
+      EMAIL_NOTIFICATION: email
     };
-    return axios.post(
-      `${this.baseURL}rules/create/${id}`,
-      { payload },
-      { withCredentials: true }
-    );
+    return post(`${this.baseURL}rules/create/${id}`, { payload });
   }
 
   async getRules(id: string): Promise<Rules | null> {
-    const result = await axios.get(`${this.baseURL}rules/find/${id}`);
-    if (!result || !result.data) {
+    const findRules = async () => {
+      const response = await get(`${this.baseURL}rules/find/${id}`);
+      return response;
+    };
+    const result = await findRules();
+    if (!result) {
       return null;
     }
-    return result.data;
+    return result;
   }
 
   deleteSettings(pageId: string) {
-    return axios.post(
-      `${this.baseURL}settings/delete/${pageId}`,
-      { object_id: pageId },
-      { withCredentials: true }
-    );
+    return post(`${this.baseURL}settings/delete/${pageId}`, {
+      object_id: pageId
+    });
   }
 
   async search(query: string, force?: boolean): Promise<NotionObject[]> {
@@ -145,23 +140,19 @@ class Backend {
       const res = await this.getPage(query);
       if (res && res.data) {
         data = {
-          results: [res.data],
+          results: [res.data]
         };
       } else {
         const dbResult = await this.getDatabase(query);
         if (dbResult && dbResult.data) {
           data = {
-            results: [dbResult.data],
+            results: [dbResult.data]
           };
         }
       }
     } else {
-      const response = await axios.post(
-        `${this.baseURL}notion/pages`,
-        { query },
-        { withCredentials: true }
-      );
-      data = response.data;
+      const response = await post(`${this.baseURL}notion/pages`, { query });
+      data = await response.json();
     }
 
     if (data && data.results) {
@@ -173,7 +164,7 @@ class Backend {
         // @ts-ignore
         url: p.url as string,
         id: p.id,
-        isFavorite: favorites.some((f) => f.id === p.id),
+        isFavorite: favorites.some((f) => f.id === p.id)
       }));
     }
     return [];
@@ -184,9 +175,7 @@ class Backend {
     isFavorite: boolean = false
   ): Promise<NotionObject | null> {
     try {
-      const response = await axios.get(`${this.baseURL}notion/page/${pageId}`, {
-        withCredentials: true,
-      });
+      const response = await get(`${this.baseURL}notion/page/${pageId}`);
       return {
         object: response.data.object,
         title: getObjectTitle(response.data),
@@ -194,9 +183,12 @@ class Backend {
         url: response.data.url as string,
         id: response.data.id,
         data: response.data,
-        isFavorite,
+        isFavorite
       };
     } catch (error) {
+      if (isDeletedPageResponse(error)) {
+        this.deleteFavorite(pageId);
+      }
       return null;
     }
   }
@@ -206,9 +198,7 @@ class Backend {
     isFavorite: boolean = false
   ): Promise<NotionObject | null> {
     try {
-      const response = await axios.get(`${this.baseURL}notion/database/${id}`, {
-        withCredentials: true,
-      });
+      const response = await get(`${this.baseURL}notion/database/${id}`);
       return {
         object: response.data.object,
         title: getObjectTitle(response.data),
@@ -216,7 +206,7 @@ class Backend {
         url: response.data.url as string,
         id: response.data.id,
         data: response.data,
-        isFavorite,
+        isFavorite
       };
     } catch (error) {
       return null;
@@ -224,62 +214,35 @@ class Backend {
   }
 
   async renderBlock(blockId: string): Promise<string> {
-    const response = await axios.get(
-      `${this.baseURL}notion/render-block/${blockId}`,
-      {
-        withCredentials: true,
-      }
-    );
-    handleRedirect(response);
-    return response.data;
+    return get(`${this.baseURL}notion/render-block/${blockId}`);
   }
 
   async deleteBlock(blockId: string): Promise<GetBlockResponse> {
-    const response = await axios.delete(
-      `${this.baseURL}notion/block/${blockId}`,
-      {
-        withCredentials: true,
-      }
-    );
-    handleRedirect(response);
-    return response.data;
+    const response = await del(`${this.baseURL}notion/block/${blockId}`);
+    return response.json();
   }
 
   async createBlock(
     parentId: string,
     block: object
   ): Promise<ListBlockChildrenResponse> {
-    const response = await axios.post(
-      `${this.baseURL}notion/block/${parentId}`,
-      { newBlock: block },
-      {
-        withCredentials: true,
-      }
-    );
+    const response = await post(`${this.baseURL}notion/block/${parentId}`, {
+      newBlock: block
+    });
     handleRedirect(response);
-    return response.data;
+    return response.json();
   }
 
   async getBlocks(pageId: string): Promise<ListBlockChildrenResponse> {
-    const response = await axios.get(`${this.baseURL}notion/blocks/${pageId}`, {
-      withCredentials: true,
-    });
-    return response.data;
+    return get(`${this.baseURL}notion/blocks/${pageId}`);
   }
 
   async getUploads(): Promise<UserUpload[]> {
-    const response = await axios.get(`${this.baseURL}upload/mine`, {
-      withCredentials: true,
-    });
-    handleRedirect(response);
-    return response.data;
+    return get(`${this.baseURL}upload/mine`);
   }
 
   async getActiveJobs(): Promise<UserJob[]> {
-    const response = await axios.get(`${this.baseURL}upload/active`, {
-      withCredentials: true,
-    });
-    return response.data;
+    return get(`${this.baseURL}upload/active`);
   }
 
   /**
@@ -289,9 +252,7 @@ class Backend {
    */
   async deleteUpload(key: string): Promise<boolean> {
     try {
-      await axios.delete(`${this.baseURL}upload/mine/${key}`, {
-        withCredentials: true,
-      });
+      await del(`${this.baseURL}upload/mine/${key}`);
       return true;
     } catch (error) {
       return false;
@@ -299,41 +260,27 @@ class Backend {
   }
 
   async deleteJob(id: string) {
-    await axios.delete(`${this.baseURL}upload/active/${id}`, {
-      withCredentials: true,
-    });
+    await del(`${this.baseURL}upload/active/${id}`);
   }
 
   async convert(id: string, type: string) {
     const link = `${this.baseURL}notion/convert/${id}?type=${type}`;
-    return axios.get(link, { withCredentials: true });
+    return fetch(link, { credentials: 'include' });
   }
 
   async isPatreon(): Promise<boolean> {
-    const response = await axios.get(`${this.baseURL}users/is-patreon`, {
-      withCredentials: true,
-    });
-    return response.data.patreon;
+    const data = await get(`${this.baseURL}users/is-patreon`);
+    return data?.patreon ?? false;
   }
 
   async addFavorite(id: string, type: string): Promise<boolean> {
-    return axios.post(
-      `${this.baseURL}favorite/create`,
-      { id, type },
-      {
-        withCredentials: true,
-      }
-    );
+    const response = await post(`${this.baseURL}favorite/create`, { id, type });
+    return response.status === OK;
   }
 
   async deleteFavorite(id: string): Promise<boolean> {
-    return axios.post(
-      `${this.baseURL}favorite/remove`,
-      { id },
-      {
-        withCredentials: true,
-      }
-    );
+    const response = await post(`${this.baseURL}favorite/remove`, { id });
+    return response.status === OK;
   }
 
   async getFavoriteObject(f: Favorite): Promise<NotionObject | null> {
@@ -343,36 +290,43 @@ class Backend {
   }
 
   async getFavorites(): Promise<NotionObject[]> {
-    const response = await axios.get(`${this.baseURL}favorite`, {
-      withCredentials: true,
-    });
+    const data = await get(`${this.baseURL}favorite`);
+    if (!data) {
+      return [];
+    }
     const favorites: NotionObject[] = await Promise.all(
-      response.data.map(async (f: Favorite) => this.getFavoriteObject(f))
+      data.map(async (f: Favorite) => this.getFavoriteObject(f))
     );
     return favorites.filter(Boolean);
   }
 
-  async login(email: string, password: string): Promise<any> {
-    return axios.post(`${this.baseURL}users/login`, { email, password });
+  async login(email: string, password: string): Promise<Response> {
+    const response = await post(getLoginURL(this.baseURL), {
+      email,
+      password
+    });
+    return response;
   }
 
   async forgotPassword(email: string): Promise<void> {
     const endpoint = `${this.baseURL}users/forgot-password`;
-    return axios.post(endpoint, { email });
+    await post(endpoint, { email });
   }
 
-  async newPassword(password: string, token: string): Promise<AxiosResponse> {
-    const endpoint = `${this.baseURL}users/new-password`;
-    return axios.post(endpoint, { password, reset_token: token });
+  async newPassword(password: string, token: string): Promise<Response> {
+    return post(`${this.baseURL}users/new-password`, {
+      password,
+      reset_token: token
+    });
   }
 
   async register(
     name: string,
     email: string,
     password: string
-  ): Promise<AxiosResponse> {
+  ): Promise<Response> {
     const endpoint = `${this.baseURL}users/register`;
-    return axios.post(endpoint, { name, email, password });
+    return post(endpoint, { name, email, password });
   }
 }
 

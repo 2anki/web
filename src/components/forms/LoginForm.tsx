@@ -37,7 +37,7 @@ function LoginForm({ onForgotPassword, onError }: LoginFormProps) {
       const backend = new Backend();
       const res = await backend.login(email, password);
       if (res.status === 200) {
-        const { token } = res.data;
+        const { token } = await res.json();
         setCookie('token', token);
         window.location.href = '/search';
       }

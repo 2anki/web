@@ -1,15 +1,8 @@
 import { useEffect, useState } from 'react';
-import {
-  ErrorHandlerType,
-  ErrorType
-} from '../../../components/errors/helpers/types';
 
 import Backend from '../../../lib/backend';
 
-export default function usePatreon(
-  backend: Backend,
-  setError: ErrorHandlerType
-): [boolean] {
+export default function usePatreon(backend: Backend): [boolean] {
   const [isPatron, setIsPatreon] = useState(false);
 
   useEffect(() => {
@@ -17,9 +10,8 @@ export default function usePatreon(
       try {
         const is = await backend.isPatreon();
         setIsPatreon(is);
-      } catch (error) {
-        setError(error as ErrorType);
-      }
+        // eslint-disable-next-line no-empty
+      } catch (_ignored) {}
     }
     if (!isPatron) {
       fetchIsPatreon();

@@ -39,7 +39,7 @@ export default function SearchPresenter(props: SearchPresenterProps) {
         }}
         onSearchClicked={() => triggerSearch(false)}
       />
-      {hideFavorites && (
+      {!hideFavorites && (
         <Favorites
           setError={setError}
           setFavorites={setFavorites}
