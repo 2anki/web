@@ -5,6 +5,7 @@ import Backend from '../../../lib/backend';
 import useQuery from '../../../lib/hooks/useQuery';
 import NotionObject from '../../../lib/interfaces/NotionObject';
 
+export const QUERY_KEY = 'q';
 interface SearchQuery {
   isLoading: boolean;
   myPages: NotionObject[];
@@ -19,7 +20,9 @@ export default function useSearchQuery(
 ): SearchQuery {
   const query = useQuery();
 
-  const [searchQuery, setSearchQuery] = useState<string>(query.get('q') || '');
+  const [searchQuery, setSearchQuery] = useState<string>(
+    query.get(QUERY_KEY) || ''
+  );
   const [myPages, setMyPages] = useState<NotionObject[]>([]);
   const [inProgress, setInProgress] = useState(false);
   const [isLoading, setIsLoading] = useState(true);

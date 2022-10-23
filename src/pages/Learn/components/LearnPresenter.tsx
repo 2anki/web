@@ -1,10 +1,12 @@
 import { PartialBlockObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import NotionObject from '../../../lib/interfaces/NotionObject';
+import { QUERY_KEY } from '../../Search/helpers/useSearchQuery';
 import { getBasicAnkiCallbackURL } from '../helpers/getBasicAnkiCallbackURL';
 import { ChildrenType } from '../types';
 import BlockControls from './BlockControls';
 import { DeleteIcon } from './BlockControls/icons/DeleteIcon';
 import { ScissorsIcon } from './BlockControls/icons/ScissorsIcon';
+import { SearchIcon } from './BlockControls/icons/SearchIcon';
 import { MainContent } from './MainContent';
 import { PresentableLink } from './PresentableLink';
 import { SelectionButton } from './SelectionButton';
@@ -63,6 +65,17 @@ export function LearnPresenter(props: LearnPresenterProps) {
           label={textSelection}
           onClick={() => onExtract()}
           icon={<ScissorsIcon />}
+        />
+        <SelectionButton
+          disabled={false}
+          loading={false}
+          label=""
+          onClick={() => {
+            window.location.href = textSelection
+              ? `/search?${QUERY_KEY}=${textSelection}`
+              : '/search';
+          }}
+          icon={<SearchIcon />}
         />
         <SelectionButton
           loading={isDeletingBlock}

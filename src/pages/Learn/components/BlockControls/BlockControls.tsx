@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSpeechSynthesis } from '../../hooks/useSpeechSynthesis';
 import { ControlButton } from '../ControlButton';
-import { SearchIcon } from './icons/SearchIcon';
 import { SpeakerWaveIcon } from './icons/SpeakerWaveIcon';
 
 interface BlockControlsProps {
@@ -78,14 +77,7 @@ export function BlockControls(props: BlockControlsProps) {
         }}
         icon="→"
       />
-      <ControlButton
-        loading={false}
-        label="search"
-        onClick={() => {
-          window.location.href = '/search';
-        }}
-        icon={<SearchIcon />}
-      />
+
       <ControlButton
         loading={false}
         label="Read text"
