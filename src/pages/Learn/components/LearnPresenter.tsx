@@ -62,14 +62,14 @@ export function LearnPresenter(props: LearnPresenterProps) {
         <SelectionButton
           disabled={!textSelection}
           loading={loadExtract}
-          label={textSelection}
+          label="extract text"
           onClick={() => onExtract()}
           icon={<ScissorsIcon />}
         />
         <SelectionButton
           disabled={false}
           loading={false}
-          label=""
+          label="search in workspace"
           onClick={() => {
             window.location.href = textSelection
               ? `/search?${QUERY_KEY}=${textSelection}`
@@ -80,7 +80,7 @@ export function LearnPresenter(props: LearnPresenterProps) {
         <SelectionButton
           loading={isDeletingBlock}
           disabled={isDeletingBlock}
-          label=""
+          label="delete block"
           onClick={() => {
             onDeleteBlock();
           }}

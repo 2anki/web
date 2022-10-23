@@ -16,13 +16,12 @@ export function SelectionButton({
   disabled
 }: SelectionButtonProps) {
   const isLoading = loading ? 'is-loading' : '';
-  const isActive = label && label.length > 0 ? 'is-link' : '';
   return (
     <p className="control is-clickable">
       <button
         disabled={disabled}
-        // aria-label={label}
-        className={`button is-small ${isLoading} ${isActive}`}
+        aria-label={label}
+        className={`button is-small ${isLoading}`}
         type="button"
         onClick={onClick}
       >
