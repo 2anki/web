@@ -175,14 +175,14 @@ class Backend {
     isFavorite: boolean = false
   ): Promise<NotionObject | null> {
     try {
-      const response = await get(`${this.baseURL}notion/page/${pageId}`);
+      const data = await get(`${this.baseURL}notion/page/${pageId}`);
       return {
-        object: response.data.object,
-        title: getObjectTitle(response.data),
-        icon: getObjectIcon(response.data),
-        url: response.data.url as string,
-        id: response.data.id,
-        data: response.data,
+        object: data.object,
+        title: getObjectTitle(data),
+        icon: getObjectIcon(data),
+        url: data.url as string,
+        id: data.id,
+        data,
         isFavorite
       };
     } catch (error) {
@@ -198,14 +198,14 @@ class Backend {
     isFavorite: boolean = false
   ): Promise<NotionObject | null> {
     try {
-      const response = await get(`${this.baseURL}notion/database/${id}`);
+      const data = await get(`${this.baseURL}notion/database/${id}`);
       return {
-        object: response.data.object,
-        title: getObjectTitle(response.data),
-        icon: getObjectIcon(response.data),
-        url: response.data.url as string,
-        id: response.data.id,
-        data: response.data,
+        object: data.object,
+        title: getObjectTitle(data),
+        icon: getObjectIcon(data),
+        url: data.url as string,
+        id: data.id,
+        data,
         isFavorite
       };
     } catch (error) {
