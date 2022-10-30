@@ -31,14 +31,14 @@ function RegisterForm({ setErrorMessage }: Props) {
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
-    setErrorMessage('');
+    setErrorMessage(null);
     setLoading(true);
 
     try {
       const backend = new Backend();
       const res = await backend.register(name, email, password);
       if (res.status === 200) {
-        window.location.href = '/verify';
+        window.location.href = '/login';
       } else {
         setErrorMessage(
           'Unknown error. Please try again or reach out to alexander@alemayhu.com for assistance if the issue persists.'

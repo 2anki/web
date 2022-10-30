@@ -44,11 +44,7 @@ function LoginForm({ onForgotPassword, onError }: LoginFormProps) {
       setLoading(false);
     } catch (error) {
       const errorMessage = getErrorMessage(error as ErrorType);
-      if (errorMessage.includes('not verified')) {
-        window.location.href = '/verify';
-      } else {
-        onError(error as ErrorType);
-      }
+      onError(errorMessage);
       setLoading(false);
     }
   };

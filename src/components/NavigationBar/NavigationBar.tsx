@@ -11,6 +11,7 @@ import getNavbarStartRegularUser from './helpers/getNavbarStartRegularUser';
 import getNavbarEnd from './helpers/getNavbarEnd';
 import BecomeAPatron from '../BecomeAPatron';
 import { isLearnPage } from './helpers/isLearnPage';
+import { isLoginPage } from './helpers/isLoginPage';
 
 interface NavigationBarProps {
   isPatron: boolean;
@@ -22,12 +23,13 @@ function NavigationBar({ isPatron }: NavigationBarProps) {
   const [active, setHamburgerMenu] = useState(false);
   const path = window.location.pathname;
   const { hash } = window.location;
+  const canShowNavbar = !isLearnPage(path) && !isLoginPage(path);
 
   const navbarStart = cookies.token
     ? getNavbarStartRegularUser(hash)
     : getNavbarStartNewUser(hash, path);
 
-  if (isLearnPage(path)) {
+  if (!canShowNavbar) {
     return null;
   }
 
