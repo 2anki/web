@@ -12,7 +12,9 @@ interface Props {
 }
 
 function LoginPage({ setErrorMessage }: Props) {
-  const [isLogin, setLoginState] = useState(window.location.hash === '#login');
+  const [isLogin, setLoginState] = useState(
+    window.location.hash !== '#register'
+  );
   const [isForgot, setIsForgot] = useState(window.location.hash === '#forgot');
   const onClickLogin = () => {
     setIsForgot(false);
