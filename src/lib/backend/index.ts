@@ -73,7 +73,7 @@ class Backend {
   }
 
   saveTemplate(templates: TemplateFile[]) {
-    return post(`${this.baseURL}templates/create`, templates);
+    return post(`${this.baseURL}templates/create`, { templates });
   }
 
   deleteTemplates() {
