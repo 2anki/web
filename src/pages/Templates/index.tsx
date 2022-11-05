@@ -5,22 +5,14 @@ import { useCookies } from 'react-cookie';
 import * as _ from 'lodash';
 
 import TemplateSelect from '../../components/TemplateSelect';
-import isOfflineMode from '../../lib/isOfflineMode';
 import Backend from '../../lib/backend';
 import { TemplateFile } from '../../lib/types';
+import { get } from '../../lib/backend/api';
 
 // Don't put in the render function, it gets recreated
 let files: TemplateFile[] = [];
-const ONE_SECOND_MS = 1000;
 
-async function fetchBaseType(name: string) {
-  if (isOfflineMode()) {
-    return {};
-  }
-  const url = `/templates/${name}.json`;
-  const request = await window.fetch(url);
-  return request.json();
-}
+const ONE_SECOND_MS = 1000;
 
 const options = {
   minimap: { enabled: false },
@@ -82,7 +74,7 @@ function TemplatePage() {
         if (local) {
           files.push(JSON.parse(local));
         } else {
-          const remote = await fetchBaseType(name);
+          const remote = await get(name);
           files.push(remote);
           localStorage.setItem(name, JSON.stringify(remote, null, 2));
         }
