@@ -68,7 +68,7 @@ class Backend {
   saveSettings(settings: Settings) {
     return post(
       `${this.baseURL}settings/create/${settings.object_id}`,
-      settings
+      { settings }
     );
   }
 
@@ -77,9 +77,7 @@ class Backend {
   }
 
   deleteTemplates() {
-    return post(`${this.baseURL}templates/delete`, {
-      credentials: 'include'
-    });
+    return post(`${this.baseURL}templates/delete`, {});
   }
 
   async getSettings(id: string): Promise<Settings | null> {
