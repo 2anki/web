@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Backend from '../../lib/backend';
+import { getTemplateServiceUrl } from '../../lib/backend/getTemplateServiceUrl';
 import { SettingsPayload } from '../../lib/types';
 
 import StoreContext from '../../store/StoreContext';
@@ -330,7 +331,7 @@ function SettingsModal({
                   <hr />
                   <h2>Preview support is coming soon</h2>
                   <button type="button" className="button">
-                    <Link to="/tm">Edit Template</Link>
+                    <a href={getTemplateServiceUrl()}>Edit Template</a>
                   </button>
                 </BlueTintedBox>
               </div>

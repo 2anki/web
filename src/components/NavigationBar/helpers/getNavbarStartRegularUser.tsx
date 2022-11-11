@@ -1,3 +1,4 @@
+import { getTemplateServiceUrl } from '../../../lib/backend/getTemplateServiceUrl';
 import NavbarItem from '../NavbarItem';
 
 export default function getNavbarStartRegularUser(path: string) {
@@ -14,7 +15,7 @@ export default function getNavbarStartRegularUser(path: string) {
       <NavbarItem href="/uploads/mine" path={path}>
         🗂 My Uploads
       </NavbarItem>
-      <NavbarItem href="https:://templates.2anki.net" path={path}>
+      <NavbarItem href={getTemplateServiceUrl()} path={path}>
         👩🏼‍🎨 Templates
       </NavbarItem>
     </>
