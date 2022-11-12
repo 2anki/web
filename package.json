@@ -25,10 +25,8 @@
     "bulma-switch": "^2.0.4",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
-    "react-app-rewired": "^2.2.1",
     "react-cookie": "^4.1.1",
     "react-dom": "^17.0.2",
-    "react-monaco-editor": "^0.49.0",
     "react-redux": "^8.0.4",
     "react-router": "^6.4.2",
     "react-router-dom": "^5.1.7",
@@ -42,9 +40,9 @@
     "start": "REACT_SKIP_SENTRY=true react-scripts start",
     "dev": "react-scripts start --max_old_space_size=4096",
     "local": "REACT_APP_LOCALHOST=true react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false react-app-rewired build --max_old_space_size=4096",
-    "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
     "lint": "eslint src",
     "lint:fix": "eslint --fix src"
   },
@@ -83,7 +81,6 @@
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.5.0",
-    "monaco-editor-webpack-plugin": "7.0.1",
     "prettier": "^2.7.1"
   },
   "proxy": "http://localhost:2020"

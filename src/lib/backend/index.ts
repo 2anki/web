@@ -15,7 +15,7 @@ import getObjectIcon from '../notion/getObjectIcon';
 import getObjectTitle from '../notion/getObjectTitle';
 import isOfflineMode from '../isOfflineMode';
 import handleRedirect from '../handleRedirect';
-import { Favorite, Rules, Settings, TemplateFile } from '../types';
+import { Favorite, Rules, Settings } from '../types';
 import { isDeletedPageResponse } from './isDeletedPageResponse';
 import { ConnectionInfo } from '../interfaces/ConnectionInfo';
 import { del, get, getLoginURL, post } from './api';
@@ -66,14 +66,9 @@ class Backend {
   }
 
   saveSettings(settings: Settings) {
-    return post(
-      `${this.baseURL}settings/create/${settings.object_id}`,
-      { settings }
-    );
-  }
-
-  saveTemplate(templates: TemplateFile[]) {
-    return post(`${this.baseURL}templates/create`, { templates });
+    return post(`${this.baseURL}settings/create/${settings.object_id}`, {
+      settings
+    });
   }
 
   deleteTemplates() {

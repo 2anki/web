@@ -26,7 +26,6 @@ import { ErrorType } from './components/errors/helpers/types';
 import DebugPage from './pages/Debug';
 import { store } from './store';
 
-const TemplatePage = lazy(() => import('./pages/Templates'));
 const PreSignupPage = lazy(() => import('./pages/Register'));
 const SearchPage = lazy(() => import('./pages/Search'));
 const LoginPage = lazy(() => import('./pages/Login'));
@@ -72,9 +71,6 @@ function App() {
               </Route>
               <Route path="/learn">
                 <LearnPage />
-              </Route>
-              <Route path="/tm">
-                <TemplatePage />
               </Route>
               <Route path="/upload">
                 <UploadPage
