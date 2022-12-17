@@ -1,11 +1,9 @@
 import styled from 'styled-components';
-import { SyntheticEvent, useState } from 'react';
 
-import { useCookies } from 'react-cookie';
-import BetaMessage from '../BetaMessage';
-import Backend from '../../lib/backend';
-import { ErrorHandlerType, ErrorType } from '../errors/helpers/types';
-import { getErrorMessage } from '../errors/helpers/getErrorMessage';
+import BetaMessage from '../../BetaMessage';
+import { ErrorHandlerType } from '../../errors/helpers/types';
+import { isValidCredentials } from './helpers/isValidCredentials';
+import { useHandleLoginSubmit } from './helpers/useHandleLoginSubmit';
 
 const FormContainer = styled.div`
   max-width: 720px;
@@ -18,36 +16,9 @@ interface LoginFormProps {
 }
 
 function LoginForm({ onForgotPassword, onError }: LoginFormProps) {
-  const [, setCookie] = useCookies(['token']);
-  const [email, setEmail] = useState(localStorage.getItem('email') || '');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const { email, password, loading, onSubmit, setEmail, setPassword } =
+    useHandleLoginSubmit(onError);
 
-  const isValid = () =>
-    email.length > 0 &&
-    email.length < 256 &&
-    password.length > 7 &&
-    password.length < 256;
-
-  const handleSubmit = async (event: SyntheticEvent) => {
-    event.preventDefault();
-    setLoading(true);
-
-    try {
-      const backend = new Backend();
-      const res = await backend.login(email, password);
-      if (res.status === 200) {
-        const { token } = await res.json();
-        setCookie('token', token);
-        window.location.href = '/search';
-      }
-      setLoading(false);
-    } catch (error) {
-      const errorMessage = getErrorMessage(error as ErrorType);
-      onError(errorMessage);
-      setLoading(false);
-    }
-  };
   return (
     <FormContainer>
       <section className="section">
@@ -56,7 +27,7 @@ function LoginForm({ onForgotPassword, onError }: LoginFormProps) {
             <div className="column is-half">
               <BetaMessage />
               <h1 className="title is-1">Login</h1>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={onSubmit}>
                 <div className="field">
                   <label htmlFor="email" className="label">
                     Email
@@ -116,7 +87,7 @@ function LoginForm({ onForgotPassword, onError }: LoginFormProps) {
                     <button
                       type="submit"
                       className="button is-link is-medium is-pulled-right"
-                      disabled={!isValid() || loading}
+                      disabled={!isValidCredentials(email, password) || loading}
                     >
                       Sign in
                     </button>

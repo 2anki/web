@@ -19,7 +19,7 @@ function ForgotPasswordForm({ setError }: ForgotPasswordProps) {
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
-    setError('');
+    setError(null);
     setLoading(true);
     setDidReset(false);
 
