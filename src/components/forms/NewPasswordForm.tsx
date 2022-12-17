@@ -22,7 +22,7 @@ function NewPasswordForm({ setErrorMessage }: Props) {
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
-    setErrorMessage('');
+    setErrorMessage(null);
     setLoading(true);
 
     try {
