@@ -11,18 +11,12 @@ import FontSizePicker from '../FontSizePicker';
 import LocalCheckbox from '../LocalCheckbox';
 import TemplateName from '../TemplateName';
 import TemplateSelect from '../TemplateSelect';
+import { persist } from './helpers/persist';
 
 const StyledInput = styled.input`
   font-weight: bold;
   color: #83c9f5;
 `;
-
-const persist = (key: string, value: string, pageId: string | null) => {
-  if (pageId) {
-    return;
-  }
-  localStorage.setItem(key, value);
-};
 
 const loadValue = (
   key: string,
@@ -121,6 +115,7 @@ function SettingsModal({
           setLoading(false);
         })
         .catch((error) => {
+          setLoading(false);
           setError(error as ErrorType);
         });
     }
