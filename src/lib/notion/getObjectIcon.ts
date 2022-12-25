@@ -1,16 +1,15 @@
-import { ObjectIcon } from '../types';
+export type ObjectIcon = {
+  icon:
+    { emoji: string; type?: 'emoji' }
+    | { external: { url: string }; type?: 'external' }
+    | null
+}
 
-export default function getObjectIcon(p: ObjectIcon): string {
-  if (!p || !p.icon) {
-    return '';
+export default function getObjectIcon(p?: ObjectIcon): string {
+  switch (p?.icon?.type) {
+    case 'emoji': return p.icon.emoji;
+    case 'external': return p.icon.external.url;
+    default:
+      return '';
   }
-  const iconType = p.icon.type;
-  if (iconType === 'emoji') return p.icon.emoji as string;
-  if (iconType === 'external') {
-    return p.icon.external.url;
-  }
-  if (iconType === 'file') {
-    return p.icon.file.url;
-  }
-  return '';
 }

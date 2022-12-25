@@ -5,13 +5,13 @@ import {
   GetBlockResponse,
   GetDatabaseResponse,
   GetPageResponse,
-  ListBlockChildrenResponse
+  ListBlockChildrenResponse, PageObjectResponse, PartialPageObjectResponse
 } from '@notionhq/client/build/src/api-endpoints';
 import NotionObject from '../interfaces/NotionObject';
 import UserUpload from '../interfaces/UserUpload';
 import UserJob from '../interfaces/UserJob';
 
-import getObjectIcon from '../notion/getObjectIcon';
+import getObjectIcon, { ObjectIcon } from "../notion/getObjectIcon";
 import getObjectTitle from '../notion/getObjectTitle';
 import isOfflineMode from '../isOfflineMode';
 import handleRedirect from '../handleRedirect';
@@ -25,7 +25,7 @@ const OK = 200;
 class Backend {
   baseURL: string;
 
-  lastCall = new Date();
+  lastCall = (new Date()).getMilliseconds();
 
   constructor() {
     this.baseURL = '/api/';
@@ -53,15 +53,14 @@ class Backend {
   }
 
   withinThreeSeconds(): boolean {
-    const end = new Date();
-    /* @ts-ignore */
+    const end = (new Date()).getMilliseconds();
     let diff = end - this.lastCall;
     diff /= 1000;
     const seconds = Math.round(diff);
     if (seconds <= 3) {
       return true;
     }
-    this.lastCall = new Date();
+    this.lastCall = (new Date()).getMilliseconds();
     return false;
   }
 
@@ -148,14 +147,19 @@ class Backend {
       data = await response.json();
     }
 
+    function getResourceUrl(p: GetDatabaseResponse | GetPageResponse | PageObjectResponse | PartialPageObjectResponse) {
+      if ('url' in p) {
+       return p.url;
+      }
+      return undefined;
+    }
+
     if (data && data.results) {
       return data.results.map((p: GetDatabaseResponse | GetPageResponse) => ({
         object: p.object,
         title: getObjectTitle(p).slice(0, 58), // Don't show strings longer than 60 characters
-        // @ts-ignore
-        icon: getObjectIcon(p),
-        // @ts-ignore
-        url: p.url as string,
+        icon: getObjectIcon(p as ObjectIcon),
+        url: getResourceUrl(p),
         id: p.id,
         isFavorite: favorites.some((f) => f.id === p.id)
       }));
