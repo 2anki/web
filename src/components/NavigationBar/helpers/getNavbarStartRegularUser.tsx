@@ -18,6 +18,9 @@ export default function getNavbarStartRegularUser(path: string) {
       <NavbarItem href={getTemplateServiceUrl()} path={path}>
         👩🏼‍🎨 Templates
       </NavbarItem>
+      <NavbarItem href="/favorites" path={path}>
+       ⭐️Favorites
+      </NavbarItem>
     </>
   );
 }
