@@ -64,7 +64,7 @@ function SearchObjectEntry(props: Props) {
             onClick={(event) => {
               event.preventDefault();
               backend
-                .convert(id, type)
+                .convert(id, type, title)
                 .then(() => {
                   window.location.href = '/uploads';
                 })

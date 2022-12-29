@@ -25,3 +25,9 @@ export const UploadTitle = styled.span`
   display: flex;
   align-items: center;
 `;
+
+export const JobRow = styled.li`
+  display: flex;
+  align-items: center;
+`;
+

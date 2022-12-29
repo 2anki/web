@@ -2,7 +2,6 @@ import ObjectAction from '../../Search/components/actions/ObjectAction';
 import { Entry, ObjectActions, ObjectMeta, UploadTitle } from './styled';
 
 interface Props {
-  isPatreon: boolean;
   size: string;
   title: string;
   icon: string | null;
@@ -16,7 +15,6 @@ export default function UploadObjectEntry({
   icon,
   url,
   deleteUpload,
-  isPatreon
 }: Props) {
   return (
     <Entry>
@@ -24,14 +22,12 @@ export default function UploadObjectEntry({
         <button type="button" className="delete" onClick={() => deleteUpload()}>
           Delete
         </button>
-        {!isPatreon && (
-          <div className="control">
-            <div className="tags has-addons">
-              <span className="tag is-info">Size</span>
-              <span className="tag">{size} MB</span>
-            </div>
+        <div className="control">
+          <div className="tags has-addons">
+            <span className="tag is-info">Size</span>
+            <span className="tag">{size} MB</span>
           </div>
-        )}
+        </div>
         {icon && <span>{icon}</span>}
         <div />
         <UploadTitle

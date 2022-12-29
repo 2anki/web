@@ -9,13 +9,12 @@ import {
 } from '@notionhq/client/build/src/api-endpoints';
 import NotionObject from '../interfaces/NotionObject';
 import UserUpload from '../interfaces/UserUpload';
-import UserJob from '../interfaces/UserJob';
 
 import getObjectIcon, { ObjectIcon } from '../notion/getObjectIcon';
 import getObjectTitle from '../notion/getObjectTitle';
 import isOfflineMode from '../isOfflineMode';
 import handleRedirect from '../handleRedirect';
-import { Favorite, Rules, Settings } from '../types';
+import { ActiveJob, Favorite, Rules, Settings } from '../types';
 import { isDeletedPageResponse } from './isDeletedPageResponse';
 import { ConnectionInfo } from '../interfaces/ConnectionInfo';
 import { del, get, getLoginURL, post } from './api';
@@ -219,7 +218,7 @@ class Backend {
     return get(`${this.baseURL}upload/mine`);
   }
 
-  async getActiveJobs(): Promise<UserJob[]> {
+  async getActiveJobs(): Promise<ActiveJob[]> {
     return get(`${this.baseURL}upload/active`);
   }
 
@@ -241,9 +240,9 @@ class Backend {
     await del(`${this.baseURL}upload/active/${id}`);
   }
 
-  async convert(id: string, type: string) {
-    const link = `${this.baseURL}notion/convert/${id}?type=${type}`;
-    return fetch(link, { credentials: 'include' });
+  async convert(id: string, type: string, title: string) {
+    const link = `${this.baseURL}notion/convert`;
+   return post(link, {id, type, title}) ;
   }
 
   async isPatreon(): Promise<boolean> {
