@@ -16,8 +16,7 @@ interface LearnPresenterProps {
   textSelection: string;
   index: number;
   page: NotionObject | null | undefined;
-  frontSide: string | null;
-  backSide: string | null;
+  renderedBlock: string | null;
   onExtract: () => void;
   onDeleteBlock: () => void;
   loadExtract: boolean;
@@ -35,8 +34,7 @@ export function LearnPresenter(props: LearnPresenterProps) {
     textSelection,
     index,
     page,
-    frontSide,
-    backSide,
+    renderedBlock,
     onDeleteBlock,
     onExtract,
     loadExtract,
@@ -46,11 +44,10 @@ export function LearnPresenter(props: LearnPresenterProps) {
     isDeletingBlock
   } = props;
   const length = blocks?.length ?? 0;
-  const isValidCard = frontSide && backSide;
 
   const onCreateNote = () => {
-    if (isValidCard) {
-      const ankiCallbackUrl = getBasicAnkiCallbackURL(frontSide, backSide);
+    if (renderedBlock) {
+      const ankiCallbackUrl = getBasicAnkiCallbackURL(renderedBlock, 'to be implemented');
       window.open(ankiCallbackUrl, '_blank');
     }
   };
@@ -89,8 +86,7 @@ export function LearnPresenter(props: LearnPresenterProps) {
       </div>
       <MainContent
         loading={loading}
-        frontSide={frontSide}
-        backSide={backSide}
+        html={renderedBlock}
         block={block}
       />
       <BlockControls
