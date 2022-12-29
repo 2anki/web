@@ -5,19 +5,20 @@ import {
 } from '../../../components/errors/helpers/types';
 
 import Backend from '../../../lib/backend';
-import UserJob from '../../../lib/interfaces/UserJob';
+import { ActiveJob } from '../../../lib/types';
 
 export default function useActiveJobs(
   backend: Backend,
   setError: ErrorHandlerType
-): [UserJob[], (id: string) => void] {
-  const [jobs, setJobs] = useState<UserJob[]>([]);
+): [ActiveJob[], (id: string) => void] {
+  const [jobs, setJobs] = useState<ActiveJob[]>([]);
 
   async function deleteJob(id: string) {
     try {
       await backend.deleteJob(id);
-      setJobs(jobs.filter((job: UserJob) => job.object_id !== id));
+      setJobs(jobs.filter((job: ActiveJob) => job.object_id !== id));
     } catch (error) {
+      console.error(error)
       setError(error as ErrorType);
     }
   }

@@ -27,6 +27,7 @@ export type SettingsPayload = { [key: string]: string };
 export interface ActiveJob {
   object_id: string;
   status: string;
+  title: string;
 }
 
 export interface ObjectIcon {
