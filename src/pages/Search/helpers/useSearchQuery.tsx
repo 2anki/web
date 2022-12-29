@@ -28,13 +28,13 @@ export default function useSearchQuery(
   const [isLoading, setIsLoading] = useState(true);
 
   const triggerSearch = useCallback(
-    (force) => {
+    () => {
       if (inProgress) {
         return;
       }
       setInProgress(true);
       backend
-        .search(searchQuery, force)
+        .search(searchQuery)
         .then((results) => {
           setMyPages(results);
           setInProgress(false);
@@ -51,7 +51,7 @@ export default function useSearchQuery(
 
   useEffect(() => {
     setIsLoading(true);
-    triggerSearch(true);
+    triggerSearch();
   }, []);
 
   return {

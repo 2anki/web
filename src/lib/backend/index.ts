@@ -5,7 +5,7 @@ import {
   GetBlockResponse,
   GetDatabaseResponse,
   GetPageResponse,
-  ListBlockChildrenResponse, PageObjectResponse, PartialPageObjectResponse
+  ListBlockChildrenResponse
 } from '@notionhq/client/build/src/api-endpoints';
 import NotionObject from '../interfaces/NotionObject';
 import UserUpload from '../interfaces/UserUpload';
@@ -19,6 +19,7 @@ import { Favorite, Rules, Settings } from '../types';
 import { isDeletedPageResponse } from './isDeletedPageResponse';
 import { ConnectionInfo } from '../interfaces/ConnectionInfo';
 import { del, get, getLoginURL, post } from './api';
+import { getResourceUrl } from './getResourceUrl';
 
 const OK = 200;
 
@@ -50,18 +51,6 @@ class Backend {
 
   async getNotionConnectionInfo(): Promise<ConnectionInfo> {
     return get(`${this.baseURL}notion/get-notion-link`);
-  }
-
-  withinThreeSeconds(): boolean {
-    const end = (new Date()).getMilliseconds();
-    let diff = end - this.lastCall;
-    diff /= 1000;
-    const seconds = Math.round(diff);
-    if (seconds <= 3) {
-      return true;
-    }
-    this.lastCall = (new Date()).getMilliseconds();
-    return false;
   }
 
   saveSettings(settings: Settings) {
@@ -118,12 +107,8 @@ class Backend {
     });
   }
 
-  async search(query: string, force?: boolean): Promise<NotionObject[]> {
-    if (!force && this.withinThreeSeconds()) {
-      throw new Error(
-        'You are making too many requests. Please wait a few seconds before searching.'
-      );
-    }
+  async search(query: string): Promise<NotionObject[]> {
+    console.time('search')
     const favorites = await this.getFavorites();
 
     const isObjectId = query.replace(/-/g, '').length === 32;
@@ -147,14 +132,9 @@ class Backend {
       data = await response.json();
     }
 
-    function getResourceUrl(p: GetDatabaseResponse | GetPageResponse | PageObjectResponse | PartialPageObjectResponse) {
-      if ('url' in p) {
-       return p.url;
-      }
-      return undefined;
-    }
 
     if (data && data.results) {
+      console.timeEnd('search')
       return data.results.map((p: GetDatabaseResponse | GetPageResponse) => ({
         object: p.object,
         title: getObjectTitle(p).slice(0, 58), // Don't show strings longer than 60 characters
@@ -164,6 +144,7 @@ class Backend {
         isFavorite: favorites.some((f) => f.id === p.id)
       }));
     }
+    console.timeEnd('search')
     return [];
   }
 
