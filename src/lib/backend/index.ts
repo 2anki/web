@@ -11,7 +11,7 @@ import NotionObject from '../interfaces/NotionObject';
 import UserUpload from '../interfaces/UserUpload';
 import UserJob from '../interfaces/UserJob';
 
-import getObjectIcon, { ObjectIcon } from "../notion/getObjectIcon";
+import getObjectIcon, { ObjectIcon } from '../notion/getObjectIcon';
 import getObjectTitle from '../notion/getObjectTitle';
 import isOfflineMode from '../isOfflineMode';
 import handleRedirect from '../handleRedirect';

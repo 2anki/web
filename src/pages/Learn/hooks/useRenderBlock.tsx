@@ -1,23 +1,20 @@
 import { useEffect, useState } from 'react';
 import Backend from '../../../lib/backend';
 
-type BackSide = {
-  frontSide: string;
-  backSide: string;
+type RenderedBlock = {
+  html: string;
   loading: boolean;
 };
 
 type RenderBlockResponse = {
-  frontSide: string;
-  backSide: string;
+  html: string;
 };
 
 export const useRenderBlock = (
   id: string | undefined,
   refetch: boolean
-): BackSide => {
-  const [backSide, setBackSide] = useState('loading');
-  const [frontSide, setFrontSide] = useState('loading');
+): RenderedBlock => {
+  const [html, setHTML] = useState('loading')
   const [loading, setLoading] = useState(false);
   const backend = new Backend();
 
@@ -27,12 +24,11 @@ export const useRenderBlock = (
       backend.renderBlock(id).then((response: unknown) => {
         const res = response as RenderBlockResponse;
         if (res) {
-          setBackSide(res.backSide);
-          setFrontSide(res.frontSide);
+          setHTML(res.html)
           setLoading(false);
         }
       });
     }
   }, [id, refetch]);
-  return { loading, backSide, frontSide };
+  return { loading, html };
 };

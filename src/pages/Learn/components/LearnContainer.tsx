@@ -33,7 +33,7 @@ export function LearnContainer() {
   const { location } = window;
   const [textSelection, setTextSelection] = useState('');
 
-  const { loading, backSide, frontSide } = useRenderBlock(
+  const { loading, html } = useRenderBlock(
     getBlock(children, index)?.id,
     loadExtract
   );
@@ -120,8 +120,7 @@ export function LearnContainer() {
           page={page}
           blocks={children}
           index={index}
-          frontSide={frontSide}
-          backSide={backSide}
+          renderedBlock={html}
           textSelection={textSelection}
           onExtract={onExtract}
           isDeletingBlock={isDeletingBlock}
