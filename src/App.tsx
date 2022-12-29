@@ -25,6 +25,7 @@ import { ErrorPresenter } from './components/errors/ErrorPresenter';
 import { ErrorType } from './components/errors/helpers/types';
 import DebugPage from './pages/Debug';
 import { store } from './store';
+import FavoritesPage from './pages/Favorites';
 
 const PreSignupPage = lazy(() => import('./pages/Register'));
 const SearchPage = lazy(() => import('./pages/Search'));
@@ -66,6 +67,9 @@ function App() {
             <NavigationBar isPatron={isPatron} />
             <ErrorPresenter error={apiError} />
             <Switch>
+              <Route path="/favorites">
+                <FavoritesPage setError={handledError} />
+              </Route>
               <Route path="/uploads">
                 <MyUploadsPage setError={handledError} />
               </Route>
