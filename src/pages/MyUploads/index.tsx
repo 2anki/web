@@ -8,6 +8,9 @@ import { ErrorHandlerType, ErrorType } from '../../components/errors/helpers/typ
 import { FinishedJobs } from './components/FinishedJobs';
 import { EmptyUploadsSection } from './components/EmptyUploadsSection';
 import { DeleteAllButton } from './components/DeleteAllButton';
+import { useDeleteUpload } from './hooks/useDeleteUpload';
+import { useDeleteAll } from './hooks/useDeleteAll';
+import { getUploadIdsOrEmptyArray } from './helpers/getUploadIdsOrEmptyArray';
 
 const backend = new Backend();
 
@@ -16,16 +19,19 @@ interface MyUploadsPageProps {
 }
 
 function MyUploadsPage({ setError }: MyUploadsPageProps) {
-  const {loading, uploads, deleteUpload, deleteAllUploads, isDeletingAll, error} =
+  const {deleteUpload, deleteUploadError, isDeleting} = useDeleteUpload(backend);
+  const {loading, uploads,  error} =
     useUploads(backend);
   const [activeJobs, deleteJob] = useActiveJobs(backend, setError);
+  const {deleteAllUploads, isDeletingAll, deleteAllError} = useDeleteAll(backend, getUploadIdsOrEmptyArray(uploads));
 
-  if (error) {
-    setError(error as ErrorType);
-    return null;
+  const e = error || deleteAllError || deleteUploadError;
+  if (e) {
+    setError(e as ErrorType);
   }
 
-  if (loading) {
+  console.log('loading', loading);
+  if (loading || isDeletingAll || isDeleting) {
     return <LoadingIndicator />;
   }
 

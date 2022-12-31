@@ -2,11 +2,6 @@ import { getTemplateServiceUrl } from '../../../lib/backend/getTemplateServiceUr
 import NavbarItem from '../NavbarItem';
 
 export default function getNavbarStartRegularUser(path: string) {
-  /**
-   * Coming soon
-   * /learn
-   * /import
-   */
   return (
     <>
       <NavbarItem href="/upload" path={path}>
