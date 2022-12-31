@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import {
   ErrorHandlerType,
   ErrorType
-} from '../../../components/errors/helpers/types';
+} from "../../../components/errors/helpers/types";
 
-import Backend from '../../../lib/backend';
-import { ActiveJob } from '../../../lib/types';
+import Backend from "../../../lib/backend";
+import { ActiveJob } from "../../../lib/types";
 
 export default function useActiveJobs(
   backend: Backend,

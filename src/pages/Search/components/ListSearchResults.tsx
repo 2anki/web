@@ -1,9 +1,9 @@
-import { Dispatch, SetStateAction } from 'react';
-import { ErrorHandlerType } from '../../../components/errors/helpers/types';
-import Backend from '../../../lib/backend';
-import NotionObject from '../../../lib/interfaces/NotionObject';
-import usePatreon from '../../MyUploads/hooks/usePatreon';
-import SearchObjectEntry from './SearchObjectEntry';
+import { Dispatch, SetStateAction } from "react";
+import { ErrorHandlerType } from "../../../components/errors/helpers/types";
+import Backend from "../../../lib/backend";
+import NotionObject from "../../../lib/interfaces/NotionObject";
+import usePatreon from "../../MyUploads/hooks/usePatreon";
+import SearchObjectEntry from "./SearchObjectEntry";
 
 interface ListSearchResultsProps {
   results: NotionObject[];
@@ -23,7 +23,7 @@ export default function ListSearchResults(
     return (
       <div className="column is-main-content">
         <div className="subtitle my-4">
-          No search results, try typing something above 👌🏾 Also ensure you{' '}
+          No search results, try typing something above 👌🏾 Also ensure you{" "}
           <a
             target="_blank"
             rel="noreferrer"

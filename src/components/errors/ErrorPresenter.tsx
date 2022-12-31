@@ -1,7 +1,7 @@
-import { ErrorAlertMessage } from '@fremtind/jkl-alert-message-react';
-import { useState } from 'react';
-import { getErrorMessage } from './helpers/getErrorMessage';
-import { ErrorType } from './helpers/types';
+import { ErrorAlertMessage } from "@fremtind/jkl-alert-message-react";
+import { useState } from "react";
+import { getErrorMessage } from "./helpers/getErrorMessage";
+import { ErrorType } from "./helpers/types";
 
 interface ErrorPresenterProps {
   error: ErrorType;

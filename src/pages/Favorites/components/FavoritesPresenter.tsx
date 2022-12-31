@@ -1,7 +1,7 @@
-import { Dispatch, SetStateAction } from 'react';
-import Favorites from './Favorites';
-import { ErrorHandlerType } from '../../../components/errors/helpers/types';
-import NotionObject from '../../../lib/interfaces/NotionObject';
+import { Dispatch, SetStateAction } from "react";
+import Favorites from "./Favorites";
+import { ErrorHandlerType } from "../../../components/errors/helpers/types";
+import NotionObject from "../../../lib/interfaces/NotionObject";
 
 interface Props {
   favorites: NotionObject[];

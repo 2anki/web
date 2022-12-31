@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useState } from 'react';
-import { ErrorHandlerType } from '../../../components/errors/helpers/types';
+import { useCallback, useEffect, useState } from "react";
+import { ErrorHandlerType } from "../../../components/errors/helpers/types";
 
-import Backend from '../../../lib/backend';
-import useQuery from '../../../lib/hooks/useQuery';
-import NotionObject from '../../../lib/interfaces/NotionObject';
+import Backend from "../../../lib/backend";
+import useQuery from "../../../lib/hooks/useQuery";
+import NotionObject from "../../../lib/interfaces/NotionObject";
 
-export const QUERY_KEY = 'q';
+export const QUERY_KEY = "q";
 interface SearchQuery {
   isLoading: boolean;
   myPages: NotionObject[];
@@ -21,7 +21,7 @@ export default function useSearchQuery(
   const query = useQuery();
 
   const [searchQuery, setSearchQuery] = useState<string>(
-    query.get(QUERY_KEY) || ''
+    query.get(QUERY_KEY) || ""
   );
   const [myPages, setMyPages] = useState<NotionObject[]>([]);
   const [inProgress, setInProgress] = useState(false);

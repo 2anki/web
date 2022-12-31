@@ -1,4 +1,4 @@
-import { SearchInput } from './styled';
+import { SearchInput } from "./styled";
 
 interface SearchBarProps {
   onSearchQueryChanged: (query: string) => void;
@@ -16,7 +16,7 @@ function SearchBar({ onSearchQueryChanged, onSearchClicked, inProgress }: Search
             type="text"
             placeholder="  🔍 🅰  📑 "
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+              if (e.key === "Enter") {
                 onSearchClicked();
               }
             }}
@@ -30,7 +30,7 @@ function SearchBar({ onSearchQueryChanged, onSearchClicked, inProgress }: Search
             type="button"
             onClick={onSearchClicked}
             className={`button ${
-              inProgress ? 'is-loading is-light' : 'is-info'
+              inProgress ? "is-loading is-light" : "is-info"
             }`}
           >
             Search

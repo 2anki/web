@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import Backend from '../../../lib/backend';
+import { useState } from "react";
+import Backend from "../../../lib/backend";
 
 interface UseDeleteAll {
   isDeletingAll: boolean;

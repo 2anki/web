@@ -1,9 +1,9 @@
-import SearchContainer from './components/SearchContainer';
-import useNotionData from './helpers/useNotionData';
-import Backend from '../../lib/backend';
-import ConnectNotion from './components/ConnectNotion';
-import LoadingIndicator from '../../components/Loading';
-import { ErrorHandlerType } from '../../components/errors/helpers/types';
+import SearchContainer from "./components/SearchContainer";
+import useNotionData from "./helpers/useNotionData";
+import Backend from "../../lib/backend";
+import ConnectNotion from "./components/ConnectNotion";
+import LoadingIndicator from "../../components/Loading";
+import { ErrorHandlerType } from "../../components/errors/helpers/types";
 
 interface SearchPageProps {
   isPatron: boolean;

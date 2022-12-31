@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
 export interface SidebarItemProps {
   path: string;
@@ -7,15 +7,15 @@ export interface SidebarItemProps {
 }
 
 export default function SidebarItem({
-                                     path, href, children
-                                   }: SidebarItemProps) {
+                                      path, href, children
+                                    }: SidebarItemProps) {
   return (
     <li
     >
       <a
-        className={`${path === href ? 'has-text-weight-bold is-active' : ''}`}
+        className={`${path === href ? "has-text-weight-bold is-active" : ""}`}
         href={href}>
-      {children}
+        {children}
       </a>
     </li>
   );

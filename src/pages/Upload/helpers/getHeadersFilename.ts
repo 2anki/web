@@ -1,5 +1,5 @@
-const getHeadersFilename = (headers: Response['headers']) => {
-  const filename = headers.get('File-Name');
+const getHeadersFilename = (headers: Response["headers"]) => {
+  const filename = headers.get("File-Name");
   if (!filename) {
     return null;
   }

@@ -1,18 +1,18 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from "react";
 
-import Backend from '../../../../lib/backend';
-import DefineRules from '../DefineRules';
+import Backend from "../../../../lib/backend";
+import DefineRules from "../DefineRules";
 
-import ObjectActions from '../actions/ObjectActions';
-import ObjectAction from '../actions/ObjectAction';
-import { Entry, ObjectMeta } from './styled';
-import ObjectType from '../ObjectType';
-import DotsHorizontal from '../../../../components/icons/DotsHorizontal';
-import NotionObject from '../../../../lib/interfaces/NotionObject';
+import ObjectActions from "../actions/ObjectActions";
+import ObjectAction from "../actions/ObjectAction";
+import { Entry, ObjectMeta } from "./styled";
+import ObjectType from "../ObjectType";
+import DotsHorizontal from "../../../../components/icons/DotsHorizontal";
+import NotionObject from "../../../../lib/interfaces/NotionObject";
 import {
   ErrorHandlerType,
   ErrorType
-} from '../../../../components/errors/helpers/types';
+} from "../../../../components/errors/helpers/types";
 
 const backend = new Backend();
 
@@ -47,7 +47,7 @@ function SearchObjectEntry(props: Props) {
       <Entry data-hj-suppress>
         <ObjectMeta>
           <ObjectType type={type} />
-          {icon && (icon.includes('http') || icon.includes('data:image')) ? (
+          {icon && (icon.includes("http") || icon.includes("data:image")) ? (
             <img width={32} height={32} src={icon} alt="icon" />
           ) : (
             <span>{icon}</span>
@@ -66,7 +66,7 @@ function SearchObjectEntry(props: Props) {
               backend
                 .convert(id, type, title)
                 .then(() => {
-                  window.location.href = '/uploads';
+                  window.location.href = "/uploads";
                 })
                 .catch((error) => {
                   setError(error as ErrorType);
@@ -79,7 +79,7 @@ function SearchObjectEntry(props: Props) {
             tabIndex={-1}
             onClick={() => setShowSettings(!showSettings)}
             onKeyDown={(event) => {
-              if (event.key === 'F1') {
+              if (event.key === "F1") {
                 setShowSettings(!showSettings);
               }
             }}

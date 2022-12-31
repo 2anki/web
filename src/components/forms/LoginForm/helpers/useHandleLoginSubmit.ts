@@ -3,11 +3,11 @@ import {
   SetStateAction,
   SyntheticEvent,
   useState
-} from 'react';
-import { useCookies } from 'react-cookie';
-import Backend from '../../../../lib/backend';
-import { getErrorMessage } from '../../../errors/helpers/getErrorMessage';
-import { ErrorHandlerType, ErrorType } from '../../../errors/helpers/types';
+} from "react";
+import { useCookies } from "react-cookie";
+import Backend from "../../../../lib/backend";
+import { getErrorMessage } from "../../../errors/helpers/getErrorMessage";
+import { ErrorHandlerType, ErrorType } from "../../../errors/helpers/types";
 
 interface LoginState {
   email: string;
@@ -20,9 +20,9 @@ interface LoginState {
 
 export const useHandleLoginSubmit = (onError: ErrorHandlerType): LoginState => {
   const [loading, setLoading] = useState(false);
-  const [, setCookie] = useCookies(['token']);
-  const [email, setEmail] = useState(localStorage.getItem('email') || '');
-  const [password, setPassword] = useState('');
+  const [, setCookie] = useCookies(["token"]);
+  const [email, setEmail] = useState(localStorage.getItem("email") || "");
+  const [password, setPassword] = useState("");
   const backend = new Backend();
 
   const onSubmit = async (event: SyntheticEvent) => {
@@ -33,12 +33,12 @@ export const useHandleLoginSubmit = (onError: ErrorHandlerType): LoginState => {
       const res = await backend.login(email, password);
       if (res.status === 200) {
         const { token } = await res.json();
-        setCookie('token', token);
-        window.location.href = '/search';
+        setCookie("token", token);
+        window.location.href = "/search";
       } else {
         onError(
           new Error(
-            'Invalid username or password. Please try again or click forgot password.'
+            "Invalid username or password. Please try again or click forgot password."
           )
         );
       }

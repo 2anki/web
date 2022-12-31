@@ -1,4 +1,4 @@
-import UserUpload from '../../../lib/interfaces/UserUpload';
+import UserUpload from "../../../lib/interfaces/UserUpload";
 
 export const getUploadIdsOrEmptyArray = (uploads: UserUpload[] | undefined) => {
   if (!uploads) {

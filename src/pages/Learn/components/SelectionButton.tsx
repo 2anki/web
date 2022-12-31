@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
 interface SelectionButtonProps {
   label: string;
@@ -15,7 +15,7 @@ export function SelectionButton({
   icon,
   disabled
 }: SelectionButtonProps) {
-  const isLoading = loading ? 'is-loading' : '';
+  const isLoading = loading ? "is-loading" : "";
   return (
     <p className="control is-clickable">
       <button

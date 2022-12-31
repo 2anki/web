@@ -1,4 +1,4 @@
-import { NotionData } from '../helpers/useNotionData';
+import { NotionData } from "../helpers/useNotionData";
 
 interface WorkspaceHeaderProps {
   isPatron: boolean;

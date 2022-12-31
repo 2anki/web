@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-import Backend from '../../../lib/backend';
-import UserUpload from '../../../lib/interfaces/UserUpload';
+import Backend from "../../../lib/backend";
+import UserUpload from "../../../lib/interfaces/UserUpload";
 
 interface UseUploads {
   error: unknown;

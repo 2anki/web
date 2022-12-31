@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { useInterval } from 'usehooks-ts';
-import styled from 'styled-components';
+import { useState } from "react";
+import { useInterval } from "usehooks-ts";
+import styled from "styled-components";
 
 
 const StyledLoader = styled.div`

@@ -1,4 +1,4 @@
-import { StyledNavbarItem } from './styled';
+import { StyledNavbarItem } from "./styled";
 
 export interface NavbarItemProps {
   path: string;
@@ -15,7 +15,7 @@ export default function NavbarItem({
     <StyledNavbarItem
       onClick={onClick}
       href={href}
-      className={`navbar-item ${path === href ? 'has-text-weight-bold' : ''}`}
+      className={`navbar-item ${path === href ? "has-text-weight-bold" : ""}`}
     >
       {children}
     </StyledNavbarItem>

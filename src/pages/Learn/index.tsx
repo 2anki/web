@@ -1,4 +1,4 @@
-import { LearnContainer } from './components/LearnContainer';
+import { LearnContainer } from "./components/LearnContainer";
 
 function LearnPage() {
   return <LearnContainer />;

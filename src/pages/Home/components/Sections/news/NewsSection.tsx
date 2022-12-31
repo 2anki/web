@@ -1,12 +1,12 @@
-import Heading2 from '../../../../../components/text/Heading2';
-import NewsEntry from '.';
-import { Centered, NewsIcon, ReadMoreNews } from './styled';
-import ReadMore from './ReadMore';
+import Heading2 from "../../../../../components/text/Heading2";
+import NewsEntry from ".";
+import { Centered, NewsIcon, ReadMoreNews } from "./styled";
+import ReadMore from "./ReadMore";
 
 function FeaturedEntry() {
   return (
     <div className="card">
-      <div style={{ background: '#F8F8F8' }} className="card-content">
+      <div style={{ background: "#F8F8F8" }} className="card-content">
         <div className="media">
           <div className="media-content">
             <p className="title is-4">The state of 2anki.net 💫</p>

@@ -1,4 +1,4 @@
-import UserUpload from '../../../lib/interfaces/UserUpload';
+import UserUpload from "../../../lib/interfaces/UserUpload";
 
 interface Prop {
   uploads: UserUpload[] | undefined;
@@ -14,7 +14,7 @@ export function DeleteAllButton({uploads, isDeletingAll, deleteAllUploads}: Prop
   return <button
     type="button"
     title="Delete all"
-    className={`button is-small ${isDeletingAll ? 'is-loading' : ''} `}
+    className={`button is-small ${isDeletingAll ? "is-loading" : ""} `}
     onClick={() => {
       deleteAllUploads();
     }}

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import CardOptionsStore from '../store/CardOptionsStore';
+import React, { useEffect, useState } from "react";
+import CardOptionsStore from "../store/CardOptionsStore";
 
 interface Props {
   label: string;
@@ -29,7 +29,7 @@ function LocalCheckbox({
       <label htmlFor={storageKey} className="checkbox">
         <input
           name={storageKey}
-          style={{ marginRight: '0.2rem' }}
+          style={{ marginRight: "0.2rem" }}
           type="checkbox"
           checked={isChecked}
           onChange={(event) => {

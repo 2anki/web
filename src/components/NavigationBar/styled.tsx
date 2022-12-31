@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Navbar = styled.nav`
   background: #E5E5E5;

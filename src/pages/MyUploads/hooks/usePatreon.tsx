@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import Backend from '../../../lib/backend';
+import Backend from "../../../lib/backend";
 
 export default function usePatreon(backend: Backend): [boolean] {
   const [isPatron, setIsPatreon] = useState(false);

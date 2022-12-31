@@ -6,11 +6,11 @@ export default function ConnectNotion({ connectionLink }: Props) {
   return (
     <div
       style={{
-        margin: '0 auto',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
+        margin: "0 auto",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
       }}
       className="column is-half is-centered"
     >

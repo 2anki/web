@@ -1,6 +1,6 @@
-import Backend from '../../../lib/backend';
-import BecomeAPatron from '../../BecomeAPatron';
-import NavbarItem from '../NavbarItem';
+import Backend from "../../../lib/backend";
+import BecomeAPatron from "../../BecomeAPatron";
+import NavbarItem from "../NavbarItem";
 
 export default function getNavbarEnd(
   path: string,

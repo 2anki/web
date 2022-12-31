@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import { SyntheticEvent, useState } from 'react';
-import BetaMessage from '../BetaMessage';
-import Backend from '../../lib/backend';
-import { ErrorHandlerType } from '../errors/helpers/types';
+import styled from "styled-components";
+import { SyntheticEvent, useState } from "react";
+import BetaMessage from "../BetaMessage";
+import Backend from "../../lib/backend";
+import { ErrorHandlerType } from "../errors/helpers/types";
 
 const FormContainer = styled.div`
   max-width: 720px;
@@ -14,10 +14,10 @@ interface Props {
 }
 
 function RegisterForm({ setErrorMessage }: Props) {
-  const [name, setName] = useState(localStorage.getItem('name') || '');
-  const [email, setEmail] = useState(localStorage.getItem('email') || '');
-  const [tos, setTos] = useState(localStorage.getItem('tos') === 'true');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState(localStorage.getItem("name") || "");
+  const [email, setEmail] = useState(localStorage.getItem("email") || "");
+  const [tos, setTos] = useState(localStorage.getItem("tos") === "true");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const isValid = () =>
@@ -38,15 +38,15 @@ function RegisterForm({ setErrorMessage }: Props) {
       const backend = new Backend();
       const res = await backend.register(name, email, password);
       if (res.status === 200) {
-        window.location.href = '/login';
+        window.location.href = "/login";
       } else {
         setErrorMessage(
-          'Unknown error. Please try again or reach out to alexander@alemayhu.com for assistance if the issue persists.'
+          "Unknown error. Please try again or reach out to alexander@alemayhu.com for assistance if the issue persists."
         );
       }
     } catch (error) {
       setErrorMessage(
-        'Request failed. If you already have a user try login instead'
+        "Request failed. If you already have a user try login instead"
       );
       setLoading(false);
     }
@@ -73,7 +73,7 @@ function RegisterForm({ setErrorMessage }: Props) {
                         value={name}
                         onChange={(event) => {
                           setName(event.target.value);
-                          localStorage.setItem('name', event.target.value);
+                          localStorage.setItem("name", event.target.value);
                         }}
                         type="text"
                         placeholder="Your name"
@@ -91,7 +91,7 @@ function RegisterForm({ setErrorMessage }: Props) {
                       value={email}
                       onChange={(event) => {
                         setEmail(event.target.value);
-                        localStorage.setItem('email', event.target.value);
+                        localStorage.setItem("email", event.target.value);
                       }}
                       className="input"
                       type="email"
@@ -131,20 +131,20 @@ function RegisterForm({ setErrorMessage }: Props) {
                         onChange={(event) => {
                           setTos(event.target.checked);
                           localStorage.setItem(
-                            'tos',
+                            "tos",
                             event.target.checked.toString()
                           );
                         }}
-                      />{' '}
-                      I agree to the{' '}
+                      />{" "}
+                      I agree to the{" "}
                       <a
                         rel="noreferrer"
                         target="_blank"
                         href="https://alemayhu.notion.site/Terms-of-services-931865161517453b99fb6495e400061d"
                       >
                         terms of service
-                      </a>{' '}
-                      and have read the{' '}
+                      </a>{" "}
+                      and have read the{" "}
                       <a
                         rel="noreferrer"
                         target="_blank"
@@ -158,11 +158,11 @@ function RegisterForm({ setErrorMessage }: Props) {
                 </div>
 
                 <div className="field">
-                  <div className="control" style={{ width: '100%' }}>
+                  <div className="control" style={{ width: "100%" }}>
                     <button
                       type="submit"
                       className="button is-link is-medium"
-                      style={{ width: '100%' }}
+                      style={{ width: "100%" }}
                       disabled={!isValid() || loading}
                     >
                       Create my account

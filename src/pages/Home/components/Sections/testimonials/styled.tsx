@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import PersonIllustration from '../../../../../components/illustrations/PersonIllustration';
+import PersonIllustration from "../../../../../components/illustrations/PersonIllustration";
 
 export const Illustration4 = styled(PersonIllustration)`
 position: absolute;

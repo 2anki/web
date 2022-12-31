@@ -1,5 +1,5 @@
-import { getTemplateServiceUrl } from '../../../lib/backend/getTemplateServiceUrl';
-import NavbarItem from '../NavbarItem';
+import { getTemplateServiceUrl } from "../../../lib/backend/getTemplateServiceUrl";
+import NavbarItem from "../NavbarItem";
 
 export default function getNavbarStartRegularUser(path: string) {
   return (

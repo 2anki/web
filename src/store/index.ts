@@ -1,6 +1,6 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore } from "@reduxjs/toolkit";
 
-import blockControlReducer from '../pages/Learn/state/blockControlSlice';
+import blockControlReducer from "../pages/Learn/state/blockControlSlice";
 
 export const store = configureStore({
   reducer: {

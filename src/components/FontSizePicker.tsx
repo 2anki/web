@@ -11,11 +11,11 @@ function FontSizePicker(delegate: FontPickerDelegate) {
       <div className="control">
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '0',
-            flexDirection: 'column',
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "0",
+            flexDirection: "column",
           }}
         >
           <label htmlFor="font-size" className="label">

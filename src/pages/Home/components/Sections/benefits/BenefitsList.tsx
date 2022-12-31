@@ -1,6 +1,6 @@
-import BlueHeading3 from '../../../../../components/text/BlueHeading3';
-import { BenefitIcon } from './styled';
-import { Benefit } from './benefits';
+import BlueHeading3 from "../../../../../components/text/BlueHeading3";
+import { BenefitIcon } from "./styled";
+import { Benefit } from "./benefits";
 
 interface BenefitsListProps {
   benefits: Benefit[]

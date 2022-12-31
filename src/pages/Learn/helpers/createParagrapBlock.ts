@@ -1,12 +1,12 @@
 export const createParagraphBlock = (input: string) => ({
   has_children: false,
   archived: false,
-  type: 'paragraph',
+  type: "paragraph",
   paragraph: {
-    color: 'blue_background',
+    color: "blue_background",
     text: [
       {
-        type: 'text',
+        type: "text",
         text: {
           content: input
         },
@@ -16,7 +16,7 @@ export const createParagraphBlock = (input: string) => ({
           strikethrough: false,
           underline: false,
           code: false,
-          color: 'default'
+          color: "default"
         }
       }
     ]

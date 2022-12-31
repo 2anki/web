@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import PrimaryButton from '../../../../../components/buttons/PrimaryButton';
+import styled from "styled-components";
+import PrimaryButton from "../../../../../components/buttons/PrimaryButton";
 
-import PersonIllustration from '../../../../../components/illustrations/PersonIllustration';
+import PersonIllustration from "../../../../../components/illustrations/PersonIllustration";
 
 export const NewsIcon = styled(PersonIllustration)`
 position: absolute;

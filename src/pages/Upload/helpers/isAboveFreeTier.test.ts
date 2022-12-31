@@ -1,12 +1,12 @@
-import isAboveFreeTier from './isAboveFreeTier';
+import isAboveFreeTier from "./isAboveFreeTier";
 
-describe('isAboveFreeTier', () => {
+describe("isAboveFreeTier", () => {
 	it.each([
-		['above max anon user', 10 ** 10, false, true],
-		['patrons pass', 10 ** 10, true, false],
-		['below max anon user', 1000, false, false]
+		["above max anon user", 10 ** 10, false, true],
+		["patrons pass", 10 ** 10, true, false],
+		["below max anon user", 1000, false, false]
 	])(
-    '%s',
+    "%s",
     (_, sizeInBytes, isPatron, expected) => {
       expect(isAboveFreeTier(sizeInBytes, isPatron)).toBe(expected);
     }

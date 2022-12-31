@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const JoinNowButton = styled.a`
     border-radius: 10px;
