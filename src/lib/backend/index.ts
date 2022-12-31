@@ -1,5 +1,4 @@
 import Cookies from 'universal-cookie';
-import { captureException } from '@sentry/react';
 
 import {
   GetBlockResponse,
@@ -15,7 +14,6 @@ import getObjectTitle from '../notion/getObjectTitle';
 import isOfflineMode from '../isOfflineMode';
 import handleRedirect from '../handleRedirect';
 import { ActiveJob, Favorite, Rules, Settings } from '../types';
-import { isDeletedPageResponse } from './isDeletedPageResponse';
 import { ConnectionInfo } from '../interfaces/ConnectionInfo';
 import { del, get, getLoginURL, post } from './api';
 import { getResourceUrl } from './getResourceUrl';
@@ -36,12 +34,8 @@ class Backend {
     localStorage.clear();
     sessionStorage.clear();
     if (!isOffline) {
-      try {
-        const endpoint = `${this.baseURL}users/logout`;
-        await get(endpoint);
-      } catch (error) {
-        captureException(error);
-      }
+      const endpoint = `${this.baseURL}users/logout`;
+      await get(endpoint);
     }
     const cookies = new Cookies();
     cookies.remove('token');
@@ -151,43 +145,32 @@ class Backend {
     pageId: string,
     isFavorite: boolean = false
   ): Promise<NotionObject | null> {
-    try {
-      const data = await get(`${this.baseURL}notion/page/${pageId}`);
-      return {
-        object: data.object,
-        title: getObjectTitle(data),
-        icon: getObjectIcon(data),
-        url: data.url as string,
-        id: data.id,
-        data,
-        isFavorite
-      };
-    } catch (error) {
-      if (isDeletedPageResponse(error)) {
-        this.deleteFavorite(pageId);
-      }
-      return null;
-    }
+    const data = await get(`${this.baseURL}notion/page/${pageId}`);
+    return {
+      object: data.object,
+      title: getObjectTitle(data),
+      icon: getObjectIcon(data),
+      url: data.url as string,
+      id: data.id,
+      data,
+      isFavorite
+    };
   }
 
   async getDatabase(
     id: string,
     isFavorite: boolean = false
   ): Promise<NotionObject | null> {
-    try {
-      const data = await get(`${this.baseURL}notion/database/${id}`);
-      return {
-        object: data.object,
-        title: getObjectTitle(data),
-        icon: getObjectIcon(data),
-        url: data.url as string,
-        id: data.id,
-        data,
-        isFavorite
-      };
-    } catch (error) {
-      return null;
-    }
+    const data = await get(`${this.baseURL}notion/database/${id}`);
+    return {
+      object: data.object,
+      title: getObjectTitle(data),
+      icon: getObjectIcon(data),
+      url: data.url as string,
+      id: data.id,
+      data,
+      isFavorite
+    };
   }
 
   async renderBlock(blockId: string): Promise<string> {
@@ -227,13 +210,8 @@ class Backend {
    * @param key upload key to delete
    * @returns whether the deletion was successful or throws an error
    */
-  async deleteUpload(key: string): Promise<boolean> {
-    try {
-      await del(`${this.baseURL}upload/mine/${key}`);
-      return true;
-    } catch (error) {
-      return false;
-    }
+  deleteUpload(key: string): Promise<Response> {
+    return del(`${this.baseURL}upload/mine/${key}`);
   }
 
   async deleteJob(id: string) {

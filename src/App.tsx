@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { lazy, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
 import '@fremtind/jkl-accordion/accordion.min.css';
 import '@fremtind/jkl-alert-message/alert-message.min.css';
@@ -15,17 +14,16 @@ import Footer from './components/Footer';
 import CardOptionsStore from './store/CardOptionsStore';
 import StoreContext from './store/StoreContext';
 import GlobalStyle from './GlobalStyle';
-import NavigationBar from './components/NavigationBar/NavigationBar';
 import SettingsPage from './pages/Settings';
 import ImportPage from './pages/Import/ImportPage';
 import usePatreon from './pages/MyUploads/hooks/usePatreon';
 import Backend from './lib/backend';
 import isOfflineMode from './lib/isOfflineMode';
-import { ErrorPresenter } from './components/errors/ErrorPresenter';
 import { ErrorType } from './components/errors/helpers/types';
 import DebugPage from './pages/Debug';
 import { store } from './store';
 import FavoritesPage from './pages/Favorites';
+import { PageLayout } from './components/Layout/PageLayout';
 
 const PreSignupPage = lazy(() => import('./pages/Register'));
 const SearchPage = lazy(() => import('./pages/Search'));
@@ -34,11 +32,6 @@ const NewPasswordPage = lazy(() => import('./pages/NewPassword'));
 const LearnPage = lazy(() => import('./pages/Learn'));
 const MyUploadsPage = lazy(() => import('./pages/MyUploads'));
 
-const Layout = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`;
 
 const backend = new Backend();
 function App() {
@@ -62,9 +55,7 @@ function App() {
       <GlobalStyle />
       <StoreContext.Provider value={oldStore}>
         <Router>
-          <Layout>
-            <NavigationBar isPatron={isPatron} />
-            <ErrorPresenter error={apiError} />
+          <PageLayout error={apiError}>
             <Switch>
               <Route path="/favorites">
                 <FavoritesPage setError={handledError} />
@@ -103,11 +94,11 @@ function App() {
                 <DebugPage />
               </Route>
               <Route path="/">
-                <HomePage />
+                <HomePage isPatron={isPatron} />
               </Route>
             </Switch>
             <Footer />
-          </Layout>
+          </PageLayout>
         </Router>
       </StoreContext.Provider>
     </Provider>
