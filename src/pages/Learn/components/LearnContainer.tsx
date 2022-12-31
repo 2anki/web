@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import _ from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import LoadingPage from '../../Loading';
+import LoadingIndicator from '../../../components/Loading';
 import { useRenderBlock } from '../hooks/useRenderBlock';
 import { useLearnData } from '../hooks/useLearnData';
 import useQuery from '../../../lib/hooks/useQuery';
@@ -106,7 +106,7 @@ export function LearnContainer() {
   }
 
   if (!parentId || !children) {
-    return <LoadingPage />;
+    return <LoadingIndicator />;
   }
   return (
     <section className="section">

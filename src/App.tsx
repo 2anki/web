@@ -33,7 +33,6 @@ const LoginPage = lazy(() => import('./pages/Login'));
 const NewPasswordPage = lazy(() => import('./pages/NewPassword'));
 const LearnPage = lazy(() => import('./pages/Learn'));
 const MyUploadsPage = lazy(() => import('./pages/MyUploads'));
-const LoadingPage = lazy(() => import('./pages/Loading'));
 
 const Layout = styled.div`
   display: flex;
@@ -99,9 +98,6 @@ function App() {
               </Route>
               <Route path="/import">
                 <ImportPage />
-              </Route>
-              <Route path="/loading">
-                <LoadingPage />
               </Route>
               <Route path="/debug">
                 <DebugPage />

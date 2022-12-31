@@ -6,7 +6,7 @@ import { BrowserTracing } from '@sentry/tracing';
 
 import App from './App';
 
-import LoadingPage from './pages/Loading';
+import LoadingIndicator from './components/Loading';
 
 if (!process.env.REACT_SKIP_SENTRY) {
   Sentry.init({
@@ -18,7 +18,7 @@ if (!process.env.REACT_SKIP_SENTRY) {
 
 ReactDOM.render(
   <React.StrictMode>
-    <Suspense fallback={<LoadingPage />}>
+    <Suspense fallback={<LoadingIndicator />}>
       <App />
     </Suspense>
   </React.StrictMode>,

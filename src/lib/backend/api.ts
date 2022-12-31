@@ -1,4 +1,5 @@
 import handleRedirect from '../handleRedirect';
+import { OK } from './http';
 
 export const getLoginURL = (baseURL: string) => `${baseURL}users/login`;
 
@@ -20,12 +21,11 @@ export const get = async (url: string) => {
     credentials: 'include'
   });
   handleRedirect(response);
-  try {
-    const json = await response.json();
-    return json;
-  } catch (error) {
-    return null;
+  if (response.status !== OK) {
+    throw new Error(response.statusText);
   }
+  const json = await response.json();
+  return json;
 };
 
 export const del = async (url: string) => {

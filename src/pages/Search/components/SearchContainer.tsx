@@ -1,7 +1,7 @@
 import { ErrorHandlerType } from '../../../components/errors/helpers/types';
 import { PageContainer } from '../../../components/styled';
 import Backend from '../../../lib/backend';
-import LoadingPage from '../../Loading';
+import LoadingIndicator from '../../../components/Loading';
 
 import { NotionData } from '../helpers/useNotionData';
 import useSearchQuery from '../helpers/useSearchQuery';
@@ -27,7 +27,7 @@ export default function SearchContainer(props: SearchContentProps) {
     return myPages[r].id;
   };
 
-  if (isLoading) return <LoadingPage />;
+  if (isLoading) return <LoadingIndicator />;
 
   return (
     <PageContainer>
