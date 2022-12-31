@@ -1,5 +1,5 @@
-import NotionObject from '../../../lib/interfaces/NotionObject';
-import { SourceLink } from './SourceLink';
+import NotionObject from "../../../lib/interfaces/NotionObject";
+import { SourceLink } from "./SourceLink";
 
 interface PresentableLinkProps {
   object: NotionObject | null | undefined;

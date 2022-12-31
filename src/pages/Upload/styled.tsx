@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { Container } from '../../components/styled';
+import { Container } from "../../components/styled";
 
 export const FlexColumn = styled.div`
   display: flex;

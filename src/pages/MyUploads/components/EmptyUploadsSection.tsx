@@ -1,4 +1,4 @@
-import UserUpload from '../../../lib/interfaces/UserUpload';
+import UserUpload from "../../../lib/interfaces/UserUpload";
 
 interface Prop {
   uploads: UserUpload[] | undefined;
@@ -8,10 +8,10 @@ export function EmptyUploadsSection({uploads}: Prop) {
     return null;
   }
   return <p>
-    You have no uploads! Make some from the{' '}
+    You have no uploads! Make some from the{" "}
     <u>
       <a href="/search">search</a>
-    </u>{' '}
+    </u>{" "}
     page.
   </p>
 }

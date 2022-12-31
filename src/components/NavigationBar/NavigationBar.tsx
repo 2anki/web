@@ -1,17 +1,17 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState } from 'react';
-import { useCookies } from 'react-cookie';
+import { useState } from "react";
+import { useCookies } from "react-cookie";
 
-import getNavbarStartNewUser from './helpers/getNavbarStartNewUser';
-import NavButtonCTA from '../buttons/NavButtonCTA';
-import Backend from '../../lib/backend';
-import NavbarItem from './NavbarItem';
-import { Navbar } from './styled';
-import getNavbarStartRegularUser from './helpers/getNavbarStartRegularUser';
-import getNavbarEnd from './helpers/getNavbarEnd';
-import BecomeAPatron from '../BecomeAPatron';
-import { isLearnPage } from './helpers/isLearnPage';
-import { isLoginPage } from './helpers/isLoginPage';
+import getNavbarStartNewUser from "./helpers/getNavbarStartNewUser";
+import NavButtonCTA from "../buttons/NavButtonCTA";
+import Backend from "../../lib/backend";
+import NavbarItem from "./NavbarItem";
+import { Navbar } from "./styled";
+import getNavbarStartRegularUser from "./helpers/getNavbarStartRegularUser";
+import getNavbarEnd from "./helpers/getNavbarEnd";
+import BecomeAPatron from "../BecomeAPatron";
+import { isLearnPage } from "./helpers/isLearnPage";
+import { isLoginPage } from "./helpers/isLoginPage";
 
 interface NavigationBarProps {
   isPatron: boolean;
@@ -19,7 +19,7 @@ interface NavigationBarProps {
 
 const backend = new Backend();
 function NavigationBar({ isPatron }: NavigationBarProps) {
-  const [cookies] = useCookies(['token']);
+  const [cookies] = useCookies(["token"]);
   const [active, setHamburgerMenu] = useState(false);
   const path = window.location.pathname;
   const { hash } = window.location;
@@ -57,7 +57,7 @@ function NavigationBar({ isPatron }: NavigationBarProps) {
         </a>
       </div>
 
-      <div id="navbar" className={`navbar-menu ${active ? 'is-active' : ''}`}>
+      <div id="navbar" className={`navbar-menu ${active ? "is-active" : ""}`}>
         <div className="navbar-start">{navbarStart}</div>
         {!cookies.token && (
           <div className="navbar-end">

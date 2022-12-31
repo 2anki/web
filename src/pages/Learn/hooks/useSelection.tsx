@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 export const useSelection = (selectionHandler: (selection: string) => void) => {
   useEffect(() => {
     const selectionChange = () => {
       const text = document.getSelection()?.toString();
-      selectionHandler(text?.trim() ?? '');
+      selectionHandler(text?.trim() ?? "");
     };
-    document.addEventListener('selectionchange', selectionChange);
+    document.addEventListener("selectionchange", selectionChange);
     return () =>
-      document.removeEventListener('selectionchange', selectionChange);
+      document.removeEventListener("selectionchange", selectionChange);
   }, [selectionHandler]);
 };

@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import Backend from '../../../lib/backend';
-import NotionObject from '../../../lib/interfaces/NotionObject';
-import { ChildrenType } from '../types';
+import { useEffect, useState } from "react";
+import Backend from "../../../lib/backend";
+import NotionObject from "../../../lib/interfaces/NotionObject";
+import { ChildrenType } from "../types";
 
 interface LearnData {
   error: Error | null;
@@ -19,7 +19,7 @@ export const useLearnData = (
   const backend = new Backend();
 
   useEffect(() => {
-    if (id && id !== 'learn') {
+    if (id && id !== "learn") {
       backend
         .getPage(id)
         .then((res) => setPage(res))

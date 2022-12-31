@@ -1,5 +1,5 @@
-import { MouseEventHandler } from 'react';
-import { ObjectIconAction } from '../SearchObjectEntry/styled';
+import { MouseEventHandler } from "react";
+import { ObjectIconAction } from "../SearchObjectEntry/styled";
 
 interface ObjectActionProps {
   url: string,

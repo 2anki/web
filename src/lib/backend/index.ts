@@ -1,32 +1,31 @@
-import Cookies from 'universal-cookie';
+import Cookies from "universal-cookie";
 
 import {
   GetBlockResponse,
   GetDatabaseResponse,
   GetPageResponse,
-  ListBlockChildrenResponse
-} from '@notionhq/client/build/src/api-endpoints';
-import NotionObject from '../interfaces/NotionObject';
-import UserUpload from '../interfaces/UserUpload';
+  ListBlockChildrenResponse,
+} from "@notionhq/client/build/src/api-endpoints";
+import NotionObject from "../interfaces/NotionObject";
+import UserUpload from "../interfaces/UserUpload";
 
-import getObjectIcon, { ObjectIcon } from '../notion/getObjectIcon';
-import getObjectTitle from '../notion/getObjectTitle';
-import isOfflineMode from '../isOfflineMode';
-import handleRedirect from '../handleRedirect';
-import { ActiveJob, Favorite, Rules, Settings } from '../types';
-import { ConnectionInfo } from '../interfaces/ConnectionInfo';
-import { del, get, getLoginURL, post } from './api';
-import { getResourceUrl } from './getResourceUrl';
-import { OK } from './http';
-
+import getObjectIcon, { ObjectIcon } from "../notion/getObjectIcon";
+import getObjectTitle from "../notion/getObjectTitle";
+import isOfflineMode from "../isOfflineMode";
+import handleRedirect from "../handleRedirect";
+import { ActiveJob, Favorite, Rules, Settings } from "../types";
+import { ConnectionInfo } from "../interfaces/ConnectionInfo";
+import { del, get, getLoginURL, post } from "./api";
+import { getResourceUrl } from "./getResourceUrl";
+import { OK } from "./http";
 
 class Backend {
   baseURL: string;
 
-  lastCall = (new Date()).getMilliseconds();
+  lastCall = new Date().getMilliseconds();
 
   constructor() {
-    this.baseURL = '/api/';
+    this.baseURL = "/api/";
   }
 
   async logout() {
@@ -38,8 +37,8 @@ class Backend {
       await get(endpoint);
     }
     const cookies = new Cookies();
-    cookies.remove('token');
-    window.location.href = '/';
+    cookies.remove("token");
+    window.location.href = "/";
   }
 
   async getNotionConnectionInfo(): Promise<ConnectionInfo> {
@@ -48,7 +47,7 @@ class Backend {
 
   saveSettings(settings: Settings) {
     return post(`${this.baseURL}settings/create/${settings.object_id}`, {
-      settings
+      settings,
     });
   }
 
@@ -73,11 +72,11 @@ class Backend {
     email: boolean
   ) {
     const payload = {
-      FLASHCARD: flashcard.join(','),
-      DECK: deck.join(','),
-      SUB_DECKS: subDecks.join(','),
+      FLASHCARD: flashcard.join(","),
+      DECK: deck.join(","),
+      SUB_DECKS: subDecks.join(","),
       TAGS: tags,
-      EMAIL_NOTIFICATION: email
+      EMAIL_NOTIFICATION: email,
     };
     return post(`${this.baseURL}rules/create/${id}`, { payload });
   }
@@ -96,27 +95,27 @@ class Backend {
 
   deleteSettings(pageId: string) {
     return post(`${this.baseURL}settings/delete/${pageId}`, {
-      object_id: pageId
+      object_id: pageId,
     });
   }
 
   async search(query: string): Promise<NotionObject[]> {
-    console.time('search')
+    console.time("search");
     const favorites = await this.getFavorites();
 
-    const isObjectId = query.replace(/-/g, '').length === 32;
+    const isObjectId = query.replace(/-/g, "").length === 32;
     let data;
     if (isObjectId) {
       const res = await this.getPage(query);
       if (res && res.data) {
         data = {
-          results: [res.data]
+          results: [res.data],
         };
       } else {
         const dbResult = await this.getDatabase(query);
         if (dbResult && dbResult.data) {
           data = {
-            results: [dbResult.data]
+            results: [dbResult.data],
           };
         }
       }
@@ -125,19 +124,18 @@ class Backend {
       data = await response.json();
     }
 
-
     if (data && data.results) {
-      console.timeEnd('search')
+      console.timeEnd("search");
       return data.results.map((p: GetDatabaseResponse | GetPageResponse) => ({
         object: p.object,
         title: getObjectTitle(p).slice(0, 58), // Don't show strings longer than 60 characters
         icon: getObjectIcon(p as ObjectIcon),
         url: getResourceUrl(p),
         id: p.id,
-        isFavorite: favorites.some((f) => f.id === p.id)
+        isFavorite: favorites.some((f) => f.id === p.id),
       }));
     }
-    console.timeEnd('search')
+    console.timeEnd("search");
     return [];
   }
 
@@ -153,7 +151,7 @@ class Backend {
       url: data.url as string,
       id: data.id,
       data,
-      isFavorite
+      isFavorite,
     };
   }
 
@@ -169,7 +167,7 @@ class Backend {
       url: data.url as string,
       id: data.id,
       data,
-      isFavorite
+      isFavorite,
     };
   }
 
@@ -187,7 +185,7 @@ class Backend {
     block: object
   ): Promise<ListBlockChildrenResponse> {
     const response = await post(`${this.baseURL}notion/block/${parentId}`, {
-      newBlock: block
+      newBlock: block,
     });
     handleRedirect(response);
     return response.json();
@@ -220,7 +218,7 @@ class Backend {
 
   async convert(id: string, type: string, title: string) {
     const link = `${this.baseURL}notion/convert`;
-   return post(link, {id, type, title}) ;
+    return post(link, { id, type, title });
   }
 
   async isPatreon(): Promise<boolean> {
@@ -239,7 +237,7 @@ class Backend {
   }
 
   async getFavoriteObject(f: Favorite): Promise<NotionObject | null> {
-    return f.type === 'page'
+    return f.type === "page"
       ? this.getPage(f.object_id, true)
       : this.getDatabase(f.object_id, true);
   }
@@ -258,7 +256,7 @@ class Backend {
   async login(email: string, password: string): Promise<Response> {
     const response = await post(getLoginURL(this.baseURL), {
       email,
-      password
+      password,
     });
     return response;
   }
@@ -271,7 +269,7 @@ class Backend {
   async newPassword(password: string, token: string): Promise<Response> {
     return post(`${this.baseURL}users/new-password`, {
       password,
-      reset_token: token
+      reset_token: token,
     });
   }
 

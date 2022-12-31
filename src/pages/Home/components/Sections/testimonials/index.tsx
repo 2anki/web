@@ -1,9 +1,9 @@
-import GreySection from '../../../../../components/GreySection';
-import Heading2 from '../../../../../components/text/Heading2';
-import { Curve, Illustration4, Testimonials } from './styled';
-import Testimonial from './Testimonial';
+import GreySection from "../../../../../components/GreySection";
+import Heading2 from "../../../../../components/text/Heading2";
+import { Curve, Illustration4, Testimonials } from "./styled";
+import Testimonial from "./Testimonial";
 
-import TESTIMONIALS from './testimonials';
+import TESTIMONIALS from "./testimonials";
 
 function TestimonialsSection() {
   const users = TESTIMONIALS;

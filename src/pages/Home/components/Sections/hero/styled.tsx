@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import PersonIllustration from '../../../../../components/illustrations/PersonIllustration';
+import styled from "styled-components";
+import PersonIllustration from "../../../../../components/illustrations/PersonIllustration";
 
 export const StyledSection = styled.section`
 background: #e5e5e5;

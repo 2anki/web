@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import {
   Card, Container, PricingPlans, SelectButton, StyledPage,
-} from './styled';
+} from "./styled";
 
 interface ITier {
   title: string;
@@ -19,10 +19,10 @@ function Tier({
       <p>{description}</p>
       <p className="title is-5">
         <span className="title is-3">{price}</span>
-        {' '}
+        {" "}
         $
-        {' '}
-        {price > 10 ? 'once' : 'month'}
+        {" "}
+        {price > 10 ? "once" : "month"}
       </p>
       <div>
         <SelectButton>
@@ -67,7 +67,7 @@ function PreSignupPage() {
           </p>
           <h3 className="subtitle is-3 has-text-white">
             Get a 10% discount if you pre-signup.
-            {' '}
+            {" "}
             <br />
             No creditcard required.
           </h3>

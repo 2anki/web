@@ -1,5 +1,5 @@
-import { getTemplateServiceUrl } from '../../../lib/backend/getTemplateServiceUrl';
-import SidebarItem from './SidebarItem';
+import { getTemplateServiceUrl } from "../../../lib/backend/getTemplateServiceUrl";
+import SidebarItem from "./SidebarItem";
 
 export  function Menu() {
   const path = window.location.pathname;

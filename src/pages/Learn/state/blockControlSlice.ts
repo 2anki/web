@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface BlockControlState {
   index: number;
@@ -10,7 +10,7 @@ const initialState: BlockControlState = {
 };
 
 export const blockControlSlice = createSlice({
-  name: 'blockControl',
+  name: "blockControl",
   initialState,
   reducers: {
     updateIndex: (state, action: PayloadAction<number>) => {

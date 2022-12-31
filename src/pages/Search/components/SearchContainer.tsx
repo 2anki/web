@@ -1,12 +1,12 @@
-import { ErrorHandlerType } from '../../../components/errors/helpers/types';
-import { PageContainer } from '../../../components/styled';
-import Backend from '../../../lib/backend';
-import LoadingIndicator from '../../../components/Loading';
+import { ErrorHandlerType } from "../../../components/errors/helpers/types";
+import { PageContainer } from "../../../components/styled";
+import Backend from "../../../lib/backend";
+import LoadingIndicator from "../../../components/Loading";
 
-import { NotionData } from '../helpers/useNotionData';
-import useSearchQuery from '../helpers/useSearchQuery';
-import SearchPresenter from './SearchPresenter';
-import WorkSpaceHeader from './WorkspaceHeader';
+import { NotionData } from "../helpers/useNotionData";
+import useSearchQuery from "../helpers/useSearchQuery";
+import SearchPresenter from "./SearchPresenter";
+import WorkSpaceHeader from "./WorkspaceHeader";
 
 interface SearchContentProps {
   isPatron: boolean;

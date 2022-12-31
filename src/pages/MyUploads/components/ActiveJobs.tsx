@@ -1,5 +1,5 @@
-import { ActiveJob } from '../../../lib/types';
-import { JobRow } from './styled';
+import { ActiveJob } from "../../../lib/types";
+import { JobRow } from "./styled";
 
 interface Props {
   jobs: ActiveJob[];
@@ -17,7 +17,7 @@ export default function ActiveJobs({ jobs, deleteJob }: Props) {
         <button
           type="button"
           onClick={() => {
-            window.location.href = '/uploads/mine';
+            window.location.href = "/uploads/mine";
           }}
           className="button"
         >

@@ -1,4 +1,4 @@
-import ReadMore from './ReadMore';
+import ReadMore from "./ReadMore";
 
 interface NewsEntryProps {
   title: string;

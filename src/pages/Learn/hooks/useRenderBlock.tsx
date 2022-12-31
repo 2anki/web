@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import Backend from '../../../lib/backend';
+import { useEffect, useState } from "react";
+import Backend from "../../../lib/backend";
 
 type RenderedBlock = {
   html: string;
@@ -14,7 +14,7 @@ export const useRenderBlock = (
   id: string | undefined,
   refetch: boolean
 ): RenderedBlock => {
-  const [html, setHTML] = useState('loading')
+  const [html, setHTML] = useState("loading")
   const [loading, setLoading] = useState(false);
   const backend = new Backend();
 

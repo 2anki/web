@@ -1,7 +1,7 @@
-import PrimaryButton from '../../../../../components/buttons/PrimaryButton';
-import BlueHeading3 from '../../../../../components/text/BlueHeading3';
-import Heading2 from '../../../../../components/text/Heading2';
-import { Mascot, Text } from './styled';
+import PrimaryButton from "../../../../../components/buttons/PrimaryButton";
+import BlueHeading3 from "../../../../../components/text/BlueHeading3";
+import Heading2 from "../../../../../components/text/Heading2";
+import { Mascot, Text } from "./styled";
 
 function AboutSection() {
   return (

@@ -1,6 +1,6 @@
-import FavoritesContainer from './components/FavoritesContainer';
-import Backend from '../../lib/backend';
-import { ErrorHandlerType } from '../../components/errors/helpers/types';
+import FavoritesContainer from "./components/FavoritesContainer";
+import Backend from "../../lib/backend";
+import { ErrorHandlerType } from "../../components/errors/helpers/types";
 
 interface FavoritesPageProps {
   setError: ErrorHandlerType;

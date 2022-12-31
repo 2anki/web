@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import { StyledButton } from './styled';
+import { Link } from "react-router-dom";
+import { StyledButton } from "./styled";
 
 interface PrimaryButtonProps {
   text: string;
@@ -14,7 +14,7 @@ export default function PrimaryButton({
 }: PrimaryButtonProps) {
   return (
     <StyledButton>
-      {destination.includes('http') ? (
+      {destination.includes("http") ? (
         <a href={destination} rel="noopener noreferrer">
           {text}
         </a>

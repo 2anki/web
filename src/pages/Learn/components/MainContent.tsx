@@ -1,6 +1,6 @@
-import { PartialBlockObjectResponse } from '@notionhq/client/build/src/api-endpoints';
-import { renderContent } from '../helpers/renderContent';
-import { Box, LoadingBox } from './styled';
+import { PartialBlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import { renderContent } from "../helpers/renderContent";
+import { Box, LoadingBox } from "./styled";
 
 interface MainContentProps {
   loading: boolean;

@@ -1,16 +1,16 @@
-import Backend from '../../lib/backend';
-import ActiveJobs from './components/ActiveJobs';
+import Backend from "../../lib/backend";
+import ActiveJobs from "./components/ActiveJobs";
 
-import useUploads from './hooks/useUploads';
-import useActiveJobs from './hooks/useActiveJobs';
-import LoadingIndicator from '../../components/Loading';
-import { ErrorHandlerType, ErrorType } from '../../components/errors/helpers/types';
-import { FinishedJobs } from './components/FinishedJobs';
-import { EmptyUploadsSection } from './components/EmptyUploadsSection';
-import { DeleteAllButton } from './components/DeleteAllButton';
-import { useDeleteUpload } from './hooks/useDeleteUpload';
-import { useDeleteAll } from './hooks/useDeleteAll';
-import { getUploadIdsOrEmptyArray } from './helpers/getUploadIdsOrEmptyArray';
+import useUploads from "./hooks/useUploads";
+import useActiveJobs from "./hooks/useActiveJobs";
+import LoadingIndicator from "../../components/Loading";
+import { ErrorHandlerType, ErrorType } from "../../components/errors/helpers/types";
+import { FinishedJobs } from "./components/FinishedJobs";
+import { EmptyUploadsSection } from "./components/EmptyUploadsSection";
+import { DeleteAllButton } from "./components/DeleteAllButton";
+import { useDeleteUpload } from "./hooks/useDeleteUpload";
+import { useDeleteAll } from "./hooks/useDeleteAll";
+import { getUploadIdsOrEmptyArray } from "./helpers/getUploadIdsOrEmptyArray";
 
 const backend = new Backend();
 
@@ -30,7 +30,7 @@ function MyUploadsPage({ setError }: MyUploadsPageProps) {
     setError(e as ErrorType);
   }
 
-  console.log('loading', loading);
+  console.log("loading", loading);
   if (loading || isDeletingAll || isDeleting) {
     return <LoadingIndicator />;
   }

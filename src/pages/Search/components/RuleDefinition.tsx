@@ -1,5 +1,5 @@
-import { AccordionItem } from '@fremtind/jkl-accordion-react';
-import FlashcardType from './FlashcardType';
+import { AccordionItem } from "@fremtind/jkl-accordion-react";
+import FlashcardType from "./FlashcardType";
 
 interface RuleDefinitionProps {
   description: string;

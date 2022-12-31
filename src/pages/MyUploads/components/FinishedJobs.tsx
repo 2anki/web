@@ -1,5 +1,5 @@
-import UploadObjectEntry from './UploadObjectEntry';
-import UserUpload from '../../../lib/interfaces/UserUpload';
+import UploadObjectEntry from "./UploadObjectEntry";
+import UserUpload from "../../../lib/interfaces/UserUpload";
 
 interface Prop {
   uploads: UserUpload[] | undefined;

@@ -25,10 +25,10 @@ function ArrowRight({
 }
 
 ArrowRight.defaultProps = {
-  width: '24',
-  height: '24',
-  outerFill: 'none',
-  innerFill: '#fff',
+  width: "24",
+  height: "24",
+  outerFill: "none",
+  innerFill: "#fff",
 };
 
 export default ArrowRight;

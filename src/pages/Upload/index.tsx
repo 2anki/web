@@ -1,21 +1,21 @@
-import { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-import useQuery from '../../lib/hooks/useQuery';
-import StoreContext from '../../store/StoreContext';
-import WarningMessage from '../../components/WarningMessage';
-import UploadForm from './components/UploadForm';
-import SettingsIcon from '../../components/icons/SettingsIcon';
-import SettingsModal from '../../components/modals/SettingsModal';
+import useQuery from "../../lib/hooks/useQuery";
+import StoreContext from "../../store/StoreContext";
+import WarningMessage from "../../components/WarningMessage";
+import UploadForm from "./components/UploadForm";
+import SettingsIcon from "../../components/icons/SettingsIcon";
+import SettingsModal from "../../components/modals/SettingsModal";
 import {
   FlexColumn,
   ImportTitle,
   InfoMessage,
   SettingsLink,
   UploadContainer
-} from './styled';
-import { Main, PageContainer } from '../../components/styled';
-import { ErrorHandlerType } from '../../components/errors/helpers/types';
+} from "./styled";
+import { Main, PageContainer } from "../../components/styled";
+import { ErrorHandlerType } from "../../components/errors/helpers/types";
 
 interface Props {
   setErrorMessage: ErrorHandlerType;
@@ -25,10 +25,10 @@ interface Props {
 function UploadPage({ setErrorMessage, isPatron }: Props) {
   const isDevelopment = !window.location.host.match(/2anki.(com|net|de)/);
   const query = useQuery();
-  const view = query.get('view');
+  const view = query.get("view");
 
   const [isSettings, setShowSettings] = useState(
-    view === 'template' || view === 'deck-options' || view === 'card-options'
+    view === "template" || view === "deck-options" || view === "card-options"
   );
 
   const store = useContext(StoreContext);
@@ -61,11 +61,11 @@ function UploadPage({ setErrorMessage, isPatron }: Props) {
                 target="_blank"
                 href="https://www.notion.so/Export-as-HTML-bf3fe9e6920e4b9883cbd8a76b6128b7"
               >
-                {' '}
+                {" "}
                 HTML and ZIP exports from Notion
               </a>
               . All files are automatically deleted after 21 minutes. Checkout
-              the{' '}
+              the{" "}
               <a
                 rel="noreferrer"
                 target="_blank"
@@ -80,7 +80,7 @@ function UploadPage({ setErrorMessage, isPatron }: Props) {
               pageId={null}
               isActive={isSettings}
               onClickClose={() => {
-                window.history.pushState({}, '', 'upload');
+                window.history.pushState({}, "", "upload");
                 setShowSettings(false);
               }}
             />
