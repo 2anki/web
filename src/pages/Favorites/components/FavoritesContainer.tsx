@@ -1,7 +1,7 @@
 import { ErrorHandlerType } from '../../../components/errors/helpers/types';
 import { PageContainer } from '../../../components/styled';
 import Backend from '../../../lib/backend';
-import LoadingPage from '../../Loading';
+import LoadingIndicator from '../../../components/Loading';
 
 import FavoritesPresenter from './FavoritesPresenter';
 import useFavorites from '../helpers/useFavorites';
@@ -13,7 +13,7 @@ interface FavoritesContentProps {
 
 export default function FavoritesContainer({ setError, backend }: FavoritesContentProps) {
   const [isLoading, favorites, setFavorites] = useFavorites(backend);
-  if (isLoading) return <LoadingPage />;
+  if (isLoading) return <LoadingIndicator />;
 
   return (
     <PageContainer>

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useInterval } from 'usehooks-ts';
 import styled from 'styled-components';
 
-import LoadingBar from '../../components/LoadingBar';
 
 const StyledLoader = styled.div`
   display: flex;
@@ -14,16 +13,13 @@ const StyledLoader = styled.div`
   margin: 0 auto;
 `;
 
-export default function LoadingPage() {
+export default function LoadingIndicator() {
   const [loading, setLoading] = useState<number>(0);
   useInterval(() => setLoading(loading + 1), 50);
 
   return (
     <StyledLoader>
-      <LoadingBar
-        value={loading}
-        texts={['Doing magic', 'Just a moment', 'Almost done']}
-      />
+      <button aria-label="loading" type="button" className="button is-loading is-light" />
     </StyledLoader>
   );
 }

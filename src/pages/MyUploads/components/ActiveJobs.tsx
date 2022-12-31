@@ -7,6 +7,9 @@ interface Props {
 }
 
 export default function ActiveJobs({ jobs, deleteJob }: Props) {
+  if (!jobs || jobs.length === 0) {
+    return null;
+  }
   return (
     <div className='' data-hj-suppress>
       <h2 className="title is-2">Active Jobs</h2>

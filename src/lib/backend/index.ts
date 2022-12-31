@@ -19,8 +19,8 @@ import { isDeletedPageResponse } from './isDeletedPageResponse';
 import { ConnectionInfo } from '../interfaces/ConnectionInfo';
 import { del, get, getLoginURL, post } from './api';
 import { getResourceUrl } from './getResourceUrl';
+import { OK } from './http';
 
-const OK = 200;
 
 class Backend {
   baseURL: string;
