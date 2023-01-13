@@ -1,6 +1,6 @@
-import { captureException } from "@sentry/react";
 import { useEffect, useState } from "react";
 import Backend from "../../../lib/backend";
+import { redirectOnError } from "../../../components/shared/redirectOnError";
 
 export interface NotionData {
   loading: boolean;
@@ -32,16 +32,13 @@ export default function useNotionData(backend: Backend): NotionData {
         setWorkSpace(data.workspace);
         setIsLoading(false);
       })
-      .catch((error) => {
-        captureException(error);
-        window.location.href = "/login#login";
-      });
+      .catch(redirectOnError);
   }, []);
 
   return {
     loading,
     workSpace,
     connected,
-    connectionLink
+    connectionLink,
   };
 }
