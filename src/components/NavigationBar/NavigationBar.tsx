@@ -10,26 +10,25 @@ import { Navbar } from "./styled";
 import getNavbarStartRegularUser from "./helpers/getNavbarStartRegularUser";
 import getNavbarEnd from "./helpers/getNavbarEnd";
 import BecomeAPatron from "../BecomeAPatron";
-import { isLearnPage } from "./helpers/isLearnPage";
-import { isLoginPage } from "./helpers/isLoginPage";
+import { canShowNavbar } from "../shared/canShowNavbar";
 
 interface NavigationBarProps {
   isPatron: boolean;
 }
 
 const backend = new Backend();
+
 function NavigationBar({ isPatron }: NavigationBarProps) {
   const [cookies] = useCookies(["token"]);
   const [active, setHamburgerMenu] = useState(false);
   const path = window.location.pathname;
   const { hash } = window.location;
-  const canShowNavbar = !isLearnPage(path) && !isLoginPage(path);
 
   const navbarStart = cookies.token
     ? getNavbarStartRegularUser(hash)
     : getNavbarStartNewUser(hash, path);
 
-  if (!canShowNavbar) {
+  if (!canShowNavbar(path)) {
     return null;
   }
 
