@@ -1,13 +1,11 @@
-import {
-  ErrorHandlerType,
-  ErrorType,
-} from "../../../components/errors/helpers/types";
+import { ErrorHandlerType } from "../../../components/errors/helpers/types";
 import { PageContainer } from "../../../components/styled";
 import Backend from "../../../lib/backend";
 import LoadingIndicator from "../../../components/Loading";
 
 import FavoritesPresenter from "./FavoritesPresenter";
 import useFavorites from "../helpers/useFavorites";
+import { redirectOnError } from "../../../components/shared/redirectOnError";
 
 interface FavoritesContentProps {
   backend: Backend;
@@ -22,7 +20,8 @@ export default function FavoritesContainer({
   if (loading) return <LoadingIndicator />;
 
   if (error) {
-    setError(error as ErrorType);
+    redirectOnError(error);
+    return null;
   }
 
   return (
