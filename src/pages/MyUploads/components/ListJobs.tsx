@@ -1,18 +1,18 @@
-import { ActiveJob } from '../../../lib/types';
 import { JobRow } from './styled';
+import Jobs from '../../../schemas/public/Jobs';
 
 interface Props {
-  jobs: ActiveJob[];
+  jobs: Jobs[];
   deleteJob: (id: string) => void;
 }
 
-export default function ActiveJobs({ jobs, deleteJob }: Props) {
+export default function ListJobs({ jobs, deleteJob }: Props) {
   if (!jobs || jobs.length === 0) {
     return null;
   }
   return (
     <div className="" data-hj-suppress>
-      <h2 className="title is-2">Active Jobs</h2>
+      <h2 className="title is-2">Jobs</h2>
       <div className="is-pulled-right">
         <button
           type="button"

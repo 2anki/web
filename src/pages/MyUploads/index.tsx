@@ -1,8 +1,8 @@
 import Backend from '../../lib/backend';
-import ActiveJobs from './components/ActiveJobs';
+import ListJobs from './components/ListJobs';
 
 import useUploads from './hooks/useUploads';
-import useActiveJobs from './hooks/useActiveJobs';
+import useJobs from './hooks/useJobs';
 import LoadingIndicator from '../../components/Loading';
 import { ErrorHandlerType } from '../../components/errors/helpers/types';
 import { FinishedJobs } from './components/FinishedJobs';
@@ -24,7 +24,7 @@ function MyUploadsPage({ setError }: MyUploadsPageProps) {
   const { deleteUpload, deleteUploadError, isDeleting } =
     useDeleteUpload(backend);
   const { loading, uploads, error } = useUploads(backend);
-  const [activeJobs, deleteJob] = useActiveJobs(backend, setError);
+  const [jobs, deleteJob] = useJobs(backend, setError);
   const { deleteAllUploads, isDeletingAll, deleteAllError } = useDeleteAll(
     backend,
     getUploadIdsOrEmptyArray(uploads)
@@ -36,7 +36,6 @@ function MyUploadsPage({ setError }: MyUploadsPageProps) {
     return null;
   }
 
-  console.log('loading', loading);
   if (loading || isDeletingAll || isDeleting) {
     return <LoadingIndicator />;
   }
@@ -51,7 +50,7 @@ function MyUploadsPage({ setError }: MyUploadsPageProps) {
           deleteAllUploads={deleteAllUploads}
         />
       </div>
-      <ActiveJobs jobs={activeJobs} deleteJob={(id) => deleteJob(id)} />
+      <ListJobs jobs={jobs} deleteJob={(id) => deleteJob(id)} />
       <EmptyUploadsSection uploads={uploads} />
       <FinishedJobs uploads={uploads} deleteUpload={deleteUpload} />
     </Container>
