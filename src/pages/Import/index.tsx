@@ -1,3 +1,3 @@
-import ImportPage from "./ImportPage";
+import ImportPage from './ImportPage';
 
 export default ImportPage;

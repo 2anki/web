@@ -1,4 +1,4 @@
-import ReadMore from "./ReadMore";
+import ReadMore from './ReadMore';
 
 interface NewsEntryProps {
   title: string;
@@ -6,7 +6,11 @@ interface NewsEntryProps {
   link: string;
 }
 
-export default function NewsEntry({ title, description, link }: NewsEntryProps) {
+export default function NewsEntry({
+  title,
+  description,
+  link,
+}: NewsEntryProps) {
   return (
     <div className="card">
       <div className="card-content">

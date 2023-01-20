@@ -1,7 +1,6 @@
-import { useState } from "react";
-import { useInterval } from "usehooks-ts";
-import styled from "styled-components";
-
+import { useState } from 'react';
+import { useInterval } from 'usehooks-ts';
+import styled from 'styled-components';
 
 const StyledLoader = styled.div`
   display: flex;
@@ -19,7 +18,11 @@ export default function LoadingIndicator() {
 
   return (
     <StyledLoader>
-      <button aria-label="loading" type="button" className="button is-loading is-light" />
+      <button
+        aria-label="loading"
+        type="button"
+        className="button is-loading is-light"
+      />
     </StyledLoader>
   );
 }

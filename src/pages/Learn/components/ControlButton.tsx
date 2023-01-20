@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import styled from "styled-components";
+import { ReactNode } from 'react';
+import styled from 'styled-components';
 
 interface ControlButtonProps {
   label: string;
@@ -20,14 +20,14 @@ export function ControlButton({
   label,
   onClick,
   icon,
-  disabled
+  disabled,
 }: ControlButtonProps) {
   return (
     <Paragraph className="control">
       <button
         disabled={disabled}
         aria-label={label}
-        className={`button is-small ${loading ? "is-loading" : ""}`}
+        className={`button is-small ${loading ? 'is-loading' : ''}`}
         type="button"
         onClick={onClick}
       >
@@ -38,5 +38,5 @@ export function ControlButton({
 }
 
 ControlButton.defaultProps = {
-  disabled: false
+  disabled: false,
 };

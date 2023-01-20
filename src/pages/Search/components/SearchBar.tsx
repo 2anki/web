@@ -1,4 +1,4 @@
-import { SearchInput } from "./styled";
+import { SearchInput } from './styled';
 
 interface SearchBarProps {
   onSearchQueryChanged: (query: string) => void;
@@ -6,7 +6,11 @@ interface SearchBarProps {
   inProgress: boolean;
 }
 
-function SearchBar({ onSearchQueryChanged, onSearchClicked, inProgress }: SearchBarProps) {
+function SearchBar({
+  onSearchQueryChanged,
+  onSearchClicked,
+  inProgress,
+}: SearchBarProps) {
   return (
     <div className="my-1 mt-4 has-text-centered is-flex is-justify-content-center">
       <div className="field has-addons">
@@ -16,7 +20,7 @@ function SearchBar({ onSearchQueryChanged, onSearchClicked, inProgress }: Search
             type="text"
             placeholder="  🔍 🅰  📑 "
             onKeyDown={(e) => {
-              if (e.key === "Enter") {
+              if (e.key === 'Enter') {
                 onSearchClicked();
               }
             }}
@@ -30,7 +34,7 @@ function SearchBar({ onSearchQueryChanged, onSearchClicked, inProgress }: Search
             type="button"
             onClick={onSearchClicked}
             className={`button ${
-              inProgress ? "is-loading is-light" : "is-info"
+              inProgress ? 'is-loading is-light' : 'is-info'
             }`}
           >
             Search

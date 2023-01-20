@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import HeadingDash from "./HeadingDash";
+import styled from 'styled-components';
+import HeadingDash from './HeadingDash';
 
 interface Props {
   id: string;

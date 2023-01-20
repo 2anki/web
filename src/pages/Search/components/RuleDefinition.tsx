@@ -1,5 +1,5 @@
-import { AccordionItem } from "@fremtind/jkl-accordion-react";
-import FlashcardType from "./FlashcardType";
+import { AccordionItem } from '@fremtind/jkl-accordion-react';
+import FlashcardType from './FlashcardType';
 
 interface RuleDefinitionProps {
   description: string;
@@ -10,9 +10,7 @@ interface RuleDefinitionProps {
 }
 
 export default function RuleDefinition(props: RuleDefinitionProps) {
-  const {
-    title, options, value, onSelected, description,
-  } = props;
+  const { title, options, value, onSelected, description } = props;
   return (
     <AccordionItem title={title}>
       <p>{description}</p>

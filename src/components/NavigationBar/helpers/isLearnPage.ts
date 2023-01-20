@@ -1,1 +1,1 @@
-export const isLearnPage = (path: string) => path.includes("/learn");
+export const isLearnPage = (path: string) => path.includes('/learn');

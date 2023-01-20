@@ -1,7 +1,7 @@
-import { Dispatch, SetStateAction } from "react";
-import { ErrorHandlerType } from "../../../components/errors/helpers/types";
-import NotionObject from "../../../lib/interfaces/NotionObject";
-import ListSearchResults from "../../Search/components/ListSearchResults";
+import { Dispatch, SetStateAction } from 'react';
+import { ErrorHandlerType } from '../../../components/errors/helpers/types';
+import NotionObject from '../../../lib/interfaces/NotionObject';
+import ListSearchResults from '../../Search/components/ListSearchResults';
 
 interface FavoritesProps {
   setError: ErrorHandlerType;

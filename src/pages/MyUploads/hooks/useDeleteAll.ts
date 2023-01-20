@@ -1,5 +1,5 @@
-import { useState } from "react";
-import Backend from "../../../lib/backend";
+import { useState } from 'react';
+import Backend from '../../../lib/backend';
 
 interface UseDeleteAll {
   isDeletingAll: boolean;
@@ -7,16 +7,17 @@ interface UseDeleteAll {
   deleteAllUploads: () => Promise<void>;
 }
 
-export const useDeleteAll = (backend: Backend, uploadsIds: string[]): UseDeleteAll => {
+export const useDeleteAll = (
+  backend: Backend,
+  uploadsIds: string[]
+): UseDeleteAll => {
   const [isDeletingAll, setIsIsDeletingAll] = useState(false);
   const [deleteAllError, setError] = useState<unknown>(undefined);
 
   async function deleteAllUploads() {
     try {
       setIsIsDeletingAll(true);
-      await Promise.all(
-        uploadsIds.map(id => backend.deleteUpload(id))
-      );
+      await Promise.all(uploadsIds.map((id) => backend.deleteUpload(id)));
       setIsIsDeletingAll(false);
     } catch (error) {
       setError(error);

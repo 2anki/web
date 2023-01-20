@@ -1,1 +1,1 @@
-export const isLoginPage = (path: string) => path.includes("/login");
+export const isLoginPage = (path: string) => path.includes('/login');

@@ -1,14 +1,14 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const JoinNowButton = styled.a`
-    border-radius: 10px;
-    background: #2B2E3C;
+  border-radius: 10px;
+  background: #2b2e3c;
+  color: white;
+  border: none;
+  :hover {
     color: white;
-    border: none;
-    :hover {
-      color: white;
-      background: #5397f5;
-    }
+    background: #5397f5;
+  }
 `;
 
 interface NavButtonCTAProps {

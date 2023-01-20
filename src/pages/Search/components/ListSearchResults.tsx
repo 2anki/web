@@ -1,9 +1,7 @@
-import { Dispatch, SetStateAction } from "react";
-import { ErrorHandlerType } from "../../../components/errors/helpers/types";
-import Backend from "../../../lib/backend";
-import NotionObject from "../../../lib/interfaces/NotionObject";
-import usePatreon from "../../MyUploads/hooks/usePatreon";
-import SearchObjectEntry from "./SearchObjectEntry";
+import { Dispatch, SetStateAction } from 'react';
+import { ErrorHandlerType } from '../../../components/errors/helpers/types';
+import NotionObject from '../../../lib/interfaces/NotionObject';
+import SearchObjectEntry from './SearchObjectEntry';
 
 interface ListSearchResultsProps {
   results: NotionObject[];
@@ -17,13 +15,12 @@ export default function ListSearchResults(
 ): JSX.Element {
   const { results, handleEmpty, setFavorites, setError } = props;
   const isEmpty = results.length < 1;
-  const [isPatron] = usePatreon(new Backend());
 
   if (isEmpty && handleEmpty) {
     return (
       <div className="column is-main-content">
         <div className="subtitle my-4">
-          No search results, try typing something above 👌🏾 Also ensure you{" "}
+          No search results, try typing something above 👌🏾 Also ensure you{' '}
           <a
             target="_blank"
             rel="noreferrer"
@@ -39,7 +36,6 @@ export default function ListSearchResults(
     <>
       {results.map((p) => (
         <SearchObjectEntry
-          isPatron={isPatron}
           setError={setError}
           setFavorites={setFavorites}
           isFavorite={p.isFavorite}
@@ -56,5 +52,5 @@ export default function ListSearchResults(
 }
 
 ListSearchResults.defaultProps = {
-  handleEmpty: true
+  handleEmpty: true,
 };

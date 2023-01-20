@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { SyntheticEvent, useState } from "react";
-import Backend from "../../lib/backend";
-import { ErrorHandlerType } from "../errors/helpers/types";
+import styled from 'styled-components';
+import { SyntheticEvent, useState } from 'react';
+import Backend from '../../lib/backend';
+import { ErrorHandlerType } from '../errors/helpers/types';
 
 const FormContainer = styled.div`
   max-width: 720px;
@@ -13,8 +13,8 @@ interface Props {
 }
 
 function NewPasswordForm({ setErrorMessage }: Props) {
-  const [password, setPassword] = useState("");
-  const [passwd, setPasswd] = useState("");
+  const [password, setPassword] = useState('');
+  const [passwd, setPasswd] = useState('');
   const [loading, setLoading] = useState(false);
 
   const isValid = () =>
@@ -26,12 +26,12 @@ function NewPasswordForm({ setErrorMessage }: Props) {
     setLoading(true);
 
     try {
-      const paths = window.location.pathname.split("/");
+      const paths = window.location.pathname.split('/');
       const resetToken = paths[paths.length - 1];
       const backend = new Backend();
       const res = await backend.newPassword(password, resetToken);
       if (res.status === 200) {
-        window.location.href = "/login#login";
+        window.location.href = '/login#login';
       }
       setLoading(false);
     } catch (error) {
@@ -77,11 +77,11 @@ function NewPasswordForm({ setErrorMessage }: Props) {
                   />
                 </div>
                 <div className="field">
-                  <div className="control" style={{ width: "100%" }}>
+                  <div className="control" style={{ width: '100%' }}>
                     <button
                       type="submit"
                       className="button is-success is-medium"
-                      style={{ width: "100%" }}
+                      style={{ width: '100%' }}
                       disabled={!isValid() || loading}
                     >
                       Reset password

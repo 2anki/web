@@ -1,4 +1,4 @@
-import { getKeys } from "./helpers/getKeys";
+import { getKeys } from './helpers/getKeys';
 
 export function DebugPage() {
   return (

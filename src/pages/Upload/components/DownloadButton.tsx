@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
 interface Props {
   downloadLink: string | null | undefined;
@@ -12,8 +12,8 @@ function DownloadButton(props: Props) {
   const downloadRef = useRef<HTMLAnchorElement>(null);
 
   const className = `button cta
-              ${isDownloadable ? "is-primary" : "is-light"} 
-              ${uploading ? "is-loading" : ""}`;
+              ${isDownloadable ? 'is-primary' : 'is-light'} 
+              ${uploading ? 'is-loading' : ''}`;
 
   const isReady = downloadLink && !uploading;
 

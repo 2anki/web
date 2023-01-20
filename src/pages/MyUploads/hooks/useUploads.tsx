@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-import Backend from "../../../lib/backend";
-import UserUpload from "../../../lib/interfaces/UserUpload";
+import Backend from '../../../lib/backend';
+import UserUpload from '../../../lib/interfaces/UserUpload';
 
 interface UseUploads {
   error: unknown;
@@ -9,10 +9,7 @@ interface UseUploads {
   uploads: UserUpload[] | undefined;
 }
 
-
-export default function useUploads(
-  backend: Backend
-): UseUploads {
+export default function useUploads(backend: Backend): UseUploads {
   const [uploads, setUploads] = useState<UserUpload[] | undefined>(undefined);
   const [error, setError] = useState<unknown>(null);
   const [loading, setLoading] = useState(true);
@@ -20,17 +17,17 @@ export default function useUploads(
   useEffect(() => {
     async function fetchUploads() {
       try {
-          return await backend.getUploads();
+        return await backend.getUploads();
       } catch (fetchError) {
         setError(fetchError);
       }
       return undefined;
     }
-    fetchUploads().then(data =>   {
-      setUploads(data)
+    fetchUploads().then((data) => {
+      setUploads(data);
       setLoading(false);
     });
   }, [backend]);
 
-  return {loading, uploads, error};
+  return { loading, uploads, error };
 }

@@ -1,3 +1,3 @@
-import { BlockControls } from "./BlockControls";
+import { BlockControls } from './BlockControls';
 
 export default BlockControls;

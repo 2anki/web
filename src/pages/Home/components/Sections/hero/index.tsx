@@ -1,6 +1,6 @@
-import { useState } from "react";
-import HeroText from "./HeroText";
-import PrimaryButton from "../../../../../components/buttons/PrimaryButton";
+import { useState } from 'react';
+import HeroText from './HeroText';
+import PrimaryButton from '../../../../../components/buttons/PrimaryButton';
 import {
   Illustration1,
   Illustration2,
@@ -13,8 +13,8 @@ import {
   HeroSubtitle,
   HeroTitle,
   HeroTitleContainer,
-  HeroSubtitleAlignRight
-} from "./styled";
+  HeroSubtitleAlignRight,
+} from './styled';
 
 function HeroSection() {
   const [play, setPlay] = useState(false);
@@ -38,7 +38,7 @@ function HeroSection() {
             onClickLink={() => {}}
           />
         </div>
-        <div style={{ position: "relative" }}>
+        <div style={{ position: 'relative' }}>
           <div>
             <Illustration1
               src="/illustrations/illustrations-1.svg"

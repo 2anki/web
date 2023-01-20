@@ -1,7 +1,7 @@
 import {
   GetDatabaseResponse,
-  GetPageResponse
-} from "@notionhq/client/build/src/api-endpoints";
+  GetPageResponse,
+} from '@notionhq/client/build/src/api-endpoints';
 
 export default function getObjectTitle(
   p: GetDatabaseResponse | GetPageResponse
@@ -11,12 +11,12 @@ export default function getObjectTitle(
     // @ts-ignore
     const { properties } = p;
     // @ts-ignore
-    if (p.object === "database" && p.title) {
+    if (p.object === 'database' && p.title) {
       // @ts-ignore
-      return p.title.map((text) => text.plain_text).join("");
+      return p.title.map((text) => text.plain_text).join('');
     }
     if (!properties) {
-      return "untitled";
+      return 'untitled';
     }
     if (properties.title) {
       return properties.title.title[0].plain_text;
@@ -39,7 +39,7 @@ export default function getObjectTitle(
       return title;
     }
   } catch (error) {
-    return "untitled";
+    return 'untitled';
   }
-  return "untitled";
+  return 'untitled';
 }

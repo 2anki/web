@@ -1,6 +1,8 @@
-import ArrowRight from "../../../../../components/icons/ArrowRight";
+import ArrowRight from '../../../../../components/icons/ArrowRight';
 
-interface ReadMoreProps { href: string }
+interface ReadMoreProps {
+  href: string;
+}
 
 export default function ReadMore({ href }: ReadMoreProps) {
   return (

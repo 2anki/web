@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { useSpeechSynthesis } from "../../hooks/useSpeechSynthesis";
-import { ControlButton } from "../ControlButton";
-import { GoogleIcon } from "./icons/GoogleIcon";
-import { SpeakerWaveIcon } from "./icons/SpeakerWaveIcon";
+import { useEffect, useState } from 'react';
+import { useSpeechSynthesis } from '../../hooks/useSpeechSynthesis';
+import { ControlButton } from '../ControlButton';
+import { GoogleIcon } from './icons/GoogleIcon';
+import { SpeakerWaveIcon } from './icons/SpeakerWaveIcon';
 
 interface BlockControlsProps {
   loading: boolean;
@@ -40,15 +40,15 @@ export function BlockControls(props: BlockControlsProps) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       const { key } = event;
-      if (key === "ArrowLeft") {
+      if (key === 'ArrowLeft') {
         gotToPreviousBlock();
-      } else if (key === "ArrowRight") {
+      } else if (key === 'ArrowRight') {
         goToNextBlock();
       }
     };
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   });
 
@@ -101,10 +101,10 @@ export function BlockControls(props: BlockControlsProps) {
         label="search"
         onClick={() => {
           const selection =
-            window.getSelection()?.toString() || "incremental learning";
+            window.getSelection()?.toString() || 'incremental learning';
           window.open(
             `https://www.google.com/search?q=${selection}`,
-            "_target"
+            '_target'
           );
         }}
         icon={<GoogleIcon />}

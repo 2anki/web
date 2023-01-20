@@ -9,7 +9,7 @@ export default function Testimonial({
   name,
   description,
   title,
-  profile
+  profile,
 }: Props) {
   return (
     <div className="is-flex column m-4 is-flex-direction-column box has-background-white has-text-grey-dark">

@@ -1,5 +1,4 @@
-import { getTemplateServiceUrl } from "../../../lib/backend/getTemplateServiceUrl";
-import SidebarItem from "./SidebarItem";
+import SidebarItem from './SidebarItem';
 
 export function Menu() {
   const path = window.location.pathname;
@@ -14,9 +13,6 @@ export function Menu() {
         </SidebarItem>
         <SidebarItem path={path} href="/search">
           🔍 Search
-        </SidebarItem>
-        <SidebarItem path={path} href={getTemplateServiceUrl()}>
-          👩🏼‍🎨 Templates
         </SidebarItem>
         <SidebarItem path={path} href="/favorites">
           ⭐️ Favorites

@@ -9,7 +9,7 @@ module.exports = {
     "import/prefer-default-export": "off",
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [1, { extensions: [".tsx"] }],
-    quotes: [2, "double", "avoid-escape"],
+    quotes: [2, "single", "avoid-escape"],
   },
   ignorePatterns: [".eslintrc.js"],
 };
