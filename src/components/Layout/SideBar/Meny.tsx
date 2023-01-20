@@ -17,9 +17,6 @@ export function Menu() {
         <SidebarItem path={path} href="/favorites">
           ⭐️ Favorites
         </SidebarItem>
-        <SidebarItem path={path} href="/learn">
-          💡️ Learn
-        </SidebarItem>
       </ul>
       <ul className="menu-list">
         <hr />
