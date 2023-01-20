@@ -1,5 +1,5 @@
-import ObjectAction from "../../Search/components/actions/ObjectAction";
-import { Entry, ObjectActions, ObjectMeta, UploadTitle } from "./styled";
+import ObjectAction from '../../Search/components/actions/ObjectAction';
+import { Entry, ObjectActions, ObjectMeta, UploadTitle } from './styled';
 
 interface Props {
   size: string;

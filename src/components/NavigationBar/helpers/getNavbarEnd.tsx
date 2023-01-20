@@ -1,19 +1,14 @@
-import Backend from "../../../lib/backend";
-import BecomeAPatron from "../../BecomeAPatron";
-import NavbarItem from "../NavbarItem";
+import React from 'react';
+import Backend from '../../../lib/backend';
+import NavbarItem from '../NavbarItem';
 
-export default function getNavbarEnd(
-  path: string,
-  backend: Backend,
-  isPatreon: boolean
-) {
+export default function getNavbarEnd(path: string, backend: Backend) {
   const onLogOut = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     event.preventDefault();
     backend.logout();
   };
   return (
     <div className="navbar-end">
-      {!isPatreon && <BecomeAPatron />}
       <NavbarItem href="/search" path={path}>
         🔍 Search
       </NavbarItem>

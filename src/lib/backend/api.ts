@@ -1,24 +1,24 @@
-import handleRedirect from "../handleRedirect";
-import { OK } from "./http";
+import handleRedirect from '../handleRedirect';
+import { OK } from './http';
 
 export const getLoginURL = (baseURL: string) => `${baseURL}users/login`;
 
 export const post = async (url: string, body: unknown) => {
   const response = await fetch(url, {
-    method: "POST",
-    credentials: "include",
+    method: 'POST',
+    credentials: 'include',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   });
   return response;
 };
 
 export const get = async (url: string) => {
   const response = await fetch(url, {
-    credentials: "include"
+    credentials: 'include',
   });
   handleRedirect(response);
   if (response.status !== OK) {
@@ -30,8 +30,8 @@ export const get = async (url: string) => {
 
 export const del = async (url: string) => {
   const response = await fetch(url, {
-    method: "DELETE",
-    credentials: "include"
+    method: 'DELETE',
+    credentials: 'include',
   });
   handleRedirect(response);
   return response;

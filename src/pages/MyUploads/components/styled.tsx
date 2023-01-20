@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Entry = styled.div`
   display: flex;
@@ -30,4 +30,3 @@ export const JobRow = styled.li`
   display: flex;
   align-items: center;
 `;
-

@@ -1,9 +1,9 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import BetaMessage from "../../BetaMessage";
-import { ErrorHandlerType } from "../../errors/helpers/types";
-import { isValidCredentials } from "./helpers/isValidCredentials";
-import { useHandleLoginSubmit } from "./helpers/useHandleLoginSubmit";
+import BetaMessage from '../../BetaMessage';
+import { ErrorHandlerType } from '../../errors/helpers/types';
+import { isValidCredentials } from './helpers/isValidCredentials';
+import { useHandleLoginSubmit } from './helpers/useHandleLoginSubmit';
 
 const FormContainer = styled.div`
   max-width: 720px;
@@ -38,7 +38,7 @@ function LoginForm({ onForgotPassword, onError }: LoginFormProps) {
                       value={email}
                       onChange={(event) => {
                         setEmail(event.target.value);
-                        localStorage.setItem("email", event.target.value);
+                        localStorage.setItem('email', event.target.value);
                       }}
                       className="input"
                       type="email"
@@ -72,7 +72,7 @@ function LoginForm({ onForgotPassword, onError }: LoginFormProps) {
                   className="field"
                   onClick={() => onForgotPassword()}
                   onKeyDown={(event) => {
-                    if (event.key === "F9") {
+                    if (event.key === 'F9') {
                       onForgotPassword();
                     }
                   }}

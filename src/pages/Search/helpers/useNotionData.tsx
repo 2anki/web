@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import Backend from "../../../lib/backend";
-import { redirectOnError } from "../../../components/shared/redirectOnError";
+import { useEffect, useState } from 'react';
+import Backend from '../../../lib/backend';
+import { redirectOnError } from '../../../components/shared/redirectOnError';
 
 export interface NotionData {
   loading: boolean;
@@ -10,10 +10,10 @@ export interface NotionData {
 }
 
 export default function useNotionData(backend: Backend): NotionData {
-  const [connectionLink, updateConnectionLink] = useState("");
+  const [connectionLink, updateConnectionLink] = useState('');
   const [connected, updateConnected] = useState(false);
   const [workSpace, setWorkSpace] = useState<string | null>(
-    localStorage.getItem("__workspace")
+    localStorage.getItem('__workspace')
   );
 
   const [loading, setIsLoading] = useState(false);

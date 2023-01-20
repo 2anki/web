@@ -1,4 +1,4 @@
-import NavbarItem from "../NavbarItem";
+import NavbarItem from '../NavbarItem';
 
 export default function getNavbarStartNewUser(hash: string, path: string) {
   return (

@@ -1,4 +1,4 @@
-import { StyledParagraph } from "./styled";
+import { StyledParagraph } from './styled';
 
 interface HeroTextProps {
   children: React.ReactNode;

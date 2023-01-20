@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Navbar = styled.nav`
-  background: #E5E5E5;
+  background: #e5e5e5;
   @media (max-width: 1024px) {
     margin: 0;
   }

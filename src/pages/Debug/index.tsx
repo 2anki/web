@@ -1,3 +1,3 @@
-import { DebugPage } from "./DebugPage";
+import { DebugPage } from './DebugPage';
 
 export default DebugPage;

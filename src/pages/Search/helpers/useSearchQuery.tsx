@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useState } from "react";
-import { ErrorHandlerType } from "../../../components/errors/helpers/types";
+import { useCallback, useEffect, useState } from 'react';
+import { ErrorHandlerType } from '../../../components/errors/helpers/types';
 
-import Backend from "../../../lib/backend";
-import useQuery from "../../../lib/hooks/useQuery";
-import NotionObject from "../../../lib/interfaces/NotionObject";
+import Backend from '../../../lib/backend';
+import useQuery from '../../../lib/hooks/useQuery';
+import NotionObject from '../../../lib/interfaces/NotionObject';
 
-export const QUERY_KEY = "q";
+export const QUERY_KEY = 'q';
 interface SearchQuery {
   isLoading: boolean;
   myPages: NotionObject[];
@@ -21,33 +21,30 @@ export default function useSearchQuery(
   const query = useQuery();
 
   const [searchQuery, setSearchQuery] = useState<string>(
-    query.get(QUERY_KEY) || ""
+    query.get(QUERY_KEY) || ''
   );
   const [myPages, setMyPages] = useState<NotionObject[]>([]);
   const [inProgress, setInProgress] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const triggerSearch = useCallback(
-    () => {
-      if (inProgress) {
-        return;
-      }
-      setInProgress(true);
-      backend
-        .search(searchQuery)
-        .then((results) => {
-          setMyPages(results);
-          setInProgress(false);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          setError(error);
-          setIsLoading(false);
-          setInProgress(false);
-        });
-    },
-    [inProgress, searchQuery]
-  );
+  const triggerSearch = useCallback(() => {
+    if (inProgress) {
+      return;
+    }
+    setInProgress(true);
+    backend
+      .search(searchQuery)
+      .then((results) => {
+        setMyPages(results);
+        setInProgress(false);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setError(error);
+        setIsLoading(false);
+        setInProgress(false);
+      });
+  }, [inProgress, searchQuery]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -59,6 +56,6 @@ export default function useSearchQuery(
     inProgress,
     triggerSearch,
     isLoading,
-    setSearchQuery
+    setSearchQuery,
   };
 }

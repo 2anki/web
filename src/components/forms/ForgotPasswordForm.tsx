@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { SyntheticEvent, useState } from "react";
-import Backend from "../../lib/backend";
-import { ErrorHandlerType, ErrorType } from "../errors/helpers/types";
+import styled from 'styled-components';
+import { SyntheticEvent, useState } from 'react';
+import Backend from '../../lib/backend';
+import { ErrorHandlerType, ErrorType } from '../errors/helpers/types';
 
 const FormContainer = styled.div`
   max-width: 720px;
@@ -13,7 +13,7 @@ interface ForgotPasswordProps {
 }
 
 function ForgotPasswordForm({ setError }: ForgotPasswordProps) {
-  const [email, setEmail] = useState(localStorage.getItem("email") || "");
+  const [email, setEmail] = useState(localStorage.getItem('email') || '');
   const [didReset, setDidReset] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -52,7 +52,7 @@ function ForgotPasswordForm({ setError }: ForgotPasswordProps) {
                       value={email}
                       onChange={(event) => {
                         setEmail(event.target.value);
-                        localStorage.setItem("email", event.target.value);
+                        localStorage.setItem('email', event.target.value);
                       }}
                       className="input"
                       type="email"
@@ -62,11 +62,11 @@ function ForgotPasswordForm({ setError }: ForgotPasswordProps) {
                   </label>
                 </div>
                 <div className="field">
-                  <div className="control" style={{ width: "100%" }}>
+                  <div className="control" style={{ width: '100%' }}>
                     <button
                       type="submit"
                       className="button is-link is-medium"
-                      style={{ width: "100%" }}
+                      style={{ width: '100%' }}
                       disabled={loading}
                     >
                       Reset my password

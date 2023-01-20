@@ -1,23 +1,23 @@
-import Cookies from "universal-cookie";
+import Cookies from 'universal-cookie';
 
 import {
   GetBlockResponse,
   GetDatabaseResponse,
   GetPageResponse,
   ListBlockChildrenResponse,
-} from "@notionhq/client/build/src/api-endpoints";
-import NotionObject from "../interfaces/NotionObject";
-import UserUpload from "../interfaces/UserUpload";
+} from '@notionhq/client/build/src/api-endpoints';
+import NotionObject from '../interfaces/NotionObject';
+import UserUpload from '../interfaces/UserUpload';
 
-import getObjectIcon, { ObjectIcon } from "../notion/getObjectIcon";
-import getObjectTitle from "../notion/getObjectTitle";
-import isOfflineMode from "../isOfflineMode";
-import handleRedirect from "../handleRedirect";
-import { ActiveJob, Favorite, Rules, Settings } from "../types";
-import { ConnectionInfo } from "../interfaces/ConnectionInfo";
-import { del, get, getLoginURL, post } from "./api";
-import { getResourceUrl } from "./getResourceUrl";
-import { OK } from "./http";
+import getObjectIcon, { ObjectIcon } from '../notion/getObjectIcon';
+import getObjectTitle from '../notion/getObjectTitle';
+import isOfflineMode from '../isOfflineMode';
+import handleRedirect from '../handleRedirect';
+import { ActiveJob, Favorite, Rules, Settings } from '../types';
+import { ConnectionInfo } from '../interfaces/ConnectionInfo';
+import { del, get, getLoginURL, post } from './api';
+import { getResourceUrl } from './getResourceUrl';
+import { OK } from './http';
 
 class Backend {
   baseURL: string;
@@ -25,7 +25,7 @@ class Backend {
   lastCall = new Date().getMilliseconds();
 
   constructor() {
-    this.baseURL = "/api/";
+    this.baseURL = '/api/';
   }
 
   async logout() {
@@ -37,8 +37,8 @@ class Backend {
       await get(endpoint);
     }
     const cookies = new Cookies();
-    cookies.remove("token");
-    window.location.href = "/";
+    cookies.remove('token');
+    window.location.href = '/';
   }
 
   async getNotionConnectionInfo(): Promise<ConnectionInfo> {
@@ -49,10 +49,6 @@ class Backend {
     return post(`${this.baseURL}settings/create/${settings.object_id}`, {
       settings,
     });
-  }
-
-  deleteTemplates() {
-    return post(`${this.baseURL}templates/delete`, {});
   }
 
   async getSettings(id: string): Promise<Settings | null> {
@@ -72,9 +68,9 @@ class Backend {
     email: boolean
   ) {
     const payload = {
-      FLASHCARD: flashcard.join(","),
-      DECK: deck.join(","),
-      SUB_DECKS: subDecks.join(","),
+      FLASHCARD: flashcard.join(','),
+      DECK: deck.join(','),
+      SUB_DECKS: subDecks.join(','),
       TAGS: tags,
       EMAIL_NOTIFICATION: email,
     };
@@ -100,10 +96,10 @@ class Backend {
   }
 
   async search(query: string): Promise<NotionObject[]> {
-    console.time("search");
+    console.time('search');
     const favorites = await this.getFavorites();
 
-    const isObjectId = query.replace(/-/g, "").length === 32;
+    const isObjectId = query.replace(/-/g, '').length === 32;
     let data;
     if (isObjectId) {
       const res = await this.getPage(query);
@@ -125,7 +121,7 @@ class Backend {
     }
 
     if (data && data.results) {
-      console.timeEnd("search");
+      console.timeEnd('search');
       return data.results.map((p: GetDatabaseResponse | GetPageResponse) => ({
         object: p.object,
         title: getObjectTitle(p).slice(0, 58), // Don't show strings longer than 60 characters
@@ -135,7 +131,7 @@ class Backend {
         isFavorite: favorites.some((f) => f.id === p.id),
       }));
     }
-    console.timeEnd("search");
+    console.timeEnd('search');
     return [];
   }
 
@@ -237,7 +233,7 @@ class Backend {
   }
 
   async getFavoriteObject(f: Favorite): Promise<NotionObject | null> {
-    return f.type === "page"
+    return f.type === 'page'
       ? this.getPage(f.object_id, true)
       : this.getDatabase(f.object_id, true);
   }

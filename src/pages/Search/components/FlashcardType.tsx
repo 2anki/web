@@ -11,7 +11,7 @@ export default function FlashcardType(props: FlashcardTypeProps) {
       type="button"
       aria-label="tag"
       onClick={() => onSwitch(name)}
-      className={`tag is-small mx-1 ${active ? "is-link" : ""}`}
+      className={`tag is-small mx-1 ${active ? 'is-link' : ''}`}
     >
       {name}
     </button>

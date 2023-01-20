@@ -1,17 +1,17 @@
-import { Accordion, AccordionItem } from "@fremtind/jkl-accordion-react";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Accordion, AccordionItem } from '@fremtind/jkl-accordion-react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import {
   ErrorHandlerType,
-  ErrorType
-} from "../../../components/errors/helpers/types";
+  ErrorType,
+} from '../../../components/errors/helpers/types';
 
-import Switch from "../../../components/input/Switch";
-import SettingsModal from "../../../components/modals/SettingsModal";
-import TemplateSelect from "../../../components/TemplateSelect";
-import Backend from "../../../lib/backend";
-import NotionObject from "../../../lib/interfaces/NotionObject";
-import { NewRule } from "../types";
-import RuleDefinition from "./RuleDefinition";
+import Switch from '../../../components/input/Switch';
+import SettingsModal from '../../../components/modals/SettingsModal';
+import TemplateSelect from '../../../components/TemplateSelect';
+import Backend from '../../../lib/backend';
+import NotionObject from '../../../lib/interfaces/NotionObject';
+import { NewRule } from '../types';
+import RuleDefinition from './RuleDefinition';
 
 interface Props {
   type: string;
@@ -24,17 +24,17 @@ interface Props {
 }
 
 const flashCardOptions = [
-  "toggle",
-  "bulleted_list_item",
-  "numbered_list_item",
-  "heading_1",
-  "heading_2",
-  "heading_3",
-  "column_list"
+  'toggle',
+  'bulleted_list_item',
+  'numbered_list_item',
+  'heading_1',
+  'heading_2',
+  'heading_3',
+  'column_list',
 ];
-const tagOptions = ["heading", "strikethrough"];
-const subDeckOptions = ["child_page", ...flashCardOptions];
-const deckOptions = ["page", "database", ...subDeckOptions];
+const tagOptions = ['heading', 'strikethrough'];
+const subDeckOptions = ['child_page', ...flashCardOptions];
+const deckOptions = ['page', 'database', ...subDeckOptions];
 
 const backend = new Backend();
 function DefineRules(props: Props) {
@@ -43,12 +43,12 @@ function DefineRules(props: Props) {
   const [rules, setRules] = useState<NewRule>({
     id: 0,
     owner: 0,
-    object_id: "",
-    flashcard_is: ["toggle"],
-    sub_deck_is: ["child_page"],
-    tags_is: "strikethrough",
-    deck_is: ["page", "database"],
-    email_notification: false
+    object_id: '',
+    flashcard_is: ['toggle'],
+    sub_deck_is: ['child_page'],
+    tags_is: 'strikethrough',
+    deck_is: ['page', 'database'],
+    email_notification: false,
   });
 
   const [isLoading, setIsloading] = useState(true);
@@ -68,9 +68,9 @@ function DefineRules(props: Props) {
         if (rule) {
           const newRules: NewRule = {
             ...rule,
-            flashcard_is: rule.flashcard_is.split(","),
-            sub_deck_is: rule.sub_deck_is.split(","),
-            deck_is: rule.deck_is.split(",")
+            flashcard_is: rule.flashcard_is.split(','),
+            sub_deck_is: rule.sub_deck_is.split(','),
+            deck_is: rule.deck_is.split(','),
           };
           setRules(newRules);
           setSendEmail(newRules.email_notification);
@@ -157,7 +157,7 @@ function DefineRules(props: Props) {
     <div className="modal is-active">
       <div className="modal-background" />
       <div className="modal-card">
-        <div className="card" style={{ maxWidth: "480px" }}>
+        <div className="card" style={{ maxWidth: '480px' }}>
           <header className="card-header">
             <p data-hj-suppress className="card-header-title">
               Settings for {parent}
@@ -219,7 +219,7 @@ function DefineRules(props: Props) {
                     pickedTemplate={(name: string) => setTags(name)}
                     values={tagOptions.map((fco) => ({
                       label: `Tags are ${fco}`,
-                      value: fco
+                      value: fco,
                     }))}
                     name="Tags"
                     value={rules.tags_is}

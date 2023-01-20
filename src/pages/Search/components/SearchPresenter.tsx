@@ -1,10 +1,10 @@
-import { useHistory } from "react-router-dom";
-import SearchBar from "./SearchBar";
-import NotionObject from "../../../lib/interfaces/NotionObject";
-import ListSearchResults from "./ListSearchResults";
-import useFavorites from "../helpers/useFavorites";
-import Backend from "../../../lib/backend";
-import { ErrorHandlerType } from "../../../components/errors/helpers/types";
+import { useHistory } from 'react-router-dom';
+import SearchBar from './SearchBar';
+import NotionObject from '../../../lib/interfaces/NotionObject';
+import ListSearchResults from './ListSearchResults';
+import useFavorites from '../helpers/useFavorites';
+import Backend from '../../../lib/backend';
+import { ErrorHandlerType } from '../../../components/errors/helpers/types';
 
 interface SearchPresenterProps {
   inProgress: boolean;
@@ -26,8 +26,8 @@ export default function SearchPresenter(props: SearchPresenterProps) {
         inProgress={inProgress}
         onSearchQueryChanged={(s) => {
           history.push({
-            pathname: "/search",
-            search: `?q=${s}`
+            pathname: '/search',
+            search: `?q=${s}`,
           });
           setSearchQuery(s);
         }}

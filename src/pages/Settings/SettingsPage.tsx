@@ -1,4 +1,4 @@
-import { PageContainer } from "../../components/styled";
+import { PageContainer } from '../../components/styled';
 
 export default function SettingsPage() {
   return (

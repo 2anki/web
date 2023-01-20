@@ -1,6 +1,6 @@
-import { PartialBlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
-import { renderContent } from "../helpers/renderContent";
-import { Box, LoadingBox } from "./styled";
+import { PartialBlockObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+import { renderContent } from '../helpers/renderContent';
+import { Box, LoadingBox } from './styled';
 
 interface MainContentProps {
   loading: boolean;
@@ -14,9 +14,5 @@ export function MainContent(props: MainContentProps) {
     return <LoadingBox />;
   }
 
-  return (
-    <Box id="main-content">
-      {html && renderContent(html)}
-    </Box>
-  );
+  return <Box id="main-content">{html && renderContent(html)}</Box>;
 }

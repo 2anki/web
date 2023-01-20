@@ -1,11 +1,11 @@
-import { useState } from "react";
-import RegisterForm from "../../components/forms/RegisterForm";
-import LoginForm from "../../components/forms/LoginForm";
-import ForgotPasswordForm from "../../components/forms/ForgotPasswordForm";
-import NavButtonCTA from "../../components/buttons/NavButtonCTA";
-import { Container } from "../../components/styled";
-import TopSection from "./TopSection";
-import { ErrorHandlerType } from "../../components/errors/helpers/types";
+import { useState } from 'react';
+import RegisterForm from '../../components/forms/RegisterForm';
+import LoginForm from '../../components/forms/LoginForm';
+import ForgotPasswordForm from '../../components/forms/ForgotPasswordForm';
+import NavButtonCTA from '../../components/buttons/NavButtonCTA';
+import { Container } from '../../components/styled';
+import TopSection from './TopSection';
+import { ErrorHandlerType } from '../../components/errors/helpers/types';
 
 interface Props {
   setErrorMessage: ErrorHandlerType;
@@ -13,18 +13,18 @@ interface Props {
 
 function LoginPage({ setErrorMessage }: Props) {
   const [isLogin, setLoginState] = useState(
-    window.location.hash !== "#register"
+    window.location.hash !== '#register'
   );
-  const [isForgot, setIsForgot] = useState(window.location.hash === "#forgot");
+  const [isForgot, setIsForgot] = useState(window.location.hash === '#forgot');
   const onClickLogin = () => {
     setIsForgot(false);
     setLoginState(true);
-    window.location.hash = "login";
+    window.location.hash = 'login';
   };
   const onClickRegister = () => {
     setIsForgot(false);
     setLoginState(false);
-    window.location.hash = "register";
+    window.location.hash = 'register';
   };
   const login = (
     <LoginForm

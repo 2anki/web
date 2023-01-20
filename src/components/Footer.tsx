@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { isLearnPage } from "./NavigationBar/helpers/isLearnPage";
+import styled from 'styled-components';
+import { isLearnPage } from './NavigationBar/helpers/isLearnPage';
 
 const StyledFooter = styled.footer`
   flex-shrink: 0;
@@ -118,7 +118,7 @@ function Footer() {
                 src="https://fortress.no/icons/logo.svg"
                 alt="Sponsored by Fortress"
                 loading="lazy"
-                style={{ width: "60px" }}
+                style={{ width: '60px' }}
               />
             </a>
           </p>

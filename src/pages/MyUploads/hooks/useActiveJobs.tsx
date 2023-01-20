@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   ErrorHandlerType,
-  ErrorType
-} from "../../../components/errors/helpers/types";
+  ErrorType,
+} from '../../../components/errors/helpers/types';
 
-import Backend from "../../../lib/backend";
-import { ActiveJob } from "../../../lib/types";
+import Backend from '../../../lib/backend';
+import { ActiveJob } from '../../../lib/types';
 
 export default function useActiveJobs(
   backend: Backend,
@@ -18,7 +18,7 @@ export default function useActiveJobs(
       await backend.deleteJob(id);
       setJobs(jobs.filter((job: ActiveJob) => job.object_id !== id));
     } catch (error) {
-      console.error(error)
+      console.error(error);
       setError(error as ErrorType);
     }
   }

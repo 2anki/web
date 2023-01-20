@@ -1,6 +1,6 @@
-import FavoritesContainer from "./components/FavoritesContainer";
-import Backend from "../../lib/backend";
-import { ErrorHandlerType } from "../../components/errors/helpers/types";
+import FavoritesContainer from './components/FavoritesContainer';
+import Backend from '../../lib/backend';
+import { ErrorHandlerType } from '../../components/errors/helpers/types';
 
 interface FavoritesPageProps {
   setError: ErrorHandlerType;
@@ -8,12 +8,7 @@ interface FavoritesPageProps {
 
 const backend = new Backend();
 function FavoritesPage({ setError }: FavoritesPageProps) {
-  return (
-    <FavoritesContainer
-      backend={backend}
-        setError={setError}
-      />
-  );
+  return <FavoritesContainer backend={backend} setError={setError} />;
 }
 
 export default FavoritesPage;

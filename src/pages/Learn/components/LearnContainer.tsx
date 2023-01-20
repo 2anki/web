@@ -1,23 +1,23 @@
 /* eslint-disable react/no-danger */
-import { useState, useEffect } from "react";
-import _ from "lodash";
-import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import LoadingIndicator from "../../../components/Loading";
-import { useRenderBlock } from "../hooks/useRenderBlock";
-import { useLearnData } from "../hooks/useLearnData";
-import useQuery from "../../../lib/hooks/useQuery";
-import { createParagraphBlock } from "../helpers/createParagrapBlock";
-import { useSelection } from "../hooks/useSelection";
-import Backend from "../../../lib/backend";
-import { LearnPresenter } from "./LearnPresenter";
-import { RootState } from "../../../store";
-import { updateIndex } from "../state/blockControlSlice";
-import { getBlock } from "../helpers/getBlock";
+import { useState, useEffect } from 'react';
+import _ from 'lodash';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import LoadingIndicator from '../../../components/Loading';
+import { useRenderBlock } from '../hooks/useRenderBlock';
+import { useLearnData } from '../hooks/useLearnData';
+import useQuery from '../../../lib/hooks/useQuery';
+import { createParagraphBlock } from '../helpers/createParagrapBlock';
+import { useSelection } from '../hooks/useSelection';
+import Backend from '../../../lib/backend';
+import { LearnPresenter } from './LearnPresenter';
+import { RootState } from '../../../store';
+import { updateIndex } from '../state/blockControlSlice';
+import { getBlock } from '../helpers/getBlock';
 
 const backend = new Backend();
 
-export const BLOCK_INDEX_QUERY_PARAM = "index";
+export const BLOCK_INDEX_QUERY_PARAM = 'index';
 
 export function LearnContainer() {
   const query = useQuery();
@@ -31,7 +31,7 @@ export function LearnContainer() {
   const [isDeletingBlock, setLoadDelete] = useState(false);
   const { children, page, error } = useLearnData(parentId, isMutating);
   const { location } = window;
-  const [textSelection, setTextSelection] = useState("");
+  const [textSelection, setTextSelection] = useState('');
 
   const { loading, html } = useRenderBlock(
     getBlock(children, index)?.id,
@@ -47,12 +47,12 @@ export function LearnContainer() {
 
   // Load parent page based on id
   useEffect(() => {
-    localStorage.setItem("learn-mode", "true");
-    setParentId(location.pathname.split("/").at(-1) || null);
+    localStorage.setItem('learn-mode', 'true');
+    setParentId(location.pathname.split('/').at(-1) || null);
     const newIndex = Number(query.get(BLOCK_INDEX_QUERY_PARAM));
     dispatch(updateIndex(newIndex));
     return () => {
-      localStorage.removeItem("learn-mode");
+      localStorage.removeItem('learn-mode');
     };
   }, []);
 
@@ -92,7 +92,7 @@ export function LearnContainer() {
       backend
         .createBlock(parent, createParagraphBlock(textSelection))
         .then(() => {
-          setTextSelection("");
+          setTextSelection('');
           setLoadExtract(false);
           refreshCurrentBlock();
         })
@@ -102,7 +102,7 @@ export function LearnContainer() {
 
   const isEmpty = children && children.length === 0;
   if (error || isEmpty) {
-    window.location.href = "/search";
+    window.location.href = '/search';
   }
 
   if (!parentId || !children) {

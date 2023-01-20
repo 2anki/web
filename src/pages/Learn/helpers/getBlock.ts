@@ -1,4 +1,4 @@
-import { ChildrenType } from "../types";
+import { ChildrenType } from '../types';
 
 export const getBlock = (children: ChildrenType, index: number) => {
   if (!children) {

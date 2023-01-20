@@ -1,10 +1,10 @@
-import { useState } from "react";
-import Backend from "../../../lib/backend";
+import { useState } from 'react';
+import Backend from '../../../lib/backend';
 
 interface UseDeleteUpload {
   isDeleting: boolean;
   deleteUploadError: unknown;
-  deleteUpload: (key: string) => Promise<void>
+  deleteUpload: (key: string) => Promise<void>;
 }
 
 export const useDeleteUpload = (backend: Backend): UseDeleteUpload => {
@@ -19,7 +19,7 @@ export const useDeleteUpload = (backend: Backend): UseDeleteUpload => {
       setError(error);
     }
     setIsDeleting(false);
-  }
+  };
 
-  return {isDeleting, deleteUploadError, deleteUpload};
-}
+  return { isDeleting, deleteUploadError, deleteUpload };
+};
