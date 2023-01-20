@@ -43,7 +43,6 @@ export default function useJobs(
   }
 
   useEffect(() => {
-
     fetchJobs();
   }, [backend]);
 

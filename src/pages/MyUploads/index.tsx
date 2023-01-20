@@ -7,7 +7,6 @@ import LoadingIndicator from '../../components/Loading';
 import { ErrorHandlerType } from '../../components/errors/helpers/types';
 import { FinishedJobs } from './components/FinishedJobs';
 import { EmptyUploadsSection } from './components/EmptyUploadsSection';
-import { useDeleteUpload } from './hooks/useDeleteUpload';
 import { Container } from '../../components/styled';
 import { redirectOnError } from '../../components/shared/redirectOnError';
 
@@ -18,13 +17,13 @@ interface MyUploadsPageProps {
 }
 
 function MyUploadsPage({ setError }: MyUploadsPageProps) {
-  const { deleteUpload, deleteUploadError, isDeleting } =
-    useDeleteUpload(backend);
-  const { loading, uploads, error } = useUploads(backend);
+  const {
+    deleteUpload, isDeleting,
+    loading, uploads, error
+  } = useUploads(backend);
   const { jobs, deleteJob, restartJob } = useJobs(backend, setError);
 
-  const e = error || deleteUploadError;
-  if (e) {
+  if (error) {
     redirectOnError(error);
     return null;
   }
