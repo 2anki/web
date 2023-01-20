@@ -215,6 +215,7 @@ class Backend {
 
   async convert(id: string, type: string, title: string | null) {
     const link = `${this.baseURL}notion/convert`;
+    console.log('title', title);
     return post(link, { id, type, title });
   }
 
