@@ -20,7 +20,7 @@ export default function Index({ jobs, deleteJob, restartJob }: Props) {
 
   const jobRows = <ul className="my-2">
     {jobs.map((j) => (
-      <div className="is-flex is-justify-content-space-between ">
+      <div key={j.id} className="is-flex is-justify-content-space-between ">
         <JobRow>
           <StatusTag status={j.status as JobStatus} />
           {j.title}
