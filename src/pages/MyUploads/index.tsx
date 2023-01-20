@@ -32,10 +32,12 @@ function MyUploadsPage({ setError }: MyUploadsPageProps) {
     return <LoadingIndicator />;
   }
 
+  if (uploads?.length === 0 && jobs.length === 0) {
+    return <EmptyUploadsSection uploads={uploads} />;
+  }
   return (
     <Container>
       <Index restartJob={restartJob} jobs={jobs} deleteJob={(id) => deleteJob(id)} />
-      <EmptyUploadsSection uploads={uploads} />
       <FinishedJobs uploads={uploads} deleteUpload={deleteUpload} />
     </Container>
   );
