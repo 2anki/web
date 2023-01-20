@@ -13,11 +13,9 @@ export function FinishedJobs({ uploads, deleteUpload }: Prop) {
 
   return (
     <>
-      <h2 className="title is -2">Finished Jobs</h2>
       {uploads.map((u) => (
         <UploadObjectEntry
           data-hj-suppress
-          size={`${u.size_mb ? u.size_mb.toFixed(2) : 0}`}
           key={u.key}
           title={u.filename}
           icon={null}

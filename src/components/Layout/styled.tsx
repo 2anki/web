@@ -8,6 +8,7 @@ export const Layout = styled.div`
 export const PageSidebar = styled.div`
   flex-basis: 20rem;
   flex-grow: 1;
+  height: 100vh;
 `;
 export const PageContent = styled.div`
   flex-basis: 0;

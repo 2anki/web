@@ -3,7 +3,8 @@ import SidebarItem from './SidebarItem';
 export function Menu() {
   const path = window.location.pathname;
   return (
-    <aside className="menu is-flex is-flex-direction-column is-justify-content-space-between">
+    <aside className="menu is-flex is-flex-direction-column is-justify-content-space-between is-fullheight"
+           style={{ height: '100vh' }}>
       <ul className="menu-list">
         <SidebarItem path={path} href="/upload">
           📦 Upload
@@ -20,6 +21,9 @@ export function Menu() {
       </ul>
       <ul className="menu-list">
         <hr />
+        <SidebarItem path={path} href="/users/delete-me">
+          🗑️ Delete account
+        </SidebarItem>
         <SidebarItem path={path} href="/settings">
           ⚙️ Settings
         </SidebarItem>

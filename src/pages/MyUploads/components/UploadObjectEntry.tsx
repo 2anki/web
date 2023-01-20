@@ -1,8 +1,8 @@
 import ObjectAction from '../../Search/components/actions/ObjectAction';
 import { Entry, ObjectActions, ObjectMeta, UploadTitle } from './styled';
+import { DeleteButton } from './ListJobs/DeleteButton';
 
 interface Props {
-  size: string;
   title: string;
   icon: string | null;
   url: string;
@@ -10,24 +10,15 @@ interface Props {
 }
 
 export default function UploadObjectEntry({
-  size,
-  title,
-  icon,
-  url,
-  deleteUpload,
-}: Props) {
+                                            title,
+                                            icon,
+                                            url,
+                                            deleteUpload
+                                          }: Props) {
   return (
     <Entry>
       <ObjectMeta>
-        <button type="button" className="delete" onClick={() => deleteUpload()}>
-          Delete
-        </button>
-        <div className="control">
-          <div className="tags has-addons">
-            <span className="tag is-info">Size</span>
-            <span className="tag">{size} MB</span>
-          </div>
-        </div>
+        <DeleteButton onDelete={deleteUpload} />
         {icon && <span>{icon}</span>}
         <div />
         <UploadTitle
