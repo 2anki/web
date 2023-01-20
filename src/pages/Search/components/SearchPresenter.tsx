@@ -5,6 +5,7 @@ import ListSearchResults from './ListSearchResults';
 import useFavorites from '../helpers/useFavorites';
 import Backend from '../../../lib/backend';
 import { ErrorHandlerType } from '../../../components/errors/helpers/types';
+import { StickyContainer } from './styled';
 
 interface SearchPresenterProps {
   inProgress: boolean;
@@ -22,17 +23,19 @@ export default function SearchPresenter(props: SearchPresenterProps) {
 
   return (
     <>
-      <SearchBar
-        inProgress={inProgress}
-        onSearchQueryChanged={(s) => {
-          history.push({
-            pathname: '/search',
-            search: `?q=${s}`,
-          });
-          setSearchQuery(s);
-        }}
-        onSearchClicked={() => triggerSearch(false)}
-      />
+      <StickyContainer>
+        <SearchBar
+          inProgress={inProgress}
+          onSearchQueryChanged={(s) => {
+            history.push({
+              pathname: '/search',
+              search: `?q=${s}`
+            });
+            setSearchQuery(s);
+          }}
+          onSearchClicked={() => triggerSearch(false)}
+        />
+      </StickyContainer>
       <ListSearchResults
         setError={setError}
         setFavorites={setFavorites}

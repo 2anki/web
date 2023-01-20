@@ -7,6 +7,8 @@ export const Entry = styled.div`
   padding: 1rem;
   font-size: 2.4vw;
   justify-content: space-between;
+  max-width: 720px;
+  margin: 0 auto;
 `;
 
 export const ObjectMeta = styled.div`

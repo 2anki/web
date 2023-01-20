@@ -5,9 +5,9 @@ export const SearchInput = styled.input`
   max-width: 640px;
 `;
 
-export const EmptyContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50vh;
+export const StickyContainer = styled.div`
+  position: sticky;
+  top: 0;
+  padding: 2rem;
+  background: white;
 `;
