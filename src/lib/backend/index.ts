@@ -4,7 +4,7 @@ import {
   GetBlockResponse,
   GetDatabaseResponse,
   GetPageResponse,
-  ListBlockChildrenResponse,
+  ListBlockChildrenResponse
 } from '@notionhq/client/build/src/api-endpoints';
 import NotionObject from '../interfaces/NotionObject';
 import UserUpload from '../interfaces/UserUpload';
@@ -13,11 +13,12 @@ import getObjectIcon, { ObjectIcon } from '../notion/getObjectIcon';
 import getObjectTitle from '../notion/getObjectTitle';
 import isOfflineMode from '../isOfflineMode';
 import handleRedirect from '../handleRedirect';
-import { ActiveJob, Favorite, Rules, Settings } from '../types';
+import { Favorite, Rules, Settings } from '../types';
 import { ConnectionInfo } from '../interfaces/ConnectionInfo';
 import { del, get, getLoginURL, post } from './api';
 import { getResourceUrl } from './getResourceUrl';
 import { OK } from './http';
+import Jobs from '../../schemas/public/Jobs';
 
 class Backend {
   baseURL: string;
@@ -47,7 +48,7 @@ class Backend {
 
   saveSettings(settings: Settings) {
     return post(`${this.baseURL}settings/create/${settings.object_id}`, {
-      settings,
+      settings
     });
   }
 
@@ -72,7 +73,7 @@ class Backend {
       DECK: deck.join(','),
       SUB_DECKS: subDecks.join(','),
       TAGS: tags,
-      EMAIL_NOTIFICATION: email,
+      EMAIL_NOTIFICATION: email
     };
     return post(`${this.baseURL}rules/create/${id}`, { payload });
   }
@@ -91,7 +92,7 @@ class Backend {
 
   deleteSettings(pageId: string) {
     return post(`${this.baseURL}settings/delete/${pageId}`, {
-      object_id: pageId,
+      object_id: pageId
     });
   }
 
@@ -105,13 +106,13 @@ class Backend {
       const res = await this.getPage(query);
       if (res && res.data) {
         data = {
-          results: [res.data],
+          results: [res.data]
         };
       } else {
         const dbResult = await this.getDatabase(query);
         if (dbResult && dbResult.data) {
           data = {
-            results: [dbResult.data],
+            results: [dbResult.data]
           };
         }
       }
@@ -128,7 +129,7 @@ class Backend {
         icon: getObjectIcon(p as ObjectIcon),
         url: getResourceUrl(p),
         id: p.id,
-        isFavorite: favorites.some((f) => f.id === p.id),
+        isFavorite: favorites.some((f) => f.id === p.id)
       }));
     }
     console.timeEnd('search');
@@ -147,7 +148,7 @@ class Backend {
       url: data.url as string,
       id: data.id,
       data,
-      isFavorite,
+      isFavorite
     };
   }
 
@@ -163,7 +164,7 @@ class Backend {
       url: data.url as string,
       id: data.id,
       data,
-      isFavorite,
+      isFavorite
     };
   }
 
@@ -181,7 +182,7 @@ class Backend {
     block: object
   ): Promise<ListBlockChildrenResponse> {
     const response = await post(`${this.baseURL}notion/block/${parentId}`, {
-      newBlock: block,
+      newBlock: block
     });
     handleRedirect(response);
     return response.json();
@@ -195,8 +196,8 @@ class Backend {
     return get(`${this.baseURL}upload/mine`);
   }
 
-  async getActiveJobs(): Promise<ActiveJob[]> {
-    return get(`${this.baseURL}upload/active`);
+  async getJobs(): Promise<Jobs[]> {
+    return get(`${this.baseURL}upload/jobs`);
   }
 
   /**
@@ -209,7 +210,7 @@ class Backend {
   }
 
   async deleteJob(id: string) {
-    await del(`${this.baseURL}upload/active/${id}`);
+    await del(`${this.baseURL}upload/jobs/${id}`);
   }
 
   async convert(id: string, type: string, title: string) {
@@ -252,7 +253,7 @@ class Backend {
   async login(email: string, password: string): Promise<Response> {
     const response = await post(getLoginURL(this.baseURL), {
       email,
-      password,
+      password
     });
     return response;
   }
@@ -265,7 +266,7 @@ class Backend {
   async newPassword(password: string, token: string): Promise<Response> {
     return post(`${this.baseURL}users/new-password`, {
       password,
-      reset_token: token,
+      reset_token: token
     });
   }
 

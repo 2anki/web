@@ -1,22 +1,22 @@
 import { useEffect, useState } from 'react';
 import {
   ErrorHandlerType,
-  ErrorType,
+  ErrorType
 } from '../../../components/errors/helpers/types';
 
 import Backend from '../../../lib/backend';
-import { ActiveJob } from '../../../lib/types';
+import Jobs from '../../../schemas/public/Jobs';
 
-export default function useActiveJobs(
+export default function useJobs(
   backend: Backend,
   setError: ErrorHandlerType
-): [ActiveJob[], (id: string) => void] {
-  const [jobs, setJobs] = useState<ActiveJob[]>([]);
+): [Jobs[], (id: string) => void] {
+  const [jobs, setJobs] = useState<Jobs[]>([]);
 
   async function deleteJob(id: string) {
     try {
       await backend.deleteJob(id);
-      setJobs(jobs.filter((job: ActiveJob) => job.object_id !== id));
+      setJobs(jobs.filter((job: Jobs) => job.object_id !== id));
     } catch (error) {
       console.error(error);
       setError(error as ErrorType);
@@ -26,12 +26,13 @@ export default function useActiveJobs(
   useEffect(() => {
     async function fetchJobs() {
       try {
-        const active = await backend.getActiveJobs();
+        const active = await backend.getJobs();
         setJobs(active);
       } catch (error) {
         setError(error as ErrorType);
       }
     }
+
     fetchJobs();
   }, [backend]);
 

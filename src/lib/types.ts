@@ -23,39 +23,3 @@ export interface Favorite {
 }
 
 export type SettingsPayload = { [key: string]: string };
-
-export interface ActiveJob {
-  object_id: string;
-  status: string;
-  title: string;
-}
-
-export interface ObjectIcon {
-  icon: {
-    emoji: string;
-    type: string;
-    external: {
-      url: string;
-    };
-    file: {
-      url: string;
-    };
-  };
-}
-
-export interface ObjectTitle {
-  title: [
-    {
-      type: string;
-      text: { content: string; href: string };
-      plain_text: string;
-    }
-  ];
-  object: string;
-  properties: {
-    Name: { title: { plain_text: string } };
-    title: {
-      title: [{ type: string; text: { content: string }; plain_text: string }];
-    };
-  };
-}
