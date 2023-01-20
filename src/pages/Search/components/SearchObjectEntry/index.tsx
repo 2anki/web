@@ -6,12 +6,11 @@ import DefineRules from '../DefineRules';
 import ObjectActions from '../actions/ObjectActions';
 import ObjectAction from '../actions/ObjectAction';
 import { Entry, ObjectMeta } from './styled';
-import ObjectType from '../ObjectType';
 import DotsHorizontal from '../../../../components/icons/DotsHorizontal';
 import NotionObject from '../../../../lib/interfaces/NotionObject';
 import {
   ErrorHandlerType,
-  ErrorType,
+  ErrorType
 } from '../../../../components/errors/helpers/types';
 
 const backend = new Backend();
@@ -36,7 +35,6 @@ function SearchObjectEntry(props: Props) {
     <>
       <Entry data-hj-suppress>
         <ObjectMeta>
-          <ObjectType type={type} />
           {icon && (icon.includes('http') || icon.includes('data:image')) ? (
             <img width={32} height={32} src={icon} alt="icon" />
           ) : (

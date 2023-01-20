@@ -245,10 +245,9 @@ class Backend {
     if (!data) {
       return [];
     }
-    const favorites: NotionObject[] = await Promise.all(
+    return Promise.all(
       data.map(async (f: Favorite) => this.getFavoriteObject(f))
     );
-    return favorites.filter(Boolean);
   }
 
   async login(email: string, password: string): Promise<Response> {
