@@ -4,6 +4,7 @@ export const Container = styled.div`
   display: block;
   flex: 1 0 auto;
   padding: 32px 64px;
+  min-height: 70vh;
   @media (max-width: 1024px) {
     padding: 0;
   }

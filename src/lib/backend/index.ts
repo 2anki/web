@@ -18,7 +18,7 @@ import { ConnectionInfo } from '../interfaces/ConnectionInfo';
 import { del, get, getLoginURL, post } from './api';
 import { getResourceUrl } from './getResourceUrl';
 import { OK } from './http';
-import Jobs from '../../schemas/public/Jobs';
+import Jobs, { JobsId } from '../../schemas/public/Jobs';
 
 class Backend {
   baseURL: string;
@@ -209,11 +209,11 @@ class Backend {
     return del(`${this.baseURL}upload/mine/${key}`);
   }
 
-  async deleteJob(id: string) {
+  async deleteJob(id: JobsId) {
     await del(`${this.baseURL}upload/jobs/${id}`);
   }
 
-  async convert(id: string, type: string, title: string) {
+  async convert(id: string, type: string, title: string | null) {
     const link = `${this.baseURL}notion/convert`;
     return post(link, { id, type, title });
   }

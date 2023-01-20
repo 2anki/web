@@ -1,30 +1,19 @@
-import UserUpload from '../../../lib/interfaces/UserUpload';
+import React from 'react';
 
-interface Prop {
-  uploads: UserUpload[] | undefined;
-  isDeletingAll: boolean;
-  deleteAllUploads: () => void;
-}
-
-export function DeleteAllButton({
-  uploads,
-  isDeletingAll,
-  deleteAllUploads,
-}: Prop) {
-  if (!uploads || uploads.length === 0) {
-    return null;
-  }
+export function DeleteAllButton() {
+  const [isDeletingAll, setIsDeletingAll] = React.useState(false);
 
   return (
     <button
       type="button"
       title="Delete all"
-      className={`button is-small ${isDeletingAll ? 'is-loading' : ''} `}
+      className={`button is-flex is-small ${isDeletingAll ? 'is-loading' : ''} `}
       onClick={() => {
-        deleteAllUploads();
+        setIsDeletingAll(true);
       }}
     >
-      <i className="fa-solid fa-trash" />
+      Delete everything
+      <span className="tag is-black"><i className="fa-solid fa-trash" /></span>
     </button>
   );
 }

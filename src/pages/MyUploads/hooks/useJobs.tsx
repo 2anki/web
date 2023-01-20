@@ -5,36 +5,47 @@ import {
 } from '../../../components/errors/helpers/types';
 
 import Backend from '../../../lib/backend';
-import Jobs from '../../../schemas/public/Jobs';
+import Jobs, { JobsId } from '../../../schemas/public/Jobs';
+
+interface UseJobsResult {
+  jobs: Jobs[];
+  deleteJob: (id: JobsId) => void;
+  restartJob: (id: Jobs) => void;
+}
 
 export default function useJobs(
   backend: Backend,
   setError: ErrorHandlerType
-): [Jobs[], (id: string) => void] {
+): UseJobsResult {
   const [jobs, setJobs] = useState<Jobs[]>([]);
 
-  async function deleteJob(id: string) {
+  async function fetchJobs() {
+    try {
+      const active = await backend.getJobs();
+      setJobs(active);
+    } catch (error) {
+      setError(error as ErrorType);
+    }
+  }
+
+  async function deleteJob(id: JobsId) {
     try {
       await backend.deleteJob(id);
-      setJobs(jobs.filter((job: Jobs) => job.object_id !== id));
+      setJobs(jobs.filter((job: Jobs) => job.id !== id));
     } catch (error) {
       console.error(error);
       setError(error as ErrorType);
     }
   }
 
+  async function restartJob(job: Jobs) {
+    await backend.convert(job.object_id, '', job.title);
+  }
+
   useEffect(() => {
-    async function fetchJobs() {
-      try {
-        const active = await backend.getJobs();
-        setJobs(active);
-      } catch (error) {
-        setError(error as ErrorType);
-      }
-    }
 
     fetchJobs();
   }, [backend]);
 
-  return [jobs, deleteJob];
+  return { jobs, deleteJob, restartJob };
 }

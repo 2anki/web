@@ -10,20 +10,15 @@ interface Props {
 }
 
 export default function FavoritesPresenter({
-  setError,
-  setFavorites,
-  favorites,
-}: Props) {
+                                             setError,
+                                             setFavorites,
+                                             favorites
+                                           }: Props) {
   return (
-    <div>
-      <h3 className="title is-4">Your favorites</h3>
-      <div className="box mt-4 mb-0">
-        <Favorites
-          setError={setError}
-          setFavorites={setFavorites}
-          favorites={favorites}
-        />
-      </div>
-    </div>
+    <Favorites
+      setError={setError}
+      setFavorites={setFavorites}
+      favorites={favorites}
+    />
   );
 }
