@@ -13,7 +13,7 @@ import getObjectIcon, { ObjectIcon } from '../notion/getObjectIcon';
 import getObjectTitle from '../notion/getObjectTitle';
 import isOfflineMode from '../isOfflineMode';
 import handleRedirect from '../handleRedirect';
-import { Favorite, Rules, Settings } from '../types';
+import { Rules, Settings } from '../types';
 import { ConnectionInfo } from '../interfaces/ConnectionInfo';
 import { del, get, getLoginURL, post } from './api';
 import { getResourceUrl } from './getResourceUrl';
@@ -22,8 +22,6 @@ import Jobs, { JobsId } from '../../schemas/public/Jobs';
 
 class Backend {
   baseURL: string;
-
-  lastCall = new Date().getMilliseconds();
 
   constructor() {
     this.baseURL = '/api/';
@@ -97,6 +95,7 @@ class Backend {
   }
 
   async search(query: string): Promise<NotionObject[]> {
+    console.log('query', query);
     console.time('search');
     const favorites = await this.getFavorites();
 
@@ -153,9 +152,14 @@ class Backend {
   }
 
   async getDatabase(
-    id: string,
+    id: string | undefined,
     isFavorite: boolean = false
   ): Promise<NotionObject | null> {
+    console.log('getDatabase', id, isFavorite);
+    if (!id) {
+      throw new Error('No id provided');
+    }
+
     const data = await get(`${this.baseURL}notion/database/${id}`);
     return {
       object: data.object,
@@ -234,20 +238,17 @@ class Backend {
     return response.status === OK;
   }
 
-  async getFavoriteObject(f: Favorite): Promise<NotionObject | null> {
-    return f.type === 'page'
-      ? this.getPage(f.object_id, true)
-      : this.getDatabase(f.object_id, true);
-  }
-
   async getFavorites(): Promise<NotionObject[]> {
-    const data = await get(`${this.baseURL}favorite`);
-    if (!data) {
-      return [];
-    }
-    return Promise.all(
-      data.map(async (f: Favorite) => this.getFavoriteObject(f))
-    );
+    const favorites = await get(`${this.baseURL}favorite`);
+    return favorites.map((f: GetDatabaseResponse | GetPageResponse) => ({
+      object: f,
+      title: getObjectTitle(f),
+      icon: getObjectIcon(f as ObjectIcon),
+      url: getResourceUrl(f),
+      id: f.id,
+      data: f,
+      isFavorite: true
+    }));
   }
 
   async login(email: string, password: string): Promise<Response> {
