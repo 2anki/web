@@ -33,7 +33,6 @@ export default function useJobs(
       await backend.deleteJob(id);
       setJobs(jobs.filter((job: Jobs) => job.id !== id));
     } catch (error) {
-      console.error(error);
       setError(error as ErrorType);
     }
   }
