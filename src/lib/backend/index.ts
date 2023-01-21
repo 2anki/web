@@ -95,7 +95,6 @@ class Backend {
   }
 
   async search(query: string): Promise<NotionObject[]> {
-    console.log('query', query);
     console.time('search');
     const favorites = await this.getFavorites();
 
@@ -155,7 +154,6 @@ class Backend {
     id: string | undefined,
     isFavorite: boolean = false
   ): Promise<NotionObject | null> {
-    console.log('getDatabase', id, isFavorite);
     if (!id) {
       throw new Error('No id provided');
     }
@@ -219,7 +217,6 @@ class Backend {
 
   async convert(id: string, type: string, title: string | null) {
     const link = `${this.baseURL}notion/convert`;
-    console.log('title', title);
     return post(link, { id, type, title });
   }
 
