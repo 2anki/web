@@ -21,17 +21,19 @@ export function PageLayout({ error, children }: LayoutProps) {
   }
 
   return (
-    <Layout>
+    <>
       <PageHeader>
         <NavigationBar />
       </PageHeader>
-      <PageSidebar>
-        <Menu />
-      </PageSidebar>
-      <PageContent>
-        <ErrorPresenter error={error} />
-        {children}
-      </PageContent>
-    </Layout>
+      <Layout>
+        <PageSidebar>
+          <Menu />
+        </PageSidebar>
+        <PageContent>
+          <ErrorPresenter error={error} />
+          {children}
+        </PageContent>
+      </Layout>
+    </>
   );
 }
