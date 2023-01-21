@@ -5,7 +5,7 @@ export const Layout = styled.div`
   flex-wrap: wrap;
 `;
 
-export const PageSidebar = styled.div.attrs({ className: 'is-hidden-mobile' })`
+export const PageSidebar = styled.div.attrs({ className: 'is-hidden-touch' })`
   flex-basis: 20rem;
   flex-grow: 1;
   height: 70vh;
