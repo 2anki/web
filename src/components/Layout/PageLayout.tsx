@@ -1,9 +1,10 @@
 import { ReactNode } from 'react';
-import { PageContent, Layout, PageSidebar } from './styled';
+import { PageContent, Layout, PageSidebar, PageHeader } from './styled';
 import { ErrorPresenter } from '../errors/ErrorPresenter';
 import { ErrorType } from '../errors/helpers/types';
 import { Menu } from './SideBar/Meny';
 import { canShowNavbar } from '../shared/canShowNavbar';
+import NavigationBar from '../NavigationBar/NavigationBar';
 
 interface LayoutProps {
   error: ErrorType;
@@ -21,6 +22,9 @@ export function PageLayout({ error, children }: LayoutProps) {
 
   return (
     <Layout>
+      <PageHeader>
+        <NavigationBar />
+      </PageHeader>
       <PageSidebar>
         <Menu />
       </PageSidebar>
