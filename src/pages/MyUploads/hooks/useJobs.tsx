@@ -9,8 +9,8 @@ import Jobs, { JobsId } from '../../../schemas/public/Jobs';
 
 interface UseJobsResult {
   jobs: Jobs[];
-  deleteJob: (id: JobsId) => void;
-  restartJob: (id: Jobs) => void;
+  deleteJob: (id: JobsId) => Promise<void>;
+  restartJob: (job: Jobs) => Promise<void>;
 }
 
 export default function useJobs(
