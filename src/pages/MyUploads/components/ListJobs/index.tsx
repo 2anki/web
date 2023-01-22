@@ -2,9 +2,9 @@ import { JobRow } from '../styled';
 import Jobs, { JobsId } from '../../../../schemas/public/Jobs';
 import { RefreshButton } from './RefreshButton';
 import { DeleteButton } from './DeleteButton';
-import { Listheader } from './ListHeader';
 import { isFailedJob } from '../../helpers/isFailedJob';
 import { JobStatus, StatusTag } from './StatusTag';
+import { getDistance } from '../../../../lib/getDistance';
 
 interface Props {
   jobs: Jobs[];
@@ -23,7 +23,10 @@ export default function Index({ jobs, deleteJob, restartJob }: Props) {
       <div key={j.id} className="is-flex is-justify-content-space-between ">
         <JobRow>
           <StatusTag status={j.status as JobStatus} />
-          {j.title}
+          <div className="is-flex is-flex-direction-column">
+            <p className="title is-6">{j.title}</p>
+            <p className="subtitle is-7">{j.created_at && `Started ${getDistance(j.created_at)}`}</p>
+          </div>
         </JobRow>
         <div>
           <div className="is-pulled-right">
@@ -37,7 +40,6 @@ export default function Index({ jobs, deleteJob, restartJob }: Props) {
 
   return (
     <div className="" data-hj-suppress>
-      <Listheader />
       {jobRows}
     </div>
   );
