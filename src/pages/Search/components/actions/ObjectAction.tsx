@@ -1,20 +1,22 @@
+/* eslint-disable react/require-default-props */
 import { MouseEventHandler } from 'react';
 import { ObjectIconAction } from '../SearchObjectEntry/styled';
 
 interface ObjectActionProps {
   url: string;
   image: string;
-  // eslint-disable-next-line react/require-default-props
+  filename?: string;
   onClick?: MouseEventHandler;
 }
 
 export default function ObjectAction({
-  url,
-  image,
-  onClick,
-}: ObjectActionProps) {
+                                       url,
+                                       image,
+                                       filename,
+                                       onClick
+                                     }: ObjectActionProps) {
   return (
-    <a href={url} target="_blank" rel="noreferrer" onClick={onClick}>
+    <a download={filename} href={url} target="_blank" rel="noreferrer" onClick={onClick}>
       <ObjectIconAction alt="Page action" width="32px" src={image} />
     </a>
   );
