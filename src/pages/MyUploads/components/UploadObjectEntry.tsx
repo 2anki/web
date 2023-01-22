@@ -28,7 +28,7 @@ export default function UploadObjectEntry({
         />
       </ObjectMeta>
       <ObjectActions>
-        <ObjectAction url={url} image="/icons/Anki_app_logo.png" />
+        <ObjectAction filename={title} url={url} image="/icons/Anki_app_logo.png" />
       </ObjectActions>
     </Entry>
   );
