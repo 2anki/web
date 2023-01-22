@@ -21,7 +21,7 @@ export function Menu() {
       </ul>
       <ul className="menu-list">
         <hr />
-        <SidebarItem path={path} href="/users/delete-me">
+        <SidebarItem path={path} href="/delete-account">
           🗑️ Delete account
         </SidebarItem>
         <SidebarItem path={path} href="/settings">

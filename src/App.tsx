@@ -22,6 +22,7 @@ import DebugPage from './pages/Debug';
 import { store } from './store';
 import FavoritesPage from './pages/Favorites';
 import { PageLayout } from './components/Layout/PageLayout';
+import DeleteAccountPage from './pages/Delete';
 
 const PreSignupPage = lazy(() => import('./pages/Register'));
 const SearchPage = lazy(() => import('./pages/Search'));
@@ -84,6 +85,9 @@ function App() {
               </Route>
               <Route path="/debug">
                 <DebugPage />
+              </Route>
+              <Route path="/delete-account">
+                <DeleteAccountPage setError={handledError} />
               </Route>
               <Route path="/">
                 <HomePage />

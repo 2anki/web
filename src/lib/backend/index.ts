@@ -276,6 +276,10 @@ class Backend {
     const endpoint = `${this.baseURL}users/register`;
     return post(endpoint, { name, email, password });
   }
+
+  async deleteAccount(confirmed: boolean): Promise<Response> {
+    return post(`${this.baseURL}users/delete-account`, { confirmed });
+  }
 }
 
 export default Backend;
