@@ -20,7 +20,7 @@
     "@notionhq/client": "^2.1.1",
     "@reduxjs/toolkit": "^1.8.6",
     "@sentry/react": "^7.12.1",
-    "@sentry/tracing": "^7.14.2",
+    "@sentry/tracing": "^7.34.0",
     "bulma": "^0.9.4",
     "bulma-switch": "^2.0.4",
     "lodash": "^4.17.21",
