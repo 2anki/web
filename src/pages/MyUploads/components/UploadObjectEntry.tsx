@@ -1,6 +1,6 @@
-import ObjectAction from '../../Search/components/actions/ObjectAction';
 import { Entry, ObjectActions, ObjectMeta, UploadTitle } from './styled';
 import { DeleteButton } from './ListJobs/DeleteButton';
+import { ObjectIconAction } from '../../Search/components/SearchObjectEntry/styled';
 
 interface Props {
   title: string;
@@ -28,7 +28,9 @@ export default function UploadObjectEntry({
         />
       </ObjectMeta>
       <ObjectActions>
-        <ObjectAction filename={title} url={url} image="/icons/Anki_app_logo.png" />
+        <a download={title} href={url} target="_blank" rel="noreferrer">
+          <ObjectIconAction alt="Page action" width="32px" src="/icons/Anki_app_logo.png" />
+        </a>
       </ObjectActions>
     </Entry>
   );

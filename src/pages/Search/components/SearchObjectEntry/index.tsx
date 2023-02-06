@@ -43,7 +43,7 @@ function SearchObjectEntry(props: Props) {
           <span className="subtitle is-6">{title}</span>
         </ObjectMeta>
         <ObjectActions>
-          <ObjectAction filename={title} url={`/learn/${id}`} image="/icons/bulb_on.svg" />
+          <ObjectAction url={`/learn/${id}`} image="/icons/bulb_on.svg" />
           <ObjectAction
             url={url}
             image="/icons/Anki_app_logo.png"
