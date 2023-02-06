@@ -11,7 +11,6 @@ interface Prop {
   setError: ErrorHandlerType;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function DeleteAccountPage({ setError }: Prop) {
   const [count, setCount] = React.useState(0);
   const deleteButtonText = count === 0 ? 'Delete' : 'I am sure!';
@@ -22,18 +21,12 @@ export function DeleteAccountPage({ setError }: Prop) {
       return;
     }
 
-    try {
-      const backend = new Backend();
-      await backend.deleteAccount(count === 2);
-      localStorage.clear();
-      sessionStorage.clear();
-      new Cookies().remove('token');
-      redirectToFrontPage();
-    } catch (e) {
-      if (e instanceof Error) {
-        setError(e as Error);
-      }
-    }
+    const backend = new Backend();
+    await backend.deleteAccount(count === 2).catch(setError);
+    localStorage.clear();
+    sessionStorage.clear();
+    new Cookies().remove('token');
+    redirectToFrontPage();
   };
   return <Layout>
     <UploadContainer>
