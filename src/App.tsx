@@ -14,7 +14,6 @@ import Footer from './components/Footer';
 import CardOptionsStore from './store/CardOptionsStore';
 import StoreContext from './store/StoreContext';
 import GlobalStyle from './GlobalStyle';
-import SettingsPage from './pages/Settings';
 import ImportPage from './pages/Import/ImportPage';
 import isOfflineMode from './lib/isOfflineMode';
 import { ErrorType } from './components/errors/helpers/types';
@@ -76,9 +75,6 @@ function App() {
               </Route>
               <Route path="/users/r/:id">
                 <NewPasswordPage setErrorMessage={handledError} />
-              </Route>
-              <Route path="/settings">
-                <SettingsPage />
               </Route>
               <Route path="/import">
                 <ImportPage />
