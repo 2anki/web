@@ -12,7 +12,7 @@ import {
   ImportTitle,
   InfoMessage,
   SettingsLink,
-  UploadContainer,
+  UploadContainer
 } from './styled';
 import { Main, PageContainer } from '../../components/styled';
 import { ErrorHandlerType } from '../../components/errors/helpers/types';

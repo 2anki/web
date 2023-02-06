@@ -24,9 +24,6 @@ export function Menu() {
         <SidebarItem path={path} href="/delete-account">
           🗑️ Delete account
         </SidebarItem>
-        <SidebarItem path={path} href="/settings">
-          ⚙️ Settings
-        </SidebarItem>
         <SidebarItem path={path} href="https://discord.gg/PSKC3uS">
           👾 Discord
         </SidebarItem>
