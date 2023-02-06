@@ -40,7 +40,10 @@ export default function Index({ jobs, deleteJob, restartJob }: Props) {
         >
           <div className="is-pulled-right">
             <DeleteButton onDelete={() => deleteJob(j.id)} />
-            {isFailedJob(j) && <RefreshButton onRefresh={() => restartJob(j)} />}
+            {isFailedJob(j) && <RefreshButton onRefresh={() => {
+              restartJob(j);
+              window.location.reload();
+            }} />}
           </div>
         </div>
       </div>

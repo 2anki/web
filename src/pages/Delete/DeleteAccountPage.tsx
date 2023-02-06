@@ -28,7 +28,6 @@ export function DeleteAccountPage({ setError }: Prop) {
       localStorage.clear();
       sessionStorage.clear();
       new Cookies().remove('token');
-      alert('Account deleted! Farewell 👋🏾');
       redirectToFrontPage();
     } catch (e) {
       if (e instanceof Error) {
