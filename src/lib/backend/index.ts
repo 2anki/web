@@ -95,7 +95,6 @@ class Backend {
   }
 
   async search(query: string): Promise<NotionObject[]> {
-    console.time('search');
     const favorites = await this.getFavorites();
 
     const isObjectId = query.replace(/-/g, '').length === 32;
@@ -120,7 +119,6 @@ class Backend {
     }
 
     if (data && data.results) {
-      console.timeEnd('search');
       return data.results.map((p: GetDatabaseResponse | GetPageResponse) => ({
         object: p.object,
         title: getObjectTitle(p).slice(0, 58), // Don't show strings longer than 60 characters
@@ -130,7 +128,6 @@ class Backend {
         isFavorite: favorites.some((f) => f.id === p.id)
       }));
     }
-    console.timeEnd('search');
     return [];
   }
 
