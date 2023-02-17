@@ -16,10 +16,4 @@ export interface Rules {
   email_notification: boolean;
 }
 
-export interface Favorite {
-  owner: number;
-  object_id: string;
-  type: string;
-}
-
 export type SettingsPayload = { [key: string]: string };

@@ -1,8 +1,8 @@
 import { Accordion, AccordionItem } from '@fremtind/jkl-accordion-react';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import {
   ErrorHandlerType,
-  ErrorType,
+  ErrorType
 } from '../../../components/errors/helpers/types';
 
 import Switch from '../../../components/input/Switch';
@@ -30,13 +30,14 @@ const flashCardOptions = [
   'heading_1',
   'heading_2',
   'heading_3',
-  'column_list',
+  'column_list'
 ];
 const tagOptions = ['heading', 'strikethrough'];
 const subDeckOptions = ['child_page', ...flashCardOptions];
 const deckOptions = ['page', 'database', ...subDeckOptions];
 
 const backend = new Backend();
+
 function DefineRules(props: Props) {
   const { type, id, setDone, parent, isFavorite, setFavorites, setError } =
     props;
@@ -48,7 +49,7 @@ function DefineRules(props: Props) {
     sub_deck_is: ['child_page'],
     tags_is: 'strikethrough',
     deck_is: ['page', 'database'],
-    email_notification: false,
+    email_notification: false
   });
 
   const [isLoading, setIsloading] = useState(true);
@@ -70,7 +71,7 @@ function DefineRules(props: Props) {
             ...rule,
             flashcard_is: rule.flashcard_is.split(','),
             sub_deck_is: rule.sub_deck_is.split(','),
-            deck_is: rule.deck_is.split(','),
+            deck_is: rule.deck_is.split(',')
           };
           setRules(newRules);
           setSendEmail(newRules.email_notification);
@@ -219,7 +220,7 @@ function DefineRules(props: Props) {
                     pickedTemplate={(name: string) => setTags(name)}
                     values={tagOptions.map((fco) => ({
                       label: `Tags are ${fco}`,
-                      value: fco,
+                      value: fco
                     }))}
                     name="Tags"
                     value={rules.tags_is}

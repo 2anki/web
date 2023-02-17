@@ -1,8 +1,8 @@
-import {
+import React, {
   FormEventHandler,
   SetStateAction,
   SyntheticEvent,
-  useState,
+  useState
 } from 'react';
 import { useCookies } from 'react-cookie';
 import Backend from '../../../../lib/backend';
@@ -56,6 +56,6 @@ export const useHandleLoginSubmit = (onError: ErrorHandlerType): LoginState => {
     loading,
     onSubmit,
     setEmail,
-    setPassword,
+    setPassword
   };
 };

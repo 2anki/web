@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { canShowNavbar } from './shared/canShowNavbar';
-import { isLearnPage } from './NavigationBar/helpers/isLearnPage';
 
 const StyledFooter = styled.footer`
   flex-shrink: 0;
@@ -20,8 +19,8 @@ const Header = styled.p`
 `;
 
 function Footer() {
-  const {pathname} = window.location;
-  if (canShowNavbar(pathname) || isLearnPage(pathname)) {
+  const { pathname } = window.location;
+  if (canShowNavbar(pathname)) {
     return null;
   }
 

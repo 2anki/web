@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import React from 'react';
 import HeadingDash from './HeadingDash';
 
 interface Props {

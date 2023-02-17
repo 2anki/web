@@ -6,7 +6,6 @@ import '@fremtind/jkl-alert-message/alert-message.min.css';
 
 import { useCookies } from 'react-cookie';
 import { captureException } from '@sentry/react';
-import { Provider } from 'react-redux';
 import UploadPage from './pages/Upload';
 import HomePage from './pages/Home';
 
@@ -18,7 +17,6 @@ import ImportPage from './pages/Import/ImportPage';
 import isOfflineMode from './lib/isOfflineMode';
 import { ErrorType } from './components/errors/helpers/types';
 import DebugPage from './pages/Debug';
-import { store } from './store';
 import FavoritesPage from './pages/Favorites';
 import { PageLayout } from './components/Layout/PageLayout';
 import DeleteAccountPage from './pages/Delete';
@@ -45,7 +43,7 @@ function App() {
   };
 
   return (
-    <Provider store={store}>
+    <>
       <GlobalStyle />
       <StoreContext.Provider value={oldStore}>
         <Router>
@@ -89,7 +87,7 @@ function App() {
           </PageLayout>
         </Router>
       </StoreContext.Provider>
-    </Provider>
+    </>
   );
 }
 
