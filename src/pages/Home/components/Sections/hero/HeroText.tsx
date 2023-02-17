@@ -1,3 +1,4 @@
+import React from 'react';
 import { StyledParagraph } from './styled';
 
 interface HeroTextProps {

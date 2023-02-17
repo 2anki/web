@@ -1,10 +1,8 @@
 import Cookies from 'universal-cookie';
 
 import {
-  GetBlockResponse,
   GetDatabaseResponse,
-  GetPageResponse,
-  ListBlockChildrenResponse
+  GetPageResponse
 } from '@notionhq/client/build/src/api-endpoints';
 import NotionObject from '../interfaces/NotionObject';
 import UserUpload from '../interfaces/UserUpload';
@@ -12,7 +10,6 @@ import UserUpload from '../interfaces/UserUpload';
 import getObjectIcon, { ObjectIcon } from '../notion/getObjectIcon';
 import getObjectTitle from '../notion/getObjectTitle';
 import isOfflineMode from '../isOfflineMode';
-import handleRedirect from '../handleRedirect';
 import { Rules, Settings } from '../types';
 import { ConnectionInfo } from '../interfaces/ConnectionInfo';
 import { del, get, getLoginURL, post } from './api';
@@ -77,10 +74,7 @@ class Backend {
   }
 
   async getRules(id: string): Promise<Rules | null> {
-    const findRules = async () => {
-      const response = await get(`${this.baseURL}rules/find/${id}`);
-      return response;
-    };
+    const findRules = async () => get(`${this.baseURL}rules/find/${id}`);
     const result = await findRules();
     if (!result) {
       return null;
@@ -167,30 +161,6 @@ class Backend {
     };
   }
 
-  async renderBlock(blockId: string): Promise<string> {
-    return get(`${this.baseURL}notion/render-block/${blockId}`);
-  }
-
-  async deleteBlock(blockId: string): Promise<GetBlockResponse> {
-    const response = await del(`${this.baseURL}notion/block/${blockId}`);
-    return response.json();
-  }
-
-  async createBlock(
-    parentId: string,
-    block: object
-  ): Promise<ListBlockChildrenResponse> {
-    const response = await post(`${this.baseURL}notion/block/${parentId}`, {
-      newBlock: block
-    });
-    handleRedirect(response);
-    return response.json();
-  }
-
-  async getBlocks(pageId: string): Promise<ListBlockChildrenResponse> {
-    return get(`${this.baseURL}notion/blocks/${pageId}`);
-  }
-
   async getUploads(): Promise<UserUpload[]> {
     return get(`${this.baseURL}upload/mine`);
   }
@@ -246,11 +216,10 @@ class Backend {
   }
 
   async login(email: string, password: string): Promise<Response> {
-    const response = await post(getLoginURL(this.baseURL), {
+    return post(getLoginURL(this.baseURL), {
       email,
       password
     });
-    return response;
   }
 
   async forgotPassword(email: string): Promise<void> {

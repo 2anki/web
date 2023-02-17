@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import React from 'react';
 import { StyledButton } from './styled';
 
 interface PrimaryButtonProps {
@@ -8,10 +9,10 @@ interface PrimaryButtonProps {
 }
 
 export default function PrimaryButton({
-  text,
-  destination,
-  onClickLink,
-}: PrimaryButtonProps) {
+                                        text,
+                                        destination,
+                                        onClickLink
+                                      }: PrimaryButtonProps) {
   return (
     <StyledButton>
       {destination.includes('http') ? (
