@@ -27,7 +27,6 @@ const PreSignupPage = lazy(() => import('./pages/Register'));
 const SearchPage = lazy(() => import('./pages/Search'));
 const LoginPage = lazy(() => import('./pages/Login'));
 const NewPasswordPage = lazy(() => import('./pages/NewPassword'));
-const LearnPage = lazy(() => import('./pages/Learn'));
 const MyUploadsPage = lazy(() => import('./pages/MyUploads'));
 
 function App() {
@@ -57,9 +56,6 @@ function App() {
               </Route>
               <Route path="/uploads">
                 <MyUploadsPage setError={handledError} />
-              </Route>
-              <Route path="/learn">
-                <LearnPage />
               </Route>
               <Route path="/upload">
                 <UploadPage setErrorMessage={handledError} />

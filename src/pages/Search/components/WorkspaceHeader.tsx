@@ -1,12 +1,11 @@
 import { NotionData } from '../helpers/useNotionData';
 
 interface WorkspaceHeaderProps {
-  randomId: string | null;
   notionData: NotionData;
 }
 
 export default function WorkSpaceHeader(props: WorkspaceHeaderProps) {
-  const { notionData, randomId } = props;
+  const { notionData } = props;
   const { workSpace, connectionLink } = notionData;
 
   return (
@@ -28,13 +27,6 @@ export default function WorkSpaceHeader(props: WorkspaceHeaderProps) {
                   Switch
                 </a>
               </p>
-              {randomId && (
-                <p className="control">
-                  <a href={`/learn/${randomId}`} className="button is-small">
-                    Learn
-                  </a>
-                </p>
-              )}
             </div>
           </div>
         </div>

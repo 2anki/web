@@ -18,19 +18,12 @@ export default function SearchContainer(props: SearchContentProps) {
   const { backend, notionData, setError } = props;
   const { myPages, inProgress, triggerSearch, isLoading, setSearchQuery } =
     useSearchQuery(backend, setError);
-  const randomId = () => {
-    const r = Math.floor(Math.random() * myPages.length);
-    if (!r) {
-      return null;
-    }
-    return myPages[r].id;
-  };
-
+  
   if (isLoading) return <LoadingIndicator />;
 
   return (
     <PageContainer>
-      <WorkSpaceHeader randomId={randomId()} notionData={notionData} />
+      <WorkSpaceHeader notionData={notionData} />
       <SearchPresenter
         setError={setError}
         myPages={myPages}
