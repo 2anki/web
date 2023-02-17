@@ -88,7 +88,12 @@
 
   <!-- Legacy redirect -->
   <script>
-    if (window.location.hostname === 'notion2anki.alemayhu.com' || window.location.hostname === 'notion.2anki.net') {
+    const legacyHosts = [
+      'notion2anki.alemayhu.com',
+      'notion.2anki.net',
+      '2anki.com'
+    ];
+    if (legacyHosts.includes(window.location.hostname)) {
       window.location.href = 'https://2anki.net' + window.location.pathname;
     }
   </script>
