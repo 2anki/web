@@ -22,7 +22,7 @@ function MyUploadsPage({ setError }: MyUploadsPageProps) {
     loading, uploads, error
   } = useUploads(backend);
   const { jobs, deleteJob, restartJob } = useJobs(backend, setError);
-  const unfinishedJob = jobs.length > 1;
+  const unfinishedJob = jobs.length > 0;
 
   if (error) {
     redirectOnError(error);
@@ -40,7 +40,8 @@ function MyUploadsPage({ setError }: MyUploadsPageProps) {
     <Container>
       {unfinishedJob &&
         <div className="notification info is-flex is-justify-content-space-between">
-          Depending on your submit workload, check back later.
+          It might take a while for your conversion to finish.
+          Check back later.
           <button className="button is-small" type="button" onClick={() => window.location.reload()}>
             Check now
           </button>
