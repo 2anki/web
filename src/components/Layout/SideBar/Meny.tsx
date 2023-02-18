@@ -1,4 +1,8 @@
 import SidebarItem from './SidebarItem';
+import Backend from '../../../lib/backend';
+import { goToLoginPage } from '../../../pages/Register/goToLoginPage';
+
+const backend = new Backend();
 
 export function Menu() {
   const path = window.location.pathname;
@@ -33,7 +37,12 @@ export function Menu() {
         >
           🙋🏽‍♀️ FAQ
         </SidebarItem>
-        <SidebarItem path={path} href="/users/logout">
+        <SidebarItem path={path}
+                     href="/users/logout"
+                     onClick={(event) => {
+                       event.preventDefault();
+                       backend.logout().then(() => goToLoginPage());
+                     }}>
           🔒 log out
         </SidebarItem>
       </ul>
