@@ -61,7 +61,7 @@ function ForgotPasswordForm({ setError }: ForgotPasswordProps) {
                     />
                   </label>
                 </div>
-                <div className="field">
+                {!didReset && <div className="field">
                   <div className="control" style={{ width: '100%' }}>
                     <button
                       type="submit"
@@ -72,7 +72,7 @@ function ForgotPasswordForm({ setError }: ForgotPasswordProps) {
                       Reset my password
                     </button>
                   </div>
-                </div>
+                </div>}
                 {didReset && (
                   <p>You should receive an email if your account exists.</p>
                 )}
