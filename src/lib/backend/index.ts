@@ -74,12 +74,17 @@ class Backend {
   }
 
   async getRules(id: string): Promise<Rules | null> {
-    const findRules = async () => get(`${this.baseURL}rules/find/${id}`);
-    const result = await findRules();
-    if (!result) {
+    try {
+      const findRules = async () => get(`${this.baseURL}rules/find/${id}`);
+      const result = await findRules();
+      if (!result) {
+        return null;
+      }
+      return result;
+    } catch (error) {
+      // Fallback to empty rule
       return null;
     }
-    return result;
   }
 
   deleteSettings(pageId: string) {
