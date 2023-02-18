@@ -17,7 +17,10 @@ export function PageLayout({ error, children }: LayoutProps) {
     window.location.pathname === '/';
 
   if (hideMeny) {
-    return <PageContent>{children}</PageContent>;
+    return <PageContent>
+      {error && <ErrorPresenter error={error} />}
+      {children}
+    </PageContent>;
   }
 
   return (

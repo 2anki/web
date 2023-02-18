@@ -21,7 +21,7 @@ import FavoritesPage from './pages/Favorites';
 import { PageLayout } from './components/Layout/PageLayout';
 import DeleteAccountPage from './pages/Delete';
 
-const PreSignupPage = lazy(() => import('./pages/Register'));
+const RegisterPage = lazy(() => import('./pages/Register'));
 const SearchPage = lazy(() => import('./pages/Search'));
 const LoginPage = lazy(() => import('./pages/Login'));
 const NewPasswordPage = lazy(() => import('./pages/NewPassword'));
@@ -58,8 +58,8 @@ function App() {
               <Route path="/upload">
                 <UploadPage setErrorMessage={handledError} />
               </Route>
-              <Route path="/pre-signup">
-                <PreSignupPage />
+              <Route path="/register">
+                <RegisterPage setErrorMessage={handledError} />
               </Route>
               <Route path="/search">
                 <SearchPage setError={handledError} />
