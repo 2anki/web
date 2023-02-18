@@ -33,16 +33,16 @@ const availableTemplates = [
   { value: 'nostyle', label: 'Raw Note (no style)' },
   {
     value: 'abhiyan',
-    label: 'Abhiyan Bhandari (Night Mode)',
+    label: 'Abhiyan Bhandari (Night Mode)'
   },
   {
     value: 'alex_deluxe',
-    label: 'Alexander Deluxe (Blue)',
+    label: 'Alexander Deluxe (Blue)'
   },
   {
     value: 'custom',
-    label: 'Use custom style from the editor',
-  },
+    label: 'Use custom style from the editor'
+  }
 ];
 
 interface Props {
@@ -54,13 +54,14 @@ interface Props {
 }
 
 const backend = new Backend();
+
 function SettingsModal({
-  pageTitle,
-  pageId,
-  isActive,
-  onClickClose,
-  setError,
-}: Props) {
+                         pageTitle,
+                         pageId,
+                         isActive,
+                         onClickClose,
+                         setError
+                       }: Props) {
   const [settings, setSettings] = useState<SettingsPayload>({});
   const [loading, setLoading] = useState(!!pageId);
   const deckNameKey = 'deckName';
@@ -100,16 +101,15 @@ function SettingsModal({
       setLoading(true);
       backend
         .getSettings(pageId)
-        .then((result) => {
-          if (result) {
-            const s = result.payload;
-            if (s.deckName) {
-              setDeckName(s.deckName);
+        .then((payload) => {
+          if (payload) {
+            if (payload.deckName) {
+              setDeckName(payload.deckName);
             }
-            setToggleMode(s['toggle-mode']);
-            setPageEmoji(s['page-emoji']);
-            setTemplate(s.template);
-            setSettings(s);
+            setToggleMode(payload['toggle-mode']);
+            setPageEmoji(payload['page-emoji']);
+            setTemplate(payload.template);
+            setSettings(payload);
           }
           setLoading(false);
         })
@@ -220,12 +220,12 @@ function SettingsModal({
                         { label: 'Icon first', value: 'first_emoji' },
                         {
                           label: 'Icon last',
-                          value: 'last_emoji',
+                          value: 'last_emoji'
                         },
                         {
                           label: 'Disable icon',
-                          value: 'disable_emoji',
-                        },
+                          value: 'disable_emoji'
+                        }
                       ]}
                       value={pageEmoji}
                       name="page-emoji"
@@ -250,8 +250,8 @@ function SettingsModal({
                         { label: 'Open nested toggles', value: 'open_toggle' },
                         {
                           label: 'Close nested toggles',
-                          value: 'close_toggle',
-                        },
+                          value: 'close_toggle'
+                        }
                       ]}
                       value={toggleMode}
                       name="toggle-mode"
@@ -350,7 +350,7 @@ function SettingsModal({
 }
 
 SettingsModal.defaultProps = {
-  pageTitle: null,
+  pageTitle: null
 };
 
 export default SettingsModal;
