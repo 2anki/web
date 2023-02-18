@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { SyntheticEvent, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Backend from '../../lib/backend';
 import { SettingsPayload } from '../../lib/types';
@@ -49,7 +49,7 @@ interface Props {
   pageTitle?: string;
   pageId: string | null;
   isActive: boolean;
-  onClickClose: React.MouseEventHandler;
+  onClickClose: (event?: SyntheticEvent) => void;
   setError: ErrorHandlerType;
 }
 
@@ -134,6 +134,7 @@ function SettingsModal({
     setBasicName('');
     setClozeName('');
     setInputName('');
+    onClickClose();
   };
 
   const onSubmit = async (
