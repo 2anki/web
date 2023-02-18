@@ -47,7 +47,7 @@ class Backend {
     });
   }
 
-  async getSettings(id: string): Promise<Settings | null> {
+  async getSettings(id: string): Promise<Settings['payload'] | null> {
     const result = await get(`${this.baseURL}settings/find/${id}`);
     if (!result) {
       return null;
