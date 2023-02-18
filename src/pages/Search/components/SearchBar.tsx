@@ -1,4 +1,5 @@
 import { SearchInput } from './styled';
+import { getQueryValue } from '../helpers/getQueryValue';
 
 interface SearchBarProps {
   onSearchQueryChanged: (query: string) => void;
@@ -7,15 +8,16 @@ interface SearchBarProps {
 }
 
 function SearchBar({
-  onSearchQueryChanged,
-  onSearchClicked,
-  inProgress,
-}: SearchBarProps) {
+                     onSearchQueryChanged,
+                     onSearchClicked,
+                     inProgress
+                   }: SearchBarProps) {
   return (
     <div className="my-1 mt-4 has-text-centered is-flex is-justify-content-center">
       <div className="field has-addons">
         <div className="control">
           <SearchInput
+            defaultValue={getQueryValue()}
             className="input"
             type="text"
             placeholder="  🔍 🅰  📑 "
