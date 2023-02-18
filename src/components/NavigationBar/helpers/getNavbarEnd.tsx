@@ -15,6 +15,7 @@ export default function getNavbarEnd(path: string, backend: Backend) {
       <NavbarItem path={path} href="/users/logout" onClick={onLogOut}>
         🔒 log out
       </NavbarItem>
+      <NavbarItem path={path} href="/delete-account">🗑️ Delete account</NavbarItem>
     </div>
   );
 }
