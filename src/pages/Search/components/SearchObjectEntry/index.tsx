@@ -12,6 +12,7 @@ import {
   ErrorHandlerType,
   ErrorType
 } from '../../../../components/errors/helpers/types';
+import { OK } from '../../../../lib/backend/http';
 
 const backend = new Backend();
 
@@ -50,8 +51,12 @@ function SearchObjectEntry(props: Props) {
               event.preventDefault();
               backend
                 .convert(id, type, title)
-                .then(() => {
-                  window.location.href = '/uploads';
+                .then((response) => {
+                  if (response.status === OK) {
+                    window.location.href = '/uploads';
+                  } else {
+                    response.text().then(setError);
+                  }
                 })
                 .catch((error) => {
                   setError(error as ErrorType);
