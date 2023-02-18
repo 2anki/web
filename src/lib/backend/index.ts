@@ -30,7 +30,7 @@ class Backend {
     sessionStorage.clear();
     if (!isOffline) {
       const endpoint = `${this.baseURL}users/logout`;
-      await get(endpoint);
+      await post(endpoint, {});
     }
     const cookies = new Cookies();
     cookies.remove('token');
