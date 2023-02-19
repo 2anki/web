@@ -1,14 +1,8 @@
-import styled from 'styled-components';
-
 import BetaMessage from '../../BetaMessage';
 import { ErrorHandlerType } from '../../errors/helpers/types';
 import { isValidCredentials } from './helpers/isValidCredentials';
 import { useHandleLoginSubmit } from './helpers/useHandleLoginSubmit';
-
-const FormContainer = styled.div`
-  max-width: 720px;
-  margin: 0 auto;
-`;
+import { FormContainer, SubmitButton } from './styled';
 
 interface LoginFormProps {
   onForgotPassword: () => void;
@@ -84,13 +78,12 @@ function LoginForm({ onForgotPassword, onError }: LoginFormProps) {
 
                 <div className="field">
                   <div className="control">
-                    <button
+                    <SubmitButton
                       type="submit"
-                      className="button is-link is-medium is-pulled-right"
                       disabled={!isValidCredentials(email, password) || loading}
                     >
                       Sign in
-                    </button>
+                    </SubmitButton>
                   </div>
                 </div>
               </form>
