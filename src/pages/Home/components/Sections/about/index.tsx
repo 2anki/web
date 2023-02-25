@@ -24,7 +24,7 @@ function AboutSection() {
             <BlueHeading3>Fast, simple, easy and 100% Free!</BlueHeading3>
             <div className="is-flex is-justify-content-start">
               <PrimaryButton
-                destination="https://getting-started.2anki.net/"
+                destination="/upload"
                 text="Get Started"
                 onClickLink={() => {}}
               />
