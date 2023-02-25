@@ -3,12 +3,6 @@ import CardOption from './CardOption';
 const supportedOptions = (): CardOption[] => {
   const v = [
     new CardOption(
-      'add-notion-link',
-      'Add Notion Link',
-      'Add a link to the Notion page where the toggle was created. Please this with the (Use Notion ID) to avoid duplicates.',
-      true
-    ),
-    new CardOption(
       'use-notion-id',
       'Use Notion ID',
       'By default we create a new id from your fields. This can cause duplicates and in those cases you want to enable the Notion ID which is more reliable and avoid duplicates.',
@@ -34,8 +28,8 @@ const supportedOptions = (): CardOption[] => {
     ),
     new CardOption(
       'avocado',
-      "Only Create Flashcards From Toggles That Don't Have The 🥑 Emoji",
-      "This option enables you to ignore certain toggles when creating flashcards from pages that you don't want to change too much.",
+      'Only Create Flashcards From Toggles That Don\'t Have The 🥑 Emoji',
+      'This option enables you to ignore certain toggles when creating flashcards from pages that you don\'t want to change too much.',
       false
     ),
     new CardOption(
@@ -77,13 +71,13 @@ const supportedOptions = (): CardOption[] => {
     new CardOption(
       'max-one-toggle-per-card',
       'Maximum One Toggle Per Card',
-      "This will limit to 1 card so you don't see too many toggles in one card. When you combine this with 'Use all toggle lists' you can create flashcards from everything in your upload, regardless of how deeply nested they are.",
+      'This will limit to 1 card so you don\'t see too many toggles in one card. When you combine this with \'Use all toggle lists\' you can create flashcards from everything in your upload, regardless of how deeply nested they are.',
       true
     ),
     new CardOption(
       'remove-mp3-links',
       'Remove the MP3 Links Created From Audio Files',
-      "Due to backwards-compatability we leave links untouched but this option let's you remove mp3 links",
+      'Due to backwards-compatability we leave links untouched but this option let\'s you remove mp3 links',
       true
     ),
     new CardOption(
@@ -91,7 +85,7 @@ const supportedOptions = (): CardOption[] => {
       'Preserve Newlines in the Toggle Header and Body',
       'This will allow you to use SHIFT-Enter in the toggles to create multiple lines for all card types (Basic, Cloze, etc.)',
       true
-    ),
+    )
   ];
 
   return v.filter(Boolean);
