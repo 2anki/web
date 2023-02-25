@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import React from 'react';
 import { StyledButton } from './styled';
 
@@ -20,9 +19,9 @@ export default function PrimaryButton({
           {text}
         </a>
       ) : (
-        <Link onClick={onClickLink} to={destination}>
+        <a onClick={onClickLink} href={destination}>
           {text}
-        </Link>
+        </a>
       )}
       <img width={24} height={24} src="/icons/arrow-right.svg" alt="arrow" />
     </StyledButton>
