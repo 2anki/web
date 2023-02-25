@@ -33,7 +33,7 @@ function HeroSection() {
         </HeroText>
         <div className="is-flex is-justify-content-center">
           <PrimaryButton
-            destination="https://getting-started.2anki.net/"
+            destination="/upload"
             text="Get Started"
             onClickLink={() => {}}
           />
