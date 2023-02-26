@@ -11,3 +11,10 @@ export const StickyContainer = styled.div`
   padding: 2rem;
   background: white;
 `;
+
+export const Details = styled.details`
+  padding: 0.5rem 1rem;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 2rem;
+`;
