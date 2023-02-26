@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { lazy, useMemo, useState } from 'react';
 
 import '@fremtind/jkl-accordion/accordion.min.css';
@@ -46,46 +46,52 @@ function App() {
     <>
       <GlobalStyle />
       <StoreContext.Provider value={oldStore}>
-        <Router>
+        <BrowserRouter>
           <PageLayout error={apiError}>
-            <Switch>
-              <Route path="/favorites">
-                <FavoritesPage setError={handledError} />
-              </Route>
-              <Route path="/uploads">
-                <MyUploadsPage setError={handledError} />
-              </Route>
-              <Route path="/upload">
-                <UploadPage setErrorMessage={handledError} />
-              </Route>
-              <Route path="/register">
-                <RegisterPage setErrorMessage={handledError} />
-              </Route>
-              <Route path="/search">
-                <SearchPage setError={handledError} />
-              </Route>
-              <Route path="/login">
+            <Routes>
+              <Route path="/favorites"
+                     element={
+                       <FavoritesPage setError={handledError} />
+                     } />
+              <Route path="/uploads"
+                     element={
+                       <MyUploadsPage setError={handledError} />
+                     } />
+              <Route path="/upload"
+                     element={
+                       <UploadPage setErrorMessage={handledError} />
+                     }
+              />
+              <Route path="/register"
+                     element={
+                       <RegisterPage setErrorMessage={handledError} />
+                     } />
+              <Route path="/search"
+                     element={
+                       <SearchPage setError={handledError} />
+                     } />
+              <Route path="/login" element={
                 <LoginPage setErrorMessage={handledError} />
-              </Route>
-              <Route path="/users/r/:id">
+              } />
+              <Route path="/users/r/:id" element={
                 <NewPasswordPage setErrorMessage={handledError} />
-              </Route>
-              <Route path="/import">
+              } />
+              <Route path="/import" element={
                 <ImportPage />
-              </Route>
-              <Route path="/debug">
+              } />
+              <Route path="/debug" element={
                 <DebugPage />
-              </Route>
-              <Route path="/delete-account">
+              } />
+              <Route path="/delete-account" element={
                 <DeleteAccountPage setError={handledError} />
-              </Route>
-              <Route path="/">
+              } />
+              <Route path="/" element={
                 <HomePage />
-              </Route>
-            </Switch>
+              } />
+            </Routes>
             <Footer />
           </PageLayout>
-        </Router>
+        </BrowserRouter>
       </StoreContext.Provider>
     </>
   );
