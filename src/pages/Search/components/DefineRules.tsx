@@ -1,4 +1,3 @@
-import { Accordion, AccordionItem } from '@fremtind/jkl-accordion-react';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import {
   ErrorHandlerType,
@@ -12,6 +11,7 @@ import Backend from '../../../lib/backend';
 import NotionObject from '../../../lib/interfaces/NotionObject';
 import { NewRule } from '../types';
 import RuleDefinition from './RuleDefinition';
+import { Details } from './styled';
 
 interface Props {
   type: string;
@@ -192,7 +192,7 @@ function DefineRules(props: Props) {
                   }}
                 />
               )}
-              <Accordion data-theme="light">
+              <div>
                 <RuleDefinition
                   title="What is a deck?"
                   description="This will be the first ones you see in the deck overview in Anki."
@@ -214,7 +214,8 @@ function DefineRules(props: Props) {
                   options={flashCardOptions}
                   onSelected={onSelectedFlashcardTypes}
                 />
-                <AccordionItem title="Miscellaneous">
+                <Details>
+                  <summary>Miscellaneous</summary>
                   <TemplateSelect
                     data-hj-suppress
                     pickedTemplate={(name: string) => setTags(name)}
@@ -242,8 +243,8 @@ function DefineRules(props: Props) {
                     checked={favorite || false} // TODO: review if we can make this assumption
                     onSwitched={toggleFavorite}
                   />
-                </AccordionItem>
-                <div className="has-text-centered">
+                </Details>
+                <div className="has-text-centered my-2">
                   <hr />
                   <button
                     type="button"
@@ -253,7 +254,7 @@ function DefineRules(props: Props) {
                     More!
                   </button>
                 </div>
-              </Accordion>
+              </div>
               <footer className="card-footer">
                 <a
                   href="/save-rules"

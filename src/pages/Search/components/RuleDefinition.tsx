@@ -1,5 +1,7 @@
-import { AccordionItem } from '@fremtind/jkl-accordion-react';
+import React from 'react';
+
 import FlashcardType from './FlashcardType';
+import { Details } from './styled';
 
 interface RuleDefinitionProps {
   description: string;
@@ -12,7 +14,8 @@ interface RuleDefinitionProps {
 export default function RuleDefinition(props: RuleDefinitionProps) {
   const { title, options, value, onSelected, description } = props;
   return (
-    <AccordionItem title={title}>
+    <Details>
+      <summary>{title}</summary>
       <p>{description}</p>
       <div className="is-group">
         {options.map((fco) => (
@@ -24,6 +27,6 @@ export default function RuleDefinition(props: RuleDefinitionProps) {
           />
         ))}
       </div>
-    </AccordionItem>
+    </Details>
   );
 }
