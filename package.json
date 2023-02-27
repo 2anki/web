@@ -75,7 +75,7 @@
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.25",
-    "@typescript-eslint/parser": "^5.40.0",
+    "@typescript-eslint/parser": "^5.53.0",
     "babel-jest": "^29.4.3",
     "dotenv": "^16.0.3",
     "eslint": "^8.25.0",
