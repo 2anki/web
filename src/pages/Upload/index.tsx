@@ -45,7 +45,7 @@ function UploadPage({ setErrorMessage }: Props) {
           <FlexColumn>
             <ImportTitle>Import</ImportTitle>
             <SettingsLink onClick={() => setShowSettings(true)}>
-              <Link className="link" to="upload?view=template">
+              <Link className="link" to="?view=template">
                 <SettingsIcon />
                 Settings
               </Link>
