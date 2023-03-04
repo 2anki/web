@@ -11,7 +11,7 @@ Thanks for your interest in notion2anki. We hope you'll contribute to our projec
 
 If you know someone who can benefit from Notion to Anki, please share it with them today!
 
-- If you are missing a feature or format, let us know on GitHub or the [Discord](https://discord.gg/PSKC3uS).
+- If you are missing a feature or format, let us know on [GitHub](https://github.com/2anki/2anki.net/issues)
 
 ## Other ways to contribute
 
