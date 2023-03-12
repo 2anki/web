@@ -6,7 +6,7 @@ export default function getNavbarStartRegularUser(path: string) {
       <NavbarItem href="/upload" path={path}>
         📦 Upload
       </NavbarItem>
-      <NavbarItem href="/uploads/mine" path={path}>
+      <NavbarItem href="/uploads" path={path}>
         🗂 My Uploads
       </NavbarItem>
       <NavbarItem href="/favorites" path={path}>
