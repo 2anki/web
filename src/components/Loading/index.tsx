@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { useInterval } from 'usehooks-ts';
 import styled from 'styled-components';
 
 const StyledLoader = styled.div`
@@ -13,9 +11,6 @@ const StyledLoader = styled.div`
 `;
 
 export default function LoadingIndicator() {
-  const [loading, setLoading] = useState<number>(0);
-  useInterval(() => setLoading(loading + 1), 50);
-
   return (
     <StyledLoader>
       <button
