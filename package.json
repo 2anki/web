@@ -14,8 +14,6 @@
   },
   "dependencies": {
     "@fremtind/jkl-accordion": "^7.0.12",
-    "@fremtind/jkl-alert-message": "^8.0.2",
-    "@fremtind/jkl-alert-message-react": "^9.0.3",
     "@notionhq/client": "^2.2.3",
     "@reduxjs/toolkit": "^1.8.6",
     "@sentry/react": "^7.38.0",

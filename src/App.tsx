@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { lazy, useMemo, useState } from 'react';
 
 import '@fremtind/jkl-accordion/accordion.min.css';
-import '@fremtind/jkl-alert-message/alert-message.min.css';
 
 import { useCookies } from 'react-cookie';
 import { captureException } from '@sentry/react';
@@ -49,45 +48,41 @@ function App() {
         <BrowserRouter>
           <PageLayout error={apiError}>
             <Routes>
-              <Route path="/favorites"
-                     element={
-                       <FavoritesPage setError={handledError} />
-                     } />
-              <Route path="/uploads"
-                     element={
-                       <MyUploadsPage setError={handledError} />
-                     } />
-              <Route path="/upload"
-                     element={
-                       <UploadPage setErrorMessage={handledError} />
-                     }
+              <Route
+                path="/favorites"
+                element={<FavoritesPage setError={handledError} />}
               />
-              <Route path="/register"
-                     element={
-                       <RegisterPage setErrorMessage={handledError} />
-                     } />
-              <Route path="/search"
-                     element={
-                       <SearchPage setError={handledError} />
-                     } />
-              <Route path="/login" element={
-                <LoginPage setErrorMessage={handledError} />
-              } />
-              <Route path="/users/r/:id" element={
-                <NewPasswordPage setErrorMessage={handledError} />
-              } />
-              <Route path="/import" element={
-                <ImportPage />
-              } />
-              <Route path="/debug" element={
-                <DebugPage />
-              } />
-              <Route path="/delete-account" element={
-                <DeleteAccountPage setError={handledError} />
-              } />
-              <Route path="/" element={
-                <HomePage />
-              } />
+              <Route
+                path="/uploads"
+                element={<MyUploadsPage setError={handledError} />}
+              />
+              <Route
+                path="/upload"
+                element={<UploadPage setErrorMessage={handledError} />}
+              />
+              <Route
+                path="/register"
+                element={<RegisterPage setErrorMessage={handledError} />}
+              />
+              <Route
+                path="/search"
+                element={<SearchPage setError={handledError} />}
+              />
+              <Route
+                path="/login"
+                element={<LoginPage setErrorMessage={handledError} />}
+              />
+              <Route
+                path="/users/r/:id"
+                element={<NewPasswordPage setErrorMessage={handledError} />}
+              />
+              <Route path="/import" element={<ImportPage />} />
+              <Route path="/debug" element={<DebugPage />} />
+              <Route
+                path="/delete-account"
+                element={<DeleteAccountPage setError={handledError} />}
+              />
+              <Route path="/" element={<HomePage />} />
             </Routes>
             <Footer />
           </PageLayout>
