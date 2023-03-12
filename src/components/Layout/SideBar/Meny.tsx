@@ -13,7 +13,7 @@ export function Menu() {
         <SidebarItem path={path} href="/upload">
           📦 Upload
         </SidebarItem>
-        <SidebarItem href="/uploads/mine" path={path}>
+        <SidebarItem href="/uploads" path={path}>
           🗂️ My uploads
         </SidebarItem>
         <SidebarItem path={path} href="/search">
