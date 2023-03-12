@@ -1,26 +1,28 @@
-import { ErrorAlertMessage } from '@fremtind/jkl-alert-message-react';
-import { useState } from 'react';
 import { getErrorMessage } from './helpers/getErrorMessage';
 import { ErrorType } from './helpers/types';
+import { useDismissed } from './helpers/useDismissed';
 
 interface ErrorPresenterProps {
   error: ErrorType;
 }
 
 export function ErrorPresenter({ error }: ErrorPresenterProps) {
-  const [dismissed, setDismissed] = useState(false);
-  if (!error) {
+  const { dismissed, setDismissed } = useDismissed(error);
+
+  if (!error || dismissed) {
     return null;
   }
+
   return (
-    <ErrorAlertMessage
-      dismissed={dismissed}
-      dismissAction={{
-        handleDismiss: () => setDismissed(true),
-      }}
-    >
+    <div className="notification is-danger">
+      <button
+        aria-label="close"
+        type="button"
+        className="delete"
+        onClick={() => setDismissed(true)}
+      />
       {/* eslint-disable-next-line react/no-danger */}
       <div dangerouslySetInnerHTML={{ __html: getErrorMessage(error) }} />
-    </ErrorAlertMessage>
+    </div>
   );
 }
