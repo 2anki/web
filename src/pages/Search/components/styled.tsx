@@ -18,3 +18,10 @@ export const Details = styled.details`
   font-weight: 400;
   line-height: 2rem;
 `;
+
+export const SearchInputContainer = styled.div`
+  margin-top: 12px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+`;
