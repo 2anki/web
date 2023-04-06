@@ -4,6 +4,7 @@ import Backend from '../../lib/backend';
 import ConnectNotion from './components/ConnectNotion';
 import LoadingIndicator from '../../components/Loading';
 import { ErrorHandlerType } from '../../components/errors/helpers/types';
+import { PageContainer } from '../../components/styled';
 
 interface SearchPageProps {
   setError: ErrorHandlerType;
@@ -19,7 +20,7 @@ function SearchPage({ setError }: SearchPageProps) {
   const { connected, connectionLink } = notionData;
 
   return (
-    <>
+    <PageContainer>
       {!connected && <ConnectNotion connectionLink={connectionLink} />}
       {connected && (
         <SearchContainer
@@ -28,7 +29,7 @@ function SearchPage({ setError }: SearchPageProps) {
           setError={setError}
         />
       )}
-    </>
+    </PageContainer>
   );
 }
 

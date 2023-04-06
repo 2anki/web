@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const SearchInput = styled.input`
-  width: 60vw;
+  width: 100%;
   max-width: 640px;
 `;
 

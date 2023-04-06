@@ -1,5 +1,7 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
+import { ThemeProvider } from 'styled-components';
+import { theme } from '@nordnet/ui';
 import 'bulma/css/bulma.css';
 
 import * as Sentry from '@sentry/react';
@@ -20,7 +22,9 @@ if (!process.env.REACT_SKIP_SENTRY) {
 ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={<LoadingIndicator />}>
-      <App />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </Suspense>
   </React.StrictMode>,
   document.getElementById('root')

@@ -11,10 +11,10 @@ interface Props {
 }
 
 export default function FavoritesPresenter({
-                                             setError,
-                                             setFavorites,
-                                             favorites
-                                           }: Props) {
+  setError,
+  setFavorites,
+  favorites
+}: Props) {
   return (
     <Favorites
       setError={setError}

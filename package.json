@@ -80,7 +80,8 @@
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.7.0",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "source-map-loader": "^4.0.1"
   },
   "proxy": "http://localhost:2020"
 }
