@@ -2,7 +2,6 @@ import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '@nordnet/ui';
-import 'bulma/css/bulma.css';
 
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
