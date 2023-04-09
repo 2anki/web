@@ -2,12 +2,9 @@
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 
-import getNavbarStartNewUser from './helpers/getNavbarStartNewUser';
-import NavButtonCTA from '../buttons/NavButtonCTA';
 import Backend from '../../lib/backend';
 import NavbarItem from './NavbarItem';
 import { Navbar } from './styled';
-import getNavbarStartRegularUser from './helpers/getNavbarStartRegularUser';
 import getNavbarEnd from './helpers/getNavbarEnd';
 import { canShowNavbar } from '../shared/canShowNavbar';
 
@@ -17,11 +14,6 @@ function NavigationBar() {
   const [cookies] = useCookies(['token']);
   const [active, setHamburgerMenu] = useState(false);
   const path = window.location.pathname;
-  const { hash } = window.location;
-
-  const navbarStart = cookies.token
-    ? getNavbarStartRegularUser(hash)
-    : getNavbarStartNewUser(hash, path);
 
   if (!canShowNavbar(path)) {
     return null;
@@ -52,19 +44,14 @@ function NavigationBar() {
       </div>
 
       <div id="navbar" className={`navbar-menu ${active ? 'is-active' : ''}`}>
-        <div className="navbar-start">{navbarStart}</div>
         {!cookies.token && (
           <div className="navbar-end">
             <NavbarItem path="login" href="/login#login">
               Login
             </NavbarItem>
-            <div className="navbar-item">
-              <div className="buttons">
-                <NavButtonCTA href="/login#register">
-                  <strong>Join Now</strong>
-                </NavButtonCTA>
-              </div>
-            </div>
+            <NavbarItem path="register" href="/login#register">
+              Register
+            </NavbarItem>
           </div>
         )}
         {cookies.token && getNavbarEnd(path, backend)}

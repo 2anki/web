@@ -9,13 +9,24 @@ export default function getNavbarEnd(path: string, backend: Backend) {
   };
   return (
     <div className="navbar-end">
+      <NavbarItem href="/upload" path={path}>
+        📦 Upload
+      </NavbarItem>
+      <NavbarItem href="/uploads" path={path}>
+        🗂 My Uploads
+      </NavbarItem>
+      <NavbarItem href="/favorites" path={path}>
+        ⭐️Favorites
+      </NavbarItem>
       <NavbarItem href="/search" path={path}>
         🔍 Search
       </NavbarItem>
       <NavbarItem path={path} href="/users/logout" onClick={onLogOut}>
         🔒 log out
       </NavbarItem>
-      <NavbarItem path={path} href="/delete-account">🗑️ Delete account</NavbarItem>
+      <NavbarItem path={path} href="/delete-account">
+        🗑️ Delete account
+      </NavbarItem>
     </div>
   );
 }
