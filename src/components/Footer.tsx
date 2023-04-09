@@ -20,7 +20,7 @@ const Header = styled.p`
 
 function Footer() {
   const { pathname } = window.location;
-  if (canShowNavbar(pathname)) {
+  if (!canShowNavbar(pathname)) {
     return null;
   }
 
@@ -69,8 +69,7 @@ function Footer() {
         <div className="column">
           <Header>Developer</Header>
           <p>
-            <a
-              href="https://github.com/alemayhu/notion2anki/issues?q=is%3Aopen+is%3Aissue+milestone%3A%E4%B8%80%E7%95%AA%E3%83%BBv1.0.0">
+            <a href="https://github.com/alemayhu/notion2anki/issues?q=is%3Aopen+is%3Aissue+milestone%3A%E4%B8%80%E7%95%AA%E3%83%BBv1.0.0">
               Roadmap
             </a>
           </p>
@@ -86,17 +85,7 @@ function Footer() {
         <div className="column">
           <Header>Sponsors</Header>
           <p>
-            <a href="https://scrimba.com">
-              <img
-                src="/sponsors/Scrimba.png"
-                alt="Sponsored by Scrimba"
-                loading="lazy"
-              />
-            </a>
-          </p>
-          <p>
-            <a
-              href="https://www.digitalocean.com/?refcode=c5a16996cd0e&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge">
+            <a href="https://www.digitalocean.com/?refcode=c5a16996cd0e&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge">
               <img
                 src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg"
                 alt="DigitalOcean Referral Badge"
@@ -109,16 +98,6 @@ function Footer() {
                 src="https://www.netlify.com/img/global/badges/netlify-color-bg.svg"
                 alt="Deploys by Netlify"
                 loading="lazy"
-              />
-            </a>
-          </p>
-          <p>
-            <a href="https://fortress.no">
-              <img
-                src="https://fortress.no/icons/logo.svg"
-                alt="Sponsored by Fortress"
-                loading="lazy"
-                style={{ width: '60px' }}
               />
             </a>
           </p>

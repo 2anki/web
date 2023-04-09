@@ -55,7 +55,7 @@ function UploadForm({ setErrorMessage }: UploadFormProps) {
       storedFields.forEach((sf) => formData.append(sf[0], sf[1]));
       const request = await window.fetch('/api/upload/file', {
         method: 'post',
-        body: formData,
+        body: formData
       });
       const contentType = request.headers.get('Content-Type');
       const notOK = request.status !== 200;
@@ -102,10 +102,9 @@ function UploadForm({ setErrorMessage }: UploadFormProps) {
         <div>
           <div className="field">
             <DropParagraph hover={dropHover}>
-              Drag a file and Drop it here
-              <p className="my-2">
-                <i>or</i>
-              </p>
+              <button type="button" className="button is-large is-info">
+                Click here to convert a Notion HTML export
+              </button>
               <label htmlFor="pakker">
                 <input
                   ref={fileInputRef}
@@ -118,7 +117,6 @@ function UploadForm({ setErrorMessage }: UploadFormProps) {
                   onChange={() => fileSelected()}
                 />
               </label>
-              <span className="tag">Select</span>
             </DropParagraph>
           </div>
           <DownloadButton

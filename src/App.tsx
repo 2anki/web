@@ -82,7 +82,10 @@ function App() {
                 path="/delete-account"
                 element={<DeleteAccountPage setError={handledError} />}
               />
-              <Route path="/" element={<HomePage />} />
+              <Route
+                path="/"
+                element={<HomePage setErrorMessage={handledError} />}
+              />
             </Routes>
             <Footer />
           </PageLayout>
