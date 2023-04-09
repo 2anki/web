@@ -1,4 +1,5 @@
 import { SyntheticEvent, useEffect, useRef, useState } from 'react';
+import { Button } from '@nordnet/ui';
 import { ErrorHandlerType } from '../../../components/errors/helpers/types';
 import getHeadersFilename from '../helpers/getHeadersFilename';
 import DownloadButton from './DownloadButton';
@@ -102,9 +103,9 @@ function UploadForm({ setErrorMessage }: UploadFormProps) {
         <div>
           <div className="field">
             <DropParagraph hover={dropHover}>
-              <button type="button" className="button is-large is-info">
-                Click here to convert a Notion HTML export
-              </button>
+              <Button size="l" loading={uploading}>
+                Click here to convert your HTML / ZIP file to Anki
+              </Button>
               <label htmlFor="pakker">
                 <input
                   ref={fileInputRef}
@@ -118,12 +119,14 @@ function UploadForm({ setErrorMessage }: UploadFormProps) {
                 />
               </label>
             </DropParagraph>
+            {downloadLink && (
+              <DownloadButton
+                downloadLink={downloadLink}
+                deckName={deckName}
+                uploading={uploading}
+              />
+            )}
           </div>
-          <DownloadButton
-            downloadLink={downloadLink}
-            deckName={deckName}
-            uploading={uploading}
-          />
           <button
             aria-label="Upload file"
             style={{ visibility: 'hidden' }}
