@@ -9,6 +9,7 @@ import { FinishedJobs } from './components/FinishedJobs';
 import { EmptyUploadsSection } from './components/EmptyUploadsSection';
 import { Container } from '../../components/styled';
 import { redirectOnError } from '../../components/shared/redirectOnError';
+import usePatreon from './hooks/usePatreon';
 
 const backend = new Backend();
 
@@ -17,11 +18,11 @@ interface MyUploadsPageProps {
 }
 
 function MyUploadsPage({ setError }: MyUploadsPageProps) {
-  const {
-    deleteUpload, isDeleting,
-    loading, uploads, error
-  } = useUploads(backend);
+  const { deleteUpload, isDeleting, loading, uploads, error } =
+    useUploads(backend);
   const { jobs, deleteJob, restartJob } = useJobs(backend, setError);
+  const [isPatron] = usePatreon(backend);
+
   const unfinishedJob = jobs.length > 0;
 
   if (error) {
@@ -38,16 +39,23 @@ function MyUploadsPage({ setError }: MyUploadsPageProps) {
   }
   return (
     <Container>
-      {unfinishedJob &&
-        <div className="notification info is-flex is-justify-content-space-between">
-          It might take a while for your conversion to finish.
-          Check back later.
-          <button className="button is-small" type="button" onClick={() => window.location.reload()}>
-            Check now
-          </button>
-        </div>}
-
-      <Index restartJob={restartJob} jobs={jobs} deleteJob={(id) => deleteJob(id)} />
+      {unfinishedJob && (
+        <p>
+          It might take a while for your conversion to finish. Check back later.
+          {unfinishedJob && !isPatron && (
+            <>
+              {' '}
+              For free users, <u>only one job can be processed at a time</u>,
+              and there is a <strong>file size limit</strong> (~100MB).
+            </>
+          )}
+        </p>
+      )}
+      <Index
+        restartJob={restartJob}
+        jobs={jobs}
+        deleteJob={(id) => deleteJob(id)}
+      />
       <FinishedJobs uploads={uploads} deleteUpload={deleteUpload} />
     </Container>
   );
