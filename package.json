@@ -15,7 +15,7 @@
   "dependencies": {
     "@fremtind/jkl-accordion": "^7.0.12",
     "@notionhq/client": "^2.2.3",
-    "@reduxjs/toolkit": "^1.9.3",
+    "@reduxjs/toolkit": "^1.9.4",
     "@sentry/react": "^7.38.0",
     "@sentry/tracing": "^7.38.0",
     "bulma": "^0.9.4",
