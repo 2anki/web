@@ -30,7 +30,8 @@ const flashCardOptions = [
   'heading_1',
   'heading_2',
   'heading_3',
-  'column_list'
+  'column_list',
+  'quote'
 ];
 const tagOptions = ['heading', 'strikethrough'];
 const subDeckOptions = ['child_page', ...flashCardOptions];
