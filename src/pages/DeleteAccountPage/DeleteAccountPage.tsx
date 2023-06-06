@@ -2,7 +2,7 @@ import React from 'react';
 
 import Cookies from 'universal-cookie';
 import { ErrorHandlerType } from '../../components/errors/helpers/types';
-import { UploadContainer } from '../Upload/styled';
+import { UploadContainer } from '../UploadPage/styled';
 import { Layout } from '../../components/Layout/styled';
 import Backend from '../../lib/backend';
 import { redirectToFrontPage } from '../../lib/redirects';
@@ -28,23 +28,22 @@ export function DeleteAccountPage({ setError }: Prop) {
     new Cookies().remove('token');
     redirectToFrontPage();
   };
-  return <Layout>
-    <UploadContainer>
-
-      <div className="content">
-        <h1>Delete Account</h1>
-        <p>
-          Are you sure you want to delete your account?
-        </p>
-        <p>
-          This action is irreversible.
-        </p>
-        <button
-          onClick={handleDelete}
-          className="button is-small is-danger" type="button">
-          {deleteButtonText}
-        </button>
-      </div>
-    </UploadContainer>
-  </Layout>;
+  return (
+    <Layout>
+      <UploadContainer>
+        <div className="content">
+          <h1>Delete Account</h1>
+          <p>Are you sure you want to delete your account?</p>
+          <p>This action is irreversible.</p>
+          <button
+            onClick={handleDelete}
+            className="button is-small is-danger"
+            type="button"
+          >
+            {deleteButtonText}
+          </button>
+        </div>
+      </UploadContainer>
+    </Layout>
+  );
 }

@@ -1,14 +1,16 @@
 import SidebarItem from './SidebarItem';
 import Backend from '../../../lib/backend';
-import { goToLoginPage } from '../../../pages/Register/goToLoginPage';
+import { goToLoginPage } from '../../../pages/RegisterPage/goToLoginPage';
 
 const backend = new Backend();
 
 export function Menu() {
   const path = window.location.pathname;
   return (
-    <aside className="menu is-flex is-flex-direction-column is-justify-content-space-between is-fullheight"
-           style={{ height: '100vh' }}>
+    <aside
+      className="menu is-flex is-flex-direction-column is-justify-content-space-between is-fullheight"
+      style={{ height: '100vh' }}
+    >
       <ul className="menu-list">
         <SidebarItem path={path} href="/upload">
           📦 Upload
@@ -34,12 +36,14 @@ export function Menu() {
         >
           🙋🏽‍♀️ FAQ
         </SidebarItem>
-        <SidebarItem path={path}
-                     href="/users/logout"
-                     onClick={(event) => {
-                       event.preventDefault();
-                       backend.logout().then(() => goToLoginPage());
-                     }}>
+        <SidebarItem
+          path={path}
+          href="/users/logout"
+          onClick={(event) => {
+            event.preventDefault();
+            backend.logout().then(() => goToLoginPage());
+          }}
+        >
           🔒 log out
         </SidebarItem>
       </ul>

@@ -10,7 +10,7 @@ interface Props {
   setErrorMessage: ErrorHandlerType;
 }
 
-function LoginPage({ setErrorMessage }: Props) {
+export function LoginPage({ setErrorMessage }: Props) {
   const [isForgot, setIsForgot] = useState(window.location.hash === '#forgot');
   const onClickRegister = () => {
     window.location.href = '/register';
@@ -32,5 +32,3 @@ function LoginPage({ setErrorMessage }: Props) {
     </Container>
   );
 }
-
-export default LoginPage;

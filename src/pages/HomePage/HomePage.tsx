@@ -6,7 +6,7 @@ import NewsSection from './components/Sections/news/NewsSection';
 import { HomeContainer } from '../../components/styled';
 import NavigationBar from '../../components/NavigationBar/NavigationBar';
 
-export default function HomePage() {
+export function HomePage() {
   return (
     <>
       <NavigationBar />

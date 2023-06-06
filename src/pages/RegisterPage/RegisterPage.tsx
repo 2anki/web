@@ -9,7 +9,7 @@ interface Props {
   setErrorMessage: ErrorHandlerType;
 }
 
-function RegisterPage({ setErrorMessage }: Props) {
+export function RegisterPage({ setErrorMessage }: Props) {
   return (
     <Container>
       <TopSection onClick={goToLoginPage}>
@@ -20,5 +20,3 @@ function RegisterPage({ setErrorMessage }: Props) {
     </Container>
   );
 }
-
-export default RegisterPage;

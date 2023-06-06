@@ -1,6 +1,6 @@
 import { Entry, ObjectActions, ObjectMeta, UploadTitle } from './styled';
 import { DeleteButton } from './ListJobs/DeleteButton';
-import { ObjectIconAction } from '../../Search/components/SearchObjectEntry/styled';
+import { ObjectIconAction } from '../../SearchPage/components/SearchObjectEntry/styled';
 
 interface Props {
   title: string;
@@ -10,11 +10,11 @@ interface Props {
 }
 
 export default function UploadObjectEntry({
-                                            title,
-                                            icon,
-                                            url,
-                                            deleteUpload
-                                          }: Props) {
+  title,
+  icon,
+  url,
+  deleteUpload
+}: Props) {
   return (
     <Entry>
       <ObjectMeta>
@@ -29,7 +29,11 @@ export default function UploadObjectEntry({
       </ObjectMeta>
       <ObjectActions>
         <a download={title} href={url} target="_blank" rel="noreferrer">
-          <ObjectIconAction alt="Page action" width="32px" src="/icons/Anki_app_logo.png" />
+          <ObjectIconAction
+            alt="Page action"
+            width="32px"
+            src="/icons/Anki_app_logo.png"
+          />
         </a>
       </ObjectActions>
     </Entry>

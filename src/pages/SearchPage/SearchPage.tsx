@@ -10,7 +10,7 @@ interface SearchPageProps {
 }
 
 const backend = new Backend();
-function SearchPage({ setError }: SearchPageProps) {
+export function SearchPage({ setError }: SearchPageProps) {
   const notionData = useNotionData(backend);
   if (notionData.loading) {
     return <LoadingIndicator />;
@@ -31,5 +31,3 @@ function SearchPage({ setError }: SearchPageProps) {
     </>
   );
 }
-
-export default SearchPage;

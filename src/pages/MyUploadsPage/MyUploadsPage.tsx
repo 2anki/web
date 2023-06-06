@@ -17,7 +17,7 @@ interface MyUploadsPageProps {
   setError: ErrorHandlerType;
 }
 
-function MyUploadsPage({ setError }: MyUploadsPageProps) {
+export function MyUploadsPage({ setError }: MyUploadsPageProps) {
   const { deleteUpload, isDeleting, loading, uploads, error } =
     useUploads(backend);
   const { jobs, deleteJob, restartJob } = useJobs(backend, setError);
@@ -60,5 +60,3 @@ function MyUploadsPage({ setError }: MyUploadsPageProps) {
     </Container>
   );
 }
-
-export default MyUploadsPage;
