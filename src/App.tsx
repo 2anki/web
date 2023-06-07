@@ -1,8 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { lazy, useMemo, useState } from 'react';
 
-import '@fremtind/jkl-accordion/accordion.min.css';
-
 import { useCookies } from 'react-cookie';
 import { captureException } from '@sentry/react';
 import UploadPage from './pages/UploadPage';
