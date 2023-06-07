@@ -1,8 +1,11 @@
 interface Props {
+  ready: boolean;
   connectionLink: string;
 }
 
-export default function ConnectNotion({ connectionLink }: Props) {
+export default function ConnectNotion({ ready, connectionLink }: Props) {
+  if (!ready) return null;
+
   return (
     <div
       style={{
@@ -10,7 +13,7 @@ export default function ConnectNotion({ connectionLink }: Props) {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100vh',
+        height: '100vh'
       }}
       className="column is-half is-centered"
     >

@@ -42,6 +42,11 @@ export function DeleteAccountPage({ setError }: Prop) {
           >
             {deleteButtonText}
           </button>
+          <p className="is-wrap">
+            {' '}
+            Also disconnect it from Notion:
+            https://www.notion.so/help/add-and-manage-integrations-with-the-api
+          </p>
         </div>
       </UploadContainer>
     </Layout>

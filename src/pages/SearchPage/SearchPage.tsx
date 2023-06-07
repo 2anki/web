@@ -20,14 +20,13 @@ export function SearchPage({ setError }: SearchPageProps) {
 
   return (
     <>
-      {!connected && <ConnectNotion connectionLink={connectionLink} />}
-      {connected && (
-        <SearchContainer
-          notionData={notionData}
-          backend={backend}
-          setError={setError}
-        />
-      )}
+      <ConnectNotion ready={!connected} connectionLink={connectionLink} />
+      <SearchContainer
+        ready={connected}
+        notionData={notionData}
+        backend={backend}
+        setError={setError}
+      />
     </>
   );
 }
