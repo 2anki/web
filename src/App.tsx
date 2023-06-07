@@ -6,7 +6,7 @@ import '@fremtind/jkl-accordion/accordion.min.css';
 import { useCookies } from 'react-cookie';
 import { captureException } from '@sentry/react';
 import UploadPage from './pages/UploadPage';
-import HomePage from './pages/HomePage/HomePage';
+import HomePage from './pages/HomePage';
 
 import Footer from './components/Footer';
 import CardOptionsStore from './store/CardOptionsStore';

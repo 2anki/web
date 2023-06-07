@@ -9,7 +9,6 @@ import { FinishedJobs } from './components/FinishedJobs';
 import { EmptyUploadsSection } from './components/EmptyUploadsSection';
 import { Container } from '../../components/styled';
 import { redirectOnError } from '../../components/shared/redirectOnError';
-import usePatreon from './hooks/usePatreon';
 
 const backend = new Backend();
 
@@ -21,7 +20,6 @@ export function MyUploadsPage({ setError }: MyUploadsPageProps) {
   const { deleteUpload, isDeleting, loading, uploads, error } =
     useUploads(backend);
   const { jobs, deleteJob, restartJob } = useJobs(backend, setError);
-  const [isPatron] = usePatreon(backend);
 
   const unfinishedJob = jobs.length > 0;
 
@@ -42,13 +40,6 @@ export function MyUploadsPage({ setError }: MyUploadsPageProps) {
       {unfinishedJob && (
         <p>
           It might take a while for your conversion to finish. Check back later.
-          {unfinishedJob && !isPatron && (
-            <>
-              {' '}
-              For free users, <u>only one job can be processed at a time</u>,
-              and there is a <strong>file size limit</strong> (~100MB).
-            </>
-          )}
         </p>
       )}
       <Index
