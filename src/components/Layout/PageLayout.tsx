@@ -14,13 +14,16 @@ interface LayoutProps {
 export function PageLayout({ error, children }: LayoutProps) {
   const hideMeny =
     !canShowNavbar(window.location.pathname) ||
-    window.location.pathname === '/';
+    window.location.pathname === '/' ||
+    window.location.pathname === '/search';
 
   if (hideMeny) {
-    return <PageContent>
-      {error && <ErrorPresenter error={error} />}
-      {children}
-    </PageContent>;
+    return (
+      <PageContent>
+        {error && <ErrorPresenter error={error} />}
+        {children}
+      </PageContent>
+    );
   }
 
   return (
