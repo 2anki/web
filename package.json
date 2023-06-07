@@ -13,7 +13,6 @@
     }
   },
   "dependencies": {
-    "@fremtind/jkl-accordion": "^7.0.12",
     "@notionhq/client": "^2.2.5",
     "@reduxjs/toolkit": "^1.9.5",
     "@sentry/react": "^7.53.0",
