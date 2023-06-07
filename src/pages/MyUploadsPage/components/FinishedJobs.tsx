@@ -3,7 +3,7 @@ import UserUpload from '../../../lib/interfaces/UserUpload';
 
 interface Prop {
   uploads: UserUpload[] | undefined;
-  deleteUpload: (key: string) => void;
+  deleteUpload: (key: string) => Promise<void>;
 }
 
 export function FinishedJobs({ uploads, deleteUpload }: Prop) {

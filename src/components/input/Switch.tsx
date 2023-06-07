@@ -2,7 +2,7 @@ interface SwitchProps {
   title: string;
   id: string;
   checked: boolean;
-  onSwitched: () => void;
+  onSwitched: () => Promise<void> | void;
 }
 
 function Switch({ title, id, checked, onSwitched }: SwitchProps) {
