@@ -16,13 +16,13 @@ import {
 } from './styled';
 import { Main, PageContainer } from '../../components/styled';
 import { ErrorHandlerType } from '../../components/errors/helpers/types';
+import { isDevelopment } from './helpers/isDevelopment';
 
 interface Props {
   setErrorMessage: ErrorHandlerType;
 }
 
 export function UploadPage({ setErrorMessage }: Props) {
-  const isDevelopment = !window.location.host.match(/2anki.(com|net|de)/);
   const query = useQuery();
   const view = query.get('view');
 
@@ -41,7 +41,7 @@ export function UploadPage({ setErrorMessage }: Props) {
     <PageContainer>
       <UploadContainer>
         <Main>
-          {isDevelopment ? <WarningMessage /> : null}
+          {isDevelopment() ? <WarningMessage /> : null}
           <FlexColumn>
             <ImportTitle>Import</ImportTitle>
             <SettingsLink onClick={() => setShowSettings(true)}>

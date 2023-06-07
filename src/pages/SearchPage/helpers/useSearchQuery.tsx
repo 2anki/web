@@ -21,7 +21,7 @@ export default function useSearchQuery(
   const query = useQuery();
 
   const [searchQuery, setSearchQuery] = useState<string>(
-    query.get(QUERY_KEY) || ''
+    query.get(QUERY_KEY) ?? ''
   );
   const [myPages, setMyPages] = useState<NotionObject[]>([]);
   const [inProgress, setInProgress] = useState(false);
@@ -56,6 +56,6 @@ export default function useSearchQuery(
     inProgress,
     triggerSearch,
     isLoading,
-    setSearchQuery,
+    setSearchQuery
   };
 }

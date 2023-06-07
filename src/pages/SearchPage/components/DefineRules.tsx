@@ -62,7 +62,6 @@ function DefineRules(props: Props) {
   const [more, setMore] = useState(false);
   const [favorite, setFavorite] = useState(isFavorite);
 
-  // TODO: refactor into own hook
   useEffect(() => {
     backend
       .getRules(id)
@@ -241,7 +240,7 @@ function DefineRules(props: Props) {
                     key="is-favorite"
                     id="is-favorite"
                     title="Mark this as a favorite"
-                    checked={favorite || false} // TODO: review if we can make this assumption
+                    checked={favorite ?? false}
                     onSwitched={toggleFavorite}
                   />
                 </Details>

@@ -17,8 +17,6 @@ function UploadForm({ setErrorMessage }: UploadFormProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const convertRef = useRef<HTMLButtonElement>(null);
 
-  // TODO: refactor this into a hook
-  // TODO: refactor into a hook
   useEffect(() => {
     const body = document.getElementsByTagName('body')[0];
     body.ondragover = (event) => {
@@ -55,7 +53,7 @@ function UploadForm({ setErrorMessage }: UploadFormProps) {
       storedFields.forEach((sf) => formData.append(sf[0], sf[1]));
       const request = await window.fetch('/api/upload/file', {
         method: 'post',
-        body: formData,
+        body: formData
       });
       const contentType = request.headers.get('Content-Type');
       const notOK = request.status !== 200;
