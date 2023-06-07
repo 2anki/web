@@ -1,5 +1,5 @@
 import UserUpload from '../../../lib/interfaces/UserUpload';
-import { UploadContainer } from '../../Upload/styled';
+import { UploadContainer } from '../../UploadPage/styled';
 
 interface Prop {
   uploads: UserUpload[] | undefined;

@@ -2,7 +2,7 @@ import Cookies from 'universal-cookie';
 
 import {
   GetDatabaseResponse,
-  GetPageResponse
+  GetPageResponse,
 } from '@notionhq/client/build/src/api-endpoints';
 import NotionObject from '../interfaces/NotionObject';
 import UserUpload from '../interfaces/UserUpload';
@@ -43,7 +43,7 @@ class Backend {
 
   saveSettings(settings: Settings) {
     return post(`${this.baseURL}settings/create/${settings.object_id}`, {
-      settings
+      settings,
     });
   }
 
@@ -68,7 +68,7 @@ class Backend {
       DECK: deck.join(','),
       SUB_DECKS: subDecks.join(','),
       TAGS: tags,
-      EMAIL_NOTIFICATION: email
+      EMAIL_NOTIFICATION: email,
     };
     return post(`${this.baseURL}rules/create/${id}`, { payload });
   }
@@ -89,7 +89,7 @@ class Backend {
 
   deleteSettings(pageId: string) {
     return post(`${this.baseURL}settings/delete/${pageId}`, {
-      object_id: pageId
+      object_id: pageId,
     });
   }
 
@@ -100,15 +100,15 @@ class Backend {
     let data;
     if (isObjectId) {
       const res = await this.getPage(query);
-      if (res && res.data) {
+      if (res?.data) {
         data = {
-          results: [res.data]
+          results: [res.data],
         };
       } else {
         const dbResult = await this.getDatabase(query);
-        if (dbResult && dbResult.data) {
+        if (dbResult?.data) {
           data = {
-            results: [dbResult.data]
+            results: [dbResult.data],
           };
         }
       }
@@ -117,14 +117,14 @@ class Backend {
       data = await response.json();
     }
 
-    if (data && data.results) {
+    if (data?.results) {
       return data.results.map((p: GetDatabaseResponse | GetPageResponse) => ({
         object: p.object,
         title: getObjectTitle(p).slice(0, 58), // Don't show strings longer than 60 characters
         icon: getObjectIcon(p as ObjectIcon),
         url: getResourceUrl(p),
         id: p.id,
-        isFavorite: favorites.some((f) => f.id === p.id)
+        isFavorite: favorites.some((f) => f.id === p.id),
       }));
     }
     return [];
@@ -142,7 +142,7 @@ class Backend {
       url: data.url as string,
       id: data.id,
       data,
-      isFavorite
+      isFavorite,
     };
   }
 
@@ -162,7 +162,7 @@ class Backend {
       url: data.url as string,
       id: data.id,
       data,
-      isFavorite
+      isFavorite,
     };
   }
 
@@ -179,7 +179,7 @@ class Backend {
    * @param key upload key to delete
    * @returns whether the deletion was successful or throws an error
    */
-  deleteUpload(key: string): Promise<Response> {
+  deleteUpload(key: string): Promise<Response | null> {
     return del(`${this.baseURL}upload/mine/${key}`);
   }
 
@@ -190,11 +190,6 @@ class Backend {
   async convert(id: string, type: string, title: string | null) {
     const link = `${this.baseURL}notion/convert`;
     return post(link, { id, type, title });
-  }
-
-  async isPatreon(): Promise<boolean> {
-    const data = await get(`${this.baseURL}users/is-patreon`);
-    return data?.patreon ?? false;
   }
 
   async addFavorite(id: string, type: string): Promise<boolean> {
@@ -216,14 +211,14 @@ class Backend {
       url: getResourceUrl(f),
       id: f.id,
       data: f,
-      isFavorite: true
+      isFavorite: true,
     }));
   }
 
   async login(email: string, password: string): Promise<Response> {
     return post(getLoginURL(this.baseURL), {
       email,
-      password
+      password,
     });
   }
 
@@ -235,7 +230,7 @@ class Backend {
   async newPassword(password: string, token: string): Promise<Response> {
     return post(`${this.baseURL}users/new-password`, {
       password,
-      reset_token: token
+      reset_token: token,
     });
   }
 

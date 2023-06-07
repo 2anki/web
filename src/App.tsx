@@ -5,26 +5,26 @@ import '@fremtind/jkl-accordion/accordion.min.css';
 
 import { useCookies } from 'react-cookie';
 import { captureException } from '@sentry/react';
-import UploadPage from './pages/Upload';
-import HomePage from './pages/Home';
+import UploadPage from './pages/UploadPage';
+import HomePage from './pages/HomePage';
 
 import Footer from './components/Footer';
 import CardOptionsStore from './store/CardOptionsStore';
 import StoreContext from './store/StoreContext';
 import GlobalStyle from './GlobalStyle';
-import ImportPage from './pages/Import/ImportPage';
+import ImportPage from './pages/ImportPage/ImportPage';
 import isOfflineMode from './lib/isOfflineMode';
 import { ErrorType } from './components/errors/helpers/types';
-import DebugPage from './pages/Debug';
-import FavoritesPage from './pages/Favorites';
+import DebugPage from './pages/DebugPage';
+import FavoritesPage from './pages/FavoritesPage';
 import { PageLayout } from './components/Layout/PageLayout';
-import DeleteAccountPage from './pages/Delete';
+import DeleteAccountPage from './pages/DeleteAccountPage';
 
-const RegisterPage = lazy(() => import('./pages/Register'));
-const SearchPage = lazy(() => import('./pages/Search'));
-const LoginPage = lazy(() => import('./pages/Login'));
-const NewPasswordPage = lazy(() => import('./pages/NewPassword'));
-const MyUploadsPage = lazy(() => import('./pages/MyUploads'));
+const RegisterPage = lazy(() => import('./pages/RegisterPage'));
+const SearchPage = lazy(() => import('./pages/SearchPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const NewPasswordPage = lazy(() => import('./pages/NewPasswordPage'));
+const MyUploadsPage = lazy(() => import('./pages/MyUploadsPage'));
 
 function App() {
   const [cookies, setCookie] = useCookies(['token']);

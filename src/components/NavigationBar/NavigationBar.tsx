@@ -16,6 +16,7 @@ const backend = new Backend();
 function NavigationBar() {
   const [cookies] = useCookies(['token']);
   const [active, setHamburgerMenu] = useState(false);
+
   const path = window.location.pathname;
   const { hash } = window.location;
 

@@ -7,8 +7,7 @@ interface FavoritesPageProps {
 }
 
 const backend = new Backend();
-function FavoritesPage({ setError }: FavoritesPageProps) {
+
+export function FavoritesPage({ setError }: FavoritesPageProps) {
   return <FavoritesContainer backend={backend} setError={setError} />;
 }
-
-export default FavoritesPage;

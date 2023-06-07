@@ -6,12 +6,10 @@ interface Props {
   setErrorMessage: ErrorHandlerType;
 }
 
-function NewPasswordPage({ setErrorMessage }: Props) {
+export function NewPasswordPage({ setErrorMessage }: Props) {
   return (
     <Container>
       <NewPassordForm setErrorMessage={setErrorMessage} />
     </Container>
   );
 }
-
-export default NewPasswordPage;

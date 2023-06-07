@@ -21,7 +21,7 @@ interface Props {
   setErrorMessage: ErrorHandlerType;
 }
 
-function UploadPage({ setErrorMessage }: Props) {
+export function UploadPage({ setErrorMessage }: Props) {
   const isDevelopment = !window.location.host.match(/2anki.(com|net|de)/);
   const query = useQuery();
   const view = query.get('view');
@@ -89,5 +89,3 @@ function UploadPage({ setErrorMessage }: Props) {
     </PageContainer>
   );
 }
-
-export default UploadPage;
