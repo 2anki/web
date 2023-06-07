@@ -38,7 +38,7 @@ export function MyUploadsPage({ setError }: MyUploadsPageProps) {
   return (
     <Container>
       {unfinishedJob && (
-        <p>
+        <p className="mt-2">
           It might take a while for your conversion to finish. Check back later.
         </p>
       )}
