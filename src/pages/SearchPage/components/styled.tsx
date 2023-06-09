@@ -18,3 +18,11 @@ export const Details = styled.details`
   font-weight: 400;
   line-height: 2rem;
 `;
+
+export const ButtonWrapper = styled.div`
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;

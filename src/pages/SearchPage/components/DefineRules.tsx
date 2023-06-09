@@ -162,7 +162,7 @@ function DefineRules(props: Props) {
         <div className="card" style={{ maxWidth: '480px' }}>
           <header className="card-header">
             <p data-hj-suppress className="card-header-title">
-              Settings for {parent}
+              Rules for {parent}
             </p>
             {isLoading && (
               <button
