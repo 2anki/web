@@ -61,7 +61,7 @@ function NavigationBar() {
             </NavbarItem>
             <div className="navbar-item">
               <div className="buttons">
-                <NavButtonCTA href="/login#register">
+                <NavButtonCTA href="/register">
                   <strong>Join Now</strong>
                 </NavButtonCTA>
               </div>
