@@ -31,11 +31,9 @@ export function MyUploadsPage({ setError }: MyUploadsPageProps) {
     return <LoadingIndicator />;
   }
 
-  if (uploads?.length === 0 && jobs.length === 0) {
-    return <EmptyUploadsSection uploads={uploads} />;
-  }
   return (
     <Container>
+      <EmptyUploadsSection uploads={uploads} />;
       {unfinishedJob && (
         <p className="mt-2">
           It might take a while for your conversion to finish. Check back later.
