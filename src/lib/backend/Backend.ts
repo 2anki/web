@@ -203,18 +203,22 @@ export class Backend {
   }
 
   async getFavorites(): Promise<NotionObject[]> {
-    const favorites = await get(`${this.baseURL}favorite`, {
-      redirect: false,
-    });
-    return favorites.map((f: GetDatabaseResponse | GetPageResponse) => ({
-      object: f,
-      title: getObjectTitle(f),
-      icon: getObjectIcon(f as ObjectIcon),
-      url: getResourceUrl(f),
-      id: f.id,
-      data: f,
-      isFavorite: true,
-    }));
+    try {
+      const favorites = await get(`${this.baseURL}favorite`, {
+        redirect: false,
+      });
+      return favorites.map((f: GetDatabaseResponse | GetPageResponse) => ({
+        object: f,
+        title: getObjectTitle(f),
+        icon: getObjectIcon(f as ObjectIcon),
+        url: getResourceUrl(f),
+        id: f.id,
+        data: f,
+        isFavorite: true,
+      }));
+    } catch (error) {
+      return [];
+    }
   }
 
   async login(email: string, password: string): Promise<Response> {
