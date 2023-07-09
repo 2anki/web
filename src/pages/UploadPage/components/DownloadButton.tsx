@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { getDownloadFileName } from '../../MyUploadsPage/helpers/getDownloadFileName';
 
 interface Props {
   downloadLink: string | null | undefined;
@@ -44,7 +45,7 @@ function DownloadButton(props: Props) {
           target="_blank"
           aria-label="download link"
           href={downloadLink}
-          download={deckName}
+          download={getDownloadFileName(deckName ?? 'Untitled')}
           ref={downloadRef}
           rel="noreferrer"
         >
