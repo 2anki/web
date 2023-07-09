@@ -6,7 +6,7 @@ interface Prop {
 }
 
 export function EmptyUploadsSection({ uploads }: Prop) {
-  if (uploads && uploads.length > 0) {
+  if ((uploads ?? []).length > 0) {
     return null;
   }
   return (

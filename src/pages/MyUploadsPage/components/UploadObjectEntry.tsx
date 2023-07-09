@@ -1,6 +1,7 @@
 import { Entry, ObjectActions, ObjectMeta, UploadTitle } from './styled';
 import { DeleteButton } from './ListJobs/DeleteButton';
 import { ObjectIconAction } from '../../SearchPage/components/SearchObjectEntry/styled';
+import { getDownloadFileName } from '../helpers/getDownloadFileName';
 
 interface Props {
   title: string;
@@ -28,7 +29,12 @@ export default function UploadObjectEntry({
         />
       </ObjectMeta>
       <ObjectActions>
-        <a download={title} href={url} target="_blank" rel="noreferrer">
+        <a
+          download={getDownloadFileName(title)}
+          href={url}
+          target="_blank"
+          rel="noreferrer"
+        >
           <ObjectIconAction
             alt="Page action"
             width="32px"
