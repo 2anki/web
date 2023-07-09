@@ -1,6 +1,10 @@
 import handleRedirect from '../handleRedirect';
 import { OK } from './http';
 
+interface ClientSideOptions {
+  redirect?: boolean;
+}
+
 export const getLoginURL = (baseURL: string) => `${baseURL}users/login`;
 
 export const post = async (url: string, body: unknown) =>
@@ -14,11 +18,14 @@ export const post = async (url: string, body: unknown) =>
     body: JSON.stringify(body),
   });
 
-export const get = async (url: string) => {
+export const get = async (
+  url: string,
+  options: ClientSideOptions = { redirect: true }
+) => {
   const response = await fetch(url, {
     credentials: 'include',
   });
-  if (handleRedirect(response)) {
+  if (options.redirect && handleRedirect(response)) {
     return undefined;
   }
   if (response.status !== OK) {
@@ -27,12 +34,15 @@ export const get = async (url: string) => {
   return response.json();
 };
 
-export const del = async (url: string) => {
+export const del = async (
+  url: string,
+  options: ClientSideOptions = { redirect: true }
+) => {
   const response = await fetch(url, {
     method: 'DELETE',
     credentials: 'include',
   });
-  if (handleRedirect(response)) {
+  if (options.redirect && handleRedirect(response)) {
     return null;
   }
   return response;

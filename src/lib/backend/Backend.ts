@@ -203,7 +203,9 @@ export class Backend {
   }
 
   async getFavorites(): Promise<NotionObject[]> {
-    const favorites = await get(`${this.baseURL}favorite`);
+    const favorites = await get(`${this.baseURL}favorite`, {
+      redirect: false,
+    });
     return favorites.map((f: GetDatabaseResponse | GetPageResponse) => ({
       object: f,
       title: getObjectTitle(f),
