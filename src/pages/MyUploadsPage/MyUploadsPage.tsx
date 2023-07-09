@@ -17,8 +17,7 @@ interface MyUploadsPageProps {
 }
 
 export function MyUploadsPage({ setError }: MyUploadsPageProps) {
-  const { deleteUpload, isDeleting, loading, uploads, error } =
-    useUploads(backend);
+  const { deleteUpload, loading, uploads, error } = useUploads(backend);
   const { jobs, deleteJob, restartJob } = useJobs(backend, setError);
 
   const unfinishedJob = jobs.length > 0;
@@ -28,7 +27,7 @@ export function MyUploadsPage({ setError }: MyUploadsPageProps) {
     return null;
   }
 
-  if (loading || isDeleting) {
+  if (loading) {
     return <LoadingIndicator />;
   }
 

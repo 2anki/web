@@ -7,7 +7,6 @@ interface UseUploads {
   error: unknown;
   loading: boolean;
   uploads: UserUpload[] | undefined;
-  isDeleting: boolean;
   deleteUpload: (key: string) => Promise<void>;
 }
 
@@ -17,6 +16,10 @@ export default function useUploads(backend: Backend): UseUploads {
   const [loading, setLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
   const deleteUpload = async (key: string) => {
+    if (isDeleting) {
+      return;
+    }
+
     setIsDeleting(true);
     try {
       await backend.deleteUpload(key);
@@ -44,7 +47,9 @@ export default function useUploads(backend: Backend): UseUploads {
   }, [backend]);
 
   return {
-    isDeleting, deleteUpload,
-    loading, uploads, error
+    deleteUpload,
+    loading,
+    uploads,
+    error
   };
 }
