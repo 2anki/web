@@ -15,7 +15,7 @@
   "dependencies": {
     "@notionhq/client": "^2.2.5",
     "@reduxjs/toolkit": "^1.9.5",
-    "@sentry/react": "^7.53.0",
+    "@sentry/react": "^7.57.0",
     "@sentry/tracing": "^7.53.0",
     "bulma": "^0.9.4",
     "bulma-switch": "^2.0.4",
