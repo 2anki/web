@@ -7,15 +7,15 @@ import {
 import NotionObject from '../interfaces/NotionObject';
 import UserUpload from '../interfaces/UserUpload';
 
+import Jobs, { JobsId } from '../../schemas/public/Jobs';
+import { ConnectionInfo } from '../interfaces/ConnectionInfo';
+import isOfflineMode from '../isOfflineMode';
 import getObjectIcon, { ObjectIcon } from '../notion/getObjectIcon';
 import getObjectTitle from '../notion/getObjectTitle';
-import isOfflineMode from '../isOfflineMode';
 import { Rules, Settings } from '../types';
-import { ConnectionInfo } from '../interfaces/ConnectionInfo';
 import { del, get, getLoginURL, post } from './api';
 import { getResourceUrl } from './getResourceUrl';
 import { OK } from './http';
-import Jobs, { JobsId } from '../../schemas/public/Jobs';
 
 export class Backend {
   baseURL: string;
@@ -115,6 +115,11 @@ export class Backend {
     } else {
       const response = await post(`${this.baseURL}notion/pages`, { query });
       data = await response.json();
+    }
+
+    if ('message' in data) {
+      throw new Error(data.message);
+      return [];
     }
 
     if (data?.results) {
