@@ -18,7 +18,7 @@ export default function ListSearchResults(
 
   if (isEmpty && handleEmpty) {
     return (
-      <div className="column is-main-content">
+      <div className="column is-main-content has-text-centered">
         <div className="subtitle my-4">
           No search results, try typing something above 👌🏾 Also ensure you{' '}
           <a
