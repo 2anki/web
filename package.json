@@ -20,7 +20,7 @@
     "bulma": "^0.9.4",
     "bulma-switch": "^2.0.4",
     "date-fns": "^2.30.0",
-    "get-notion-object-title": "^0.0.2",
+    "get-notion-object-title": "^0.0.7",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-cookie": "^4.1.1",
