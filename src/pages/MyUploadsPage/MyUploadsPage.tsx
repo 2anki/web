@@ -33,7 +33,7 @@ export function MyUploadsPage({ setError }: MyUploadsPageProps) {
 
   return (
     <Container>
-      <EmptyUploadsSection uploads={uploads} />
+      <EmptyUploadsSection hasActiveJobs={jobs.length > 0} uploads={uploads} />
       {unfinishedJob && (
         <p className="mt-2">
           It might take a while for your conversion to finish. Check back later.
