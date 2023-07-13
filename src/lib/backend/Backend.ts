@@ -4,6 +4,7 @@ import {
   GetDatabaseResponse,
   GetPageResponse,
 } from '@notionhq/client/build/src/api-endpoints';
+import getNotionBlockTitle from 'get-notion-object-title';
 import NotionObject from '../interfaces/NotionObject';
 import UserUpload from '../interfaces/UserUpload';
 
@@ -11,7 +12,6 @@ import Jobs, { JobsId } from '../../schemas/public/Jobs';
 import { ConnectionInfo } from '../interfaces/ConnectionInfo';
 import isOfflineMode from '../isOfflineMode';
 import getObjectIcon, { ObjectIcon } from '../notion/getObjectIcon';
-import getObjectTitle from '../notion/getObjectTitle';
 import { Rules, Settings } from '../types';
 import { del, get, getLoginURL, post } from './api';
 import { getResourceUrl } from './getResourceUrl';
@@ -125,7 +125,7 @@ export class Backend {
     if (data?.results) {
       return data.results.map((p: GetDatabaseResponse | GetPageResponse) => ({
         object: p.object,
-        title: getObjectTitle(p).slice(0, 58), // Don't show strings longer than 60 characters
+        title: getNotionBlockTitle(p).slice(0, 58), // Don't show strings longer than 60 characters
         icon: getObjectIcon(p as ObjectIcon),
         url: getResourceUrl(p),
         id: p.id,
@@ -142,7 +142,7 @@ export class Backend {
     const data = await get(`${this.baseURL}notion/page/${pageId}`);
     return {
       object: data.object,
-      title: getObjectTitle(data),
+      title: getNotionBlockTitle(data),
       icon: getObjectIcon(data),
       url: data.url as string,
       id: data.id,
@@ -162,7 +162,7 @@ export class Backend {
     const data = await get(`${this.baseURL}notion/database/${id}`);
     return {
       object: data.object,
-      title: getObjectTitle(data),
+      title: getNotionBlockTitle(data),
       icon: getObjectIcon(data),
       url: data.url as string,
       id: data.id,
@@ -214,7 +214,7 @@ export class Backend {
       });
       return favorites.map((f: GetDatabaseResponse | GetPageResponse) => ({
         object: f,
-        title: getObjectTitle(f),
+        title: getNotionBlockTitle(f),
         icon: getObjectIcon(f as ObjectIcon),
         url: getResourceUrl(f),
         id: f.id,
