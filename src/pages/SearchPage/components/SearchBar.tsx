@@ -8,10 +8,10 @@ interface SearchBarProps {
 }
 
 function SearchBar({
-                     onSearchQueryChanged,
-                     onSearchClicked,
-                     inProgress
-                   }: SearchBarProps) {
+  onSearchQueryChanged,
+  onSearchClicked,
+  inProgress,
+}: SearchBarProps) {
   return (
     <div className="my-1 mt-4 has-text-centered is-flex is-justify-content-center">
       <div className="field has-addons">
@@ -21,12 +21,12 @@ function SearchBar({
             className="input"
             type="text"
             placeholder="  🔍 🅰  📑 "
-            onKeyDown={(e) => {
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
               if (e.key === 'Enter') {
                 onSearchClicked();
               }
             }}
-            onChange={(event) => {
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               onSearchQueryChanged(event.target.value);
             }}
           />
