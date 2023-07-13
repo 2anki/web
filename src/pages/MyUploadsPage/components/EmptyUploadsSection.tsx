@@ -2,11 +2,12 @@ import UserUpload from '../../../lib/interfaces/UserUpload';
 import { UploadContainer } from '../../UploadPage/styled';
 
 interface Prop {
+  hasActiveJobs: boolean;
   uploads: UserUpload[] | undefined;
 }
 
-export function EmptyUploadsSection({ uploads }: Prop) {
-  if ((uploads ?? []).length > 0) {
+export function EmptyUploadsSection({ hasActiveJobs, uploads }: Prop) {
+  if (hasActiveJobs || (uploads ?? []).length > 0) {
     return null;
   }
   return (
