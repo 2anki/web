@@ -125,7 +125,7 @@ export class Backend {
     if (data?.results) {
       return data.results.map((p: GetDatabaseResponse | GetPageResponse) => ({
         object: p.object,
-        title: getNotionObjectTitle(p).slice(0, 58), // Don't show strings longer than 60 characters
+        title: getNotionObjectTitle(p, { emoji: false }),
         icon: getObjectIcon(p as ObjectIcon),
         url: getResourceUrl(p),
         id: p.id,
@@ -142,7 +142,7 @@ export class Backend {
     const data = await get(`${this.baseURL}notion/page/${pageId}`);
     return {
       object: data.object,
-      title: getNotionObjectTitle(data),
+      title: getNotionObjectTitle(data, { emoji: false }),
       icon: getObjectIcon(data),
       url: data.url as string,
       id: data.id,
@@ -162,7 +162,7 @@ export class Backend {
     const data = await get(`${this.baseURL}notion/database/${id}`);
     return {
       object: data.object,
-      title: getNotionObjectTitle(data),
+      title: getNotionObjectTitle(data, { emoji: false }),
       icon: getObjectIcon(data),
       url: data.url as string,
       id: data.id,
@@ -214,7 +214,7 @@ export class Backend {
       });
       return favorites.map((f: GetDatabaseResponse | GetPageResponse) => ({
         object: f,
-        title: getNotionObjectTitle(f),
+        title: getNotionObjectTitle(f, { emoji: false }),
         icon: getObjectIcon(f as ObjectIcon),
         url: getResourceUrl(f),
         id: f.id,
