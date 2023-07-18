@@ -3,6 +3,7 @@ import SidebarItem from './SidebarItem';
 import Backend from '../../../lib/backend';
 import { goToLoginPage } from '../../../pages/RegisterPage/goToLoginPage';
 import { ProtectedItems } from './ProtectedItems';
+import { getVisibleText } from '../../../lib/text/getVisibleText';
 
 const backend = new Backend();
 
@@ -17,25 +18,24 @@ export function Menu() {
     >
       <ul className="menu-list">
         <SidebarItem path={path} href="/upload">
-          📦 Upload
+          {getVisibleText('navigation.upload')}
         </SidebarItem>
         <ProtectedItems visible={cookies.token}>
           <SidebarItem href="/uploads" path={path}>
-            🗂️ My uploads
+            {getVisibleText('navigation.uploads')}
           </SidebarItem>
           <SidebarItem path={path} href="/search">
-            🔍 Search
+            {getVisibleText('navigation.search')}
           </SidebarItem>
           <SidebarItem path={path} href="/favorites">
-            ⭐️ Favorites
+            {getVisibleText('navigation.favorites')}
           </SidebarItem>
         </ProtectedItems>
         <SidebarItem
           path={path}
           href="https://alemayhu.notion.site/FAQ-ef01be9c9bac41689a4d749127c14301"
-        >
-          🙋🏽‍♀️ FAQ
-        </SidebarItem>
+          >
+          {getVisibleText('navigation.help')}</SidebarItem>
       </ul>
       <ProtectedItems visible={cookies.token}>
         <ul className="menu-list">
