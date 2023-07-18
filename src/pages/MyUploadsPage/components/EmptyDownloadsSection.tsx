@@ -1,4 +1,5 @@
 import UserUpload from '../../../lib/interfaces/UserUpload';
+import { getVisibleText } from '../../../lib/text/getVisibleText';
 import { UploadContainer } from '../../UploadPage/styled';
 
 interface Prop {
@@ -6,19 +7,13 @@ interface Prop {
   uploads: UserUpload[] | undefined;
 }
 
-export function EmptyUploadsSection({ hasActiveJobs, uploads }: Prop) {
+export function EmptyDownloadsSection({ hasActiveJobs, uploads }: Prop) {
   if (hasActiveJobs || (uploads ?? []).length > 0) {
     return null;
   }
   return (
     <UploadContainer>
-      <p>
-        You have no uploads! Make some from the{' '}
-        <u>
-          <a href="/search">search</a>
-        </u>{' '}
-        page.
-      </p>
+      {getVisibleText('downloads.empty')}
     </UploadContainer>
   );
 }

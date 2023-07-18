@@ -6,7 +6,7 @@ import useJobs from './hooks/useJobs';
 import LoadingIndicator from '../../components/Loading';
 import { ErrorHandlerType } from '../../components/errors/helpers/types';
 import { FinishedJobs } from './components/FinishedJobs';
-import { EmptyUploadsSection } from './components/EmptyUploadsSection';
+import { EmptyDownloadsSection } from './components/EmptyDownloadsSection';
 import { Container } from '../../components/styled';
 import { redirectOnError } from '../../components/shared/redirectOnError';
 import { UnfinishedJobsInfo } from './components/UnfinishedJobsInfo';
@@ -33,7 +33,7 @@ export function DownloadsPage({ setError }: DownloadsPageProps) {
 
   return (
     <Container>
-      <EmptyUploadsSection hasActiveJobs={unfinishedJob} uploads={uploads} />
+      <EmptyDownloadsSection hasActiveJobs={unfinishedJob} uploads={uploads} />
       <UnfinishedJobsInfo visible={unfinishedJob} />
       <Index
         restartJob={restartJob}
