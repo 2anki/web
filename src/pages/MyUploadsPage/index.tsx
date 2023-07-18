@@ -1,3 +1,3 @@
-import { MyUploadsPage } from './MyUploadsPage';
+import { DownloadsPage } from './DownloadsPage';
 
-export default MyUploadsPage;
+export default DownloadsPage;

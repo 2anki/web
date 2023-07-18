@@ -12,11 +12,11 @@ import { redirectOnError } from '../../components/shared/redirectOnError';
 
 const backend = new Backend();
 
-interface MyUploadsPageProps {
+interface DownloadsPageProps {
   setError: ErrorHandlerType;
 }
 
-export function MyUploadsPage({ setError }: MyUploadsPageProps) {
+export function DownloadsPage({ setError }: DownloadsPageProps) {
   const { deleteUpload, loading, uploads, error } = useUploads(backend);
   const { jobs, deleteJob, restartJob } = useJobs(backend, setError);
 
