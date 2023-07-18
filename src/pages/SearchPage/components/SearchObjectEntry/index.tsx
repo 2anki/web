@@ -1,5 +1,7 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 
+import { DatabaseObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+import { isFullDatabase } from '@notionhq/client';
 import Backend from '../../../../lib/backend';
 import DefineRules from '../DefineRules';
 
@@ -28,6 +30,19 @@ interface Props {
   setError: ErrorHandlerType;
 }
 
+/**
+  * Unfortunately due to the implementation of favorites, there is some type mismatch.
+  * When that is cleaned up this can be deleted.
+ */
+const getType = (data: string | DatabaseObjectResponse): string | null => {
+  const dbObject = data as DatabaseObjectResponse;
+  if (isFullDatabase(dbObject)) {
+    return dbObject.object;
+  }
+
+  return typeof data === 'string' ? data : null;
+}
+
 function SearchObjectEntry(props: Props) {
   const { title, icon, url, id, type, isFavorite, setFavorites, setError } =
     props;
@@ -47,7 +62,7 @@ function SearchObjectEntry(props: Props) {
             onClick={(event) => {
               event.preventDefault();
               backend
-                .convert(id, type, title)
+                .convert(id, getType(type), title)
                 .then((response) => {
                   if (response.status === OK) {
                     window.location.href = '/uploads';
@@ -78,7 +93,7 @@ function SearchObjectEntry(props: Props) {
       {showSettings && (
         <DefineRules
           setError={setError}
-          type={type}
+          type={getType(type)}
           isFavorite={isFavorite}
           setFavorites={setFavorites}
           parent={title}
