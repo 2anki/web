@@ -192,12 +192,12 @@ export class Backend {
     await del(`${this.baseURL}upload/jobs/${id}`);
   }
 
-  async convert(id: string, type: string, title: string | null) {
+  async convert(id: string, type: string | null, title: string | null) {
     const link = `${this.baseURL}notion/convert`;
     return post(link, { id, type, title });
   }
 
-  async addFavorite(id: string, type: string): Promise<boolean> {
+  async addFavorite(id: string, type: string | null): Promise<boolean> {
     const response = await post(`${this.baseURL}favorite/create`, { id, type });
     return response.status === OK;
   }

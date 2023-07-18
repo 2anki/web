@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { getDownloadFileName } from '../../MyUploadsPage/helpers/getDownloadFileName';
+import { getDownloadFileName } from '../../DownloadsPage/helpers/getDownloadFileName';
 
 interface Props {
   downloadLink: string | null | undefined;

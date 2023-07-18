@@ -1,16 +1,17 @@
 import NavbarItem from '../NavbarItem';
+import { getVisibleText } from '../../../lib/text/getVisibleText';
 
 export default function getNavbarStartRegularUser(path: string) {
   return (
     <>
       <NavbarItem href="/upload" path={path}>
-        📦 Upload
+        {getVisibleText('navigation.upload')}
       </NavbarItem>
       <NavbarItem href="/uploads" path={path}>
-        🗂 My Uploads
+        {getVisibleText('navigation.uploads')}
       </NavbarItem>
       <NavbarItem href="/favorites" path={path}>
-        ⭐️Favorites
+        {getVisibleText('navigation.favorites')}
       </NavbarItem>
     </>
   );

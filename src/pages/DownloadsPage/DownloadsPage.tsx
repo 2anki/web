@@ -6,20 +6,20 @@ import useJobs from './hooks/useJobs';
 import LoadingIndicator from '../../components/Loading';
 import { ErrorHandlerType } from '../../components/errors/helpers/types';
 import { FinishedJobs } from './components/FinishedJobs';
-import { EmptyUploadsSection } from './components/EmptyUploadsSection';
+import { EmptyDownloadsSection } from './components/EmptyDownloadsSection';
 import { Container } from '../../components/styled';
 import { redirectOnError } from '../../components/shared/redirectOnError';
+import { UnfinishedJobsInfo } from './components/UnfinishedJobsInfo';
 
 const backend = new Backend();
 
-interface MyUploadsPageProps {
+interface DownloadsPageProps {
   setError: ErrorHandlerType;
 }
 
-export function MyUploadsPage({ setError }: MyUploadsPageProps) {
+export function DownloadsPage({ setError }: DownloadsPageProps) {
   const { deleteUpload, loading, uploads, error } = useUploads(backend);
   const { jobs, deleteJob, restartJob } = useJobs(backend, setError);
-
   const unfinishedJob = jobs.length > 0;
 
   if (error) {
@@ -33,12 +33,8 @@ export function MyUploadsPage({ setError }: MyUploadsPageProps) {
 
   return (
     <Container>
-      <EmptyUploadsSection hasActiveJobs={jobs.length > 0} uploads={uploads} />
-      {unfinishedJob && (
-        <p className="mt-2">
-          It might take a while for your conversion to finish. Check back later.
-        </p>
-      )}
+      <EmptyDownloadsSection hasActiveJobs={unfinishedJob} uploads={uploads} />
+      <UnfinishedJobsInfo visible={unfinishedJob} />
       <Index
         restartJob={restartJob}
         jobs={jobs}

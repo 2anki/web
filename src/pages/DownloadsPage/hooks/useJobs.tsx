@@ -38,7 +38,7 @@ export default function useJobs(
   }
 
   async function restartJob(job: Jobs) {
-    await backend.convert(job.object_id, '', job.title);
+    await backend.convert(job.object_id, job.type, job.title);
   }
 
   useEffect(() => {

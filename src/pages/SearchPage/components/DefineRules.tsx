@@ -14,13 +14,13 @@ import RuleDefinition from './RuleDefinition';
 import { Details } from './styled';
 
 interface Props {
-  type: string;
   id: string;
   setDone: () => void;
   parent: string;
   isFavorite: boolean | undefined;
   setFavorites: Dispatch<SetStateAction<NotionObject[]>>;
   setError: ErrorHandlerType;
+  type: string | null;
 }
 
 const flashCardOptions = [

@@ -22,7 +22,7 @@ const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 const SearchPage = lazy(() => import('./pages/SearchPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const NewPasswordPage = lazy(() => import('./pages/NewPasswordPage'));
-const MyUploadsPage = lazy(() => import('./pages/MyUploadsPage'));
+const DownloadsPage = lazy(() => import('./pages/DownloadsPage'));
 
 function App() {
   const [cookies, setCookie] = useCookies(['token']);
@@ -52,7 +52,7 @@ function App() {
               />
               <Route
                 path="/uploads"
-                element={<MyUploadsPage setError={handledError} />}
+                element={<DownloadsPage setError={handledError} />}
               />
               <Route
                 path="/upload"
