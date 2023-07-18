@@ -1,7 +1,5 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 
-import { DatabaseObjectResponse } from '@notionhq/client/build/src/api-endpoints';
-import { isFullDatabase } from '@notionhq/client';
 import Backend from '../../../../lib/backend';
 import DefineRules from '../DefineRules';
 
@@ -34,12 +32,10 @@ interface Props {
   * Unfortunately due to the implementation of favorites, there is some type mismatch.
   * When that is cleaned up this can be deleted.
  */
-const getType = (data: string | DatabaseObjectResponse): string | null => {
-  const dbObject = data as DatabaseObjectResponse;
-  if (isFullDatabase(dbObject)) {
-    return dbObject.object;
+const getType = (data: string | {object: string}): string | null => {
+  if (typeof data === 'object' && 'object' in data) {
+    return data.object;
   }
-
   return typeof data === 'string' ? data : null;
 }
 
