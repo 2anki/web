@@ -13,6 +13,7 @@ import {
   ErrorType
 } from '../../../../components/errors/helpers/types';
 import { OK } from '../../../../lib/backend/http';
+import { BlockIcon } from '../BlockIcon';
 
 const backend = new Backend();
 
@@ -36,11 +37,7 @@ function SearchObjectEntry(props: Props) {
     <>
       <Entry data-hj-suppress>
         <ObjectMeta>
-          {icon && (icon.includes('http') || icon.includes('data:image')) ? (
-            <img width={32} height={32} src={icon} alt="icon" />
-          ) : (
-            <span>{icon}</span>
-          )}
+          <BlockIcon icon={icon} />
           <span className="subtitle is-6">{title}</span>
         </ObjectMeta>
         <ObjectActions>
