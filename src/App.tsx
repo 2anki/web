@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { lazy, useMemo, useState } from 'react';
 
 import { useCookies } from 'react-cookie';
-import { captureException } from '@sentry/react';
+import Bugsnag from '@bugsnag/js';
 import UploadPage from './pages/UploadPage';
 import HomePage from './pages/HomePage';
 
@@ -17,6 +17,7 @@ import DebugPage from './pages/DebugPage';
 import FavoritesPage from './pages/FavoritesPage';
 import { PageLayout } from './components/Layout/PageLayout';
 import DeleteAccountPage from './pages/DeleteAccountPage';
+import { getErrorMessage } from './components/errors/helpers/getErrorMessage';
 
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 const SearchPage = lazy(() => import('./pages/SearchPage'));
@@ -33,9 +34,13 @@ function App() {
   const loadDefaults = localStorage.getItem('skip-defaults') !== 'true';
   const oldStore = useMemo(() => new CardOptionsStore(loadDefaults), []);
   const [apiError, setError] = useState<ErrorType | null>(null);
+  /**
+   * This error handling is for network errors and errors happening in the background.
+   * This code should be deleted and error handling should be unified for network requests.
+   * */
   const handledError = (error: ErrorType) => {
-    const errorMessage = typeof error === 'string' ? new Error(error) : error;
-    captureException(errorMessage);
+    const errorMessage = getErrorMessage(error);
+    Bugsnag.notify(getErrorMessage(error))
     setError(errorMessage);
   };
 

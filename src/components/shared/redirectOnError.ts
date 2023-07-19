@@ -1,6 +1,7 @@
-import { captureException } from '@sentry/react';
+import Bugsnag from '@bugsnag/js'
+import { getErrorMessage } from '../errors/helpers/getErrorMessage';
 
 export const redirectOnError = (error: unknown) => {
-  captureException(error);
+  Bugsnag.notify(getErrorMessage(error));
   window.location.href = '/login#login';
 };

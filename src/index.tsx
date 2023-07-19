@@ -2,26 +2,32 @@ import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import 'bulma/css/bulma.css';
 
-import * as Sentry from '@sentry/react';
-import { BrowserTracing } from '@sentry/tracing';
+import Bugsnag from '@bugsnag/js';
+import BugsnagPluginReact from '@bugsnag/plugin-react';
 
 import App from './App';
 
 import LoadingIndicator from './components/Loading';
 
-if (!process.env.REACT_SKIP_SENTRY) {
-  Sentry.init({
-    dsn: 'https://962b127355704482be99c300f58d00f6@o1284472.ingest.sentry.io/6596166',
-    integrations: [new BrowserTracing()],
-    tracesSampleRate: 1.0
+function main() {
+  Bugsnag.start({
+    apiKey: '746833cc883014579ab94b5d1222c638',
+    plugins: [new BugsnagPluginReact()],
+    enabledReleaseStages: ['production']
   });
+
+  const ErrorBoundary = Bugsnag.getPlugin('react')!.createErrorBoundary(React);
+
+  ReactDOM.render(
+    <React.StrictMode>
+      <Suspense fallback={<LoadingIndicator />}>
+        <ErrorBoundary>
+          <App />
+        </ErrorBoundary>
+      </Suspense>
+    </React.StrictMode>,
+    document.getElementById('root')
+  );
 }
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Suspense fallback={<LoadingIndicator />}>
-      <App />
-    </Suspense>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+main();

@@ -14,11 +14,11 @@
   },
   "dependencies": {
     "@babel/core": "^7.16.0",
+    "@bugsnag/js": "^7.20.2",
+    "@bugsnag/plugin-react": "^7.19.0",
     "@notionhq/client": "^2.2.5",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@reduxjs/toolkit": "^1.9.5",
-    "@sentry/react": "^7.57.0",
-    "@sentry/tracing": "^7.53.0",
     "@svgr/webpack": "^5.5.0",
     "babel-jest": "^27.4.2",
     "babel-loader": "^8.2.3",
