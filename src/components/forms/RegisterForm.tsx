@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { SyntheticEvent, useState } from 'react';
 import BetaMessage from '../BetaMessage';
 import Backend from '../../lib/backend';
-import { ErrorHandlerType } from '../errors/helpers/types';
+import { ErrorHandlerType } from '../errors/helpers/getErrorMessage';
 
 const FormContainer = styled.div`
   max-width: 720px;

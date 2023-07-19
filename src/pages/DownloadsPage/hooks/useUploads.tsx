@@ -50,6 +50,6 @@ export default function useUploads(backend: Backend): UseUploads {
     deleteUpload,
     loading,
     uploads,
-    error
+    error,
   };
 }

@@ -5,8 +5,10 @@ export const FormContainer = styled.div`
   margin: 0 auto;
 `;
 
-export const SubmitButton = styled.button.attrs({ className: 'button is-link is-medium is-pulled-right' })`
-:hover {
-  border: 3px solid #b5b5b5;
-}
+export const SubmitButton = styled.button.attrs({
+  className: 'button is-link is-medium is-pulled-right',
+})`
+  :hover {
+    border: 3px solid #b5b5b5;
+  }
 `;

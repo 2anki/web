@@ -1,4 +1,3 @@
-import { ErrorHandlerType } from '../../../components/errors/helpers/types';
 import { PageContainer } from '../../../components/styled';
 import Backend from '../../../lib/backend';
 import LoadingIndicator from '../../../components/Loading';
@@ -6,6 +5,7 @@ import LoadingIndicator from '../../../components/Loading';
 import FavoritesPresenter from './FavoritesPresenter';
 import useFavorites from '../helpers/useFavorites';
 import { redirectOnError } from '../../../components/shared/redirectOnError';
+import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
 
 interface FavoritesContentProps {
   backend: Backend;

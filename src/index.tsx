@@ -13,7 +13,7 @@ function main() {
   Bugsnag.start({
     apiKey: '746833cc883014579ab94b5d1222c638',
     plugins: [new BugsnagPluginReact()],
-    enabledReleaseStages: ['production']
+    enabledReleaseStages: ['production'],
   });
 
   const ErrorBoundary = Bugsnag.getPlugin('react')!.createErrorBoundary(React);

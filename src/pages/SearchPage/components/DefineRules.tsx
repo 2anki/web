@@ -1,8 +1,4 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import {
-  ErrorHandlerType,
-  ErrorType
-} from '../../../components/errors/helpers/types';
 
 import Switch from '../../../components/input/Switch';
 import SettingsModal from '../../../components/modals/SettingsModal';
@@ -12,6 +8,7 @@ import NotionObject from '../../../lib/interfaces/NotionObject';
 import { NewRule } from '../types';
 import RuleDefinition from './RuleDefinition';
 import { Details } from './styled';
+import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
 
 interface Props {
   id: string;
@@ -31,7 +28,7 @@ const flashCardOptions = [
   'heading_2',
   'heading_3',
   'column_list',
-  'quote'
+  'quote',
 ];
 const tagOptions = ['heading', 'strikethrough'];
 const subDeckOptions = ['child_page', ...flashCardOptions];
@@ -50,7 +47,7 @@ function DefineRules(props: Props) {
     sub_deck_is: ['child_page'],
     tags_is: 'strikethrough',
     deck_is: ['page', 'database'],
-    email_notification: false
+    email_notification: false,
   });
 
   const [isLoading, setIsloading] = useState(true);
@@ -72,7 +69,7 @@ function DefineRules(props: Props) {
             ...rule,
             flashcard_is: rule.flashcard_is.split(','),
             sub_deck_is: rule.sub_deck_is.split(','),
-            deck_is: rule.deck_is.split(',')
+            deck_is: rule.deck_is.split(','),
           };
           setRules(newRules);
           setSendEmail(newRules.email_notification);
@@ -104,7 +101,7 @@ function DefineRules(props: Props) {
       );
       setDone();
     } catch (error) {
-      setError(error as ErrorType);
+      setError(error);
     }
   };
 
@@ -222,7 +219,7 @@ function DefineRules(props: Props) {
                     pickedTemplate={(name: string) => setTags(name)}
                     values={tagOptions.map((fco) => ({
                       label: `Tags are ${fco}`,
-                      value: fco
+                      value: fco,
                     }))}
                     name="Tags"
                     value={rules.tags_is}

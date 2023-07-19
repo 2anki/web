@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { SyntheticEvent, useState } from 'react';
 import Backend from '../../lib/backend';
-import { ErrorHandlerType, ErrorType } from '../errors/helpers/types';
+import { ErrorHandlerType } from '../errors/helpers/getErrorMessage';
 
 const FormContainer = styled.div`
   max-width: 720px;
@@ -29,7 +29,7 @@ function ForgotPasswordForm({ setError }: ForgotPasswordProps) {
       setLoading(false);
       setDidReset(true);
     } catch (error) {
-      setError(error as ErrorType);
+      setError(error);
       setLoading(false);
     }
   };
@@ -61,18 +61,20 @@ function ForgotPasswordForm({ setError }: ForgotPasswordProps) {
                     />
                   </label>
                 </div>
-                {!didReset && <div className="field">
-                  <div className="control" style={{ width: '100%' }}>
-                    <button
-                      type="submit"
-                      className="button is-link is-medium"
-                      style={{ width: '100%' }}
-                      disabled={loading}
-                    >
-                      Reset my password
-                    </button>
+                {!didReset && (
+                  <div className="field">
+                    <div className="control" style={{ width: '100%' }}>
+                      <button
+                        type="submit"
+                        className="button is-link is-medium"
+                        style={{ width: '100%' }}
+                        disabled={loading}
+                      >
+                        Reset my password
+                      </button>
+                    </div>
                   </div>
-                </div>}
+                )}
                 {didReset && (
                   <p>You should receive an email if your account exists.</p>
                 )}

@@ -1,5 +1,5 @@
 import BetaMessage from '../../BetaMessage';
-import { ErrorHandlerType } from '../../errors/helpers/types';
+import { ErrorHandlerType } from '../../errors/helpers/getErrorMessage';
 import { isValidCredentials } from './helpers/isValidCredentials';
 import { useHandleLoginSubmit } from './helpers/useHandleLoginSubmit';
 import { FormContainer, SubmitButton } from './styled';

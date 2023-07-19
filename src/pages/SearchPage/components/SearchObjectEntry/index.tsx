@@ -8,12 +8,9 @@ import ObjectAction from '../actions/ObjectAction';
 import { Entry, ObjectMeta } from './styled';
 import DotsHorizontal from '../../../../components/icons/DotsHorizontal';
 import NotionObject from '../../../../lib/interfaces/NotionObject';
-import {
-  ErrorHandlerType,
-  ErrorType
-} from '../../../../components/errors/helpers/types';
 import { OK } from '../../../../lib/backend/http';
 import { BlockIcon } from '../BlockIcon';
+import { ErrorHandlerType } from '../../../../components/errors/helpers/getErrorMessage';
 
 const backend = new Backend();
 
@@ -29,15 +26,15 @@ interface Props {
 }
 
 /**
-  * Unfortunately due to the implementation of favorites, there is some type mismatch.
-  * When that is cleaned up this can be deleted.
+ * Unfortunately due to the implementation of favorites, there is some type mismatch.
+ * When that is cleaned up this can be deleted.
  */
-const getType = (data: string | {object: string}): string | null => {
+const getType = (data: string | { object: string }): string | null => {
   if (typeof data === 'object' && 'object' in data) {
     return data.object;
   }
   return typeof data === 'string' ? data : null;
-}
+};
 
 function SearchObjectEntry(props: Props) {
   const { title, icon, url, id, type, isFavorite, setFavorites, setError } =

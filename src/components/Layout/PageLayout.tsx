@@ -1,13 +1,12 @@
 import { ReactNode } from 'react';
 import { PageContent, Layout, PageSidebar, PageHeader } from './styled';
 import { ErrorPresenter } from '../errors/ErrorPresenter';
-import { ErrorType } from '../errors/helpers/types';
 import { Menu } from './SideBar/Meny';
 import { canShowNavbar } from '../shared/canShowNavbar';
 import NavigationBar from '../NavigationBar/NavigationBar';
 
 interface LayoutProps {
-  error: ErrorType;
+  error: unknown;
   children: ReactNode;
 }
 

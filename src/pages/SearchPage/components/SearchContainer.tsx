@@ -1,4 +1,4 @@
-import { ErrorHandlerType } from '../../../components/errors/helpers/types';
+import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
 import { PageContainer } from '../../../components/styled';
 import Backend from '../../../lib/backend';
 import LoadingIndicator from '../../../components/Loading';

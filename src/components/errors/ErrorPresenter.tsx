@@ -1,9 +1,8 @@
 import { getErrorMessage } from './helpers/getErrorMessage';
-import { ErrorType } from './helpers/types';
 import { useDismissed } from './helpers/useDismissed';
 
 interface ErrorPresenterProps {
-  error: ErrorType;
+  error: unknown;
 }
 
 export function ErrorPresenter({ error }: ErrorPresenterProps) {

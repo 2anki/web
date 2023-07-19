@@ -1,4 +1,4 @@
-import Bugsnag from '@bugsnag/js'
+import Bugsnag from '@bugsnag/js';
 import { getErrorMessage } from '../errors/helpers/getErrorMessage';
 
 export const redirectOnError = (error: unknown) => {

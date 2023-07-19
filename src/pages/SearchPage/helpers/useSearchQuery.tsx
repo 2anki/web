@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { ErrorHandlerType } from '../../../components/errors/helpers/types';
+import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
 
 import Backend from '../../../lib/backend';
 import useQuery from '../../../lib/hooks/useQuery';

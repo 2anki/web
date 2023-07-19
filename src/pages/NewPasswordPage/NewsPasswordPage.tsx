@@ -1,4 +1,4 @@
-import { ErrorHandlerType } from '../../components/errors/helpers/types';
+import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
 import NewPassordForm from '../../components/forms/NewPasswordForm';
 import { Container } from '../../components/styled';
 

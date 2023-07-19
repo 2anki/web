@@ -5,12 +5,12 @@ import { SettingsPayload } from '../../lib/types';
 
 import StoreContext from '../../store/StoreContext';
 import BlueTintedBox from '../BlueTintedBox';
-import { ErrorHandlerType, ErrorType } from '../errors/helpers/types';
 import FontSizePicker from '../FontSizePicker';
 import LocalCheckbox from '../LocalCheckbox';
 import TemplateName from '../TemplateName';
 import TemplateSelect from '../TemplateSelect';
 import { persist } from './helpers/persist';
+import { ErrorHandlerType } from '../errors/helpers/getErrorMessage';
 
 const StyledInput = styled.input`
   font-weight: bold;
@@ -115,7 +115,7 @@ function SettingsModal({
         })
         .catch((error) => {
           setLoading(false);
-          setError(error as ErrorType);
+          setError(error);
         });
     }
   }, [pageId]);

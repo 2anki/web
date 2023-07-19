@@ -1,18 +1,17 @@
 import { getVisibleText } from '../../../lib/text/getVisibleText';
 
 export interface UnfinishedJobsInfoProps {
-    visible: boolean;
+  visible: boolean;
 }
 
-export function UnfinishedJobsInfo({visible}: UnfinishedJobsInfoProps) {
-    
-    if (!visible) {
-        return null;
-    }
-    
-    return <div className="notification">
-        <p className="mt-2">
-            {getVisibleText('downloads.unfinished.jobs')}
-        </p>
+export function UnfinishedJobsInfo({ visible }: UnfinishedJobsInfoProps) {
+  if (!visible) {
+    return null;
+  }
+
+  return (
+    <div className="notification">
+      <p className="mt-2">{getVisibleText('downloads.unfinished.jobs')}</p>
     </div>
+  );
 }

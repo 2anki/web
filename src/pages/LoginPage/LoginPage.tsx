@@ -4,7 +4,7 @@ import ForgotPasswordForm from '../../components/forms/ForgotPasswordForm';
 import NavButtonCTA from '../../components/buttons/NavButtonCTA';
 import { Container } from '../../components/styled';
 import TopSection from './TopSection';
-import { ErrorHandlerType } from '../../components/errors/helpers/types';
+import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
 
 interface Props {
   setErrorMessage: ErrorHandlerType;

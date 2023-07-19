@@ -8,11 +8,11 @@ export interface SidebarItemProps {
 }
 
 export default function SidebarItem({
-                                      path,
-                                      href,
-                                      children,
-                                      onClick
-                                    }: SidebarItemProps) {
+  path,
+  href,
+  children,
+  onClick,
+}: SidebarItemProps) {
   return (
     <li>
       <a

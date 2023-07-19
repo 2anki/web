@@ -12,7 +12,6 @@ import StoreContext from './store/StoreContext';
 import GlobalStyle from './GlobalStyle';
 import ImportPage from './pages/ImportPage/ImportPage';
 import isOfflineMode from './lib/isOfflineMode';
-import { ErrorType } from './components/errors/helpers/types';
 import DebugPage from './pages/DebugPage';
 import FavoritesPage from './pages/FavoritesPage';
 import { PageLayout } from './components/Layout/PageLayout';
@@ -33,14 +32,14 @@ function App() {
 
   const loadDefaults = localStorage.getItem('skip-defaults') !== 'true';
   const oldStore = useMemo(() => new CardOptionsStore(loadDefaults), []);
-  const [apiError, setError] = useState<ErrorType | null>(null);
+  const [apiError, setError] = useState<unknown>(null);
   /**
    * This error handling is for network errors and errors happening in the background.
    * This code should be deleted and error handling should be unified for network requests.
    * */
-  const handledError = (error: ErrorType) => {
+  const handledError = (error: unknown) => {
     const errorMessage = getErrorMessage(error);
-    Bugsnag.notify(getErrorMessage(error))
+    Bugsnag.notify(getErrorMessage(error));
     setError(errorMessage);
   };
 
