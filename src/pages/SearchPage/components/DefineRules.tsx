@@ -77,7 +77,7 @@ function DefineRules(props: Props) {
         setIsloading(false);
       })
       .catch((error) => {
-        setError(error as ErrorType);
+        setError(error);
       });
   }, [id]);
 

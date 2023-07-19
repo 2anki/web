@@ -64,7 +64,7 @@ function SearchObjectEntry(props: Props) {
                   }
                 })
                 .catch((error) => {
-                  setError(error as ErrorType);
+                  setError(error);
                 });
             }}
           />
