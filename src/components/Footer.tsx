@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const StyledFooter = styled.footer`
   flex-shrink: 0;
@@ -63,8 +63,7 @@ function Footer() {
         <div className="column">
           <Header>Developer</Header>
           <p>
-            <a
-              href="https://github.com/alemayhu/notion2anki/issues?q=is%3Aopen+is%3Aissue+milestone%3A%E4%B8%80%E7%95%AA%E3%83%BBv1.0.0">
+            <a href="https://github.com/alemayhu/notion2anki/issues?q=is%3Aopen+is%3Aissue+milestone%3A%E4%B8%80%E7%95%AA%E3%83%BBv1.0.0">
               Roadmap
             </a>
           </p>
@@ -89,8 +88,7 @@ function Footer() {
             </a>
           </p>
           <p>
-            <a
-              href="https://www.digitalocean.com/?refcode=c5a16996cd0e&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge">
+            <a href="https://www.digitalocean.com/?refcode=c5a16996cd0e&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge">
               <img
                 src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg"
                 alt="DigitalOcean Referral Badge"
