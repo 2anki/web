@@ -79,15 +79,6 @@ function Footer() {
         <div className="column">
           <Header>Sponsors</Header>
           <p>
-            <a href="https://scrimba.com">
-              <img
-                src="/sponsors/Scrimba.png"
-                alt="Sponsored by Scrimba"
-                loading="lazy"
-              />
-            </a>
-          </p>
-          <p>
             <a href="https://www.digitalocean.com/?refcode=c5a16996cd0e&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge">
               <img
                 src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg"
@@ -101,16 +92,6 @@ function Footer() {
                 src="https://www.netlify.com/img/global/badges/netlify-color-bg.svg"
                 alt="Deploys by Netlify"
                 loading="lazy"
-              />
-            </a>
-          </p>
-          <p>
-            <a href="https://fortress.no">
-              <img
-                src="https://fortress.no/icons/logo.svg"
-                alt="Sponsored by Fortress"
-                loading="lazy"
-                style={{ width: '60px' }}
               />
             </a>
           </p>
