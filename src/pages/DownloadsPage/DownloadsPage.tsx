@@ -4,12 +4,12 @@ import Index from './components/ListJobs';
 import useUploads from './hooks/useUploads';
 import useJobs from './hooks/useJobs';
 import LoadingIndicator from '../../components/Loading';
-import { ErrorHandlerType } from '../../components/errors/helpers/types';
 import { FinishedJobs } from './components/FinishedJobs';
 import { EmptyDownloadsSection } from './components/EmptyDownloadsSection';
 import { Container } from '../../components/styled';
 import { redirectOnError } from '../../components/shared/redirectOnError';
 import { UnfinishedJobsInfo } from './components/UnfinishedJobsInfo';
+import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
 
 const backend = new Backend();
 

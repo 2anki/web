@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { ErrorType } from './types';
 
+// @ts-ignore
 export const useDismissed = (error: ErrorType) => {
   const [dismissed, setDismissed] = useState(false);
   useEffect(() => {

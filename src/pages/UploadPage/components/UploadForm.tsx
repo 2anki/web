@@ -1,8 +1,8 @@
 import { SyntheticEvent, useEffect, useRef, useState } from 'react';
-import { ErrorHandlerType } from '../../../components/errors/helpers/types';
 import getHeadersFilename from '../helpers/getHeadersFilename';
 import DownloadButton from './DownloadButton';
 import DropParagraph from './DropParagraph';
+import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
 
 interface UploadFormProps {
   setErrorMessage: ErrorHandlerType;

@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  ErrorHandlerType,
-  ErrorType
-} from '../../../components/errors/helpers/types';
+import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
 
 import Backend from '../../../lib/backend';
 import Jobs, { JobsId } from '../../../schemas/public/Jobs';
@@ -24,7 +21,7 @@ export default function useJobs(
       const active = await backend.getJobs();
       setJobs(active);
     } catch (error) {
-      setError(error as ErrorType);
+      setError(error);
     }
   }
 
@@ -33,7 +30,7 @@ export default function useJobs(
       await backend.deleteJob(id);
       setJobs(jobs.filter((job: Jobs) => job.id !== id));
     } catch (error) {
-      setError(error as ErrorType);
+      setError(error);
     }
   }
 

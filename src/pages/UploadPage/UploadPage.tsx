@@ -12,10 +12,10 @@ import {
   ImportTitle,
   InfoMessage,
   SettingsLink,
-  UploadContainer
+  UploadContainer,
 } from './styled';
 import { Main, PageContainer } from '../../components/styled';
-import { ErrorHandlerType } from '../../components/errors/helpers/types';
+import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
 
 interface Props {
   setErrorMessage: ErrorHandlerType;

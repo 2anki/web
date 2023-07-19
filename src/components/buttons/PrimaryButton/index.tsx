@@ -8,10 +8,10 @@ interface PrimaryButtonProps {
 }
 
 export default function PrimaryButton({
-                                        text,
-                                        destination,
-                                        onClickLink
-                                      }: PrimaryButtonProps) {
+  text,
+  destination,
+  onClickLink,
+}: PrimaryButtonProps) {
   return (
     <StyledButton>
       {destination.includes('http') ? (

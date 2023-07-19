@@ -14,7 +14,7 @@ export default function UploadObjectEntry({
   title,
   icon,
   url,
-  deleteUpload
+  deleteUpload,
 }: Props) {
   return (
     <Entry>

@@ -10,11 +10,11 @@ export interface NavbarItemProps {
 }
 
 export default function NavbarItem({
-                                     path,
-                                     href,
-                                     onClick,
-                                     children
-                                   }: NavbarItemProps) {
+  path,
+  href,
+  onClick,
+  children,
+}: NavbarItemProps) {
   return (
     <StyledNavbarItem
       onClick={onClick}

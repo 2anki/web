@@ -9,10 +9,10 @@ export interface ObjectActionProps {
 }
 
 export default function ObjectAction({
-                                       url,
-                                       image,
-                                       onClick
-                                     }: ObjectActionProps) {
+  url,
+  image,
+  onClick,
+}: ObjectActionProps) {
   return (
     <a href={url} target="_blank" rel="noreferrer" onClick={onClick}>
       <ObjectIconAction alt="Page action" width="32px" src={image} />

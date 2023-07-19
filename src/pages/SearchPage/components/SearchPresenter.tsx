@@ -4,7 +4,7 @@ import NotionObject from '../../../lib/interfaces/NotionObject';
 import ListSearchResults from './ListSearchResults';
 import useFavorites from '../helpers/useFavorites';
 import Backend from '../../../lib/backend';
-import { ErrorHandlerType } from '../../../components/errors/helpers/types';
+import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
 import { StickyContainer } from './styled';
 
 interface SearchPresenterProps {
@@ -29,7 +29,7 @@ export default function SearchPresenter(props: SearchPresenterProps) {
           onSearchQueryChanged={(s) => {
             navigate({
               pathname: '/search',
-              search: `?q=${s}`
+              search: `?q=${s}`,
             });
             setSearchQuery(s);
           }}

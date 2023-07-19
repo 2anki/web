@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { ErrorHandlerType } from '../../../components/errors/helpers/types';
+import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
 import NotionObject from '../../../lib/interfaces/NotionObject';
 import ListSearchResults from '../../SearchPage/components/ListSearchResults';
 

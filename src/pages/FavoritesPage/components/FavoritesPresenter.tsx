@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import Favorites from './Favorites';
 
-import { ErrorHandlerType } from '../../../components/errors/helpers/types';
+import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
 import NotionObject from '../../../lib/interfaces/NotionObject';
 import { EmptyStateFigure } from './EmptyStateFigure';
 
@@ -14,7 +14,7 @@ interface Props {
 export default function FavoritesPresenter({
   setError,
   setFavorites,
-  favorites
+  favorites,
 }: Props) {
   if (favorites.length === 0) {
     return <EmptyStateFigure />;

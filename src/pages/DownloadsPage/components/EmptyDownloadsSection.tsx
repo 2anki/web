@@ -11,9 +11,5 @@ export function EmptyDownloadsSection({ hasActiveJobs, uploads }: Prop) {
   if (hasActiveJobs || (uploads ?? []).length > 0) {
     return null;
   }
-  return (
-    <UploadContainer>
-      {getVisibleText('downloads.empty')}
-    </UploadContainer>
-  );
+  return <UploadContainer>{getVisibleText('downloads.empty')}</UploadContainer>;
 }

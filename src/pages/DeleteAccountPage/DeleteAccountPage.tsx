@@ -1,11 +1,11 @@
 import React from 'react';
 
 import Cookies from 'universal-cookie';
-import { ErrorHandlerType } from '../../components/errors/helpers/types';
 import { UploadContainer } from '../UploadPage/styled';
 import { Layout } from '../../components/Layout/styled';
 import Backend from '../../lib/backend';
 import { redirectToFrontPage } from '../../lib/redirects';
+import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
 
 interface Prop {
   setError: ErrorHandlerType;

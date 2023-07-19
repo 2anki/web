@@ -2,12 +2,14 @@ import React, {
   FormEventHandler,
   SetStateAction,
   SyntheticEvent,
-  useState
+  useState,
 } from 'react';
 import { useCookies } from 'react-cookie';
 import Backend from '../../../../lib/backend';
-import { getErrorMessage } from '../../../errors/helpers/getErrorMessage';
-import { ErrorHandlerType, ErrorType } from '../../../errors/helpers/types';
+import {
+  ErrorHandlerType,
+  getErrorMessage,
+} from '../../../errors/helpers/getErrorMessage';
 
 interface LoginState {
   email: string;
@@ -44,7 +46,7 @@ export const useHandleLoginSubmit = (onError: ErrorHandlerType): LoginState => {
       }
       setLoading(false);
     } catch (error) {
-      const errorMessage = getErrorMessage(error as ErrorType);
+      const errorMessage = getErrorMessage(error);
       onError(errorMessage);
       setLoading(false);
     }
@@ -56,6 +58,6 @@ export const useHandleLoginSubmit = (onError: ErrorHandlerType): LoginState => {
     loading,
     onSubmit,
     setEmail,
-    setPassword
+    setPassword,
   };
 };

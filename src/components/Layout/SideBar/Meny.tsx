@@ -34,8 +34,9 @@ export function Menu() {
         <SidebarItem
           path={path}
           href="https://alemayhu.notion.site/FAQ-ef01be9c9bac41689a4d749127c14301"
-          >
-          {getVisibleText('navigation.help')}</SidebarItem>
+        >
+          {getVisibleText('navigation.help')}
+        </SidebarItem>
       </ul>
       <ProtectedItems visible={cookies.token}>
         <ul className="menu-list">
