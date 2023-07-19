@@ -1,5 +1,4 @@
-import styled from 'styled-components';
-import { canShowNavbar } from './shared/canShowNavbar';
+import styled from "styled-components";
 
 const StyledFooter = styled.footer`
   flex-shrink: 0;
@@ -19,11 +18,6 @@ const Header = styled.p`
 `;
 
 function Footer() {
-  const { pathname } = window.location;
-  if (canShowNavbar(pathname)) {
-    return null;
-  }
-
   return (
     <StyledFooter>
       <div className="columns">
