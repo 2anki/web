@@ -54,25 +54,7 @@ export function UploadPage({ setErrorMessage }: Props) {
           <div className="container">
             <UploadForm setErrorMessage={setErrorMessage} />
             <InfoMessage>
-              2anki.net currently only supports
-              <a
-                rel="noreferrer"
-                target="_blank"
-                href="https://www.notion.so/Export-as-HTML-bf3fe9e6920e4b9883cbd8a76b6128b7"
-              >
-                {' '}
-                HTML and ZIP exports from Notion
-              </a>
-              . All files are automatically deleted after 21 minutes. Checkout
-              the{' '}
-              <a
-                rel="noreferrer"
-                target="_blank"
-                href="https://youtube.com/c/alexanderalemayhu?sub_confirmation=1"
-              >
-                YouTube channel for tutorials
-              </a>
-              . Notion API support is in the works and coming soon!
+              All files uploaded here are automatically deleted after 21 minutes.
             </InfoMessage>
             <SettingsModal
               setError={setErrorMessage}
