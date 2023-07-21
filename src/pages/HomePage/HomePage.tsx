@@ -5,12 +5,10 @@ import HeroSection from './components/Sections/hero';
 import NewsSection from './components/Sections/news/NewsSection';
 import { HomeContainer } from '../../components/styled';
 import NavigationBar from '../../components/NavigationBar/NavigationBar';
-import { MigrationMessage } from '../../components/MigrationMessage';
 
 export function HomePage() {
   return (
     <>
-      <MigrationMessage />
       <NavigationBar />
       <HomeContainer>
         <HeroSection />

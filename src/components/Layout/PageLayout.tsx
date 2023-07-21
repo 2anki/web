@@ -4,7 +4,6 @@ import { ErrorPresenter } from '../errors/ErrorPresenter';
 import { Menu } from './SideBar/Meny';
 import { canShowNavbar } from '../shared/canShowNavbar';
 import NavigationBar from '../NavigationBar/NavigationBar';
-import { MigrationMessage } from '../MigrationMessage';
 
 interface LayoutProps {
   error: unknown;
@@ -28,7 +27,6 @@ export function PageLayout({ error, children }: LayoutProps) {
 
   return (
     <>
-      <MigrationMessage />
       <PageHeader>
         <NavigationBar />
       </PageHeader>
