@@ -227,7 +227,7 @@ export class Backend {
   }
 
   async login(email: string, password: string): Promise<Response> {
-    return post(getLoginURL(this.baseURL), {
+    return post(`${getLoginURL(this.baseURL)}${window.location.search}`, {
       email,
       password,
     });
