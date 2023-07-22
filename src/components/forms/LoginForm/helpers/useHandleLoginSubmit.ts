@@ -34,9 +34,9 @@ export const useHandleLoginSubmit = (onError: ErrorHandlerType): LoginState => {
     try {
       const res = await backend.login(email, password);
       if (res.status === 200) {
-        const { token } = await res.json();
+        const { token, redirect } = await res.json();
         setCookie('token', token);
-        window.location.href = '/search';
+        window.location.href = redirect ?? '/search';
       } else {
         onError(
           new Error(
