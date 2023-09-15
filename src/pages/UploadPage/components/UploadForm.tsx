@@ -3,6 +3,7 @@ import getHeadersFilename from '../helpers/getHeadersFilename';
 import DownloadButton from './DownloadButton';
 import DropParagraph from './DropParagraph';
 import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
+import getAcceptedContentTypes from '../helpers/getAcceptedContentTypes';
 
 interface UploadFormProps {
   setErrorMessage: ErrorHandlerType;
@@ -112,7 +113,7 @@ function UploadForm({ setErrorMessage }: UploadFormProps) {
                   className="file-input"
                   type="file"
                   name="pakker"
-                  accept=".zip,.html"
+                  accept={getAcceptedContentTypes()}
                   required
                   multiple
                   onChange={() => fileSelected()}
