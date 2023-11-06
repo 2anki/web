@@ -13,8 +13,7 @@ interface LayoutProps {
 export function PageLayout({ error, children }: LayoutProps) {
   const hideMeny =
     !canShowNavbar(window.location.pathname) ||
-    window.location.pathname === '/' ||
-    window.location.pathname === '/search';
+    window.location.pathname === '/';
 
   if (hideMeny) {
     return (
