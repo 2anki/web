@@ -10,7 +10,7 @@ interface LayoutProps {
   children: ReactNode;
 }
 
-export function PageLayout({ error, children }: LayoutProps) {
+export function PageLayout({ error, children }: Readonly<LayoutProps>) {
   const hideMeny =
     !canShowNavbar(window.location.pathname) ||
     window.location.pathname === '/';
