@@ -30,7 +30,7 @@ export default function Index({ jobs, deleteJob, restartJob }: Props) {
             <div className="is-flex is-flex-direction-column">
               <p className="title is-6">{j.title}</p>
               <p className="subtitle is-7">
-                {j.created_at && `Started ${getDistance(j.created_at)}`}
+                {j.created_at && `Started ${getDistance(j.created_at)} ago`}
               </p>
             </div>
           </JobRow>
