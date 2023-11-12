@@ -4,6 +4,7 @@ import DownloadButton from './DownloadButton';
 import DropParagraph from './DropParagraph';
 import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
 import getAcceptedContentTypes from '../helpers/getAcceptedContentTypes';
+import handleRedirect from '../../../lib/handleRedirect';
 
 interface UploadFormProps {
   setErrorMessage: ErrorHandlerType;
@@ -60,6 +61,10 @@ function UploadForm({ setErrorMessage }: UploadFormProps) {
       });
       const contentType = request.headers.get('Content-Type');
       const notOK = request.status !== 200;
+      if (request.redirected) {
+        return handleRedirect(request);
+      }
+
       if (notOK) {
         const text = await request.text();
         setDownloadLink(null);
