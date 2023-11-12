@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import useQuery from '../../lib/hooks/useQuery';
 import StoreContext from '../../store/StoreContext';
 import WarningMessage from '../../components/WarningMessage';
-import UploadForm from './components/UploadForm';
+import UploadForm from './components/UploadForm/UploadForm';
 import SettingsIcon from '../../components/icons/SettingsIcon';
 import SettingsModal from '../../components/modals/SettingsModal';
 import {
@@ -54,7 +54,8 @@ export function UploadPage({ setErrorMessage }: Props) {
           <div className="container">
             <UploadForm setErrorMessage={setErrorMessage} />
             <InfoMessage>
-              All files uploaded here are automatically deleted after 21 minutes.
+              All files uploaded here are automatically deleted after 21
+              minutes.
             </InfoMessage>
             <SettingsModal
               setError={setErrorMessage}

@@ -1,51 +1,34 @@
-import { SyntheticEvent, useEffect, useRef, useState } from 'react';
-import getHeadersFilename from '../helpers/getHeadersFilename';
-import DownloadButton from './DownloadButton';
-import DropParagraph from './DropParagraph';
-import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
-import getAcceptedContentTypes from '../helpers/getAcceptedContentTypes';
-import handleRedirect from '../../../lib/handleRedirect';
+import { SyntheticEvent, useRef, useState } from 'react';
+import { ErrorHandlerType } from '../../../../components/errors/helpers/getErrorMessage';
+import handleRedirect from '../../../../lib/handleRedirect';
+import getAcceptedContentTypes from '../../helpers/getAcceptedContentTypes';
+import getHeadersFilename from '../../helpers/getHeadersFilename';
+import DownloadButton from '../DownloadButton';
+import DropParagraph from '../DropParagraph';
+import { useDrag } from './hooks/useDrag';
 
 interface UploadFormProps {
   setErrorMessage: ErrorHandlerType;
 }
 
-function UploadForm({ setErrorMessage }: UploadFormProps) {
+function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
   const [uploading, setUploading] = useState(false);
   const [downloadLink, setDownloadLink] = useState<null | string>('');
   const [deckName, setDeckName] = useState('');
-  const [dropHover, setDropHover] = useState(false);
-
   const fileInputRef = useRef<HTMLInputElement>(null);
   const convertRef = useRef<HTMLButtonElement>(null);
-
-  // TODO: refactor this into a hook
-  // TODO: refactor into a hook
-  useEffect(() => {
-    const body = document.getElementsByTagName('body')[0];
-    body.ondragover = (event) => {
-      setDropHover(true);
-      event.preventDefault();
-    };
-
-    body.ondragenter = (event) => {
-      event.preventDefault();
-      setDropHover(true);
-    };
-
-    body.ondragleave = () => {
-      setDropHover(false);
-    };
-
-    body.ondrop = (event) => {
+  const { dropHover } = useDrag({
+    onDrop: (event) => {
       const { dataTransfer } = event;
+
       if (dataTransfer && dataTransfer.files.length > 0) {
         fileInputRef.current!.files = dataTransfer.files;
         convertRef.current?.click();
       }
+
       event.preventDefault();
-    };
-  }, []);
+    },
+  });
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
