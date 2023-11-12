@@ -53,6 +53,8 @@ interface Props {
   setError: ErrorHandlerType;
 }
 
+type SettingsPayload = { [key: string]: string };
+
 const backend = new Backend();
 
 function SettingsModal({

@@ -12,10 +12,11 @@ import Jobs, { JobsId } from '../../schemas/public/Jobs';
 import { ConnectionInfo } from '../interfaces/ConnectionInfo';
 import isOfflineMode from '../isOfflineMode';
 import getObjectIcon, { ObjectIcon } from '../notion/getObjectIcon';
-import { Rules, Settings } from '../types';
 import { del, get, getLoginURL, post } from './api';
 import { getResourceUrl } from './getResourceUrl';
 import { OK } from './http';
+import Settings from '../../schemas/public/Settings';
+import ParserRules from '../../schemas/public/ParserRules';
 
 export class Backend {
   baseURL: string;
@@ -73,7 +74,7 @@ export class Backend {
     return post(`${this.baseURL}rules/create/${id}`, { payload });
   }
 
-  async getRules(id: string): Promise<Rules | null> {
+  async getRules(id: string): Promise<ParserRules | null> {
     try {
       const findRules = async () => get(`${this.baseURL}rules/find/${id}`);
       const result = await findRules();
