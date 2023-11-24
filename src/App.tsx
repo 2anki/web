@@ -17,6 +17,7 @@ import FavoritesPage from './pages/FavoritesPage';
 import { PageLayout } from './components/Layout/PageLayout';
 import DeleteAccountPage from './pages/DeleteAccountPage';
 import { getErrorMessage } from './components/errors/helpers/getErrorMessage';
+import SimplePage from './pages/SimplePage';
 
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 const SearchPage = lazy(() => import('./pages/SearchPage'));
@@ -50,6 +51,7 @@ function App() {
         <BrowserRouter>
           <PageLayout error={apiError}>
             <Routes>
+              <Route path="/simple" element={<SimplePage />} />
               <Route
                 path="/favorites"
                 element={<FavoritesPage setError={handledError} />}

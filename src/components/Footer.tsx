@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { isSimplePage } from './shared/canShowNavbar';
 
 const StyledFooter = styled.footer`
   flex-shrink: 0;
@@ -18,6 +19,10 @@ const Header = styled.p`
 `;
 
 function Footer() {
+  if (isSimplePage()) {
+    return null;
+  }
+
   return (
     <StyledFooter>
       <div className="columns">
