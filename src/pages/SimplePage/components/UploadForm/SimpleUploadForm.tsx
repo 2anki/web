@@ -2,19 +2,27 @@ import { SyntheticEvent, useRef, useState } from 'react';
 import { ErrorHandlerType } from '../../../../components/errors/helpers/getErrorMessage';
 import handleRedirect from '../../../../lib/handleRedirect';
 import getAcceptedContentTypes from '../../helpers/getAcceptedContentTypes';
-import getHeadersFilename from '../../helpers/getHeadersFilename';
 import DownloadButton from '../DownloadButton';
 import DropParagraph from '../DropParagraph';
 import { useDrag } from './hooks/useDrag';
 
-interface UploadFormProps {
-  setErrorMessage: ErrorHandlerType;
+export interface CreatedDeck {
+  name: string;
+  link: string;
 }
 
-function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
+interface UploadFormProps {
+  setErrorMessage: ErrorHandlerType;
+  onDecksCreated: (decks: CreatedDeck[]) => void;
+}
+
+function SimpleUploadForm({
+  setErrorMessage,
+  onDecksCreated,
+}: Readonly<UploadFormProps>) {
   const [uploading, setUploading] = useState(false);
   const [downloadLink, setDownloadLink] = useState<null | string>('');
-  const [deckName, setDeckName] = useState('');
+  const [deckName] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const convertRef = useRef<HTMLButtonElement>(null);
   const { dropHover } = useDrag({
@@ -38,33 +46,22 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
       const element = event.currentTarget as HTMLFormElement;
       const formData = new FormData(element);
       storedFields.forEach((sf) => formData.append(sf[0], sf[1]));
-      const request = await window.fetch('/api/upload/file', {
+      const request = await window.fetch('/api/simple-upload/file', {
         method: 'post',
         body: formData,
       });
-      const contentType = request.headers.get('Content-Type');
-      const notOK = request.status !== 200;
       if (request.redirected) {
         return handleRedirect(request);
       }
 
-      if (notOK) {
-        const text = await request.text();
-        setDownloadLink(null);
-        return setErrorMessage(text);
-      }
-      const fileNameHeader = getHeadersFilename(request.headers);
-      if (fileNameHeader) {
-        setDeckName(fileNameHeader);
+      const response = await request.json();
+
+      if ('error' in response) {
+        setErrorMessage(new Error(response.error));
       } else {
-        const fallback =
-          contentType === 'application/zip'
-            ? 'Your Decks.zip'
-            : 'Your deck.apkg';
-        setDeckName(fallback);
+        onDecksCreated(response);
       }
-      const blob = await request.blob();
-      setDownloadLink(window.URL.createObjectURL(blob));
+      setDownloadLink(null);
       setUploading(false);
     } catch (error) {
       setDownloadLink(null);
@@ -127,4 +124,4 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
   );
 }
 
-export default UploadForm;
+export default SimpleUploadForm;
