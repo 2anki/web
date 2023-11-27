@@ -7,6 +7,10 @@ import SimpleUploadForm, {
   CreatedDeck,
 } from './components/UploadForm/SimpleUploadForm';
 import { InfoMessage, UploadContainer } from './styled';
+import {
+  InfoMessage,
+  UploadContainer
+} from './styled';
 
 export function SimplePage() {
   const store = useContext(StoreContext);
