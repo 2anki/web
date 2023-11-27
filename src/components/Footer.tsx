@@ -19,7 +19,7 @@ const Header = styled.p`
 `;
 
 function Footer() {
-  if (isSimplePage()) {
+  if (isSimplePage(window.location.pathname)) {
     return null;
   }
 
