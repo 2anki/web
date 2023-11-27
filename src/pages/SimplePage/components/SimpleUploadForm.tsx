@@ -1,10 +1,9 @@
-import { SyntheticEvent, useRef, useState } from 'react';
-import { ErrorHandlerType } from '../../../../components/errors/helpers/getErrorMessage';
-import handleRedirect from '../../../../lib/handleRedirect';
-import getAcceptedContentTypes from '../../helpers/getAcceptedContentTypes';
-import DownloadButton from '../DownloadButton';
-import DropParagraph from '../DropParagraph';
-import { useDrag } from './hooks/useDrag';
+import { SyntheticEvent, useRef } from 'react';
+import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
+import handleRedirect from '../../../lib/handleRedirect';
+import { useDrag } from '../../UploadPage/components/UploadForm/hooks/useDrag';
+import getAcceptedContentTypes from '../helpers/getAcceptedContentTypes';
+import DropParagraph from './DropParagraph';
 
 export interface CreatedDeck {
   name: string;
@@ -20,9 +19,6 @@ function SimpleUploadForm({
   setErrorMessage,
   onDecksCreated,
 }: Readonly<UploadFormProps>) {
-  const [uploading, setUploading] = useState(false);
-  const [downloadLink, setDownloadLink] = useState<null | string>('');
-  const [deckName] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const convertRef = useRef<HTMLButtonElement>(null);
   const { dropHover } = useDrag({
@@ -40,7 +36,6 @@ function SimpleUploadForm({
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
-    setUploading(true);
     try {
       const storedFields = Object.entries(window.localStorage);
       const element = event.currentTarget as HTMLFormElement;
@@ -61,12 +56,8 @@ function SimpleUploadForm({
       } else {
         onDecksCreated(response);
       }
-      setDownloadLink(null);
-      setUploading(false);
     } catch (error) {
-      setDownloadLink(null);
       setErrorMessage(error as Error);
-      setUploading(false);
       return false;
     }
     return true;
@@ -84,42 +75,33 @@ function SimpleUploadForm({
         handleSubmit(event);
       }}
     >
-      <div className="container">
-        <div>
-          <div className="field">
-            <DropParagraph hover={dropHover}>
-              <h1>Drag a file and Drop it here</h1>
-              <p className="my-2">
-                <i>or</i>
-              </p>
-              <label htmlFor="pakker">
-                <input
-                  ref={fileInputRef}
-                  className="file-input"
-                  type="file"
-                  name="pakker"
-                  accept={getAcceptedContentTypes()}
-                  required
-                  multiple
-                  onChange={() => fileSelected()}
-                />
-              </label>
-              <span className="tag">Select</span>
-            </DropParagraph>
-          </div>
-          <DownloadButton
-            downloadLink={downloadLink}
-            deckName={deckName}
-            uploading={uploading}
-          />
-          <button
-            aria-label="Upload file"
-            style={{ visibility: 'hidden' }}
-            ref={convertRef}
-            type="submit"
-          />
-        </div>
+      <div className="field">
+        <DropParagraph hover={dropHover}>
+          <h1>Drag a file and Drop it here</h1>
+          <p className="my-2">
+            <i>or</i>
+          </p>
+          <label htmlFor="pakker">
+            <input
+              ref={fileInputRef}
+              className="file-input"
+              type="file"
+              name="pakker"
+              accept={getAcceptedContentTypes()}
+              required
+              multiple
+              onChange={() => fileSelected()}
+            />
+          </label>
+          <span className="tag">Select</span>
+        </DropParagraph>
       </div>
+      <button
+        aria-label="Upload file"
+        style={{ visibility: 'hidden', display: 'none' }}
+        ref={convertRef}
+        type="submit"
+      />
     </form>
   );
 }

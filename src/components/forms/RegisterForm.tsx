@@ -13,7 +13,7 @@ interface Props {
   setErrorMessage: ErrorHandlerType;
 }
 
-function RegisterForm({ setErrorMessage }: Props) {
+function RegisterForm({ setErrorMessage }: Readonly<Props>) {
   const [name, setName] = useState(localStorage.getItem('name') || '');
   const [email, setEmail] = useState(localStorage.getItem('email') || '');
   const [tos, setTos] = useState(localStorage.getItem('tos') === 'true');

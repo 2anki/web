@@ -6,20 +6,31 @@ import SimpleUploadForm from './SimpleUploadForm';
 describe('UploadForm', () => {
   test('download button is light by default', () => {
     const { container } = render(
-      <SimpleUploadForm setErrorMessage={(error) => fail(error)} />
+      <SimpleUploadForm
+        onDecksCreated={() => {}}
+        setErrorMessage={(error: unknown) => fail(error)}
+      />
     );
     expect(container.querySelector('.button.cta.is-light')).toBeInTheDocument();
   });
 
   test('no null classes', () => {
     const { container } = render(
-      <SimpleUploadForm setErrorMessage={(error) => fail(error)} />
+      <SimpleUploadForm
+        onDecksCreated={() => {}}
+        setErrorMessage={(error) => fail(error)}
+      />
     );
     expect(container.querySelector('.null')).toBeNull();
   });
 
   test('download button is disabled', () => {
-    render(<SimpleUploadForm setErrorMessage={(error) => fail(error)} />);
+    render(
+      <SimpleUploadForm
+        onDecksCreated={() => {}}
+        setErrorMessage={(error) => fail(error)}
+      />
+    );
     expect(document.querySelector('.button.cta')).toBeDisabled();
   });
 });

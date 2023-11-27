@@ -115,12 +115,6 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
             deckName={deckName}
             uploading={uploading}
           />
-          <button
-            aria-label="Upload file"
-            style={{ visibility: 'hidden' }}
-            ref={convertRef}
-            type="submit"
-          />
         </div>
       </div>
     </form>
