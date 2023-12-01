@@ -7,6 +7,7 @@ import { CreatedDecksList } from './components/CreatedDecksList';
 import DownloadAllButton from './components/DownloadAllButton';
 import SimpleUploadForm, { CreatedDeck } from './components/SimpleUploadForm';
 import { InfoMessage, UploadContainer } from './styled';
+import { getDownloadFileName } from '../DownloadsPage/helpers/getDownloadFileName';
 
 export function SimplePage() {
   const store = useContext(StoreContext);
@@ -14,7 +15,12 @@ export function SimplePage() {
   const [createdDecks, setCreatedDecks] = useState<CreatedDeck[]>([]);
 
   const onClickDownloadAll = () => {
-    alert('to be implemented');
+    createdDecks.forEach((deck) => {
+      const link = document.createElement('a');
+      link.href = deck.link;
+      link.download = getDownloadFileName(deck.name);
+      link.click();
+    });
   };
 
   // Make sure the defaults are set if not present to ensure backwards compatability
