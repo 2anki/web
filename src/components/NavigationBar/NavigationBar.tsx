@@ -15,7 +15,7 @@ const backend = new Backend();
 
 function NavigationBar() {
   const [cookies] = useCookies(['token']);
-  const [active, setHamburgerMenu] = useState(false);
+  const [active, setActive] = useState(false);
 
   const path = window.location.pathname;
   const { hash } = window.location;
@@ -29,18 +29,18 @@ function NavigationBar() {
   }
 
   return (
-    <Navbar className="navbar" role="navigation" aria-label="main navigation">
+    <Navbar className="navbar" aria-label="main navigation">
       <div className="navbar-brand">
         <a className="navbar-item has-text-weight-bold" href="/">
           <img src="/mascot/navbar-logo.png" alt="2anki Logo" />
         </a>
-        <a
-          role="button"
+        <button
+          type="button"
           className="navbar-burger"
           aria-label="menu"
           aria-expanded="false"
-          onKeyDown={() => setHamburgerMenu(!active)}
-          onClick={() => setHamburgerMenu(!active)}
+          onKeyDown={() => setActive(!active)}
+          onClick={() => setActive(!active)}
           tabIndex={0}
         >
           <span aria-hidden="true" />
@@ -49,7 +49,7 @@ function NavigationBar() {
           <span aria-hidden="true" />
           <span aria-hidden="true" />
           <span aria-hidden="true" />
-        </a>
+        </button>
       </div>
 
       <div id="navbar" className={`navbar-menu ${active ? 'is-active' : ''}`}>
