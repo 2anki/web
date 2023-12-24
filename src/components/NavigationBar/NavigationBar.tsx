@@ -2,14 +2,11 @@
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 
-import getNavbarStartNewUser from './helpers/getNavbarStartNewUser';
-import NavButtonCTA from '../buttons/NavButtonCTA';
 import Backend from '../../lib/backend';
-import NavbarItem from './NavbarItem';
-import { Navbar } from './styled';
-import getNavbarStartRegularUser from './helpers/getNavbarStartRegularUser';
-import getNavbarEnd from './helpers/getNavbarEnd';
 import { canShowNavbar } from '../shared/canShowNavbar';
+import NavbarItem from './NavbarItem';
+import getNavbarEnd from './helpers/getNavbarEnd';
+import { Navbar } from './styled';
 
 const backend = new Backend();
 
@@ -18,18 +15,29 @@ function NavigationBar() {
   const [active, setActive] = useState(false);
 
   const path = window.location.pathname;
-  const { hash } = window.location;
-
-  const navbarStart = cookies.token
-    ? getNavbarStartRegularUser(hash)
-    : getNavbarStartNewUser(hash, path);
 
   if (!canShowNavbar(path)) {
     return null;
   }
 
+  const rightSide = cookies.token ? (
+    getNavbarEnd(path, backend)
+  ) : (
+    <div className="navbar-end">
+      <NavbarItem path="login" href="/login#login">
+        Login
+      </NavbarItem>
+      <NavbarItem path="register" href="/register">
+        Register
+      </NavbarItem>
+    </div>
+  );
+
   return (
-    <Navbar className="navbar" aria-label="main navigation">
+    <Navbar
+      className="navbar is-flex is-flex-direction-row is-justify-content-space-around	"
+      aria-label="main navigation"
+    >
       <div className="navbar-brand">
         <a className="navbar-item has-text-weight-bold" href="/">
           <img src="/mascot/navbar-logo.png" alt="2anki Logo" />
@@ -52,23 +60,11 @@ function NavigationBar() {
         </button>
       </div>
 
-      <div id="navbar" className={`navbar-menu ${active ? 'is-active' : ''}`}>
-        <div className="navbar-start">{navbarStart}</div>
-        {!cookies.token && (
-          <div className="navbar-end">
-            <NavbarItem path="login" href="/login#login">
-              Login
-            </NavbarItem>
-            <div className="navbar-item">
-              <div className="buttons">
-                <NavButtonCTA href="/register">
-                  <strong>Join Now</strong>
-                </NavButtonCTA>
-              </div>
-            </div>
-          </div>
-        )}
-        {cookies.token && getNavbarEnd(path, backend)}
+      <div
+        id="navbar"
+        className={`is-flex-grow-0	navbar-menu ${active ? 'is-active' : ''}`}
+      >
+        {rightSide}
       </div>
     </Navbar>
   );
