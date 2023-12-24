@@ -58,7 +58,7 @@ function RegisterForm({ setErrorMessage }: Props) {
           <div className="columns is-centered">
             <div className="column is-half">
               <BetaMessage />
-              <h1 className="title">Join Now.</h1>
+              <h1 className="title">Register.</h1>
               <p className="subtitle">To get started please register below.</p>
               <form onSubmit={handleSubmit}>
                 <div className="field">

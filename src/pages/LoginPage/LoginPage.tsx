@@ -25,7 +25,7 @@ export function LoginPage({ setErrorMessage }: Props) {
     <Container>
       <TopSection onClick={onClickRegister}>
         Don&apos;t have an account?
-        <NavButtonCTA href="/register">Join Now</NavButtonCTA>
+        <NavButtonCTA href="/register">Register</NavButtonCTA>
       </TopSection>
       {!isForgot && login}
       {isForgot && <ForgotPasswordForm setError={setErrorMessage} />}
