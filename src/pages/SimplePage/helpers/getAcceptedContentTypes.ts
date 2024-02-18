@@ -5,5 +5,5 @@
  * @returns comma seperated string with supported file types
  */
 export default function getAcceptedContentTypes(): string {
-  return '.zip,.html,.csv';
+  return '.zip,.html,.csv,.md';
 }
