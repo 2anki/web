@@ -3,6 +3,12 @@ import CardOption from './CardOption';
 const supportedOptions = (): CardOption[] => {
   const v = [
     new CardOption(
+      'add-notion-link',
+      'Add Notion Link',
+      'Add a link to the Notion page where the toggle was created. Please use this with the (Use Notion ID) to avoid duplicates.',
+      false
+    ),
+    new CardOption(
       'use-notion-id',
       'Use Notion ID',
       'By default we create a new id from your fields. This can cause duplicates and in those cases you want to enable the Notion ID which is more reliable and avoid duplicates.',
