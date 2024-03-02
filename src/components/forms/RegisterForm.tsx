@@ -31,7 +31,7 @@ function RegisterForm({ setErrorMessage }: Props) {
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
-    setErrorMessage(null);
+    setErrorMessage('');
     setLoading(true);
 
     try {
