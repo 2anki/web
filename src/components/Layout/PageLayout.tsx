@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
-import { PageContent, Layout, PageSidebar, PageHeader } from './styled';
-import { ErrorPresenter } from '../errors/ErrorPresenter';
-import { Menu } from './SideBar/Meny';
-import { canShowNavbar } from '../shared/canShowNavbar';
 import NavigationBar from '../NavigationBar/NavigationBar';
+import { ErrorPresenter } from '../errors/ErrorPresenter';
+import { canShowNavbar } from '../shared/canShowNavbar';
+import { Menu } from './SideBar/Meny';
+import { Layout, PageContent, PageHeader, PageSidebar } from './styled';
 
 interface LayoutProps {
   error: unknown;

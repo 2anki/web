@@ -22,7 +22,7 @@ const Links = styled.ul`
 `;
 
 function Footer() {
-  if (isSimplePage()) {
+  if (isSimplePage(window.location.pathname)) {
     return null;
   }
 

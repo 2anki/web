@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import { Container } from '../../components/styled';
-
 export const FlexColumn = styled.div`
   display: flex;
   justify-content: space-between;
@@ -12,7 +10,7 @@ export const InfoMessage = styled.p`
   margin: 0 auto;
   max-width: 480px;
   color: grey;
-  padding-top: 1rem;
+  padding-top: 0.5rem;
 `;
 
 export const ImportTitle = styled.h2`
@@ -30,9 +28,10 @@ export const SettingsLink = styled.div`
   }
 `;
 
-export const UploadContainer = styled(Container)`
+export const UploadContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 1rem;
 `;
