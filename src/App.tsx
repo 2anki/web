@@ -24,6 +24,7 @@ const SearchPage = lazy(() => import('./pages/SearchPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const NewPasswordPage = lazy(() => import('./pages/NewPasswordPage'));
 const DownloadsPage = lazy(() => import('./pages/DownloadsPage'));
+const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'));
 
 function App() {
   const [cookies, setCookie] = useCookies(['token']);
@@ -75,6 +76,10 @@ function App() {
               <Route
                 path="/login"
                 element={<LoginPage setErrorMessage={handledError} />}
+              />
+              <Route
+                path="/forgot"
+                element={<ForgotPasswordPage setErrorMessage={handledError} />}
               />
               <Route
                 path="/users/r/:id"
