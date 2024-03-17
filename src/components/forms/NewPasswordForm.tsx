@@ -1,12 +1,7 @@
-import styled from 'styled-components';
 import { SyntheticEvent, useState } from 'react';
 import Backend from '../../lib/backend';
 import { ErrorHandlerType } from '../errors/helpers/getErrorMessage';
-
-const FormContainer = styled.div`
-    max-width: 720px;
-    margin: 0 auto;
-`;
+import { FormContainer } from './styled';
 
 interface Props {
   setErrorMessage: ErrorHandlerType;

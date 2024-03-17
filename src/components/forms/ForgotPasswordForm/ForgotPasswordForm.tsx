@@ -3,7 +3,7 @@ import { SyntheticEvent, useState } from 'react';
 import Backend from '../../../lib/backend';
 import { ErrorHandlerType } from '../../errors/helpers/getErrorMessage';
 import { ForgotPassword } from './ForgotPassword';
-import { FormContainer } from './styled';
+import { FormContainer } from '../styled';
 
 interface ForgotPasswordProps {
   setError: ErrorHandlerType;
