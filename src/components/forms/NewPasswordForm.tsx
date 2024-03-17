@@ -4,8 +4,8 @@ import Backend from '../../lib/backend';
 import { ErrorHandlerType } from '../errors/helpers/getErrorMessage';
 
 const FormContainer = styled.div`
-  max-width: 720px;
-  margin: 0 auto;
+    max-width: 720px;
+    margin: 0 auto;
 `;
 
 interface Props {
@@ -22,7 +22,6 @@ function NewPasswordForm({ setErrorMessage }: Props) {
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
-    setErrorMessage('');
     setLoading(true);
 
     try {
