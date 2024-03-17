@@ -2,7 +2,8 @@ import BetaMessage from '../../BetaMessage';
 import { ErrorHandlerType } from '../../errors/helpers/getErrorMessage';
 import { isValidCredentials } from './helpers/isValidCredentials';
 import { useHandleLoginSubmit } from './helpers/useHandleLoginSubmit';
-import { FormContainer, SubmitButton } from './styled';
+import { SubmitButton } from './styled';
+import { FormContainer } from '../styled';
 
 interface LoginFormProps {
   onError: ErrorHandlerType;
