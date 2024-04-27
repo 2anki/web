@@ -1,9 +1,9 @@
 import { SyntheticEvent, useState } from 'react';
 
-import Backend from '../../../lib/backend';
 import { ErrorHandlerType } from '../../errors/helpers/getErrorMessage';
 import { ForgotPassword } from './ForgotPassword';
 import { FormContainer } from '../styled';
+import { get2ankiApi } from '../../../lib/backend/get2ankiApi';
 
 interface ForgotPasswordProps {
   setError: ErrorHandlerType;
@@ -20,8 +20,7 @@ function ForgotPasswordForm({ setError }: ForgotPasswordProps) {
     setDidReset(false);
 
     try {
-      const backend = new Backend();
-      await backend.forgotPassword(email);
+      await get2ankiApi().forgotPassword(email);
       setLoading(false);
       setDidReset(true);
     } catch (error) {

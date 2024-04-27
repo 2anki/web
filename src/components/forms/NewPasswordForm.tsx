@@ -1,7 +1,7 @@
 import { SyntheticEvent, useState } from 'react';
-import Backend from '../../lib/backend';
 import { ErrorHandlerType } from '../errors/helpers/getErrorMessage';
 import { FormContainer } from './styled';
+import { get2ankiApi } from '../../lib/backend/get2ankiApi';
 
 interface Props {
   setErrorMessage: ErrorHandlerType;
@@ -22,8 +22,7 @@ function NewPasswordForm({ setErrorMessage }: Props) {
     try {
       const paths = window.location.pathname.split('/');
       const resetToken = paths[paths.length - 1];
-      const backend = new Backend();
-      const res = await backend.newPassword(password, resetToken);
+      const res = await get2ankiApi().newPassword(password, resetToken);
       if (res.status === 200) {
         window.location.href = '/login#login';
       }

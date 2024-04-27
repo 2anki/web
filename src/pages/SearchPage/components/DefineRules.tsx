@@ -1,14 +1,14 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import Switch from '../../../components/input/Switch';
-import SettingsModal from '../../../components/modals/SettingsModal';
+import SettingsModal from '../../../components/modals/SettingsModal/SettingsModal';
 import TemplateSelect from '../../../components/TemplateSelect';
-import Backend from '../../../lib/backend';
 import NotionObject from '../../../lib/interfaces/NotionObject';
 import { NewRule } from '../types';
 import RuleDefinition from './RuleDefinition';
 import { Details } from './styled';
 import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
+import { get2ankiApi } from '../../../lib/backend/get2ankiApi';
 
 interface Props {
   id: string;
@@ -28,13 +28,11 @@ const flashCardOptions = [
   'heading_2',
   'heading_3',
   'column_list',
-  'quote',
+  'quote'
 ];
 const tagOptions = ['heading', 'strikethrough'];
 const subDeckOptions = ['child_page', ...flashCardOptions];
 const deckOptions = ['page', 'database', ...subDeckOptions];
-
-const backend = new Backend();
 
 function DefineRules(props: Props) {
   const { type, id, setDone, parent, isFavorite, setFavorites, setError } =
@@ -47,7 +45,7 @@ function DefineRules(props: Props) {
     sub_deck_is: ['child_page'],
     tags_is: 'strikethrough',
     deck_is: ['page', 'database'],
-    email_notification: false,
+    email_notification: false
   });
 
   const [isLoading, setIsloading] = useState(true);
@@ -61,7 +59,7 @@ function DefineRules(props: Props) {
 
   // TODO: refactor into own hook
   useEffect(() => {
-    backend
+    get2ankiApi()
       .getRules(id)
       .then((rule) => {
         if (rule) {
@@ -69,7 +67,7 @@ function DefineRules(props: Props) {
             ...rule,
             flashcard_is: rule.flashcard_is.split(','),
             sub_deck_is: rule.sub_deck_is.split(','),
-            deck_is: rule.deck_is.split(','),
+            deck_is: rule.deck_is.split(',')
           };
           setRules(newRules);
           setSendEmail(newRules.email_notification);
@@ -91,7 +89,7 @@ function DefineRules(props: Props) {
     setIsloading(true);
 
     try {
-      await backend.saveRules(
+      await get2ankiApi().saveRules(
         id,
         rules.flashcard_is,
         rules.deck_is,
@@ -143,11 +141,11 @@ function DefineRules(props: Props) {
 
   const toggleFavorite = async () => {
     if (favorite) {
-      await backend.deleteFavorite(id);
+      await get2ankiApi().deleteFavorite(id);
     } else {
-      await backend.addFavorite(id, type);
+      await get2ankiApi().addFavorite(id, type);
     }
-    const favorites = await backend.getFavorites();
+    const favorites = await get2ankiApi().getFavorites();
     setFavorites(favorites);
     setFavorite(!favorite);
   };
@@ -219,7 +217,7 @@ function DefineRules(props: Props) {
                     pickedTemplate={(name: string) => setTags(name)}
                     values={tagOptions.map((fco) => ({
                       label: `Tags are ${fco}`,
-                      value: fco,
+                      value: fco
                     }))}
                     name="Tags"
                     value={rules.tags_is}

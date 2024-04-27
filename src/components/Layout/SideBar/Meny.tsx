@@ -1,11 +1,9 @@
 import { useCookies } from 'react-cookie';
 import SidebarItem from './SidebarItem';
-import Backend from '../../../lib/backend';
 import { goToLoginPage } from '../../../pages/RegisterPage/goToLoginPage';
 import { ProtectedItems } from './ProtectedItems';
 import { getVisibleText } from '../../../lib/text/getVisibleText';
-
-const backend = new Backend();
+import { get2ankiApi } from '../../../lib/backend/get2ankiApi';
 
 export function Menu() {
   const path = window.location.pathname;
@@ -49,7 +47,7 @@ export function Menu() {
             href="/users/logout"
             onClick={(event) => {
               event.preventDefault();
-              backend.logout().then(() => goToLoginPage());
+              get2ankiApi().logout().then(() => goToLoginPage());
             }}
           >
             🔒 log out

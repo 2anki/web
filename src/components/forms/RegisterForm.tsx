@@ -1,8 +1,8 @@
 import { SyntheticEvent, useState } from 'react';
 import BetaMessage from '../BetaMessage';
-import Backend from '../../lib/backend';
 import { ErrorHandlerType } from '../errors/helpers/getErrorMessage';
 import { FormContainer } from './styled';
+import { get2ankiApi } from '../../lib/backend/get2ankiApi';
 
 interface Props {
   setErrorMessage: ErrorHandlerType;
@@ -29,8 +29,7 @@ function RegisterForm({ setErrorMessage }: Props) {
     setLoading(true);
 
     try {
-      const backend = new Backend();
-      const res = await backend.register(name, email, password);
+      const res = await get2ankiApi().register(name, email, password);
       if (res.status === 200) {
         window.location.href = '/login';
       } else {

@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 
-import Backend from '../../../../lib/backend';
 import DefineRules from '../DefineRules';
 
 import ObjectActions from '../actions/ObjectActions';
@@ -11,8 +10,7 @@ import NotionObject from '../../../../lib/interfaces/NotionObject';
 import { OK } from '../../../../lib/backend/http';
 import { BlockIcon } from '../BlockIcon';
 import { ErrorHandlerType } from '../../../../components/errors/helpers/getErrorMessage';
-
-const backend = new Backend();
+import { get2ankiApi } from '../../../../lib/backend/get2ankiApi';
 
 interface Props {
   isFavorite: boolean | undefined;
@@ -54,7 +52,7 @@ function SearchObjectEntry(props: Props) {
             image="/icons/Anki_app_logo.png"
             onClick={(event) => {
               event.preventDefault();
-              backend
+              get2ankiApi()
                 .convert(id, getType(type), title)
                 .then((response) => {
                   if (response.status === OK) {
