@@ -36,7 +36,7 @@ function SettingsModal({
                          setError
                        }: Props) {
   const { isLoading, isError, data: options, error: loadingDefaultsError } = useQuery(
-    'cardOptions',
+    `cardOptions-${pageId ?? 'default'}`, // pageId will invalidate the cache
     getSettingsCardOptions,
     {
       staleTime: FIFTEEN_MINUTES
