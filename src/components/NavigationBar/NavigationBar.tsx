@@ -2,13 +2,11 @@
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 
-import Backend from '../../lib/backend';
 import { canShowNavbar } from '../shared/canShowNavbar';
 import NavbarItem from './NavbarItem';
 import getNavbarEnd from './helpers/getNavbarEnd';
 import { Navbar } from './styled';
-
-const backend = new Backend();
+import { get2ankiApi } from '../../lib/backend/get2ankiApi';
 
 function NavigationBar() {
   const [cookies] = useCookies(['token']);
@@ -21,7 +19,7 @@ function NavigationBar() {
   }
 
   const rightSide = cookies.token ? (
-    getNavbarEnd(path, backend)
+    getNavbarEnd(path, get2ankiApi())
   ) : (
     <div className="navbar-end">
       <NavbarItem path="login" href="/login#login">

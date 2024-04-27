@@ -1,49 +1,24 @@
-import React, { SyntheticEvent, useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
-import Backend from '../../lib/backend';
-import { SettingsPayload } from '../../lib/types';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
+import { SettingsPayload } from '../../../lib/types';
 
-import StoreContext from '../../store/StoreContext';
-import BlueTintedBox from '../BlueTintedBox';
-import FontSizePicker from '../FontSizePicker';
-import LocalCheckbox from '../LocalCheckbox';
-import TemplateName from '../TemplateName';
-import TemplateSelect from '../TemplateSelect';
-import { persist } from './helpers/persist';
-import { ErrorHandlerType } from '../errors/helpers/getErrorMessage';
+import BlueTintedBox from '../../BlueTintedBox';
+import FontSizePicker from '../../FontSizePicker';
+import LocalCheckbox from '../../LocalCheckbox';
+import TemplateName from '../../TemplateName';
+import TemplateSelect from '../../TemplateSelect';
+import { saveValueInLocalStorage } from '../../../lib/data_layer/saveValueInLocalStorage';
+import { ErrorHandlerType } from '../../errors/helpers/getErrorMessage';
+import { clearStoredCardOptions } from '../../../lib/data_layer/clearStoredCardOptions';
+import { availableTemplates, FIFTEEN_MINUTES } from './constants';
+import { getLocalStorageValue } from '../../../lib/data_layer/getLocalStorageValue';
+import { StyledInput } from './styled';
+import { sendError } from '../../../lib/SendError';
+import { get2ankiApi } from '../../../lib/backend/get2ankiApi';
 
-const StyledInput = styled.input`
-  font-weight: bold;
-  color: #83c9f5;
-`;
+import { getSettingsCardOptions } from '../../../lib/backend/getSettingsCardOptions';
 
-const loadValue = (
-  key: string,
-  defaultValue: string,
-  theSettings: SettingsPayload
-) => {
-  if (theSettings) {
-    return theSettings[key] || defaultValue;
-  }
-  return localStorage.getItem(key) || defaultValue;
-};
-const availableTemplates = [
-  { value: 'specialstyle', label: 'Default' },
-  { value: 'notionstyle', label: 'Only Notion' },
-  { value: 'nostyle', label: 'Raw Note (no style)' },
-  {
-    value: 'abhiyan',
-    label: 'Abhiyan Bhandari (Night Mode)',
-  },
-  {
-    value: 'alex_deluxe',
-    label: 'Alexander Deluxe (Blue)',
-  },
-  {
-    value: 'custom',
-    label: 'Use custom style from the editor',
-  },
-];
+import { getLocalStorageBooleanValue } from '../../../lib/data_layer/getLocalStorageBooleanValue';
 
 interface Props {
   pageTitle?: string;
@@ -53,53 +28,56 @@ interface Props {
   setError: ErrorHandlerType;
 }
 
-const backend = new Backend();
-
 function SettingsModal({
-  pageTitle,
-  pageId,
-  isActive,
-  onClickClose,
-  setError,
-}: Props) {
+                         pageTitle,
+                         pageId,
+                         isActive,
+                         onClickClose,
+                         setError
+                       }: Props) {
+  const { isLoading, isError, data: options, error: loadingDefaultsError } = useQuery(
+    'cardOptions',
+    getSettingsCardOptions,
+    {
+      staleTime: FIFTEEN_MINUTES
+    }
+  );
   const [settings, setSettings] = useState<SettingsPayload>({});
   const [loading, setLoading] = useState(!!pageId);
   const deckNameKey = 'deckName';
   const [deckName, setDeckName] = useState(
-    loadValue(
+    getLocalStorageValue(
       deckNameKey,
       pageTitle || localStorage.getItem(deckNameKey) || '',
       settings
     )
   );
-  const store = useContext(StoreContext);
-  const [options, setOptions] = useState(store.options);
   const [fontSize, setFontSize] = useState(
-    loadValue('font-size', '', settings)
+    getLocalStorageValue('font-size', '', settings)
   );
   const [template, setTemplate] = useState(
-    loadValue('template', 'specialstyle', settings)
+    getLocalStorageValue('template', 'specialstyle', settings)
   );
   const [toggleMode, setToggleMode] = useState(
-    loadValue('toggle-mode', 'close_toggle', settings)
+    getLocalStorageValue('toggle-mode', 'close_toggle', settings)
   );
   const [pageEmoji, setPageEmoji] = useState(
-    loadValue('page-emoji', 'first_emoji', settings)
+    getLocalStorageValue('page-emoji', 'first_emoji', settings)
   );
   const [basicName, setBasicName] = useState(
-    loadValue('basic_model_name', '', settings)
+    getLocalStorageValue('basic_model_name', '', settings)
   );
   const [clozeName, setClozeName] = useState(
-    loadValue('cloze_model_name', '', settings)
+    getLocalStorageValue('cloze_model_name', '', settings)
   );
   const [inputName, setInputName] = useState(
-    loadValue('input_model_name', '', settings)
+    getLocalStorageValue('input_model_name', '', settings)
   );
 
   useEffect(() => {
     if (pageId) {
       setLoading(true);
-      backend
+      get2ankiApi()
         .getSettings(pageId)
         .then((payload) => {
           if (payload) {
@@ -120,16 +98,22 @@ function SettingsModal({
     }
   }, [pageId]);
 
+
+  if (isError) {
+    setError(loadingDefaultsError);
+  }
+
   const resetStore = async () => {
     if (pageId) {
       setDeckName(pageTitle || '');
-      await backend.deleteSettings(pageId);
+      await get2ankiApi().deleteSettings(pageId);
     }
-    store.clear();
+    if (options) {
+      clearStoredCardOptions(options);
+    }
     setFontSize('20');
     setToggleMode('close_toggle');
     setTemplate('specialstyle');
-    setOptions([...store.options]);
     setDeckName('');
     setBasicName('');
     setClozeName('');
@@ -145,9 +129,13 @@ function SettingsModal({
       return;
     }
     const payload: { [key: string]: string } = {};
-    store.options.forEach((option) => {
-      payload[option.key] = option.value.toString(); // use string for backwards compat
-    });
+    if (options) {
+      options.forEach((option) => {
+        payload[option.key] = option.value.toString(); // use string for backwards compat
+      });
+    } else {
+      sendError(new Error('No options found'));
+    }
     payload.deckName = deckName;
     payload['toggle-mode'] = toggleMode;
     payload.template = template;
@@ -158,7 +146,7 @@ function SettingsModal({
     payload['page-emoji'] = pageEmoji;
 
     const newSettings = { object_id: pageId, payload };
-    await backend
+    await get2ankiApi()
       .saveSettings(newSettings)
       .then(() => {
         onClickClose(event);
@@ -167,11 +155,13 @@ function SettingsModal({
         setError(error);
       });
   };
+
+
   return (
     <div className={`modal ${isActive ? 'is-active' : ''}`}>
       <div className="modal-background" />
       <div className="modal-card">
-        {loading && <div className="loader is-loading" />}
+        {(loading || isLoading) && <div className="loader is-loading" />}
         {!loading && (
           <>
             <div className="modal-card-head">
@@ -208,7 +198,7 @@ function SettingsModal({
                         if (newName !== deckName) {
                           setDeckName(newName);
                         }
-                        persist(deckNameKey, newName, pageId);
+                        saveValueInLocalStorage(deckNameKey, newName, pageId);
                       }}
                     />
                   </div>
@@ -223,18 +213,18 @@ function SettingsModal({
                         { label: 'Icon first', value: 'first_emoji' },
                         {
                           label: 'Icon last',
-                          value: 'last_emoji',
+                          value: 'last_emoji'
                         },
                         {
                           label: 'Disable icon',
-                          value: 'disable_emoji',
-                        },
+                          value: 'disable_emoji'
+                        }
                       ]}
                       value={pageEmoji}
                       name="page-emoji"
                       pickedTemplate={(t) => {
                         setPageEmoji(t);
-                        persist('page-emoji', t, pageId);
+                        saveValueInLocalStorage('page-emoji', t, pageId);
                       }}
                     />
                   </div>
@@ -253,25 +243,28 @@ function SettingsModal({
                         { label: 'Open nested toggles', value: 'open_toggle' },
                         {
                           label: 'Close nested toggles',
-                          value: 'close_toggle',
-                        },
+                          value: 'close_toggle'
+                        }
                       ]}
                       value={toggleMode}
                       name="toggle-mode"
                       pickedTemplate={(t) => {
                         setToggleMode(t);
-                        persist('toggle-mode', t, pageId);
+                        saveValueInLocalStorage('toggle-mode', t, pageId);
                       }}
                     />
-                    {options.map((o) => (
-                      <LocalCheckbox
-                        store={store}
-                        key={o.key}
-                        storageKey={o.key}
-                        label={o.label}
-                        description={o.description}
-                      />
-                    ))}
+                    {options && options.map((o) => <LocalCheckbox
+                      key={o.key}
+                      defaultValue={
+                        getLocalStorageBooleanValue(
+                          o.key, o.value.toString(), settings)
+                      }
+                      label={o.label}
+                      description={o.description}
+                      onChecked={(checked) => {
+                        saveValueInLocalStorage(o.key, checked.toString(), pageId);
+                      }}
+                    />)}
                   </BlueTintedBox>
                 </div>
                 <h2 className="title is-3">Template Options</h2>
@@ -282,7 +275,7 @@ function SettingsModal({
                     name="template"
                     pickedTemplate={(t) => {
                       setTemplate(t);
-                      persist('template', t, pageId);
+                      saveValueInLocalStorage('template', t, pageId);
                     }}
                   />
                   <TemplateName
@@ -292,7 +285,7 @@ function SettingsModal({
                     label="Basic Template Name"
                     pickedName={(name) => {
                       setBasicName(name);
-                      persist('basic_model_name', name, pageId);
+                      saveValueInLocalStorage('basic_model_name', name, pageId);
                     }}
                   />
                   <TemplateName
@@ -302,7 +295,7 @@ function SettingsModal({
                     label="Cloze Template Name"
                     pickedName={(name) => {
                       setClozeName(name);
-                      persist('cloze_model_name', name, pageId);
+                      saveValueInLocalStorage('cloze_model_name', name, pageId);
                     }}
                   />
                   <TemplateName
@@ -312,7 +305,7 @@ function SettingsModal({
                     label="Input Template Name"
                     pickedName={(name) => {
                       setInputName(name);
-                      persist('input_model_name', name, pageId);
+                      saveValueInLocalStorage('input_model_name', name, pageId);
                     }}
                   />
 
@@ -320,7 +313,7 @@ function SettingsModal({
                     fontSize={fontSize}
                     pickedFontSize={(fs) => {
                       setFontSize(fs);
-                      persist('font-size', fs.toString(), pageId);
+                      saveValueInLocalStorage('font-size', fs.toString(), pageId);
                     }}
                   />
 
@@ -353,7 +346,7 @@ function SettingsModal({
 }
 
 SettingsModal.defaultProps = {
-  pageTitle: null,
+  pageTitle: null
 };
 
 export default SettingsModal;

@@ -1,4 +1,3 @@
-import Backend from '../../lib/backend';
 import Index from './components/ListJobs';
 
 import useUploads from './hooks/useUploads';
@@ -10,16 +9,15 @@ import { Container } from '../../components/styled';
 import { redirectOnError } from '../../components/shared/redirectOnError';
 import { UnfinishedJobsInfo } from './components/UnfinishedJobsInfo';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
-
-const backend = new Backend();
+import { get2ankiApi } from '../../lib/backend/get2ankiApi';
 
 interface DownloadsPageProps {
   setError: ErrorHandlerType;
 }
 
 export function DownloadsPage({ setError }: DownloadsPageProps) {
-  const { deleteUpload, loading, uploads, error } = useUploads(backend);
-  const { jobs, deleteJob, restartJob } = useJobs(backend, setError);
+  const { deleteUpload, loading, uploads, error } = useUploads(get2ankiApi());
+  const { jobs, deleteJob, restartJob } = useJobs(get2ankiApi(), setError);
   const unfinishedJob = jobs.length > 0;
 
   if (error) {

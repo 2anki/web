@@ -1,14 +1,12 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { lazy, useMemo, useState } from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { lazy, useState } from 'react';
 
 import { useCookies } from 'react-cookie';
-import Bugsnag from '@bugsnag/js';
 import UploadPage from './pages/UploadPage';
 import HomePage from './pages/HomePage';
 
 import Footer from './components/Footer';
-import CardOptionsStore from './store/CardOptionsStore';
-import StoreContext from './store/StoreContext';
 import GlobalStyle from './GlobalStyle';
 import ImportPage from './pages/ImportPage/ImportPage';
 import isOfflineMode from './lib/isOfflineMode';
@@ -17,7 +15,7 @@ import FavoritesPage from './pages/FavoritesPage';
 import { PageLayout } from './components/Layout/PageLayout';
 import DeleteAccountPage from './pages/DeleteAccountPage';
 import { getErrorMessage } from './components/errors/helpers/getErrorMessage';
-import SimplePage from './pages/SimplePage';
+import { sendError } from './lib/SendError';
 
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 const SearchPage = lazy(() => import('./pages/SearchPage'));
@@ -26,14 +24,14 @@ const NewPasswordPage = lazy(() => import('./pages/NewPasswordPage'));
 const DownloadsPage = lazy(() => import('./pages/DownloadsPage'));
 const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'));
 
+const queryClient = new QueryClient();
+
 function App() {
   const [cookies, setCookie] = useCookies(['token']);
   if (isOfflineMode() && !cookies.token) {
     setCookie('token', '?');
   }
 
-  const loadDefaults = localStorage.getItem('skip-defaults') !== 'true';
-  const oldStore = useMemo(() => new CardOptionsStore(loadDefaults), []);
   const [apiError, setError] = useState<unknown>(null);
   /**
    * This error handling is for network errors and errors happening in the background.
@@ -41,63 +39,60 @@ function App() {
    * */
   const handledError = (error: unknown) => {
     const errorMessage = getErrorMessage(error);
-    Bugsnag.notify(getErrorMessage(error));
+    sendError(error);
     setError(errorMessage);
   };
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <GlobalStyle />
-      <StoreContext.Provider value={oldStore}>
-        <BrowserRouter>
-          <PageLayout error={apiError}>
-            <Routes>
-              <Route path="/simple" element={<SimplePage />} />
-              <Route
-                path="/favorites"
-                element={<FavoritesPage setError={handledError} />}
-              />
-              <Route
-                path="/uploads"
-                element={<DownloadsPage setError={handledError} />}
-              />
-              <Route
-                path="/upload"
-                element={<UploadPage setErrorMessage={handledError} />}
-              />
-              <Route
-                path="/register"
-                element={<RegisterPage setErrorMessage={handledError} />}
-              />
-              <Route
-                path="/search"
-                element={<SearchPage setError={handledError} />}
-              />
-              <Route
-                path="/login"
-                element={<LoginPage setErrorMessage={handledError} />}
-              />
-              <Route
-                path="/forgot"
-                element={<ForgotPasswordPage setErrorMessage={handledError} />}
-              />
-              <Route
-                path="/users/r/:id"
-                element={<NewPasswordPage setErrorMessage={handledError} />}
-              />
-              <Route path="/import" element={<ImportPage />} />
-              <Route path="/debug" element={<DebugPage />} />
-              <Route
-                path="/delete-account"
-                element={<DeleteAccountPage setError={handledError} />}
-              />
-              <Route path="/" element={<HomePage />} />
-            </Routes>
-            <Footer />
-          </PageLayout>
-        </BrowserRouter>
-      </StoreContext.Provider>
-    </>
+      <BrowserRouter>
+        <PageLayout error={apiError}>
+          <Routes>
+            <Route
+              path="/favorites"
+              element={<FavoritesPage setError={handledError} />}
+            />
+            <Route
+              path="/uploads"
+              element={<DownloadsPage setError={handledError} />}
+            />
+            <Route
+              path="/upload"
+              element={<UploadPage setErrorMessage={handledError} />}
+            />
+            <Route
+              path="/register"
+              element={<RegisterPage setErrorMessage={handledError} />}
+            />
+            <Route
+              path="/search"
+              element={<SearchPage setError={handledError} />}
+            />
+            <Route
+              path="/login"
+              element={<LoginPage setErrorMessage={handledError} />}
+            />
+            <Route
+              path="/forgot"
+              element={<ForgotPasswordPage setErrorMessage={handledError} />}
+            />
+            <Route
+              path="/users/r/:id"
+              element={<NewPasswordPage setErrorMessage={handledError} />}
+            />
+            <Route path="/import" element={<ImportPage />} />
+            <Route path="/debug" element={<DebugPage />} />
+            <Route
+              path="/delete-account"
+              element={<DeleteAccountPage setError={handledError} />}
+            />
+            <Route path="/" element={<HomePage />} />
+          </Routes>
+          <Footer />
+        </PageLayout>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 

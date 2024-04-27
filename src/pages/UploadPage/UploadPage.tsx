@@ -1,18 +1,17 @@
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import useQuery from '../../lib/hooks/useQuery';
-import StoreContext from '../../store/StoreContext';
 import WarningMessage from '../../components/WarningMessage';
 import UploadForm from './components/UploadForm/UploadForm';
 import SettingsIcon from '../../components/icons/SettingsIcon';
-import SettingsModal from '../../components/modals/SettingsModal';
+import SettingsModal from '../../components/modals/SettingsModal/SettingsModal';
 import {
   FlexColumn,
   ImportTitle,
   InfoMessage,
   SettingsLink,
-  UploadContainer,
+  UploadContainer
 } from './styled';
 import { Main, PageContainer } from '../../components/styled';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
@@ -29,13 +28,6 @@ export function UploadPage({ setErrorMessage }: Props) {
   const [isSettings, setShowSettings] = useState(
     view === 'template' || view === 'deck-options' || view === 'card-options'
   );
-
-  const store = useContext(StoreContext);
-
-  // Make sure the defaults are set if not present to ensure backwards compatability
-  useEffect(() => {
-    store.syncLocalStorage();
-  }, [store]);
 
   return (
     <PageContainer>

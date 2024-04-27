@@ -1,40 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import CardOptionsStore from '../store/CardOptionsStore';
+import React, { useState } from 'react';
 
 interface Props {
   label: string;
-  storageKey: string;
+  defaultValue: boolean;
   description: string | null;
-  store: CardOptionsStore;
+  onChecked: (checked: boolean) => void;
 }
 
 function LocalCheckbox({
-  label,
-  storageKey,
-  store,
-  description = null,
-}: Props) {
-  const value = store.get(storageKey)?.value || false;
-  const [isChecked, setChecked] = useState(value);
-
-  useEffect(() => {
-    const storeValue = store.get(storageKey)?.value || false;
-    if (isChecked !== storeValue) {
-      setChecked(storeValue);
-    }
-  }, [isChecked, storageKey, store, store.options]);
+                         label,
+                         defaultValue,
+                         description = null,
+                         onChecked
+                       }: Props) {
+  const [isChecked, setChecked] = useState(defaultValue);
 
   return (
     <>
-      <label htmlFor={storageKey} className="checkbox">
+      <label htmlFor={label} className="checkbox">
         <input
-          name={storageKey}
+          name={label}
           style={{ marginRight: '0.2rem' }}
           type="checkbox"
           checked={isChecked}
           onChange={(event) => {
+            onChecked(event.target.checked);
             setChecked(event.target.checked);
-            store.update(storageKey, event.target.checked);
           }}
         />
         <strong>{label}</strong>
