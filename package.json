@@ -65,7 +65,7 @@
     "react-refresh": "^0.11.0",
     "react-router": "^6.18.0",
     "react-router-dom": "^6.14.1",
-    "resolve": "^1.22.4",
+    "resolve": "^1.22.8",
     "resolve-url-loader": "^5.0.0",
     "sass-loader": "^12.3.0",
     "semver": "^7.6.0",
