@@ -5,17 +5,20 @@ export interface SidebarItemProps {
   href: string;
   children: ReactNode;
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
+  target?: string,
 }
 
 export default function SidebarItem({
-  path,
-  href,
-  children,
-  onClick,
-}: SidebarItemProps) {
+                                      target,
+                                      path,
+                                      href,
+                                      children,
+                                      onClick
+                                    }: SidebarItemProps) {
   return (
     <li>
       <a
+        target={target ?? '_self'}
         onClick={onClick}
         className={`${path === href ? 'has-text-weight-bold is-active' : ''}`}
         href={href}

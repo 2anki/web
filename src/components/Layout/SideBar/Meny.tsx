@@ -31,7 +31,8 @@ export function Menu() {
         </ProtectedItems>
         <SidebarItem
           path={path}
-          href="https://alemayhu.notion.site/FAQ-ef01be9c9bac41689a4d749127c14301"
+          href={getVisibleText('navigation.help.url')}
+          target="_blank"
         >
           {getVisibleText('navigation.help')}
         </SidebarItem>
