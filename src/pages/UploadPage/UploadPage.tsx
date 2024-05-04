@@ -15,6 +15,7 @@ import {
 } from './styled';
 import { Main, PageContainer } from '../../components/styled';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
+import { getVisibleText } from '../../lib/text/getVisibleText';
 
 interface Props {
   setErrorMessage: ErrorHandlerType;
@@ -35,7 +36,7 @@ export function UploadPage({ setErrorMessage }: Props) {
         <Main>
           {isDevelopment ? <WarningMessage /> : null}
           <FlexColumn>
-            <ImportTitle>Import</ImportTitle>
+            <ImportTitle>{getVisibleText('upload.page.title')}</ImportTitle>
             <SettingsLink onClick={() => setShowSettings(true)}>
               <Link className="link" to="?view=template">
                 <SettingsIcon />
@@ -45,6 +46,7 @@ export function UploadPage({ setErrorMessage }: Props) {
           </FlexColumn>
           <div className="container">
             <UploadForm setErrorMessage={setErrorMessage} />
+            <p>{getVisibleText('upload.page.subtitle')}</p>
             <InfoMessage>
               All files uploaded here are automatically deleted after 21
               minutes.

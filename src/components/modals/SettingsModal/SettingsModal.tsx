@@ -19,6 +19,7 @@ import { get2ankiApi } from '../../../lib/backend/get2ankiApi';
 import { getSettingsCardOptions } from '../../../lib/backend/getSettingsCardOptions';
 
 import { getLocalStorageBooleanValue } from '../../../lib/data_layer/getLocalStorageBooleanValue';
+import CardOption from '../../../lib/data_layer/model/CardOption';
 
 interface Props {
   pageTitle?: string;
@@ -130,7 +131,7 @@ function SettingsModal({
     }
     const payload: { [key: string]: string } = {};
     if (options) {
-      options.forEach((option) => {
+      options.forEach((option: CardOption) => {
         payload[option.key] = option.value.toString(); // use string for backwards compat
       });
     } else {
@@ -253,7 +254,7 @@ function SettingsModal({
                         saveValueInLocalStorage('toggle-mode', t, pageId);
                       }}
                     />
-                    {options && options.map((o) => <LocalCheckbox
+                    {options && options.map((o: CardOption) => <LocalCheckbox
                       key={o.key}
                       defaultValue={
                         getLocalStorageBooleanValue(

@@ -20,6 +20,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@reduxjs/toolkit": "^1.9.5",
     "@svgr/webpack": "^8.1.0",
+    "@types/react-query": "^1.2.9",
     "babel-jest": "^27.4.2",
     "babel-loader": "^8.2.3",
     "babel-plugin-named-asset-import": "^0.3.8",
