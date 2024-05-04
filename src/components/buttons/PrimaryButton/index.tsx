@@ -8,21 +8,15 @@ interface PrimaryButtonProps {
 }
 
 export default function PrimaryButton({
-  text,
-  destination,
-  onClickLink,
-}: PrimaryButtonProps) {
+                                        text,
+                                        destination,
+                                        onClickLink
+                                      }: PrimaryButtonProps) {
   return (
-    <StyledButton>
-      {destination.includes('http') ? (
-        <a href={destination} rel="noopener noreferrer">
-          {text}
-        </a>
-      ) : (
-        <a onClick={onClickLink} href={destination}>
-          {text}
-        </a>
-      )}
+    <StyledButton onClick={onClickLink}
+                  href={destination} rel="noopener noreferrer"
+    >
+      {text}
       <img width={24} height={24} src="/icons/arrow-right.svg" alt="arrow" />
     </StyledButton>
   );
