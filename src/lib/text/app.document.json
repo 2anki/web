@@ -4,6 +4,7 @@
   "navigation.favorites": "⭐️Favorites",
   "navigation.search": "🔍 Search",
   "navigation.help": "🙋🏽‍♀️ FAQ",
+  "navigation.help.url": "https://docs.2anki.net/troubleshooting/faq/",
   "navigation.logout": "🔒 log out",
   "navigation.deleteAccount": "🗑️ Delete account",
   "downloads.unfinished.jobs": "It might take a while for your download to be ready.",
