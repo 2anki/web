@@ -17,7 +17,8 @@ function FeaturedEntry() {
           wanted to give you a special update.
           <br />
         </div>
-        <ReadMore href="https://www.patreon.com/posts/state-of-2anki-60331662?utm_medium=clipboard_copy&utm_source=copy_to_clipboard&utm_campaign=postshareI" />
+        <ReadMore
+          href="https://www.patreon.com/posts/state-of-2anki-60331662?utm_medium=clipboard_copy&utm_source=copy_to_clipboard&utm_campaign=postshareI" />
       </div>
     </div>
   );
@@ -38,15 +39,9 @@ function NewsSection() {
         </div>
         <div className="column">
           <NewsEntry
-            title={"What's Next? The Path to v1.0.0!"}
+            title={'What\'s Next? The Path to v1.0.0!'}
             description="There are a three main things I would like to tackle longterm but in this session"
             link="https://www.patreon.com/posts/whats-next-path-51204766"
-          />
-          <div className="my-2" />
-          <NewsEntry
-            title="Good News!"
-            description="I woke up in the middle of the night and had to go to the toilet 🚾"
-            link="https://www.patreon.com/posts/good-news-51122343"
           />
         </div>
       </div>
@@ -54,7 +49,8 @@ function NewsSection() {
         <ReadMoreNews
           destination="https://www.patreon.com/alemayhu"
           text="READ MORE NEWS"
-          onClickLink={() => {}}
+          onClickLink={() => {
+          }}
         />
       </Centered>
     </section>
