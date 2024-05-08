@@ -23,6 +23,7 @@ const LoginPage = lazy(() => import('./pages/LoginPage'));
 const NewPasswordPage = lazy(() => import('./pages/NewPasswordPage'));
 const DownloadsPage = lazy(() => import('./pages/DownloadsPage'));
 const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'));
+const PricingPage = lazy(() => import('./pages/PricingPage'));
 
 const queryClient = new QueryClient();
 
@@ -86,6 +87,10 @@ function App() {
             <Route
               path="/delete-account"
               element={<DeleteAccountPage setError={handledError} />}
+            />
+            <Route
+              path="/pricing"
+              element={<PricingPage />}
             />
             <Route path="/" element={<HomePage />} />
           </Routes>

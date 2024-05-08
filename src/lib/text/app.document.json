@@ -1,4 +1,6 @@
 {
+  "navigation.pricing": "Pricing",
+  "navigation.login": "Login",
   "navigation.uploads": "Downloads",
   "navigation.upload": "Upload",
   "navigation.favorites": "Favorites",
@@ -12,5 +14,6 @@
   "downloads.unfinished.jobs": "It might take a while for your download to be ready.",
   "downloads.empty": "You have no downloads!",
   "upload.page.title": "Upload your notes",
-  "upload.page.subtitle": "For now only HTML and ZIP files are fully supported."
+  "upload.page.subtitle": "For now only HTML and ZIP files are fully supported.",
+  "pricing.page.title": "Our Pricing Plans"
 }
