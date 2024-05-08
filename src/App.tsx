@@ -92,7 +92,7 @@ function App() {
               path="/pricing"
               element={<PricingPage />}
             />
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<HomePage setErrorMessage={handledError} />} />
           </Routes>
           <Footer />
         </PageLayout>

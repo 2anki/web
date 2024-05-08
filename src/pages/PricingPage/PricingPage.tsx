@@ -1,8 +1,8 @@
 import { PageContainer } from '../../components/styled';
 import { getVisibleText } from '../../lib/text/getVisibleText';
+import { getSubscribeLink } from './getSubscribeLink';
 
 export default function PricingPage() {
-  const subscribeLink = 'https://buy.stripe.com/eVadTGcCI6Ny73qfZ0';
   const patreonLink = 'https://alemayhu.com/patreon';
 
   return (
@@ -28,7 +28,7 @@ export default function PricingPage() {
                     </div>
                   </div>
                   <div className="card-footer">
-                    <a href={subscribeLink} className="card-footer-item button is-link">
+                    <a href={getSubscribeLink()} className="card-footer-item button is-link">
                       Subscribe
                     </a>
                   </div>

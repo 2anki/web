@@ -5,6 +5,7 @@ export const Navbar = styled.nav`
     @media (max-width: 1024px) {
         margin: 0;
     }
+    border-bottom: lightgrey 1px solid;
 `;
 
 export const StyledNavbarItem = styled.a`
