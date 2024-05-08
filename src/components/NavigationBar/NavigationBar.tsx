@@ -51,10 +51,6 @@ function NavigationBar() {
         >
           <span aria-hidden="true" />
           <span aria-hidden="true" />
-          <span aria-hidden="true" />
-          <span aria-hidden="true" />
-          <span aria-hidden="true" />
-          <span aria-hidden="true" />
         </button>
       </div>
 
