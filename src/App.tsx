@@ -8,7 +8,6 @@ import HomePage from './pages/HomePage';
 
 import Footer from './components/Footer';
 import GlobalStyle from './GlobalStyle';
-import SettingsPage from './pages/SettingsPage/SettingsPage';
 import isOfflineMode from './lib/isOfflineMode';
 import DebugPage from './pages/DebugPage';
 import FavoritesPage from './pages/FavoritesPage';
@@ -24,6 +23,7 @@ const NewPasswordPage = lazy(() => import('./pages/NewPasswordPage'));
 const DownloadsPage = lazy(() => import('./pages/DownloadsPage'));
 const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'));
 const PricingPage = lazy(() => import('./pages/PricingPage'));
+const SettingsPage = lazy(() => import('./pages/SettingsPage/SettingsPage'));
 
 const queryClient = new QueryClient();
 
@@ -78,11 +78,11 @@ function App() {
               path="/forgot"
               element={<ForgotPasswordPage setErrorMessage={handledError} />}
             />
+            <Route path="/settings" element={<SettingsPage setErrorMessage={handledError} />} />
             <Route
               path="/users/r/:id"
               element={<NewPasswordPage setErrorMessage={handledError} />}
             />
-            <Route path="/settings" element={<SettingsPage setErrorMessage={handledError} />} />
             <Route path="/debug" element={<DebugPage />} />
             <Route
               path="/delete-account"
