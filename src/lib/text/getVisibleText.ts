@@ -6,5 +6,5 @@ interface AppDocument {
 
 export const getVisibleText = (key: string): string => {
   const document: AppDocument = APP_DOCUMENT;
-  return document[key];
+  return document[key] ?? key;
 };

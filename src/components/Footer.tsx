@@ -4,7 +4,6 @@ const StyledFooter = styled.footer`
     padding: 1.5rem 0rem;
     align-items: center;
     justify-content: center;
-    position: absolute;
     bottom: 0;
     width: 100%;
 `;
@@ -24,15 +23,7 @@ const Links = styled.ul`
     }
 `;
 
-function isSearchPage(href: string) {
-  return href.includes('/search');
-}
-
 function Footer() {
-
-  if (isSearchPage(window.location.href)) {
-    return null;
-  }
 
   return <StyledFooter className="is-flex is-justify-content-space-around mx-2">
     <div>Copyright © 2023 Alexander Alemayhu.</div>
