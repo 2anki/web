@@ -41,7 +41,7 @@ export function Menu() {
         <ul className="menu-list">
           <hr />
           <SidebarItem path={path} href="/delete-account">
-            🗑️ Delete account
+            {getVisibleText('navigation.deleteAccount')}
           </SidebarItem>
           <SidebarItem
             path={path}
@@ -51,7 +51,7 @@ export function Menu() {
               get2ankiApi().logout().then(() => goToLoginPage());
             }}
           >
-            🔒 log out
+            {getVisibleText('navigation.logout')}
           </SidebarItem>
         </ul>
       </ProtectedItems>

@@ -25,9 +25,6 @@ export default function getNavbarEnd(path: string, backend: Backend) {
       <NavbarItem path={path} href="/users/logout" onClick={onLogOut}>
         {getVisibleText('navigation.logout')}
       </NavbarItem>
-      <NavbarItem path={path} href="/delete-account">
-        {getVisibleText('navigation.deleteAccount')}
-      </NavbarItem>
     </div>
   );
 }
