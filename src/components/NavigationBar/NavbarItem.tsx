@@ -10,16 +10,16 @@ export interface NavbarItemProps {
 }
 
 export default function NavbarItem({
-  path,
-  href,
-  onClick,
-  children,
-}: NavbarItemProps) {
+                                     path,
+                                     href,
+                                     onClick,
+                                     children
+                                   }: NavbarItemProps) {
   return (
     <StyledNavbarItem
       onClick={onClick}
       href={href}
-      className={`navbar-item ${path === href ? 'has-text-weight-bold' : ''}`}
+      className={`navbar-item link ${path === href ? 'has-text-weight-bold' : ''}`}
     >
       {children}
     </StyledNavbarItem>
