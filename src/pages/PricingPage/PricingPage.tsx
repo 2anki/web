@@ -8,8 +8,6 @@ export default function PricingPage() {
   return (
     <PageContainer>
       <div className="container content">
-        <h1>{getVisibleText('navigation.pricing')}</h1>
-        <hr />
         <section className="section">
           <div className="container">
             <h1 className="title has-text-centered">{getVisibleText('pricing.page.title')}</h1>

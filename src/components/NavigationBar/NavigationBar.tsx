@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 
-import { canShowNavbar } from '../shared/canShowNavbar';
 import { Navbar } from './styled';
 import { RightSide } from './components/RightSide';
 
@@ -11,10 +10,6 @@ function NavigationBar() {
   const [active, setActive] = useState(false);
 
   const path = window.location.pathname;
-
-  if (!canShowNavbar(path)) {
-    return null;
-  }
 
   return (
     <Navbar

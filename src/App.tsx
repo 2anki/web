@@ -8,7 +8,7 @@ import HomePage from './pages/HomePage';
 
 import Footer from './components/Footer';
 import GlobalStyle from './GlobalStyle';
-import ImportPage from './pages/ImportPage/ImportPage';
+import SettingsPage from './pages/SettingsPage/SettingsPage';
 import isOfflineMode from './lib/isOfflineMode';
 import DebugPage from './pages/DebugPage';
 import FavoritesPage from './pages/FavoritesPage';
@@ -82,7 +82,7 @@ function App() {
               path="/users/r/:id"
               element={<NewPasswordPage setErrorMessage={handledError} />}
             />
-            <Route path="/import" element={<ImportPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
             <Route path="/debug" element={<DebugPage />} />
             <Route
               path="/delete-account"

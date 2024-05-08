@@ -22,6 +22,9 @@ export default function getNavbarEnd(path: string, backend: Backend) {
       <NavbarItem href="/search" path={path}>
         {getVisibleText('navigation.search')}
       </NavbarItem>
+      <NavbarItem path={path} href="/settings" onClick={onLogOut}>
+        {getVisibleText('navigation.settings')}
+      </NavbarItem>
       <NavbarItem path={path} href="/users/logout" onClick={onLogOut}>
         {getVisibleText('navigation.logout')}
       </NavbarItem>
