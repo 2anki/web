@@ -2,8 +2,7 @@ import { getSubscribeLink } from '../../../../PricingPage/getSubscribeLink';
 import { TierInfoColumn } from './TierInfoColumn';
 import { getPatreonLink } from '../../../../SettingsPage/getPatreonLink';
 
-const TierSection = function() {
-
+function TierSection() {
   return <div className="container">
     <section className="section">
       <div className="container">
@@ -26,6 +25,6 @@ const TierSection = function() {
 
 
   </div>;
-};
+}
 
 export default TierSection;
