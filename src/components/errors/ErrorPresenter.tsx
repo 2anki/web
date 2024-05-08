@@ -13,15 +13,19 @@ export function ErrorPresenter({ error }: ErrorPresenterProps) {
   }
 
   return (
-    <div className="notification is-danger">
+    <div className={`modal ${dismissed ? '' : 'is-active'}`}>
+      <div className="modal-background has-background-black" />
+      <div className="modal-content">
+        {/* eslint-disable-next-line react/no-danger */}
+        <div dangerouslySetInnerHTML={{ __html: getErrorMessage(error) }} />
+      </div>
       <button
-        aria-label="close"
         type="button"
-        className="delete"
         onClick={() => setDismissed(true)}
-      />
-      {/* eslint-disable-next-line react/no-danger */}
-      <div dangerouslySetInnerHTML={{ __html: getErrorMessage(error) }} />
+        className="modal-close is-large" aria-label="close" />
+      <div className="buttons my-2">
+        <button type="button" className="button" onClick={() => setDismissed(true)}>Close</button>
+      </div>
     </div>
   );
 }
