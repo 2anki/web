@@ -18,7 +18,7 @@ interface SettingsPageProps {
 
 }
 
-export default function SettingsPage({ setErrorMessage }: SettingsPageProps) {
+export default function SettingsPage({ setErrorMessage }: Readonly<SettingsPageProps>) {
   const customerPortal =
     process.env.NODE_ENV === 'development' ?
       portalLinks.development : portalLinks.production;

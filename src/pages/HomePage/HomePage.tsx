@@ -12,7 +12,7 @@ interface HomePageProps {
   setErrorMessage: ErrorHandlerType;
 }
 
-export function HomePage({ setErrorMessage }: HomePageProps) {
+export function HomePage({ setErrorMessage }: Readonly<HomePageProps>) {
   return (
     <HomeContainer>
       <HeroSection />

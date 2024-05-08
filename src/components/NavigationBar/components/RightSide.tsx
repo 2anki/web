@@ -8,7 +8,7 @@ interface RightSideProps {
   path: string;
 }
 
-export function RightSide({ cookies, path }: RightSideProps) {
+export function RightSide({ cookies, path }: Readonly<RightSideProps>) {
   if (cookies.token) {
     return getNavbarEnd(path, get2ankiApi());
   }
