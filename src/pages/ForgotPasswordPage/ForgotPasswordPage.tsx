@@ -3,6 +3,7 @@ import NavButtonCTA from '../../components/buttons/NavButtonCTA';
 import { Container } from '../../components/styled';
 import TopSection from './TopSection';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
+import { getVisibleText } from '../../lib/text/getVisibleText';
 
 interface Props {
   setErrorMessage: ErrorHandlerType;
@@ -15,8 +16,8 @@ export function ForgotPasswordPage({ setErrorMessage }: Props) {
   return (
     <Container>
       <TopSection onClick={onClickRegister}>
-        Don&apos;t have an account?
-        <NavButtonCTA href="/register">Register</NavButtonCTA>
+        {getVisibleText('navigation.register.question')}
+        <NavButtonCTA href="/register">{getVisibleText('navigation.register')}</NavButtonCTA>
       </TopSection>
       <ForgotPasswordForm setError={setErrorMessage} />
     </Container>

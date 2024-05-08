@@ -2,34 +2,14 @@
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 
-import { canShowNavbar } from '../shared/canShowNavbar';
-import NavbarItem from './NavbarItem';
-import getNavbarEnd from './helpers/getNavbarEnd';
 import { Navbar } from './styled';
-import { get2ankiApi } from '../../lib/backend/get2ankiApi';
+import { RightSide } from './components/RightSide';
 
 function NavigationBar() {
   const [cookies] = useCookies(['token']);
   const [active, setActive] = useState(false);
 
   const path = window.location.pathname;
-
-  if (!canShowNavbar(path)) {
-    return null;
-  }
-
-  const rightSide = cookies.token ? (
-    getNavbarEnd(path, get2ankiApi())
-  ) : (
-    <div className="navbar-end">
-      <NavbarItem path="login" href="/login#login">
-        Login
-      </NavbarItem>
-      <NavbarItem path="register" href="/register">
-        Register
-      </NavbarItem>
-    </div>
-  );
 
   return (
     <Navbar
@@ -51,10 +31,6 @@ function NavigationBar() {
         >
           <span aria-hidden="true" />
           <span aria-hidden="true" />
-          <span aria-hidden="true" />
-          <span aria-hidden="true" />
-          <span aria-hidden="true" />
-          <span aria-hidden="true" />
         </button>
       </div>
 
@@ -62,7 +38,7 @@ function NavigationBar() {
         id="navbar"
         className={`is-flex-grow-0	navbar-menu ${active ? 'is-active' : ''}`}
       >
-        {rightSide}
+        <RightSide cookies={cookies} path={path} />
       </div>
     </Navbar>
   );

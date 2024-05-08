@@ -2,21 +2,27 @@ import TestimonialsSection from './components/Sections/testimonials';
 import BenefitsSection from './components/Sections/benefits';
 import AboutSection from './components/Sections/about';
 import HeroSection from './components/Sections/hero';
-import NewsSection from './components/Sections/news/NewsSection';
 import { HomeContainer } from '../../components/styled';
-import NavigationBar from '../../components/NavigationBar/NavigationBar';
+import UploadForm from '../UploadPage/components/UploadForm/UploadForm';
+import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
+import { FormSection } from './components/Sections/hero/styled';
+import TierSection from './components/Sections/tier/TierSection';
 
-export function HomePage() {
+interface HomePageProps {
+  setErrorMessage: ErrorHandlerType;
+}
+
+export function HomePage({ setErrorMessage }: Readonly<HomePageProps>) {
   return (
-    <>
-      <NavigationBar />
-      <HomeContainer>
-        <HeroSection />
-        <AboutSection />
-        <TestimonialsSection />
-        <BenefitsSection />
-        <NewsSection />
-      </HomeContainer>
-    </>
+    <HomeContainer>
+      <HeroSection />
+      <FormSection>
+        <UploadForm setErrorMessage={setErrorMessage} />
+      </FormSection>
+      <TierSection />
+      <AboutSection />
+      <TestimonialsSection />
+      <BenefitsSection />
+    </HomeContainer>
   );
 }

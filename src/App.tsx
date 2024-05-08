@@ -8,7 +8,6 @@ import HomePage from './pages/HomePage';
 
 import Footer from './components/Footer';
 import GlobalStyle from './GlobalStyle';
-import ImportPage from './pages/ImportPage/ImportPage';
 import isOfflineMode from './lib/isOfflineMode';
 import DebugPage from './pages/DebugPage';
 import FavoritesPage from './pages/FavoritesPage';
@@ -23,6 +22,8 @@ const LoginPage = lazy(() => import('./pages/LoginPage'));
 const NewPasswordPage = lazy(() => import('./pages/NewPasswordPage'));
 const DownloadsPage = lazy(() => import('./pages/DownloadsPage'));
 const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'));
+const PricingPage = lazy(() => import('./pages/PricingPage'));
+const SettingsPage = lazy(() => import('./pages/SettingsPage/SettingsPage'));
 
 const queryClient = new QueryClient();
 
@@ -77,17 +78,21 @@ function App() {
               path="/forgot"
               element={<ForgotPasswordPage setErrorMessage={handledError} />}
             />
+            <Route path="/settings" element={<SettingsPage setErrorMessage={handledError} />} />
             <Route
               path="/users/r/:id"
               element={<NewPasswordPage setErrorMessage={handledError} />}
             />
-            <Route path="/import" element={<ImportPage />} />
             <Route path="/debug" element={<DebugPage />} />
             <Route
               path="/delete-account"
               element={<DeleteAccountPage setError={handledError} />}
             />
-            <Route path="/" element={<HomePage />} />
+            <Route
+              path="/pricing"
+              element={<PricingPage />}
+            />
+            <Route path="/" element={<HomePage setErrorMessage={handledError} />} />
           </Routes>
           <Footer />
         </PageLayout>
