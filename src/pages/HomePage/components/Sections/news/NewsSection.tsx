@@ -2,6 +2,7 @@ import Heading2 from '../../../../../components/text/Heading2';
 import NewsEntry from '.';
 import { Centered, NewsIcon, ReadMoreNews } from './styled';
 import ReadMore from './ReadMore';
+import { getPatreonLink } from '../../../../SettingsPage/getPatreonLink';
 
 function FeaturedEntry() {
   return (
@@ -47,7 +48,7 @@ function NewsSection() {
       </div>
       <Centered>
         <ReadMoreNews
-          destination="https://www.patreon.com/alemayhu"
+          destination={getPatreonLink()}
           text="READ MORE NEWS"
           onClickLink={() => {
           }}

@@ -82,7 +82,7 @@ function App() {
               path="/users/r/:id"
               element={<NewPasswordPage setErrorMessage={handledError} />}
             />
-            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/settings" element={<SettingsPage setErrorMessage={handledError} />} />
             <Route path="/debug" element={<DebugPage />} />
             <Route
               path="/delete-account"
