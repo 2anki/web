@@ -1,9 +1,21 @@
 {
-  "navigation.uploads": "⬇️ Downloads",
-  "navigation.upload": "📦 Upload",
-  "navigation.favorites": "⭐️Favorites",
-  "navigation.search": "🔍 Search",
-  "navigation.help": "🙋🏽‍♀️ FAQ",
+  "navigation.pricing": "Pricing",
+  "navigation.login": "Login",
+  "navigation.uploads": "Downloads",
+  "navigation.upload": "Upload",
+  "navigation.favorites": "Favorites",
+  "navigation.search": "Search",
+  "navigation.help": "FAQ",
+  "navigation.help.url": "https://docs.2anki.net/troubleshooting/faq/",
+  "navigation.logout": "Log Out",
+  "navigation.register": "Register",
+  "navigation.register.question": "Don't have an account?",
+  "navigation.deleteAccount": "Delete account",
+  "navigation.page.settings": "Settings",
   "downloads.unfinished.jobs": "It might take a while for your download to be ready.",
-  "downloads.empty": "You have no downloads!"
+  "downloads.empty": "You have no downloads!",
+  "upload.page.title": "Upload your notes",
+  "upload.page.subtitle": "For now only HTML and ZIP files are fully supported.",
+  "pricing.page.title": "Our Pricing Plans",
+  "navigation.settings": "Settings"
 }

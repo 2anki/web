@@ -2,14 +2,14 @@ import React, {
   FormEventHandler,
   SetStateAction,
   SyntheticEvent,
-  useState,
+  useState
 } from 'react';
 import { useCookies } from 'react-cookie';
-import Backend from '../../../../lib/backend';
 import {
   ErrorHandlerType,
-  getErrorMessage,
+  getErrorMessage
 } from '../../../errors/helpers/getErrorMessage';
+import { get2ankiApi } from '../../../../lib/backend/get2ankiApi';
 
 interface LoginState {
   email: string;
@@ -25,14 +25,13 @@ export const useHandleLoginSubmit = (onError: ErrorHandlerType): LoginState => {
   const [, setCookie] = useCookies(['token']);
   const [email, setEmail] = useState(localStorage.getItem('email') || '');
   const [password, setPassword] = useState('');
-  const backend = new Backend();
 
   const onSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
     setLoading(true);
 
     try {
-      const res = await backend.login(email, password);
+      const res = await get2ankiApi().login(email, password);
       if (res.status === 200) {
         const { token, redirect } = await res.json();
         setCookie('token', token);
@@ -58,6 +57,6 @@ export const useHandleLoginSubmit = (onError: ErrorHandlerType): LoginState => {
     loading,
     onSubmit,
     setEmail,
-    setPassword,
+    setPassword
   };
 };

@@ -1,13 +1,8 @@
-import styled from 'styled-components';
 import { SyntheticEvent, useState } from 'react';
 import BetaMessage from '../BetaMessage';
-import Backend from '../../lib/backend';
 import { ErrorHandlerType } from '../errors/helpers/getErrorMessage';
-
-const FormContainer = styled.div`
-  max-width: 720px;
-  margin: 0 auto;
-`;
+import { FormContainer } from './styled';
+import { get2ankiApi } from '../../lib/backend/get2ankiApi';
 
 interface Props {
   setErrorMessage: ErrorHandlerType;
@@ -31,12 +26,10 @@ function RegisterForm({ setErrorMessage }: Readonly<Props>) {
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
-    setErrorMessage(null);
     setLoading(true);
 
     try {
-      const backend = new Backend();
-      const res = await backend.register(name, email, password);
+      const res = await get2ankiApi().register(name, email, password);
       if (res.status === 200) {
         window.location.href = '/login';
       } else {
@@ -58,7 +51,7 @@ function RegisterForm({ setErrorMessage }: Readonly<Props>) {
           <div className="columns is-centered">
             <div className="column is-half">
               <BetaMessage />
-              <h1 className="title">Join Now.</h1>
+              <h1 className="title">Register.</h1>
               <p className="subtitle">To get started please register below.</p>
               <form onSubmit={handleSubmit}>
                 <div className="field">

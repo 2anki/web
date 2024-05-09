@@ -2,7 +2,7 @@ import Cookies from 'universal-cookie';
 
 import {
   GetDatabaseResponse,
-  GetPageResponse,
+  GetPageResponse
 } from '@notionhq/client/build/src/api-endpoints';
 import { getNotionObjectTitle } from 'get-notion-object-title';
 import NotionObject from '../interfaces/NotionObject';
@@ -18,7 +18,7 @@ import { getResourceUrl } from './getResourceUrl';
 import { OK } from './http';
 
 export class Backend {
-  baseURL: string;
+  public baseURL: string;
 
   constructor() {
     this.baseURL = '/api/';
@@ -37,13 +37,14 @@ export class Backend {
     window.location.href = '/';
   }
 
+
   async getNotionConnectionInfo(): Promise<ConnectionInfo> {
     return get(`${this.baseURL}notion/get-notion-link`);
   }
 
   saveSettings(settings: Settings) {
     return post(`${this.baseURL}settings/create/${settings.object_id}`, {
-      settings,
+      settings
     });
   }
 
@@ -68,7 +69,7 @@ export class Backend {
       DECK: deck.join(','),
       SUB_DECKS: subDecks.join(','),
       TAGS: tags,
-      EMAIL_NOTIFICATION: email,
+      EMAIL_NOTIFICATION: email
     };
     return post(`${this.baseURL}rules/create/${id}`, { payload });
   }
@@ -89,7 +90,7 @@ export class Backend {
 
   deleteSettings(pageId: string) {
     return post(`${this.baseURL}settings/delete/${pageId}`, {
-      object_id: pageId,
+      object_id: pageId
     });
   }
 
@@ -102,13 +103,13 @@ export class Backend {
       const res = await this.getPage(query);
       if (res?.data) {
         data = {
-          results: [res.data],
+          results: [res.data]
         };
       } else {
         const dbResult = await this.getDatabase(query);
         if (dbResult?.data) {
           data = {
-            results: [dbResult.data],
+            results: [dbResult.data]
           };
         }
       }
@@ -129,7 +130,7 @@ export class Backend {
         icon: getObjectIcon(p as ObjectIcon),
         url: getResourceUrl(p),
         id: p.id,
-        isFavorite: favorites.some((f) => f.id === p.id),
+        isFavorite: favorites.some((f) => f.id === p.id)
       }));
     }
     return [];
@@ -147,7 +148,7 @@ export class Backend {
       url: data.url as string,
       id: data.id,
       data,
-      isFavorite,
+      isFavorite
     };
   }
 
@@ -167,7 +168,7 @@ export class Backend {
       url: data.url as string,
       id: data.id,
       data,
-      isFavorite,
+      isFavorite
     };
   }
 
@@ -210,7 +211,7 @@ export class Backend {
   async getFavorites(): Promise<NotionObject[]> {
     try {
       const favorites = await get(`${this.baseURL}favorite`, {
-        redirect: false,
+        redirect: false
       });
       return favorites.map((f: GetDatabaseResponse | GetPageResponse) => ({
         object: f,
@@ -219,7 +220,7 @@ export class Backend {
         url: getResourceUrl(f),
         id: f.id,
         data: f,
-        isFavorite: true,
+        isFavorite: true
       }));
     } catch (error) {
       return [];
@@ -229,7 +230,7 @@ export class Backend {
   async login(email: string, password: string): Promise<Response> {
     return post(`${getLoginURL(this.baseURL)}${window.location.search}`, {
       email,
-      password,
+      password
     });
   }
 
@@ -241,7 +242,7 @@ export class Backend {
   async newPassword(password: string, token: string): Promise<Response> {
     return post(`${this.baseURL}users/new-password`, {
       password,
-      reset_token: token,
+      reset_token: token
     });
   }
 

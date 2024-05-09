@@ -3,9 +3,9 @@ import React from 'react';
 import Cookies from 'universal-cookie';
 import { UploadContainer } from '../UploadPage/styled';
 import { Layout } from '../../components/Layout/styled';
-import Backend from '../../lib/backend';
 import { redirectToFrontPage } from '../../lib/redirects';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
+import { get2ankiApi } from '../../lib/backend/get2ankiApi';
 
 interface Prop {
   setError: ErrorHandlerType;
@@ -21,8 +21,7 @@ export function DeleteAccountPage({ setError }: Prop) {
       return;
     }
 
-    const backend = new Backend();
-    await backend.deleteAccount(count === 2).catch(setError);
+    await get2ankiApi().deleteAccount(count === 2).catch(setError);
     localStorage.clear();
     sessionStorage.clear();
     new Cookies().remove('token');

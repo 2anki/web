@@ -1,21 +1,21 @@
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import useQuery from '../../lib/hooks/useQuery';
-import StoreContext from '../../store/StoreContext';
 import WarningMessage from '../../components/WarningMessage';
 import UploadForm from './components/UploadForm/UploadForm';
 import SettingsIcon from '../../components/icons/SettingsIcon';
-import SettingsModal from '../../components/modals/SettingsModal';
+import SettingsModal from '../../components/modals/SettingsModal/SettingsModal';
 import {
   FlexColumn,
   ImportTitle,
   InfoMessage,
   SettingsLink,
-  UploadContainer,
+  UploadContainer
 } from './styled';
 import { Main, PageContainer } from '../../components/styled';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
+import { getVisibleText } from '../../lib/text/getVisibleText';
 
 interface Props {
   setErrorMessage: ErrorHandlerType;
@@ -30,20 +30,13 @@ export function UploadPage({ setErrorMessage }: Props) {
     view === 'template' || view === 'deck-options' || view === 'card-options'
   );
 
-  const store = useContext(StoreContext);
-
-  // Make sure the defaults are set if not present to ensure backwards compatability
-  useEffect(() => {
-    store.syncLocalStorage();
-  }, [store]);
-
   return (
     <PageContainer>
       <UploadContainer>
         <Main>
           {isDevelopment ? <WarningMessage /> : null}
           <FlexColumn>
-            <ImportTitle>Import</ImportTitle>
+            <ImportTitle>{getVisibleText('upload.page.title')}</ImportTitle>
             <SettingsLink onClick={() => setShowSettings(true)}>
               <Link className="link" to="?view=template">
                 <SettingsIcon />
@@ -53,6 +46,7 @@ export function UploadPage({ setErrorMessage }: Props) {
           </FlexColumn>
           <div className="container">
             <UploadForm setErrorMessage={setErrorMessage} />
+            <p>{getVisibleText('upload.page.subtitle')}</p>
             <InfoMessage>
               All files uploaded here are automatically deleted after 21
               minutes.

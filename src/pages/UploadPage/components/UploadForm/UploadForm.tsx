@@ -27,7 +27,7 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
       }
 
       event.preventDefault();
-    },
+    }
   });
 
   const handleSubmit = async (event: SyntheticEvent) => {
@@ -40,7 +40,7 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
       storedFields.forEach((sf) => formData.append(sf[0], sf[1]));
       const request = await window.fetch('/api/upload/file', {
         method: 'post',
-        body: formData,
+        body: formData
       });
       const contentType = request.headers.get('Content-Type');
       const notOK = request.status !== 200;
@@ -107,7 +107,7 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
                   onChange={() => fileSelected()}
                 />
               </label>
-              <span className="tag">Select</span>
+              <span className="tag is-large is-link">Click to convert your notes</span>
             </DropParagraph>
           </div>
           <DownloadButton

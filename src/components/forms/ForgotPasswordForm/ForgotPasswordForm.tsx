@@ -1,12 +1,9 @@
-import styled from 'styled-components';
 import { SyntheticEvent, useState } from 'react';
-import Backend from '../../lib/backend';
-import { ErrorHandlerType } from '../errors/helpers/getErrorMessage';
 
-const FormContainer = styled.div`
-  max-width: 720px;
-  margin: 0 auto;
-`;
+import { ErrorHandlerType } from '../../errors/helpers/getErrorMessage';
+import { ForgotPassword } from './ForgotPassword';
+import { FormContainer } from '../styled';
+import { get2ankiApi } from '../../../lib/backend/get2ankiApi';
 
 interface ForgotPasswordProps {
   setError: ErrorHandlerType;
@@ -19,13 +16,11 @@ function ForgotPasswordForm({ setError }: ForgotPasswordProps) {
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
-    setError(null);
     setLoading(true);
     setDidReset(false);
 
     try {
-      const backend = new Backend();
-      await backend.forgotPassword(email);
+      await get2ankiApi().forgotPassword(email);
       setLoading(false);
       setDidReset(true);
     } catch (error) {
@@ -61,23 +56,7 @@ function ForgotPasswordForm({ setError }: ForgotPasswordProps) {
                     />
                   </label>
                 </div>
-                {!didReset && (
-                  <div className="field">
-                    <div className="control" style={{ width: '100%' }}>
-                      <button
-                        type="submit"
-                        className="button is-link is-medium"
-                        style={{ width: '100%' }}
-                        disabled={loading}
-                      >
-                        Reset my password
-                      </button>
-                    </div>
-                  </div>
-                )}
-                {didReset && (
-                  <p>You should receive an email if your account exists.</p>
-                )}
+                <ForgotPassword didReset={didReset} loading={loading} />
               </form>
             </div>
           </div>

@@ -1,4 +1,9 @@
 import { ReactNode } from 'react';
+<<<<<<< HEAD
+=======
+import { PageContent } from './styled';
+import { ErrorPresenter } from '../errors/ErrorPresenter';
+>>>>>>> origin/main
 import NavigationBar from '../NavigationBar/NavigationBar';
 import { ErrorPresenter } from '../errors/ErrorPresenter';
 import { canShowNavbar } from '../shared/canShowNavbar';
@@ -11,33 +16,9 @@ interface LayoutProps {
 }
 
 export function PageLayout({ error, children }: Readonly<LayoutProps>) {
-  const hideMeny =
-    !canShowNavbar(window.location.pathname) ||
-    window.location.pathname === '/';
-
-  if (hideMeny) {
-    return (
-      <PageContent>
-        {error && <ErrorPresenter error={error} />}
-        {children}
-      </PageContent>
-    );
-  }
-
-  return (
-    <>
-      <PageHeader>
-        <NavigationBar />
-      </PageHeader>
-      <Layout>
-        <PageSidebar>
-          <Menu />
-        </PageSidebar>
-        <PageContent>
-          <ErrorPresenter error={error} />
-          {children}
-        </PageContent>
-      </Layout>
-    </>
-  );
+  return <PageContent>
+    <NavigationBar />
+    {error && <ErrorPresenter error={error} />}
+    {children}
+  </PageContent>;
 }

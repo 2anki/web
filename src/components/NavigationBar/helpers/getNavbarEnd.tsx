@@ -1,4 +1,5 @@
 import React from 'react';
+import { getVisibleText } from '../../../lib/text/getVisibleText';
 import Backend from '../../../lib/backend';
 import NavbarItem from '../NavbarItem';
 
@@ -9,14 +10,23 @@ export default function getNavbarEnd(path: string, backend: Backend) {
   };
   return (
     <div className="navbar-end">
+      <NavbarItem href="/upload" path={path}>
+        {getVisibleText('navigation.upload')}
+      </NavbarItem>
+      <NavbarItem href="/uploads" path={path}>
+        {getVisibleText('navigation.uploads')}
+      </NavbarItem>
+      <NavbarItem href="/favorites" path={path}>
+        {getVisibleText('navigation.favorites')}
+      </NavbarItem>
       <NavbarItem href="/search" path={path}>
-        🔍 Search
+        {getVisibleText('navigation.search')}
+      </NavbarItem>
+      <NavbarItem path={path} href="/settings">
+        {getVisibleText('navigation.settings')}
       </NavbarItem>
       <NavbarItem path={path} href="/users/logout" onClick={onLogOut}>
-        🔒 log out
-      </NavbarItem>
-      <NavbarItem path={path} href="/delete-account">
-        🗑️ Delete account
+        {getVisibleText('navigation.logout')}
       </NavbarItem>
     </div>
   );
