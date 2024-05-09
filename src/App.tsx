@@ -15,6 +15,7 @@ import { PageLayout } from './components/Layout/PageLayout';
 import DeleteAccountPage from './pages/DeleteAccountPage';
 import { getErrorMessage } from './components/errors/helpers/getErrorMessage';
 import { sendError } from './lib/SendError';
+import { SimplePage } from './pages/SimplePage/SimplePage';
 
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 const SearchPage = lazy(() => import('./pages/SearchPage'));
@@ -61,6 +62,10 @@ function App() {
             <Route
               path="/upload"
               element={<UploadPage setErrorMessage={handledError} />}
+            />
+            <Route
+              path="/simple"
+              element={<SimplePage />}
             />
             <Route
               path="/register"

@@ -2,8 +2,8 @@ import { SyntheticEvent, useRef } from 'react';
 import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
 import handleRedirect from '../../../lib/handleRedirect';
 import { useDrag } from '../../UploadPage/components/UploadForm/hooks/useDrag';
-import getAcceptedContentTypes from '../helpers/getAcceptedContentTypes';
 import DropParagraph from './DropParagraph';
+import getAcceptedContentTypes from '../../UploadPage/helpers/getAcceptedContentTypes';
 
 export interface CreatedDeck {
   name: string;
@@ -16,9 +16,9 @@ interface UploadFormProps {
 }
 
 function SimpleUploadForm({
-  setErrorMessage,
-  onDecksCreated,
-}: Readonly<UploadFormProps>) {
+                            setErrorMessage,
+                            onDecksCreated
+                          }: Readonly<UploadFormProps>) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const convertRef = useRef<HTMLButtonElement>(null);
   const { dropHover } = useDrag({
@@ -31,7 +31,7 @@ function SimpleUploadForm({
       }
 
       event.preventDefault();
-    },
+    }
   });
 
   const handleSubmit = async (event: SyntheticEvent) => {
@@ -43,7 +43,7 @@ function SimpleUploadForm({
       storedFields.forEach((sf) => formData.append(sf[0], sf[1]));
       const request = await window.fetch('/api/simple-upload/file', {
         method: 'post',
-        body: formData,
+        body: formData
       });
       if (request.redirected) {
         return handleRedirect(request);

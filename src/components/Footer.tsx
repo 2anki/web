@@ -24,12 +24,6 @@ const Links = styled.ul`
 `;
 
 function Footer() {
-<<<<<<< HEAD
-  if (isSimplePage(window.location.pathname)) {
-    return null;
-  }
-=======
->>>>>>> origin/main
 
   return <StyledFooter className="is-flex is-justify-content-space-around mx-2">
     <div>Copyright © 2023 Alexander Alemayhu.</div>

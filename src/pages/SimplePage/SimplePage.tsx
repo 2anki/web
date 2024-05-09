@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { ErrorPresenter } from '../../components/errors/ErrorPresenter';
 import { Main } from '../../components/styled';
-import StoreContext from '../../store/StoreContext';
 import { CreatedDecksList } from './components/CreatedDecksList';
 import DownloadAllButton from './components/DownloadAllButton';
 import SimpleUploadForm, { CreatedDeck } from './components/SimpleUploadForm';
@@ -10,7 +9,6 @@ import { InfoMessage, UploadContainer } from './styled';
 import { getDownloadFileName } from '../DownloadsPage/helpers/getDownloadFileName';
 
 export function SimplePage() {
-  const store = useContext(StoreContext);
   const [errorMessage, setErrorMessage] = useState<Error | null>(null);
   const [createdDecks, setCreatedDecks] = useState<CreatedDeck[]>([]);
 
@@ -22,11 +20,6 @@ export function SimplePage() {
       link.click();
     });
   };
-
-  // Make sure the defaults are set if not present to ensure backwards compatability
-  useEffect(() => {
-    store.syncLocalStorage();
-  }, [store]);
 
   if (errorMessage) {
     return <ErrorPresenter error={errorMessage} />;
