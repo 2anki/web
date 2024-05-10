@@ -14,7 +14,7 @@ function TierSection() {
             />
             <TierInfoColumn
               title="Subscriber"
-              description="Create 200++ flashcards per upload (100mb)"
+              description="Create 200++ flashcards per upload (500mb)"
               action={{
                 text: 'Subscribe',
                 link: getSubscribeLink(),
