@@ -1,6 +1,5 @@
 import { getErrorMessage } from './helpers/getErrorMessage';
 import { useDismissed } from './helpers/useDismissed';
-import { goToLoginPage } from '../../pages/RegisterPage/goToLoginPage';
 
 interface ErrorPresenterProps {
   error: unknown;
@@ -14,20 +13,16 @@ export function ErrorPresenter({ error }: ErrorPresenterProps) {
   }
 
   return (
-    <div className={`modal ${dismissed ? '' : 'is-active'}`}>
-      <div className="modal-background has-background-white" />
-      <div className="modal-content">
+    <article className="message is-info is-large">
+      <div className="message-body">
         {/* eslint-disable-next-line react/no-danger */}
         <div dangerouslySetInnerHTML={{ __html: getErrorMessage(error) }} />
       </div>
-      <button
-        type="button"
-        onClick={() => setDismissed(true)}
-        className="modal-close is-large" aria-label="close" />
-      <div className="buttons my-2">
-        <button type="button" className="button" onClick={() => setDismissed(true)}>Close</button>
-        <button type="button" className="button is-link" onClick={() => goToLoginPage()}>Login</button>
+      <div className="field is-grouped p-4 is-flex is-align-items-center is-justify-content-center">
+        <p className="control">
+          <button type="button" className="button" onClick={() => setDismissed(true)}>Close</button>
+        </p>
       </div>
-    </div>
+    </article>
   );
 }
