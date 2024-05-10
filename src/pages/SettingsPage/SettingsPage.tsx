@@ -7,6 +7,8 @@ import { getUserLocals } from '../../lib/backend/getUserLocals';
 import LoadingIndicator from '../../components/Loading';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
 import { getPatreonLink } from './getPatreonLink';
+import { LinkEmail } from './LinkEmail';
+import { SettingsPageContainer } from './styled';
 
 const portalLinks = {
   production: 'https://billing.stripe.com/p/login/aEUaHp8ma4VPfPW9AA',
@@ -47,8 +49,9 @@ export default function SettingsPage({ setErrorMessage }: Readonly<SettingsPageP
 
   return (
     <PageContainer>
-      <div className="container content">
+      <SettingsPageContainer>
         <div className="box">
+          <h1>Settings</h1>
           <p>
             For more information on usage, see the{' '}
             <a
@@ -60,19 +63,24 @@ export default function SettingsPage({ setErrorMessage }: Readonly<SettingsPageP
             </a>
           </p>
 
+
           <p className="control">
             {!locals?.patreon && <a className="button is-large is-link" href={customerPortal}>Manage subscription</a>}
             {locals?.patreon && <a className="button is-large is-link" href={getPatreonLink()}>Manage membership</a>}
           </p>
 
-          <p className="control">
-            <a className="link is-small is-danger button" href="/delete-account">
-              {getVisibleText('navigation.deleteAccount')}
-            </a>
+          <p>
+            <LinkEmail linked_email={data?.linked_email} setErrorMessage={setErrorMessage} />
           </p>
 
+
         </div>
-      </div>
+        <p className="control">
+          <a className="link is-small is-danger button" href="/delete-account">
+            {getVisibleText('navigation.deleteAccount')}
+          </a>
+        </p>
+      </SettingsPageContainer>
     </PageContainer>
   );
 }

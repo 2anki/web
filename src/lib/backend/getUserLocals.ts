@@ -7,6 +7,7 @@ interface GetUserLocalsResponse {
     patreon: boolean;
     subscriber: boolean;
   };
+  linked_email: string;
 }
 
 export const getUserLocals = async (): Promise<GetUserLocalsResponse> => get(`${get2ankiApi().baseURL}users/debug/locals`);
