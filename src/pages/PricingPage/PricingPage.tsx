@@ -23,7 +23,7 @@ export default function PricingPage() {
                   <div className="card-content">
                     <div className="content">
                       <ul>
-                        <li>Unlimited Flashcards (100mb)</li>
+                        <li>Unlimited Flashcards (500mb)</li>
                       </ul>
                     </div>
                   </div>
