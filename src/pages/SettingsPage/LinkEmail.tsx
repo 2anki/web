@@ -10,9 +10,6 @@ interface LinkEmailProps {
 }
 
 export function LinkEmail({ setErrorMessage, linked_email }: Readonly<LinkEmailProps>) {
-
-  console.log('xxx', linked_email);
-
   const { mutate, isLoading, isError, error } = useMutation({
     mutationFn: (email: string) => postLinkEmail(email)
   });
