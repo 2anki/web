@@ -61,18 +61,17 @@ export default function SettingsPage({ setErrorMessage }: Readonly<SettingsPageP
               {getVisibleText('navigation.help')}.
             </a>
           </p>
-
-
           <p className="control">
             {!locals?.patreon && <a className="button is-large is-link" href={customerPortal}>Manage subscription</a>}
             {locals?.patreon && <a className="button is-large is-link" href={getPatreonLink()}>Manage membership</a>}
           </p>
-
-          <p>
-            <LinkEmail linked_email={data?.linked_email} setErrorMessage={setErrorMessage} />
-          </p>
-
-
+          {
+            locals?.subscriber && (
+              <p>
+                <LinkEmail linked_email={data?.linked_email} setErrorMessage={setErrorMessage} />
+              </p>
+            )
+          }
         </div>
         <p className="control">
           <a className="link is-small is-danger button" href="/delete-account">
