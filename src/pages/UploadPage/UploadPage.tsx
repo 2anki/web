@@ -10,7 +10,7 @@ import {
   FlexColumn,
   ImportTitle,
   InfoMessage,
-  SettingsLink,
+  CardOptionsLink,
   UploadContainer
 } from './styled';
 import { Main, PageContainer } from '../../components/styled';
@@ -26,7 +26,7 @@ export function UploadPage({ setErrorMessage }: Props) {
   const query = useQuery();
   const view = query.get('view');
 
-  const [isSettings, setShowSettings] = useState(
+  const [showCardOptionsModal, setShowCardOptionsModal] = useState(
     view === 'template' || view === 'deck-options' || view === 'card-options'
   );
 
@@ -37,12 +37,12 @@ export function UploadPage({ setErrorMessage }: Props) {
           {isDevelopment ? <WarningMessage /> : null}
           <FlexColumn>
             <ImportTitle>{getVisibleText('upload.page.title')}</ImportTitle>
-            <SettingsLink onClick={() => setShowSettings(true)}>
+            <CardOptionsLink onClick={() => setShowCardOptionsModal(true)}>
               <Link className="link" to="?view=template">
                 <SettingsIcon />
-                Settings
+                {getVisibleText('card.options')}
               </Link>
-            </SettingsLink>
+            </CardOptionsLink>
           </FlexColumn>
           <div className="container">
             <UploadForm setErrorMessage={setErrorMessage} />
@@ -54,10 +54,10 @@ export function UploadPage({ setErrorMessage }: Props) {
             <SettingsModal
               setError={setErrorMessage}
               pageId={null}
-              isActive={isSettings}
+              isActive={showCardOptionsModal}
               onClickClose={() => {
                 window.history.pushState({}, '', 'upload');
-                setShowSettings(false);
+                setShowCardOptionsModal(false);
               }}
             />
           </div>
