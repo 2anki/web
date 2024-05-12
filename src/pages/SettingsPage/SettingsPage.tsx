@@ -2,7 +2,6 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import { PageContainer } from '../../components/styled';
 import { getVisibleText } from '../../lib/text/getVisibleText';
-import { FIFTEEN_MINUTES } from '../../components/modals/SettingsModal/constants';
 import { getUserLocals } from '../../lib/backend/getUserLocals';
 import LoadingIndicator from '../../components/Loading';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
@@ -29,7 +28,7 @@ export default function SettingsPage({ setErrorMessage }: Readonly<SettingsPageP
     'userlocals',
     getUserLocals,
     {
-      staleTime: FIFTEEN_MINUTES
+      cacheTime: 0
     }
   );
 
