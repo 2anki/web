@@ -13,7 +13,7 @@ function NavigationBar() {
 
   return (
     <Navbar
-      className="navbar is-flex is-flex-direction-row is-justify-content-space-around	"
+      className="navbar is-flex is-justify-content-space-between is-flex-direction-column"
       aria-label="main navigation"
     >
       <div className="navbar-brand">
@@ -31,6 +31,10 @@ function NavigationBar() {
         >
           <span aria-hidden="true" />
           <span aria-hidden="true" />
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
         </button>
       </div>
 
@@ -40,6 +44,7 @@ function NavigationBar() {
       >
         <RightSide cookies={cookies} path={path} />
       </div>
+
     </Navbar>
   );
 }
