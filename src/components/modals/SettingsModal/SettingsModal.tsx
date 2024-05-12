@@ -2,7 +2,6 @@ import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { SettingsPayload } from '../../../lib/types';
 
-import BlueTintedBox from '../../BlueTintedBox';
 import FontSizePicker from '../../FontSizePicker';
 import LocalCheckbox from '../../LocalCheckbox';
 import TemplateName from '../../TemplateName';
@@ -20,6 +19,7 @@ import { getSettingsCardOptions } from '../../../lib/backend/getSettingsCardOpti
 
 import { getLocalStorageBooleanValue } from '../../../lib/data_layer/getLocalStorageBooleanValue';
 import CardOption from '../../../lib/data_layer/model/CardOption';
+import { getVisibleText } from '../../../lib/text/getVisibleText';
 
 interface Props {
   pageTitle?: string;
@@ -166,7 +166,7 @@ function SettingsModal({
         {!loading && (
           <>
             <div className="modal-card-head">
-              <div className="modal-card-title">Settings</div>
+              <div className="modal-card-title">{getVisibleText('card.options')}</div>
               <button
                 type="button"
                 className="delete"
@@ -230,97 +230,91 @@ function SettingsModal({
                     />
                   </div>
                 </div>
-                <h2 className="title is-3">Card Options</h2>
                 <div className="container">
-                  <BlueTintedBox>
-                    <strong>Toggle Mode</strong>
-                    <p className="is-size-7">
-                      If you use nested toggles in your flashcards then this
-                      option is useful in the case where you want to collapse
-                      them so you can open them manually when you want in Anki.
-                    </p>
-                    <TemplateSelect
-                      values={[
-                        { label: 'Open nested toggles', value: 'open_toggle' },
-                        {
-                          label: 'Close nested toggles',
-                          value: 'close_toggle'
-                        }
-                      ]}
-                      value={toggleMode}
-                      name="toggle-mode"
-                      pickedTemplate={(t) => {
-                        setToggleMode(t);
-                        saveValueInLocalStorage('toggle-mode', t, pageId);
-                      }}
-                    />
-                    {options && options.map((o: CardOption) => <LocalCheckbox
-                      key={o.key}
-                      defaultValue={
-                        getLocalStorageBooleanValue(
-                          o.key, o.value.toString(), settings)
-                      }
-                      label={o.label}
-                      description={o.description}
-                      onChecked={(checked) => {
-                        saveValueInLocalStorage(o.key, checked.toString(), pageId);
-                      }}
-                    />)}
-                  </BlueTintedBox>
-                </div>
-                <h2 className="title is-3">Template Options</h2>
-                <BlueTintedBox>
+                  <strong>Toggle Mode</strong>
+                  <p className="is-size-7">
+                    If you use nested toggles in your flashcards then this
+                    option is useful in the case where you want to collapse
+                    them so you can open them manually when you want in Anki.
+                  </p>
                   <TemplateSelect
-                    values={availableTemplates}
-                    value={template}
-                    name="template"
+                    values={[
+                      { label: 'Open nested toggles', value: 'open_toggle' },
+                      {
+                        label: 'Close nested toggles',
+                        value: 'close_toggle'
+                      }
+                    ]}
+                    value={toggleMode}
+                    name="toggle-mode"
                     pickedTemplate={(t) => {
-                      setTemplate(t);
-                      saveValueInLocalStorage('template', t, pageId);
+                      setToggleMode(t);
+                      saveValueInLocalStorage('toggle-mode', t, pageId);
                     }}
                   />
-                  <TemplateName
-                    name="basic_model_name"
-                    value={basicName}
-                    placeholder="Defaults to n2a-basic"
-                    label="Basic Template Name"
-                    pickedName={(name) => {
-                      setBasicName(name);
-                      saveValueInLocalStorage('basic_model_name', name, pageId);
+                  {options && options.map((o: CardOption) => <LocalCheckbox
+                    key={o.key}
+                    defaultValue={
+                      getLocalStorageBooleanValue(
+                        o.key, o.value.toString(), settings)
+                    }
+                    label={o.label}
+                    description={o.description}
+                    onChecked={(checked) => {
+                      saveValueInLocalStorage(o.key, checked.toString(), pageId);
                     }}
-                  />
-                  <TemplateName
-                    name="cloze_model_name"
-                    value={clozeName}
-                    placeholder="Defaults to n2a-cloze"
-                    label="Cloze Template Name"
-                    pickedName={(name) => {
-                      setClozeName(name);
-                      saveValueInLocalStorage('cloze_model_name', name, pageId);
-                    }}
-                  />
-                  <TemplateName
-                    name="input_model_name"
-                    value={inputName}
-                    placeholder="Defaults to n2a-input"
-                    label="Input Template Name"
-                    pickedName={(name) => {
-                      setInputName(name);
-                      saveValueInLocalStorage('input_model_name', name, pageId);
-                    }}
-                  />
+                  />)}
+                </div>
+                <h2 className="title is-4">Template Options</h2>
+                <TemplateSelect
+                  values={availableTemplates}
+                  value={template}
+                  name="template"
+                  pickedTemplate={(t) => {
+                    setTemplate(t);
+                    saveValueInLocalStorage('template', t, pageId);
+                  }}
+                />
+                <TemplateName
+                  name="basic_model_name"
+                  value={basicName}
+                  placeholder="Defaults to n2a-basic"
+                  label="Basic Template Name"
+                  pickedName={(name) => {
+                    setBasicName(name);
+                    saveValueInLocalStorage('basic_model_name', name, pageId);
+                  }}
+                />
+                <TemplateName
+                  name="cloze_model_name"
+                  value={clozeName}
+                  placeholder="Defaults to n2a-cloze"
+                  label="Cloze Template Name"
+                  pickedName={(name) => {
+                    setClozeName(name);
+                    saveValueInLocalStorage('cloze_model_name', name, pageId);
+                  }}
+                />
+                <TemplateName
+                  name="input_model_name"
+                  value={inputName}
+                  placeholder="Defaults to n2a-input"
+                  label="Input Template Name"
+                  pickedName={(name) => {
+                    setInputName(name);
+                    saveValueInLocalStorage('input_model_name', name, pageId);
+                  }}
+                />
 
-                  <FontSizePicker
-                    fontSize={fontSize}
-                    pickedFontSize={(fs) => {
-                      setFontSize(fs);
-                      saveValueInLocalStorage('font-size', fs.toString(), pageId);
-                    }}
-                  />
+                <FontSizePicker
+                  fontSize={fontSize}
+                  pickedFontSize={(fs) => {
+                    setFontSize(fs);
+                    saveValueInLocalStorage('font-size', fs.toString(), pageId);
+                  }}
+                />
 
-                  <hr />
-                  <h2>Preview support is coming soon</h2>
-                </BlueTintedBox>
+                <hr />
               </div>
             </section>
             <div className="modal-card-foot is-justify-content-center">

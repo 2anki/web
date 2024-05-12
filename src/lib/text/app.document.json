@@ -17,5 +17,6 @@
   "upload.page.title": "Upload your notes",
   "upload.page.subtitle": "For now only HTML and ZIP files are fully supported.",
   "pricing.page.title": "Our Pricing Plans",
-  "navigation.settings": "Settings"
+  "navigation.settings": "Settings",
+  "card.options": "Card Options"
 }
