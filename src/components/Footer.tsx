@@ -26,7 +26,7 @@ const Links = styled.ul`
 function Footer() {
 
   return <StyledFooter className="is-flex is-justify-content-space-around mx-2">
-    <div>Copyright © 2023 Alexander Alemayhu.</div>
+    <div>Copyright © 2024 Alexander Alemayhu.</div>
     {/* Earn Credits | About | Terms | Privacy | Blog */}
     <div>
       <Links className="is-flex">
