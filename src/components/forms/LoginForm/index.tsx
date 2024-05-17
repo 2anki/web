@@ -4,6 +4,8 @@ import { isValidCredentials } from './helpers/isValidCredentials';
 import { useHandleLoginSubmit } from './helpers/useHandleLoginSubmit';
 import { SubmitButton } from './styled';
 import { FormContainer } from '../styled';
+import { getVisibleText } from '../../../lib/text/getVisibleText';
+import { getGoogleSignInUrl } from '../../../lib/backend/getGoogleSignInUrl';
 
 interface LoginFormProps {
   onError: ErrorHandlerType;
@@ -60,21 +62,37 @@ function LoginForm({ onError }: LoginFormProps) {
                   </label>
                 </div>
 
-                <a rel="noreferrer" href="/forgot">
-                  I forgot my password
-                </a>
-
                 <div className="field">
                   <div className="control">
                     <SubmitButton
                       type="submit"
                       disabled={!isValidCredentials(email, password) || loading}
                     >
-                      Sign in
+                      Login in
                     </SubmitButton>
                   </div>
                 </div>
+                <hr />
+                <div className="control">
+                  <a href={getGoogleSignInUrl()} className="button is-fullwidth">
+  <span className="icon">
+    <i className="fab fa-google" />
+  </span>
+                    <span>Login in with Google</span>
+                  </a>
+                </div>
               </form>
+              <p className="pt-4">
+                {getVisibleText('navigation.register.question')}{' '}
+                <a rel="noreferrer" href="/register">
+                  Register!
+                </a>
+              </p>
+              <p className="pt-2">
+                <a rel="noreferrer" href="/forgot">
+                  I forgot my password
+                </a>
+              </p>
             </div>
           </div>
         </div>

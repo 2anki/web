@@ -14,7 +14,7 @@ export function RegisterPage({ setErrorMessage }: Props) {
     <Container>
       <TopSection onClick={goToLoginPage}>
         <span className="mx-2">Already have an account?</span>
-        <NavButtonCTA href="/login#login">Sign in</NavButtonCTA>
+        <NavButtonCTA href="/login#login">Login in</NavButtonCTA>
       </TopSection>
       <RegisterForm setErrorMessage={setErrorMessage} />
     </Container>

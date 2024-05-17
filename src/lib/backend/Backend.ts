@@ -258,4 +258,5 @@ export class Backend {
   async deleteAccount(confirmed: boolean): Promise<Response> {
     return post(`${this.baseURL}users/delete-account`, { confirmed });
   }
+
 }
