@@ -3,7 +3,8 @@ import Favorites from './Favorites';
 
 import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
 import NotionObject from '../../../lib/interfaces/NotionObject';
-import { EmptyStateFigure } from './EmptyStateFigure';
+import { UploadContainer } from '../../UploadPage/styled';
+import { getVisibleText } from '../../../lib/text/getVisibleText';
 
 interface Props {
   favorites: NotionObject[];
@@ -12,12 +13,12 @@ interface Props {
 }
 
 export default function FavoritesPresenter({
-  setError,
-  setFavorites,
-  favorites,
-}: Props) {
+                                             setError,
+                                             setFavorites,
+                                             favorites
+                                           }: Props) {
   if (favorites.length === 0) {
-    return <EmptyStateFigure />;
+    return <UploadContainer>{getVisibleText('favorites.empty')}</UploadContainer>;
   }
   return (
     <Favorites

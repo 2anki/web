@@ -18,5 +18,6 @@
   "upload.page.subtitle": "For now only HTML and ZIP files are fully supported.",
   "pricing.page.title": "Our Pricing Plans",
   "navigation.settings": "Settings",
-  "card.options": "Card Options"
+  "card.options": "Card Options",
+  "favorites.empty": "You have no favorites!"
 }
