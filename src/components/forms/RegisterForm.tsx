@@ -3,6 +3,8 @@ import BetaMessage from '../BetaMessage';
 import { ErrorHandlerType } from '../errors/helpers/getErrorMessage';
 import { FormContainer } from './styled';
 import { get2ankiApi } from '../../lib/backend/get2ankiApi';
+import { WithGoogleLink } from './WithGoogleLink';
+import { getVisibleText } from '../../lib/text/getVisibleText';
 
 interface Props {
   setErrorMessage: ErrorHandlerType;
@@ -51,8 +53,12 @@ function RegisterForm({ setErrorMessage }: Props) {
           <div className="columns is-centered">
             <div className="column is-half">
               <BetaMessage />
-              <h1 className="title">Register.</h1>
-              <p className="subtitle">To get started please register below.</p>
+              <h1 className="title">Register</h1>
+              <div>
+                <WithGoogleLink text={getVisibleText('navigation.register.google')} />
+              </div>
+              <hr />
+              <p className="subtitle">Or create a new account.</p>
               <form onSubmit={handleSubmit}>
                 <div className="field">
                   <label htmlFor="name" className="label">

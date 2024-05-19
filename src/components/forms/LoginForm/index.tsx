@@ -5,7 +5,7 @@ import { useHandleLoginSubmit } from './helpers/useHandleLoginSubmit';
 import { SubmitButton } from './styled';
 import { FormContainer } from '../styled';
 import { getVisibleText } from '../../../lib/text/getVisibleText';
-import { getGoogleSignInUrl } from '../../../lib/backend/getGoogleSignInUrl';
+import { WithGoogleLink } from '../WithGoogleLink';
 
 interface LoginFormProps {
   onError: ErrorHandlerType;
@@ -74,12 +74,7 @@ function LoginForm({ onError }: LoginFormProps) {
                 </div>
                 <hr />
                 <div className="control">
-                  <a href={getGoogleSignInUrl()} className="button is-fullwidth">
-  <span className="icon">
-    <i className="fab fa-google" />
-  </span>
-                    <span>Login in with Google</span>
-                  </a>
+                  <WithGoogleLink text={getVisibleText('navigation.login.google')} />
                 </div>
               </form>
               <p className="pt-4">

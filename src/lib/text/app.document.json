@@ -19,5 +19,7 @@
   "pricing.page.title": "Our Pricing Plans",
   "navigation.settings": "Settings",
   "card.options": "Card Options",
-  "favorites.empty": "You have no favorites!"
+  "favorites.empty": "You have no favorites!",
+  "navigation.login.google": "Login with Google",
+  "navigation.register.google": "Register with Google"
 }
