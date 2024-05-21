@@ -1,15 +1,30 @@
 import React from 'react';
+import { useQuery } from 'react-query';
 import { getVisibleText } from '../../../lib/text/getVisibleText';
 import Backend from '../../../lib/backend';
 import NavbarItem from '../NavbarItem';
+import { getUserLocals } from '../../../lib/backend/getUserLocals';
 
 export default function getNavbarEnd(path: string, backend: Backend) {
   const onLogOut = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     event.preventDefault();
     backend.logout();
   };
+
+  const { isLoading, data } = useQuery(
+    'userlocals',
+    getUserLocals,
+    {
+      cacheTime: 0
+    }
+  );
+  const isPaying = data?.locals?.patreon || data?.locals?.subscriber;
+
   return (
     <div className="navbar-end">
+      {!isLoading && !isPaying && <NavbarItem href="/pricing" path={path}>
+        {getVisibleText('navigation.pricing')}
+      </NavbarItem>}
       <NavbarItem href="/upload" path={path}>
         {getVisibleText('navigation.upload')}
       </NavbarItem>
