@@ -53,6 +53,8 @@ export default function SettingsPage({ setErrorMessage }: Readonly<SettingsPageP
         <div className="box">
           <h1>Settings</h1>
           {user && <p>You are logged in as {user?.name} (email: {user?.email})</p>}
+          {locals?.patreon && <p>You are a Patreon member</p>}
+          {locals?.subscriber && <p>You are a Subscriber</p>}
           <p>
             For more information on usage, see the{' '}
             <a
@@ -64,7 +66,7 @@ export default function SettingsPage({ setErrorMessage }: Readonly<SettingsPageP
             </a>
           </p>
           <p className="control">
-            {!locals?.patreon && <a className="button is-large is-link" href={customerPortal}>Manage subscription</a>}
+            {locals?.subscriber && <a className="button is-large is-link" href={customerPortal}>Manage subscription</a>}
             {locals?.patreon && <a className="button is-large is-link" href={getPatreonLink()}>Manage membership</a>}
           </p>
           {
