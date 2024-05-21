@@ -5,7 +5,7 @@ import Backend from '../../../lib/backend';
 import NavbarItem from '../NavbarItem';
 import { getUserLocals } from '../../../lib/backend/getUserLocals';
 
-export default function getNavbarEnd(path: string, backend: Backend) {
+export default function useNavbarEnd(path: string, backend: Backend) {
   const onLogOut = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     event.preventDefault();
     backend.logout();
