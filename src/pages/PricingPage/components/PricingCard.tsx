@@ -8,7 +8,7 @@ interface PricingCardProp {
   linkText?: string;
 }
 
-export function PricingCard({ price, title, benefits, linkText, link }: PricingCardProp) {
+export function PricingCard({ price, title, benefits, linkText, link }: Readonly<PricingCardProp>) {
   return <div className="card">
     <div className="card-header">
       <p className="card-header-title">
