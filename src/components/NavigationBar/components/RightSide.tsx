@@ -1,4 +1,4 @@
-import getNavbarEnd from '../helpers/getNavbarEnd';
+import useNavbarEnd from '../helpers/useNavbarEnd';
 import { get2ankiApi } from '../../../lib/backend/get2ankiApi';
 import NavbarItem from '../NavbarItem';
 import { getVisibleText } from '../../../lib/text/getVisibleText';
@@ -10,7 +10,7 @@ interface RightSideProps {
 
 export function RightSide({ cookies, path }: Readonly<RightSideProps>) {
   if (cookies.token) {
-    return getNavbarEnd(path, get2ankiApi());
+    return useNavbarEnd(path, get2ankiApi());
   }
   return <div className="navbar-end">
     <NavbarItem path="pricing" href="/pricing">

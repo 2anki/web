@@ -1,6 +1,7 @@
 import { PageContainer } from '../../components/styled';
 import { getVisibleText } from '../../lib/text/getVisibleText';
 import { getSubscribeLink } from './getSubscribeLink';
+import { PricingCard } from './components/PricingCard';
 
 export default function PricingPage() {
   const patreonLink = 'https://alemayhu.com/patreon';
@@ -14,48 +15,22 @@ export default function PricingPage() {
 
             <div className="columns is-centered">
               <div className="column is-4">
-                <div className="card">
-                  <div className="card-header">
-                    <p className="card-header-title">
-                      €2 / Subscriber Plan
-                    </p>
-                  </div>
-                  <div className="card-content">
-                    <div className="content">
-                      <ul>
-                        <li>Unlimited Flashcards (500mb)</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="card-footer">
-                    <a href={getSubscribeLink()} className="card-footer-item button is-link">
-                      Subscribe
-                    </a>
-                  </div>
-                </div>
+                <PricingCard
+                  title="Free Plan"
+                  price="$0"
+                  benefits={[
+                    '100 flashcards and max upload (100mb)'
+                  ]}
+                />
+              </div>
+              <div className="column is-4">
+                <PricingCard price="€2" title="Subscriber Plan" benefits={['Unlimited Flashcards but limited uploads']}
+                             link={getSubscribeLink()} linkText="Subscribe" />
               </div>
 
               <div className="column is-4">
-                <div className="card">
-                  <div className="card-header">
-                    <p className="card-header-title">
-                      €28.50
-                      Patreon membership
-                    </p>
-                  </div>
-                  <div className="card-content">
-                    <div className="content">
-                      <ul>
-                        <li>Unlimited conversions (9GB++)</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="card-footer">
-                    <a href={patreonLink} className="card-footer-item button is-link">
-                      Join
-                    </a>
-                  </div>
-                </div>
+                <PricingCard price="€28.50" title="Patreon membership" benefits={['Unlimited conversions and uploads']}
+                             link={patreonLink} linkText="Join" />
               </div>
             </div>
           </div>
