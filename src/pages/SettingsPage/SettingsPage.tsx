@@ -45,12 +45,14 @@ export default function SettingsPage({ setErrorMessage }: Readonly<SettingsPageP
   }
 
   const locals = data?.locals;
+  const user = data?.user;
 
   return (
     <PageContainer>
       <SettingsPageContainer>
         <div className="box">
           <h1>Settings</h1>
+          {user && <p>You are logged in as {user?.name} (email: {user?.email})</p>}
           <p>
             For more information on usage, see the{' '}
             <a
