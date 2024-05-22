@@ -29,7 +29,8 @@ export default function PricingPage() {
               </div>
 
               <div className="column is-4">
-                <PricingCard price="€28.50" title="Patreon membership" benefits={['Unlimited conversions (9GB++)']}
+                <PricingCard price="€28.50" title="Patreon membership"
+                             benefits={['Unlimited conversions (9GB++)', 'Uploads are stored indefinitely']}
                              link={patreonLink} linkText="Join" />
               </div>
             </div>
