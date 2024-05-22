@@ -24,12 +24,12 @@ export default function PricingPage() {
                 />
               </div>
               <div className="column is-4">
-                <PricingCard price="€2" title="Subscriber Plan" benefits={['Unlimited Flashcards but limited uploads']}
+                <PricingCard price="€2" title="Subscriber Plan" benefits={['Unlimited Flashcards (9GB++)']}
                              link={getSubscribeLink()} linkText="Subscribe" />
               </div>
 
               <div className="column is-4">
-                <PricingCard price="€28.50" title="Patreon membership" benefits={['Unlimited conversions and uploads']}
+                <PricingCard price="€28.50" title="Patreon membership" benefits={['Unlimited conversions (9GB++)']}
                              link={patreonLink} linkText="Join" />
               </div>
             </div>
