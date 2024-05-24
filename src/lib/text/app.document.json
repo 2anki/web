@@ -21,5 +21,6 @@
   "card.options": "Card Options",
   "favorites.empty": "You have no favorites!",
   "navigation.login.google": "Login with Google",
-  "navigation.register.google": "Register with Google"
+  "navigation.register.google": "Register with Google",
+  "navigation.contact": "Contact"
 }

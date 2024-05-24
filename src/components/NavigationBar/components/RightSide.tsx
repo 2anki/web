@@ -1,18 +1,17 @@
-import useNavbarEnd from '../helpers/useNavbarEnd';
-import { get2ankiApi } from '../../../lib/backend/get2ankiApi';
+import React from 'react';
+
 import NavbarItem from '../NavbarItem';
 import { getVisibleText } from '../../../lib/text/getVisibleText';
 
 interface RightSideProps {
-  cookies: Record<string, string>;
   path: string;
 }
 
-export function RightSide({ cookies, path }: Readonly<RightSideProps>) {
-  if (cookies.token) {
-    return useNavbarEnd(path, get2ankiApi());
-  }
+export function RightSide({ path }: Readonly<RightSideProps>) {
   return <div className="navbar-end">
+    <NavbarItem href="/contact" path={path}>
+      {getVisibleText('navigation.contact')}
+    </NavbarItem>
     <NavbarItem path="pricing" href="/pricing">
       {getVisibleText('navigation.pricing')}
     </NavbarItem>

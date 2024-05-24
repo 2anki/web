@@ -4,12 +4,14 @@ import { useCookies } from 'react-cookie';
 
 import { Navbar } from './styled';
 import { RightSide } from './components/RightSide';
+import useNavbarEnd from './helpers/useNavbarEnd';
+import { get2ankiApi } from '../../lib/backend/get2ankiApi';
 
 function NavigationBar() {
   const [cookies] = useCookies(['token']);
   const [active, setActive] = useState(false);
-
   const path = window.location.pathname;
+  const loggedInNavbar = useNavbarEnd(path, get2ankiApi());
 
   return (
     <Navbar
@@ -42,7 +44,8 @@ function NavigationBar() {
         id="navbar"
         className={`is-flex-grow-0	navbar-menu ${active ? 'is-active' : ''}`}
       >
-        <RightSide cookies={cookies} path={path} />
+        {cookies.token && loggedInNavbar}
+        {!cookies.token && <RightSide path={path} />}
       </div>
 
     </Navbar>

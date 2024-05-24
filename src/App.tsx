@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 import GlobalStyle from './GlobalStyle';
 import isOfflineMode from './lib/isOfflineMode';
 import DebugPage from './pages/DebugPage';
+import { ContactPage } from './pages/ContactPage/ContactPage';
 import FavoritesPage from './pages/FavoritesPage';
 import { PageLayout } from './components/Layout/PageLayout';
 import DeleteAccountPage from './pages/DeleteAccountPage';
@@ -84,6 +85,7 @@ function App() {
               element={<NewPasswordPage setErrorMessage={handledError} />}
             />
             <Route path="/debug" element={<DebugPage />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route
               path="/delete-account"
               element={<DeleteAccountPage setError={handledError} />}
