@@ -22,6 +22,9 @@ export default function useNavbarEnd(path: string, backend: Backend) {
 
   return (
     <div className="navbar-end">
+      <NavbarItem href="/contact" path={path}>
+        {getVisibleText('navigation.contact')}
+      </NavbarItem>
       {!isLoading && !isPaying && <NavbarItem href="/pricing" path={path}>
         {getVisibleText('navigation.pricing')}
       </NavbarItem>}
