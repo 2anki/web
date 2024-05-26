@@ -1,5 +1,4 @@
 import React, { SyntheticEvent, useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
 import { SettingsPayload } from '../../../lib/types';
 
 import FontSizePicker from '../../FontSizePicker';
@@ -9,17 +8,16 @@ import TemplateSelect from '../../TemplateSelect';
 import { saveValueInLocalStorage } from '../../../lib/data_layer/saveValueInLocalStorage';
 import { ErrorHandlerType } from '../../errors/helpers/getErrorMessage';
 import { clearStoredCardOptions } from '../../../lib/data_layer/clearStoredCardOptions';
-import { availableTemplates, FIFTEEN_MINUTES } from './constants';
+import { availableTemplates } from './constants';
 import { getLocalStorageValue } from '../../../lib/data_layer/getLocalStorageValue';
 import { StyledInput } from './styled';
 import { sendError } from '../../../lib/SendError';
 import { get2ankiApi } from '../../../lib/backend/get2ankiApi';
 
-import { getSettingsCardOptions } from '../../../lib/backend/getSettingsCardOptions';
-
 import { getLocalStorageBooleanValue } from '../../../lib/data_layer/getLocalStorageBooleanValue';
 import CardOption from '../../../lib/data_layer/model/CardOption';
 import { getVisibleText } from '../../../lib/text/getVisibleText';
+import { useSettingsCardsOptions } from './useSettingsCardsOptions';
 
 interface Props {
   pageTitle?: string;
@@ -36,13 +34,7 @@ function SettingsModal({
                          onClickClose,
                          setError
                        }: Props) {
-  const { isLoading, isError, data: options, error: loadingDefaultsError } = useQuery(
-    `cardOptions-${pageId ?? 'default'}`, // pageId will invalidate the cache
-    getSettingsCardOptions,
-    {
-      staleTime: FIFTEEN_MINUTES
-    }
-  );
+  const { isLoading, isError, options, loadingDefaultsError } = useSettingsCardsOptions(pageId);
   const [settings, setSettings] = useState<SettingsPayload>({});
   const [loading, setLoading] = useState(!!pageId);
   const deckNameKey = 'deckName';
