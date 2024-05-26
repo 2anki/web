@@ -40,7 +40,7 @@
     "eslint-config-react-app": "^7.0.1",
     "eslint-webpack-plugin": "^4.0.1",
     "file-loader": "^6.2.0",
-    "fs-extra": "^10.0.0",
+    "fs-extra": "^11.2.0",
     "get-notion-object-title": "^0.2.0",
     "html-webpack-plugin": "^5.5.3",
     "identity-obj-proxy": "^3.0.0",
