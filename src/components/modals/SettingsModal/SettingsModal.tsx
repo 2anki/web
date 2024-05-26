@@ -20,6 +20,7 @@ import { getSettingsCardOptions } from '../../../lib/backend/getSettingsCardOpti
 import { getLocalStorageBooleanValue } from '../../../lib/data_layer/getLocalStorageBooleanValue';
 import CardOption from '../../../lib/data_layer/model/CardOption';
 import { getVisibleText } from '../../../lib/text/getVisibleText';
+import { useSettingsCardsOptions } from './useSettingsCardsOptions';
 
 interface Props {
   pageTitle?: string;
@@ -36,13 +37,7 @@ function SettingsModal({
                          onClickClose,
                          setError
                        }: Props) {
-  const { isLoading, isError, data: options, error: loadingDefaultsError } = useQuery(
-    `cardOptions-${pageId ?? 'default'}`, // pageId will invalidate the cache
-    getSettingsCardOptions,
-    {
-      staleTime: FIFTEEN_MINUTES
-    }
-  );
+  const { isLoading, isError, options, loadingDefaultsError } = useSettingsCardsOptions(pageId);
   const [settings, setSettings] = useState<SettingsPayload>({});
   const [loading, setLoading] = useState(!!pageId);
   const deckNameKey = 'deckName';
