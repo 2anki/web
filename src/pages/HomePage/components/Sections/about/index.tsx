@@ -21,12 +21,13 @@ function AboutSection() {
               converts them to Anki flashcards. This project is used by
               autodidacts, students and professionals around the world.
             </p>
-            <BlueHeading3>Fast, simple, easy and 100% Free!</BlueHeading3>
+            <BlueHeading3>Fast, simple, easy and open source!</BlueHeading3>
             <div className="is-flex is-justify-content-start">
               <PrimaryButton
                 destination="/upload"
                 text="Get Started"
-                onClickLink={() => {}}
+                onClickLink={() => {
+                }}
               />
             </div>
           </Text>
