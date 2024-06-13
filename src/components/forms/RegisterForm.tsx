@@ -15,6 +15,7 @@ function RegisterForm({ setErrorMessage }: Props) {
   const [email, setEmail] = useState(localStorage.getItem('email') || '');
   const [tos, setTos] = useState(localStorage.getItem('tos') === 'true');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   const isValid = () =>
@@ -24,7 +25,8 @@ function RegisterForm({ setErrorMessage }: Props) {
     email.length > 0 &&
     email.length < 256 &&
     password.length > 7 &&
-    password.length < 256;
+    password.length < 256
+    && password === confirmPassword;
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
@@ -114,6 +116,22 @@ function RegisterForm({ setErrorMessage }: Props) {
                         className="input"
                         type="password"
                         placeholder="Your password"
+                      />
+                    </div>
+                  </label>
+                  <label htmlFor="password" className="label">
+                    Confirm Password
+                    <div className="control">
+                      <input
+                        name="confirm_password"
+                        min="8"
+                        max="255"
+                        value={confirmPassword}
+                        onChange={(event) => setConfirmPassword(event.target.value)}
+                        required
+                        className="input"
+                        type="password"
+                        placeholder="Confirm password"
                       />
                     </div>
                   </label>
