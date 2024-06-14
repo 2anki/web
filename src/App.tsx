@@ -25,6 +25,7 @@ const DownloadsPage = lazy(() => import('./pages/DownloadsPage'));
 const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'));
 const PricingPage = lazy(() => import('./pages/PricingPage'));
 const SettingsPage = lazy(() => import('./pages/SettingsPage/SettingsPage'));
+const SuccessfulCheckoutPage = lazy(() => import('./pages/SuccessfulCheckout/SuccessfulCheckout'));
 
 const queryClient = new QueryClient();
 
@@ -95,6 +96,7 @@ function App() {
               element={<PricingPage />}
             />
             <Route path="/" element={<HomePage setErrorMessage={handledError} />} />
+            <Route path="/successful-checkout" element={<SuccessfulCheckoutPage />} />
           </Routes>
           <Footer />
         </PageLayout>
