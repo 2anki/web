@@ -74,7 +74,7 @@ function App() {
             />
             <Route
               path="/login"
-              element={<LoginPage setErrorMessage={handledError} />}
+              element={<LoginPage />}
             />
             <Route
               path="/forgot"
