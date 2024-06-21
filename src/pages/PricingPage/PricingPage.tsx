@@ -2,16 +2,20 @@ import { PageContainer } from '../../components/styled';
 import { getVisibleText } from '../../lib/text/getVisibleText';
 import { getSubscribeLink } from './getSubscribeLink';
 import { PricingCard } from './components/PricingCard';
+import TopMessage from '../../components/TopMessage/TopMessage';
 
 export default function PricingPage() {
-  const patreonLink = 'https://alemayhu.com/patreon';
-
   return (
     <PageContainer>
       <div className="container content">
         <section className="section">
           <div className="container">
             <h1 className="title has-text-centered">{getVisibleText('pricing.page.title')}</h1>
+            <div className="columns is-centered">
+              <div className="column is-half">
+                <TopMessage />
+              </div>
+            </div>
 
             <div className="columns is-centered">
               <div className="column is-4">
@@ -26,12 +30,6 @@ export default function PricingPage() {
               <div className="column is-4">
                 <PricingCard price="€2" title="Subscriber Plan" benefits={['Unlimited Flashcards (9GB++)']}
                              link={getSubscribeLink()} linkText="Subscribe" />
-              </div>
-
-              <div className="column is-4">
-                <PricingCard price="€28.50" title="Patreon membership"
-                             benefits={['Unlimited conversions (9GB++)', 'Uploads are stored indefinitely']}
-                             link={patreonLink} linkText="Join" />
               </div>
             </div>
           </div>

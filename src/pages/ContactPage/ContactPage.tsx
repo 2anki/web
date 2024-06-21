@@ -5,16 +5,18 @@ export function ContactPage() {
     <section className="section">
       <div className="container content">
         <h2 className="title is-2">Contact/Support</h2>
-        <p>I’m here to help! If you have any questions, feedback, or need assistance, don’t hesitate to reach out.
+        <p>We&apos;re here to help! If you have any questions, feedback, or need assistance, don’t hesitate to reach
+          out.
         </p>
 
-        <h3 className="title is-3">Main Developer</h3>
+        <h3 className="title is-3">Our Team</h3>
         <p>
-          Hi, I’m Alexander Alemayhu, the main developer of this project. I’m always happy to hear from you and help out
+          Hello, we&apos;re the development team behind this project. We&apos;re always happy to hear from you and help
+          out
           with any issues you might have.
         </p>
         <p>
-          Email: <a href="mailto:alexander@alemayhu.com">alexander@alemayhu.com</a>
+          Email: <a href="mailto:support@2anki.net">support@2anki.net</a>
         </p>
 
         <h3 className="title is-3">How to Reach Us</h3>

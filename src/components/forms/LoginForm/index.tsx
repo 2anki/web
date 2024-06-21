@@ -1,5 +1,5 @@
-import BetaMessage from '../../BetaMessage';
-import { ErrorHandlerType } from '../../errors/helpers/getErrorMessage';
+import { useState } from 'react';
+import TopMessage from '../../TopMessage/TopMessage';
 import { isValidCredentials } from './helpers/isValidCredentials';
 import { useHandleLoginSubmit } from './helpers/useHandleLoginSubmit';
 import { SubmitButton } from './styled';
@@ -7,13 +7,10 @@ import { FormContainer } from '../styled';
 import { getVisibleText } from '../../../lib/text/getVisibleText';
 import { WithGoogleLink } from '../WithGoogleLink';
 
-interface LoginFormProps {
-  onError: ErrorHandlerType;
-}
-
-function LoginForm({ onError }: LoginFormProps) {
+function LoginForm() {
+  const [error, setError] = useState<string | null>(null);
   const { email, password, loading, onSubmit, setEmail, setPassword } =
-    useHandleLoginSubmit(onError);
+    useHandleLoginSubmit((e) => setError((e as Error).message));
 
   return (
     <FormContainer>
@@ -21,7 +18,7 @@ function LoginForm({ onError }: LoginFormProps) {
         <div className="container">
           <div className="columns is-centered">
             <div className="column is-half">
-              <BetaMessage />
+              <TopMessage />
               <h1 className="title is-1">Login</h1>
               <form onSubmit={onSubmit}>
                 <div className="field">
@@ -70,6 +67,7 @@ function LoginForm({ onError }: LoginFormProps) {
                     >
                       Login in
                     </SubmitButton>
+                    {error && <p className="help is-danger">{error}</p>}
                   </div>
                 </div>
                 <hr />

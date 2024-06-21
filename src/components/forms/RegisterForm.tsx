@@ -1,5 +1,5 @@
 import { SyntheticEvent, useState } from 'react';
-import BetaMessage from '../BetaMessage';
+import TopMessage from '../TopMessage/TopMessage';
 import { ErrorHandlerType } from '../errors/helpers/getErrorMessage';
 import { FormContainer } from './styled';
 import { get2ankiApi } from '../../lib/backend/get2ankiApi';
@@ -54,7 +54,7 @@ function RegisterForm({ setErrorMessage }: Props) {
         <div className="container">
           <div className="columns is-centered">
             <div className="column is-half">
-              <BetaMessage />
+              <TopMessage />
               <h1 className="title">Register</h1>
               <div>
                 <WithGoogleLink text={getVisibleText('navigation.register.google')} />
