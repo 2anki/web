@@ -1,7 +1,7 @@
 import React from 'react';
-
 import NavbarItem from '../NavbarItem';
 import { getVisibleText } from '../../../lib/text/getVisibleText';
+import { LoginButton } from './LoginButton';
 
 interface RightSideProps {
   path: string;
@@ -15,11 +15,8 @@ export function RightSide({ path }: Readonly<RightSideProps>) {
     <NavbarItem path="pricing" href="/pricing">
       {getVisibleText('navigation.pricing')}
     </NavbarItem>
-    <NavbarItem path="login" href="/login#login">
+    <LoginButton className="button has-text-white m-2" href="/login#login">
       {getVisibleText('navigation.login')}
-    </NavbarItem>
-    <NavbarItem path="register" href="/register">
-      {getVisibleText('navigation.register')}
-    </NavbarItem>
+    </LoginButton>
   </div>;
 }
