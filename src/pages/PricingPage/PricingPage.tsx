@@ -28,7 +28,7 @@ export default function PricingPage() {
                 />
               </div>
               <div className="column is-4">
-                <PricingCard price="€2" title="Subscriber Plan" benefits={['Unlimited Flashcards (9GB++)']}
+                <PricingCard price="$2" title="Subscriber Plan" benefits={['Unlimited Flashcards (9GB++)']}
                              link={getSubscribeLink()} linkText="Subscribe" />
               </div>
             </div>
