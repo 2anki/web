@@ -3,8 +3,12 @@ import { getVisibleText } from '../../lib/text/getVisibleText';
 import { getSubscribeLink } from './getSubscribeLink';
 import { PricingCard } from './components/PricingCard';
 import TopMessage from '../../components/TopMessage/TopMessage';
+import { useIsLoggedIn } from '../../lib/useIsLoggedIn';
 
 export default function PricingPage() {
+  const isLoggedIn = useIsLoggedIn();
+  const subcribeLink = isLoggedIn ? getSubscribeLink() : '/login';
+
   return (
     <PageContainer>
       <div className="container content">
@@ -29,7 +33,7 @@ export default function PricingPage() {
               </div>
               <div className="column is-4">
                 <PricingCard price="$2" title="Subscriber Plan" benefits={['Unlimited Flashcards (9GB++)']}
-                             link={getSubscribeLink()} linkText="Subscribe" />
+                             link={subcribeLink} linkText="Subscribe" />
               </div>
             </div>
           </div>
