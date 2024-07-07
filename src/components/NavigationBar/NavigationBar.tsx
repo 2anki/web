@@ -1,17 +1,17 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState } from 'react';
-import { useCookies } from 'react-cookie';
 
 import { Navbar } from './styled';
 import { RightSide } from './components/RightSide';
 import useNavbarEnd from './helpers/useNavbarEnd';
 import { get2ankiApi } from '../../lib/backend/get2ankiApi';
+import { useIsLoggedIn } from '../../lib/useIsLoggedIn';
 
 function NavigationBar() {
-  const [cookies] = useCookies(['token']);
   const [active, setActive] = useState(false);
   const path = window.location.pathname;
   const loggedInNavbar = useNavbarEnd(path, get2ankiApi());
+  const isLoggedIn = useIsLoggedIn();
 
   return (
     <Navbar
@@ -44,8 +44,8 @@ function NavigationBar() {
         id="navbar"
         className={`is-flex-grow-0	navbar-menu ${active ? 'is-active' : ''}`}
       >
-        {cookies.token && loggedInNavbar}
-        {!cookies.token && <RightSide path={path} />}
+        {isLoggedIn && loggedInNavbar}
+        {!isLoggedIn && <RightSide path={path} />}
       </div>
 
     </Navbar>
