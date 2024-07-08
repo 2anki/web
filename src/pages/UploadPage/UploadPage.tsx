@@ -1,16 +1,13 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import useQuery from '../../lib/hooks/useQuery';
 import WarningMessage from '../../components/WarningMessage';
 import UploadForm from './components/UploadForm/UploadForm';
-import SettingsIcon from '../../components/icons/SettingsIcon';
 import SettingsModal from '../../components/modals/SettingsModal/SettingsModal';
 import {
   FlexColumn,
   ImportTitle,
   InfoMessage,
-  CardOptionsLink,
   UploadContainer
 } from './styled';
 import { Main, PageContainer } from '../../components/styled';
@@ -37,12 +34,6 @@ export function UploadPage({ setErrorMessage }: Props) {
           {isDevelopment ? <WarningMessage /> : null}
           <FlexColumn>
             <ImportTitle>{getVisibleText('upload.page.title')}</ImportTitle>
-            <CardOptionsLink onClick={() => setShowCardOptionsModal(true)}>
-              <Link className="link" to="?view=template">
-                <SettingsIcon />
-                {getVisibleText('card.options')}
-              </Link>
-            </CardOptionsLink>
           </FlexColumn>
           <div className="container">
             <UploadForm setErrorMessage={setErrorMessage} />
