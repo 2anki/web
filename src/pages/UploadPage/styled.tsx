@@ -20,6 +20,17 @@ export const ImportTitle = styled.h2`
     font-weight: bold;
 `;
 
+export const CardOptionsLink = styled.div`
+    display: flex;
+    align-items: center;
+    justify-items: center;
+
+    .link {
+        display: flex;
+        color: grey;
+    }
+`;
+
 export const UploadContainer = styled(Container)`
     display: flex;
     flex-direction: column;
