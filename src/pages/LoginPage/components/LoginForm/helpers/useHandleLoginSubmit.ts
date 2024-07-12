@@ -8,8 +8,8 @@ import { useCookies } from 'react-cookie';
 import {
   ErrorHandlerType,
   getErrorMessage
-} from '../../../errors/helpers/getErrorMessage';
-import { get2ankiApi } from '../../../../lib/backend/get2ankiApi';
+} from '../../../../../components/errors/helpers/getErrorMessage';
+import { get2ankiApi } from '../../../../../lib/backend/get2ankiApi';
 
 interface LoginState {
   email: string;
@@ -23,7 +23,7 @@ interface LoginState {
 export const useHandleLoginSubmit = (onError: ErrorHandlerType): LoginState => {
   const [loading, setLoading] = useState(false);
   const [, setCookie] = useCookies(['token']);
-  const [email, setEmail] = useState(localStorage.getItem('email') || '');
+  const [email, setEmail] = useState(localStorage.getItem('email') ?? '');
   const [password, setPassword] = useState('');
 
   const onSubmit = async (event: SyntheticEvent) => {

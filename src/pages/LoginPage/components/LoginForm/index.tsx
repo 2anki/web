@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import TopMessage from '../../TopMessage/TopMessage';
+import TopMessage from '../../../../components/TopMessage/TopMessage';
 import { isValidCredentials } from './helpers/isValidCredentials';
 import { useHandleLoginSubmit } from './helpers/useHandleLoginSubmit';
 import { SubmitButton } from './styled';
-import { FormContainer } from '../styled';
-import { getVisibleText } from '../../../lib/text/getVisibleText';
-import { WithGoogleLink } from '../WithGoogleLink';
+import { FormContainer } from '../../../../components/forms/styled';
+import { getVisibleText } from '../../../../lib/text/getVisibleText';
+import { WithGoogleLink } from '../../../../components/forms/WithGoogleLink';
 
 function LoginForm() {
   const [error, setError] = useState<string | null>(null);
@@ -19,7 +19,11 @@ function LoginForm() {
           <div className="columns is-centered">
             <div className="column is-half">
               <TopMessage />
-              <h1 className="title is-1">Login</h1>
+              <h1 className="title is-1">{getVisibleText('navigation.login.title')}</h1>
+              <div className="control">
+                <WithGoogleLink text={getVisibleText('navigation.login.google')} />
+              </div>
+              <hr />
               <form onSubmit={onSubmit}>
                 <div className="field">
                   <label htmlFor="email" className="label">
@@ -69,10 +73,6 @@ function LoginForm() {
                     </SubmitButton>
                     {error && <p className="help is-danger">{error}</p>}
                   </div>
-                </div>
-                <hr />
-                <div className="control">
-                  <WithGoogleLink text={getVisibleText('navigation.login.google')} />
                 </div>
               </form>
               <p className="pt-4">
