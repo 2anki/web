@@ -52,7 +52,7 @@ export default function SettingsPage({ setErrorMessage }: Readonly<SettingsPageP
       <SettingsPageContainer>
         <div className="box">
           <h1>Settings</h1>
-          {user && <p>You are logged in as {user?.name} (email: {user?.email})</p>}
+          {user && <p data-hj-suppress>You are logged in as {user?.name} (email: {user?.email})</p>}
           {locals?.patreon && <p>You are a Patreon member</p>}
           {locals?.subscriber && <p>You are a Subscriber</p>}
           <p>
