@@ -18,8 +18,6 @@ function RegisterForm({ setErrorMessage }: Props) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const emailGmail = localStorage.getItem('enable-gmail') === 'true';
-
   const isValid = () =>
     tos &&
     name.length > 0 &&
@@ -58,9 +56,9 @@ function RegisterForm({ setErrorMessage }: Props) {
             <div className="column is-half">
               <TopMessage />
               <h1 className="title">Register</h1>
-              {emailGmail && <div>
+              <div>
                 <WithGoogleLink text={getVisibleText('navigation.register.google')} />
-              </div>}
+              </div>
               <hr />
               <p className="subtitle">Or create a new account.</p>
               <form onSubmit={handleSubmit}>

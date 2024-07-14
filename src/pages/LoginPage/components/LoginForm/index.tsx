@@ -12,8 +12,6 @@ function LoginForm() {
   const { email, password, loading, onSubmit, setEmail, setPassword } =
     useHandleLoginSubmit((e) => setError((e as Error).message));
 
-  const emailGmail = localStorage.getItem('enable-gmail') === 'true';
-
   return (
     <FormContainer>
       <section className="section">
@@ -22,9 +20,9 @@ function LoginForm() {
             <div className="column is-half">
               <TopMessage />
               <h1 className="title is-1">{getVisibleText('navigation.login.title')}</h1>
-              {emailGmail && <div className="control">
+              <div className="control">
                 <WithGoogleLink text={getVisibleText('navigation.login.google')} />
-              </div>}
+              </div>
               <hr />
               <form onSubmit={onSubmit}>
                 <div className="field">
