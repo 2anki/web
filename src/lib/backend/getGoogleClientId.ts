@@ -1,1 +1,1 @@
-export const getGoogleClientId = () => '806855830059-hams8g35jplt6p13euendfdaustkeri4.apps.googleusercontent.com';
+export const getGoogleClientId = () => '953773765830-cn7ltmeclvk8qlfp7a94qkql4bkvcele.apps.googleusercontent.com';
