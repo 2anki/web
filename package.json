@@ -115,7 +115,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^12.1.5",
     "@types/jest": "^29.5.2",
-    "@types/jsonwebtoken": "^9.0.2",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/lodash": "^4.17.0",
     "@types/node": "^20.4.2",
     "@types/react": "^17.0.59",
