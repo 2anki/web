@@ -1,8 +1,12 @@
 import { getSubscribeLink } from '../../../../PricingPage/getSubscribeLink';
 import { TierInfoColumn } from './TierInfoColumn';
-import { getPatreonLink } from '../../../../SettingsPage/getPatreonLink';
+import { useIsLoggedIn } from '../../../../../lib/useIsLoggedIn';
 
 function TierSection() {
+  const isLoggedIn = useIsLoggedIn();
+  const subcribeLink = isLoggedIn ? getSubscribeLink() : '/login';
+
+
   return (
     <div className="container">
       <section className="section">
@@ -17,15 +21,7 @@ function TierSection() {
               description="Create 200++ flashcards per upload (500mb)"
               action={{
                 text: 'Subscribe',
-                link: getSubscribeLink(),
-              }}
-            />
-            <TierInfoColumn
-              title="Patreon"
-              description="No limits on your uploads (up to 9GB++)"
-              action={{
-                text: 'Become a Patron',
-                link: getPatreonLink(),
+                link: subcribeLink
               }}
             />
           </div>
