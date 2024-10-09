@@ -8,16 +8,18 @@ interface TemplateSelectPicker {
   values: SelectOption[];
   name: string;
   value: string;
+  className?: string;
 }
 
 function TemplateSelect({
-  name,
-  value,
-  pickedTemplate,
-  values,
-}: TemplateSelectPicker) {
+                          name,
+                          value,
+                          pickedTemplate,
+                          values,
+                          className
+                        }: TemplateSelectPicker) {
   return (
-    <div className="field">
+    <div className={`${className || ''} field`}>
       <div className="control">
         <div className="select">
           <select
