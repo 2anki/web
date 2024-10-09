@@ -19,7 +19,7 @@ function TemplateSelect({
                           className
                         }: TemplateSelectPicker) {
   return (
-    <div className={`${className || ''} field`}>
+    <div className={`${className ?? ''} field`}>
       <div className="control">
         <div className="select">
           <select
