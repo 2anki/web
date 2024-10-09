@@ -16,22 +16,20 @@ function LocalCheckbox({
   const [isChecked, setChecked] = useState(defaultValue);
 
   return (
-    <>
-      <label htmlFor={label} className="checkbox">
-        <input
-          name={label}
-          style={{ marginRight: '0.2rem' }}
-          type="checkbox"
-          checked={isChecked}
-          onChange={(event) => {
-            onChecked(event.target.checked);
-            setChecked(event.target.checked);
-          }}
-        />
-        <strong>{label}</strong>
-      </label>
-      {description && <p className="is-size-7">{description}</p>}
-    </>
+    <label htmlFor={label} className="checkbox">
+      <input
+        name={label}
+        className="mr-2"
+        type="checkbox"
+        checked={isChecked}
+        onChange={(event) => {
+          onChecked(event.target.checked);
+          setChecked(event.target.checked);
+        }}
+      />
+      <strong>{label}</strong>
+      {description && <p className="is-size-7 py-1 px-5 mb-2">{description}</p>}
+    </label>
   );
 }
 
