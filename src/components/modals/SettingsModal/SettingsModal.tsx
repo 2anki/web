@@ -181,7 +181,7 @@ function SettingsModal({
                   </p>
                   <div className="control">
                     <StyledInput
-                      className="input"
+                      className="input mb-0 mt-2"
                       placeholder="Enter deck name (optional)"
                       value={deckName}
                       onChange={(
@@ -195,13 +195,14 @@ function SettingsModal({
                       }}
                     />
                   </div>
-                  <div className="control">
+                  <div className="control my-4">
                     <strong>Page icon</strong>
                     <p className="is-size-7">
                       By default the icon is the Notion page icon. You can
                       disable this for example when sorting gets messed up.
                     </p>
                     <TemplateSelect
+                      className="mb-4 mt-2"
                       values={[
                         { label: 'Icon first', value: 'first_emoji' },
                         {
@@ -230,6 +231,7 @@ function SettingsModal({
                     them so you can open them manually when you want in Anki.
                   </p>
                   <TemplateSelect
+                    className="mb-4 mt-2"
                     values={[
                       { label: 'Open nested toggles', value: 'open_toggle' },
                       {
@@ -257,7 +259,7 @@ function SettingsModal({
                     }}
                   />)}
                 </div>
-                <h2 className="title is-4">Template Options</h2>
+                <h2 className="title is-4 mb-0 py-4">Template Options</h2>
                 <TemplateSelect
                   values={availableTemplates}
                   value={template}
