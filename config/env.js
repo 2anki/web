@@ -22,7 +22,7 @@ const dotenvFiles = [
   // results for everyone
   NODE_ENV !== 'test' && `${paths.dotenv}.local`,
   `${paths.dotenv}.${NODE_ENV}`,
-  paths.dotenv,
+  paths.dotenv
 ].filter(Boolean);
 
 // Load environment variables from .env* files. Suppress warnings using silent
@@ -32,9 +32,9 @@ const dotenvFiles = [
 // https://github.com/motdotla/dotenv-expand
 dotenvFiles.forEach(dotenvFile => {
   if (fs.existsSync(dotenvFile)) {
-    require('dotenv-expand')(
+    require('dotenv-expand').expand(
       require('dotenv').config({
-        path: dotenvFile,
+        path: dotenvFile
       })
     );
   }
@@ -87,7 +87,7 @@ function getClientEnvironment(publicUrl) {
         WDS_SOCKET_PORT: process.env.WDS_SOCKET_PORT,
         // Whether or not react-refresh is enabled.
         // It is defined here so it is available in the webpackHotDevClient.
-        FAST_REFRESH: process.env.FAST_REFRESH !== 'false',
+        FAST_REFRESH: process.env.FAST_REFRESH !== 'false'
       }
     );
   // Stringify all values so we can feed into webpack DefinePlugin
@@ -95,7 +95,7 @@ function getClientEnvironment(publicUrl) {
     'process.env': Object.keys(raw).reduce((env, key) => {
       env[key] = JSON.stringify(raw[key]);
       return env;
-    }, {}),
+    }, {})
   };
 
   return { raw, stringified };
