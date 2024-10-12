@@ -1,6 +1,6 @@
 import { PageContainer } from '../../components/styled';
 import { getVisibleText } from '../../lib/text/getVisibleText';
-import { getSubscribeLink } from './getSubscribeLink';
+import { getLifetimeLink, getSubscribeLink } from './payment.links';
 import { PricingCard } from './components/PricingCard';
 import TopMessage from '../../components/TopMessage/TopMessage';
 import { useIsLoggedIn } from '../../lib/useIsLoggedIn';
@@ -8,6 +8,7 @@ import { useIsLoggedIn } from '../../lib/useIsLoggedIn';
 export default function PricingPage() {
   const isLoggedIn = useIsLoggedIn();
   const subcribeLink = isLoggedIn ? getSubscribeLink() : '/login';
+  const lifetimeLink = isLoggedIn ? getLifetimeLink() : '/login';
 
   return (
     <PageContainer>
@@ -34,6 +35,10 @@ export default function PricingPage() {
               <div className="column is-4">
                 <PricingCard price="$2" title="Subscriber Plan" benefits={['Unlimited Flashcards (9GB++)']}
                              link={subcribeLink} linkText="Subscribe" />
+              </div>
+              <div className="column is-4">
+                <PricingCard price="$96" title="Lifetime Access" benefits={['Forever premium access to 2anki.net']}
+                             link={lifetimeLink} linkText="Buy" />
               </div>
             </div>
           </div>

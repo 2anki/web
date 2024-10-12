@@ -17,9 +17,7 @@ export function PricingCard({ price, title, benefits, linkText, link }: Readonly
     </div>
     <div className="card-content">
       <div className="content">
-        <ul>
-          {benefits.map((benefit) => (<li key={benefit}>{benefit}</li>))}
-        </ul>
+        {benefits.map((benefit) => (<p key={benefit}>{benefit}</p>))}
       </div>
     </div>
     {link && linkText && <div className="card-footer">
