@@ -18,7 +18,6 @@ export function FinishedJobs({ uploads, deleteUpload }: Prop) {
           data-hj-suppress
           key={u.key}
           title={u.filename}
-          icon={null}
           url={`/api/download/u/${u.key}`}
           deleteUpload={() => deleteUpload(u.key)}
         />

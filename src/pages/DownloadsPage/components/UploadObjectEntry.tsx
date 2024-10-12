@@ -5,22 +5,19 @@ import { getDownloadFileName } from '../helpers/getDownloadFileName';
 
 interface Props {
   title: string;
-  icon: string | null;
   url: string;
   deleteUpload: () => void;
 }
 
 export default function UploadObjectEntry({
-  title,
-  icon,
-  url,
-  deleteUpload,
-}: Props) {
+                                            title,
+                                            url,
+                                            deleteUpload
+                                          }: Props) {
   return (
     <Entry>
       <ObjectMeta>
         <DeleteButton onDelete={deleteUpload} />
-        {icon && <span>{icon}</span>}
         <div />
         <UploadTitle
           data-hj-suppress
