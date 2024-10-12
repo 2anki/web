@@ -1,4 +1,4 @@
-import { getSubscribeLink } from '../../../../PricingPage/getSubscribeLink';
+import { getSubscribeLink } from '../../../../PricingPage/payment.links';
 import { TierInfoColumn } from './TierInfoColumn';
 import { useIsLoggedIn } from '../../../../../lib/useIsLoggedIn';
 
