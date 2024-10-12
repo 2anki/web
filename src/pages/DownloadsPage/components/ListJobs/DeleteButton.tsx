@@ -10,7 +10,7 @@ export function DeleteButton({ onDelete }: Prop) {
       className="is-small button transparent"
       onClick={() => onDelete()}
     >
-      <i className="fa-sharp fa-solid fa-trash" />
+      ❌
     </button>
   );
 }
