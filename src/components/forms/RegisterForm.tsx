@@ -38,7 +38,7 @@ function RegisterForm({ setErrorMessage }: Props) {
         window.location.href = '/login';
       } else {
         setErrorMessage(
-          'Unknown error. Please try again or reach out to alexander@alemayhu.com for assistance if the issue persists.'
+          'Unknown error. Please try again or reach out to support@2anki.net for assistance if the issue persists.'
         );
       }
     } catch (error) {

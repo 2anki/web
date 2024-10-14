@@ -7,17 +7,18 @@ We use mostly Typescript, Here are some resources you can use to learn TypeScrip
 - [TypeScript Docs](https://www.typescriptlang.org/)
 - [Scrimba courses](https://scrimba.com/)
 
-Thanks for your interest in notion2anki. We hope you'll contribute to our project. We are looking forward to your pull requests!
+Thanks for your interest in 2anki.net. We hope you'll contribute to our project. We are looking forward to your pull
+requests!
 
-If you know someone who can benefit from Notion to Anki, please share it with them today!
+If you know someone who can benefit from 2anki.net, please share it with them today!
 
 - If you are missing a feature or format, let us know on [GitHub](https://github.com/2anki/2anki.net/issues)
 
 ## Other ways to contribute
 
-- Make a video in your native language showing people how to use notion2anki
-- Write about notion2anki on your blog
+- Make a video in your native language showing people how to use 2anki.net
+- Write about 2anki.net on your blog
 
-Join the [Discord](https://discord.gg/PSKC3uS) to find out more ways to contribute or send an email to [alexander@alemayhu.com](mailto:alexander@alemayhu.com)
+Email [support@2anki.net](mailto:support@2anki.net).
 
 PS: Remember to send us links when you create a video or blog post, thank you 🙏🏾

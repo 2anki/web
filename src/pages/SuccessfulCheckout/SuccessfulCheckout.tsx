@@ -5,7 +5,7 @@ import { Container } from '../../components/styled';
 const loginLink = 'https://2anki.net/login';
 const registerLink = 'https://2anki.net/register';
 const settingsLink = 'https://2anki.net/settings';
-const supportLink = 'mailto:alexander@alemayhu.com';
+const supportLink = 'mailto:support@2anki.net';
 
 export default function SuccessfulCheckout() {
   return (
