@@ -33,7 +33,7 @@ export default function PricingPage() {
                 />
               </div>
               <div className="column is-4">
-                <PricingCard price="$2" title="Subscriber Plan" benefits={['Unlimited Flashcards (9GB++)']}
+                <PricingCard price="$2" title="Subscriber Plan - Monthly" benefits={['Unlimited Flashcards (9GB++)']}
                              link={subcribeLink} linkText="Subscribe" />
               </div>
               <div className="column is-4">
