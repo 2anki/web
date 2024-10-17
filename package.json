@@ -128,6 +128,7 @@
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^8.8.0",
+    "jest-environment-jsdom": "^29.7.0",
     "prettier": "^3.3.3"
   },
   "proxy": "http://localhost:2020",
