@@ -126,7 +126,7 @@
     "dotenv": "^16.3.1",
     "eslint": "^8.55.0",
     "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-airbnb-typescript": "^17.1.0",
+    "eslint-config-airbnb-typescript": "^18.0.0",
     "eslint-config-prettier": "^8.8.0",
     "prettier": "^3.3.3"
   },
