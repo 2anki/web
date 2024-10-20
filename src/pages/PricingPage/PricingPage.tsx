@@ -33,11 +33,13 @@ export default function PricingPage() {
                 />
               </div>
               <div className="column is-4">
-                <PricingCard price="$2" title="Subscriber Plan - Monthly" benefits={['Unlimited Flashcards (9GB++)']}
+                <PricingCard price="$2" title="Subscriber Plan - Monthly"
+                             benefits={['Unlimited Flashcards (9GB++)', 'PDF support using Vertex AI']}
                              link={subcribeLink} linkText="Subscribe" />
               </div>
               <div className="column is-4">
-                <PricingCard price="$96" title="Lifetime Access" benefits={['Forever premium access to 2anki.net']}
+                <PricingCard price="$96" title="Lifetime Access"
+                             benefits={['Forever premium access to 2anki.net', 'PDF support using Vertex AI']}
                              link={lifetimeLink} linkText="Buy" />
               </div>
             </div>
