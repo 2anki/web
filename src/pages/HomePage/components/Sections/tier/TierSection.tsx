@@ -1,10 +1,11 @@
-import { getSubscribeLink } from '../../../../PricingPage/payment.links';
+import { getLifetimeLink, getSubscribeLink } from '../../../../PricingPage/payment.links';
 import { TierInfoColumn } from './TierInfoColumn';
 import { useIsLoggedIn } from '../../../../../lib/useIsLoggedIn';
 
 function TierSection() {
   const isLoggedIn = useIsLoggedIn();
   const subcribeLink = isLoggedIn ? getSubscribeLink() : '/login';
+  const lifetimeLink = isLoggedIn ? getLifetimeLink() : '/login';
 
 
   return (
@@ -22,6 +23,14 @@ function TierSection() {
               action={{
                 text: 'Subscribe',
                 link: subcribeLink
+              }}
+            />
+            <TierInfoColumn
+              title="Lifetime Access"
+              description="Forever premium access to 2anki.net"
+              action={{
+                text: 'Buy',
+                link: lifetimeLink
               }}
             />
           </div>
