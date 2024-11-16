@@ -31,7 +31,7 @@ const flashCardOptions = [
   'quote'
 ];
 const tagOptions = ['heading', 'strikethrough'];
-const subDeckOptions = ['child_page', ...flashCardOptions];
+const subDeckOptions = ['child_page', 'child_database', ...flashCardOptions];
 const deckOptions = ['page', 'database', ...subDeckOptions];
 
 function DefineRules(props: Props) {
