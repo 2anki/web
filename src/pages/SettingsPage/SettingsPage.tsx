@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuery } from 'react-query';
+import { useCookies } from 'react-cookie';
 import { PageContainer } from '../../components/styled';
 import { getVisibleText } from '../../lib/text/getVisibleText';
 import { getUserLocals } from '../../lib/backend/getUserLocals';
@@ -11,18 +12,22 @@ import { SettingsPageContainer } from './styled';
 
 const portalLinks = {
   production: 'https://billing.stripe.com/p/login/aEUaHp8ma4VPfPW9AA',
-  development: 'https://billing.stripe.com/p/login/test_00g6pu0q60JYbMQ3cc'
+  development: 'https://billing.stripe.com/p/login/test_00g6pu0q60JYbMQ3cc',
 };
 
 interface SettingsPageProps {
   setErrorMessage: ErrorHandlerType;
-
 }
 
-export default function SettingsPage({ setErrorMessage }: Readonly<SettingsPageProps>) {
+export default function SettingsPage({
+  setErrorMessage,
+}: Readonly<SettingsPageProps>) {
   const customerPortal =
-    process.env.NODE_ENV === 'development' ?
-      portalLinks.development : portalLinks.production;
+    process.env.NODE_ENV === 'development'
+      ? portalLinks.development
+      : portalLinks.production;
+
+  const [, , removeCookie] = useCookies(['token']);
 
   const { isLoading, isError, data, error } = useQuery(
     'userlocals',
@@ -41,7 +46,8 @@ export default function SettingsPage({ setErrorMessage }: Readonly<SettingsPageP
   }
 
   if (!data) {
-    setErrorMessage('No data found');
+    removeCookie('token');
+    window.location.href = '/login';
   }
 
   const locals = data?.locals;
@@ -52,7 +58,11 @@ export default function SettingsPage({ setErrorMessage }: Readonly<SettingsPageP
       <SettingsPageContainer>
         <div className="box">
           <h1>Settings</h1>
-          {user && <p data-hj-suppress>You are logged in as {user?.name} (email: {user?.email})</p>}
+          {user && (
+            <p data-hj-suppress>
+              You are logged in as {user?.name} (email: {user?.email})
+            </p>
+          )}
           {locals?.patreon && <p>You are a Patreon member</p>}
           {locals?.subscriber && <p>You are a Subscriber</p>}
           <p>
@@ -60,22 +70,32 @@ export default function SettingsPage({ setErrorMessage }: Readonly<SettingsPageP
             <a
               className="link"
               href={getVisibleText('navigation.help.url')}
-              target="_blank" rel="noreferrer"
+              target="_blank"
+              rel="noreferrer"
             >
               {getVisibleText('navigation.help')}.
             </a>
           </p>
           <p className="control">
-            {locals?.subscriber && <a className="button is-large is-link" href={customerPortal}>Manage subscription</a>}
-            {locals?.patreon && <a className="button is-large is-link" href={getPatreonLink()}>Manage membership</a>}
+            {locals?.subscriber && (
+              <a className="button is-large is-link" href={customerPortal}>
+                Manage subscription
+              </a>
+            )}
+            {locals?.patreon && (
+              <a className="button is-large is-link" href={getPatreonLink()}>
+                Manage membership
+              </a>
+            )}
           </p>
-          {
-            locals?.subscriber && (
-              <p>
-                <LinkEmail linked_email={data?.linked_email} setErrorMessage={setErrorMessage} />
-              </p>
-            )
-          }
+          {locals?.subscriber && (
+            <p>
+              <LinkEmail
+                linked_email={data?.linked_email}
+                setErrorMessage={setErrorMessage}
+              />
+            </p>
+          )}
         </div>
         <p className="control">
           <a className="link is-small is-danger button" href="/delete-account">
