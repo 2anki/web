@@ -38,7 +38,7 @@ export function DownloadsPage({ setError }: DownloadsPageProps) {
   return (
     <Container>
       <EmptyDownloadsSection hasActiveJobs={unfinishedJob} uploads={uploads} />
-      {isPremium && (
+      {!isPremium && (
         <div>
           Free users can only download 100 cards at a time and only one
           conversion at a time. If you trigger more than one conversion at a
