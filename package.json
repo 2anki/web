@@ -13,7 +13,7 @@
     }
   },
   "dependencies": {
-    "@babel/core": "^7.16.0",
+    "@babel/core": "^7.26.0",
     "@bugsnag/js": "^7.23.0",
     "@bugsnag/plugin-react": "^7.19.0",
     "@notionhq/client": "^2.2.14",
