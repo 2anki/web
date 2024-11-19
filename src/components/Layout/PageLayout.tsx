@@ -8,11 +8,11 @@ interface PageLayoutProps {
   error?: Error | null;
 }
 
-export function PageLayout({ children, error }: PageLayoutProps) {
+export function PageLayout({ children, error }: Readonly<PageLayoutProps>) {
   return (
     <PageContent>
       <NavigationBar />
-      {error && <ErrorPresenter error={error as Error} />}
+      {error && <ErrorPresenter error={error} />}
       {children}
     </PageContent>
   );
