@@ -25,7 +25,9 @@ const DownloadsPage = lazy(() => import('./pages/DownloadsPage'));
 const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'));
 const PricingPage = lazy(() => import('./pages/PricingPage'));
 const SettingsPage = lazy(() => import('./pages/SettingsPage/SettingsPage'));
-const SuccessfulCheckoutPage = lazy(() => import('./pages/SuccessfulCheckout/SuccessfulCheckout'));
+const SuccessfulCheckoutPage = lazy(
+  () => import('./pages/SuccessfulCheckout/SuccessfulCheckout')
+);
 
 const queryClient = new QueryClient();
 
@@ -50,7 +52,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <GlobalStyle />
       <BrowserRouter>
-        <PageLayout error={apiError}>
+        <PageLayout error={apiError as Error | null}>
           <Routes>
             <Route
               path="/favorites"
@@ -72,15 +74,15 @@ function App() {
               path="/search"
               element={<SearchPage setError={handledError} />}
             />
-            <Route
-              path="/login"
-              element={<LoginPage />}
-            />
+            <Route path="/login" element={<LoginPage />} />
             <Route
               path="/forgot"
               element={<ForgotPasswordPage setErrorMessage={handledError} />}
             />
-            <Route path="/settings" element={<SettingsPage setErrorMessage={handledError} />} />
+            <Route
+              path="/settings"
+              element={<SettingsPage setErrorMessage={handledError} />}
+            />
             <Route
               path="/users/r/:id"
               element={<NewPasswordPage setErrorMessage={handledError} />}
@@ -91,12 +93,15 @@ function App() {
               path="/delete-account"
               element={<DeleteAccountPage setError={handledError} />}
             />
+            <Route path="/pricing" element={<PricingPage />} />
             <Route
-              path="/pricing"
-              element={<PricingPage />}
+              path="/"
+              element={<HomePage setErrorMessage={handledError} />}
             />
-            <Route path="/" element={<HomePage setErrorMessage={handledError} />} />
-            <Route path="/successful-checkout" element={<SuccessfulCheckoutPage />} />
+            <Route
+              path="/successful-checkout"
+              element={<SuccessfulCheckoutPage />}
+            />
           </Routes>
           <Footer />
         </PageLayout>
