@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import 'bulma/css/bulma.css';
 
 import Bugsnag from '@bugsnag/js';
@@ -18,15 +18,17 @@ function main() {
 
   const ErrorBoundary = Bugsnag.getPlugin('react')!.createErrorBoundary(React);
 
-  ReactDOM.render(
+  const container = document.getElementById('root');
+  const root = createRoot(container!);
+
+  root.render(
     <React.StrictMode>
       <Suspense fallback={<LoadingIndicator />}>
         <ErrorBoundary>
           <App />
         </ErrorBoundary>
       </Suspense>
-    </React.StrictMode>,
-    document.getElementById('root')
+    </React.StrictMode>
   );
 }
 
