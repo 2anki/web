@@ -12,7 +12,6 @@
   "navigation.register.question": "Don't have an account?",
   "navigation.deleteAccount": "Delete account",
   "navigation.page.settings": "Settings",
-  "downloads.unfinished.jobs": "It might take a while for your download to be ready.",
   "downloads.empty": "You have no downloads!",
   "upload.page.title": "Upload your notes",
   "upload.page.subtitle": "For now only HTML and ZIP files are fully supported.",

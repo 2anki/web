@@ -16,9 +16,7 @@ function getIndicator(status: JobStatus) {
     case 'started':
       return 'is-info';
     case 'step1_create_workspace':
-      return 'is-info';
     case 'step2_creating_flashcards':
-      return 'is-info';
     case 'step3_building_deck':
       return 'is-info';
     default:
@@ -26,8 +24,30 @@ function getIndicator(status: JobStatus) {
   }
 }
 
+function getStatusText(status: JobStatus): string {
+  switch (status) {
+    case 'started':
+      return 'To Do';
+    case 'step1_create_workspace':
+    case 'step2_creating_flashcards':
+    case 'step3_building_deck':
+      return 'In Progress';
+    case 'stale':
+      return 'Stuck';
+    case 'failed':
+      return 'Failed';
+    case 'cancelled':
+      return 'Cancelled';
+    default:
+      return 'In Progress';
+  }
+}
+
 export function StatusTag({ status }: Prop) {
   const indicator = getIndicator(status);
+  const displayText = getStatusText(status);
 
-  return <span className={`is-small mx-2 tag ${indicator}`}>{status}</span>;
+  return (
+    <span className={`is-small mx-2 tag ${indicator}`}>{displayText}</span>
+  );
 }
