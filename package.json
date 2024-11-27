@@ -27,7 +27,7 @@
     "babel-plugin-named-asset-import": "^0.3.8",
     "babel-preset-react-app": "^10.0.1",
     "bfj": "^7.0.2",
-    "browserslist": "^4.18.1",
+    "browserslist": "^4.24.2",
     "bulma": "^0.9.4",
     "bulma-switch": "^2.0.4",
     "camelcase": "^6.2.1",
