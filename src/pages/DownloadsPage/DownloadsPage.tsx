@@ -1,4 +1,3 @@
-import { useQuery } from 'react-query';
 import Index from './components/ListJobs';
 
 import useUploads from './hooks/useUploads';
@@ -11,7 +10,6 @@ import { redirectOnError } from '../../components/shared/redirectOnError';
 import { UnfinishedJobsInfo } from './components/UnfinishedJobsInfo';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
 import { get2ankiApi } from '../../lib/backend/get2ankiApi';
-import { getUserLocals } from '../../lib/backend/getUserLocals';
 
 interface DownloadsPageProps {
   setError: ErrorHandlerType;
@@ -20,38 +18,30 @@ interface DownloadsPageProps {
 export function DownloadsPage({ setError }: DownloadsPageProps) {
   const { deleteUpload, loading, uploads, error } = useUploads(get2ankiApi());
   const { jobs, deleteJob, restartJob } = useJobs(get2ankiApi(), setError);
-  const { isLoading, data } = useQuery('userlocals', getUserLocals, {
-    cacheTime: 0,
-  });
   const unfinishedJob = jobs.length > 0;
-  const isPremium = data?.locals?.patreon || data?.locals?.subscriber;
 
   if (error) {
     redirectOnError(error);
     return null;
   }
 
-  if (loading || isLoading) {
+  if (loading) {
     return <LoadingIndicator />;
   }
 
   return (
     <Container>
       <div className="section">
+        <h1 className="title is-2">Downloads</h1>
+        <p className="subtitle mb-6">
+          Track the progress of your Notion to Anki conversions and download
+          your completed flashcard decks.
+        </p>
+
         <EmptyDownloadsSection
           hasActiveJobs={unfinishedJob}
           uploads={uploads}
         />
-
-        {!isPremium && (
-          <div className="notification is-warning is-light mb-5">
-            <p>
-              Free users can only download 100 cards at a time and only one
-              conversion at a time. If you trigger more than one conversion at a
-              time, the oldest one will be cancelled.
-            </p>
-          </div>
-        )}
 
         {unfinishedJob && (
           <div className="mb-6">
