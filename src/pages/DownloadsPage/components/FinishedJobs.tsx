@@ -12,7 +12,15 @@ export function FinishedJobs({ uploads, deleteUpload }: Prop) {
 
   return (
     <div className="table-container">
-      <h2 className="title is-4 mt-5">Available Anki Flashcard Decks</h2>
+      <h2 className="title is-4 mt-5 is-flex is-align-items-center">
+        <img
+          src="/icons/Anki_app_logo.png"
+          alt="Anki Logo"
+          width="32px"
+          className="mr-2"
+        />
+        Available Anki Flashcard Decks
+      </h2>
       <p className="mb-4">
         Below is a list of Anki Flashcard Deck files that have been successfully
         generated and are ready for download.
