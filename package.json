@@ -69,7 +69,7 @@
     "react-router-dom": "^6.27.0",
     "resolve": "^1.22.8",
     "resolve-url-loader": "^5.0.0",
-    "sass-loader": "^14.2.1",
+    "sass-loader": "^16.0.3",
     "semver": "^7.6.3",
     "source-map-loader": "^5.0.0",
     "style-loader": "^4.0.0",
