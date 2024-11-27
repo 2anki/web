@@ -1,9 +1,5 @@
 import { useState } from 'react';
-import { JobRow } from '../styled';
 import Jobs, { JobsId } from '../../../../schemas/public/Jobs';
-import { RefreshButton } from './RefreshButton';
-import { DeleteButton } from './DeleteButton';
-import { isFailedJob } from '../../helpers/isFailedJob';
 import { JobStatus, StatusTag } from './StatusTag';
 import { getDistance } from '../../../../lib/getDistance';
 
@@ -15,49 +11,56 @@ interface Props {
 
 export default function Index({ jobs, deleteJob, restartJob }: Props) {
   const [hover, setHover] = useState<JobsId | null>(null);
+
+  const isFailedJob = (status: JobStatus) => status === 'failed';
+
   if (!jobs || jobs.length === 0) {
     return null;
   }
 
-  const jobRows = (
-    <ul className="my-2">
-      {jobs.map((j) => (
-        <div key={j.id} className="is-flex is-justify-content-space-between">
-          <JobRow
-            className={`${hover === j.id ? 'has-background-info-light' : ''}`}
-          >
-            <StatusTag status={j.status as JobStatus} />
-            <div className="is-flex is-flex-direction-column">
-              <p className="title is-6">{j.title}</p>
-              <p className="subtitle is-7">
-                {j.created_at && `Started ${getDistance(j.created_at)} ago`}
-              </p>
-            </div>
-          </JobRow>
-          <div
-            onMouseEnter={() => setHover(j.id)}
-            onMouseLeave={() => setHover(null)}
-          >
-            <div className="is-pulled-right">
-              <DeleteButton onDelete={() => deleteJob(j.id)} />
-              {isFailedJob(j) && (
-                <RefreshButton
-                  onRefresh={() => {
-                    restartJob(j);
-                    window.location.reload();
-                  }}
-                />
-              )}
-            </div>
-          </div>
-        </div>
-      ))}
-    </ul>
-  );
-
   return (
-    <div className="" data-hj-suppress>
-      {jobRows}
+    <div className="table-container">
+      <table className="table is-fullwidth is-striped">
+        <thead>
+          <tr>
+            <th className="is-narrow">Action</th>
+            <th>Name</th>
+            <th>Started</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {jobs.map((j) => (
+            <tr
+              key={j.id}
+              className={`${hover === j.id ? 'has-background-info-light' : ''}`}
+              onMouseEnter={() => setHover(j.id)}
+              onMouseLeave={() => setHover(null)}
+            >
+              <td>
+                <button
+                  type="button"
+                  onClick={() =>
+                    isFailedJob(j.status as JobStatus)
+                      ? restartJob(j)
+                      : deleteJob(j.id)
+                  }
+                  className={`button is-small ${isFailedJob(j.status as JobStatus) ? 'is-warning' : 'is-danger'} is-light`}
+                >
+                  {isFailedJob(j.status as JobStatus) ? 'Restart' : 'Cancel'}
+                </button>
+              </td>
+              <td>{j.title}</td>
+              <td>
+                {j.created_at && `Started ${getDistance(j.created_at)} ago`}
+              </td>
+              <td>
+                <StatusTag status={j.status as JobStatus} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

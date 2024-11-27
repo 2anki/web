@@ -37,22 +37,37 @@ export function DownloadsPage({ setError }: DownloadsPageProps) {
 
   return (
     <Container>
-      <EmptyDownloadsSection hasActiveJobs={unfinishedJob} uploads={uploads} />
-      {!isPremium && (
-        <div>
-          Free users can only download 100 cards at a time and only one
-          conversion at a time. If you trigger more than one conversion at a
-          time, the oldest one will be cancelled.
-        </div>
-      )}
+      <div className="section">
+        <EmptyDownloadsSection
+          hasActiveJobs={unfinishedJob}
+          uploads={uploads}
+        />
 
-      <UnfinishedJobsInfo visible={unfinishedJob} />
-      <Index
-        restartJob={restartJob}
-        jobs={jobs}
-        deleteJob={(id) => deleteJob(id)}
-      />
-      <FinishedJobs uploads={uploads} deleteUpload={deleteUpload} />
+        {!isPremium && (
+          <div className="notification is-warning is-light mb-5">
+            <p>
+              Free users can only download 100 cards at a time and only one
+              conversion at a time. If you trigger more than one conversion at a
+              time, the oldest one will be cancelled.
+            </p>
+          </div>
+        )}
+
+        {unfinishedJob && (
+          <div className="mb-6">
+            <UnfinishedJobsInfo visible={unfinishedJob} />
+            <Index
+              restartJob={restartJob}
+              jobs={jobs}
+              deleteJob={(id) => deleteJob(id)}
+            />
+          </div>
+        )}
+
+        <div className="mt-6">
+          <FinishedJobs uploads={uploads} deleteUpload={deleteUpload} />
+        </div>
+      </div>
     </Container>
   );
 }
