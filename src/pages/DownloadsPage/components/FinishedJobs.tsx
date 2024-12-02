@@ -45,7 +45,7 @@ export function FinishedJobs({ uploads, deleteUpload }: Prop) {
                   Delete
                 </button>
               </td>
-              <td>{u.filename}</td>
+              <td data-hj-suppress>{u.filename}</td>
               <td>
                 <a
                   href={`/api/download/u/${u.key}`}
