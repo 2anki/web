@@ -4,6 +4,7 @@ import { getVisibleText } from '../../../lib/text/getVisibleText';
 import Backend from '../../../lib/backend';
 import NavbarItem from '../NavbarItem';
 import { getUserLocals } from '../../../lib/backend/getUserLocals';
+import { getSearchPath } from './getSearchPath';
 
 export default function useNavbarEnd(path: string, backend: Backend) {
   const onLogOut = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
@@ -25,9 +26,11 @@ export default function useNavbarEnd(path: string, backend: Backend) {
       <NavbarItem href="/contact" path={path}>
         {getVisibleText('navigation.contact')}
       </NavbarItem>
-      {!isLoading && !isPaying && <NavbarItem href="/pricing" path={path}>
-        {getVisibleText('navigation.pricing')}
-      </NavbarItem>}
+      {!isLoading && !isPaying && (
+        <NavbarItem href="/pricing" path={path}>
+          {getVisibleText('navigation.pricing')}
+        </NavbarItem>
+      )}
       <NavbarItem href="/upload" path={path}>
         {getVisibleText('navigation.upload')}
       </NavbarItem>
@@ -37,7 +40,7 @@ export default function useNavbarEnd(path: string, backend: Backend) {
       <NavbarItem href="/favorites" path={path}>
         {getVisibleText('navigation.favorites')}
       </NavbarItem>
-      <NavbarItem href="/search" path={path}>
+      <NavbarItem href={getSearchPath('anki')} path={path}>
         {getVisibleText('navigation.search')}
       </NavbarItem>
       <NavbarItem path={path} href="/settings">

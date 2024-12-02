@@ -2,14 +2,15 @@ import React, {
   FormEventHandler,
   SetStateAction,
   SyntheticEvent,
-  useState
+  useState,
 } from 'react';
 import { useCookies } from 'react-cookie';
 import {
   ErrorHandlerType,
-  getErrorMessage
+  getErrorMessage,
 } from '../../../../../components/errors/helpers/getErrorMessage';
 import { get2ankiApi } from '../../../../../lib/backend/get2ankiApi';
+import { getSearchPath } from '../../../../../components/NavigationBar/helpers/getSearchPath';
 
 interface LoginState {
   email: string;
@@ -35,7 +36,7 @@ export const useHandleLoginSubmit = (onError: ErrorHandlerType): LoginState => {
       if (res.status === 200) {
         const { token, redirect } = await res.json();
         setCookie('token', token);
-        window.location.href = redirect ?? '/search';
+        window.location.href = redirect ?? getSearchPath('anki');
       } else {
         onError(
           new Error(
@@ -57,6 +58,6 @@ export const useHandleLoginSubmit = (onError: ErrorHandlerType): LoginState => {
     loading,
     onSubmit,
     setEmail,
-    setPassword
+    setPassword,
   };
 };
