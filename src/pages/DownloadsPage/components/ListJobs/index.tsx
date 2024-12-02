@@ -50,7 +50,7 @@ export default function Index({ jobs, deleteJob, restartJob }: Props) {
                   {isFailedJob(j.status as JobStatus) ? 'Restart' : 'Cancel'}
                 </button>
               </td>
-              <td>{j.title}</td>
+              <td data-hj-suppress>{j.title}</td>
               <td>
                 {j.created_at && `Started ${getDistance(j.created_at)} ago`}
               </td>
