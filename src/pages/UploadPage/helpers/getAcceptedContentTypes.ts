@@ -5,5 +5,14 @@
  * @returns comma seperated string with supported file types
  */
 export default function getAcceptedContentTypes(): string {
-  return '.zip,.html,.csv,.md,.pdf';
+  const acceptedTypes = [
+    '.zip',
+    '.html',
+    '.csv',
+    '.md',
+    '.pdf',
+    '.ppt',
+    '.pptx',
+  ];
+  return acceptedTypes.join(',');
 }
