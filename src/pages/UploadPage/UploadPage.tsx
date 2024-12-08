@@ -11,11 +11,12 @@ import {
   ImportTitle,
   InfoMessage,
   CardOptionsLink,
-  UploadContainer
+  UploadContainer,
 } from './styled';
 import { Main, PageContainer } from '../../components/styled';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
 import { getVisibleText } from '../../lib/text/getVisibleText';
+import getAcceptedContentTypes from './helpers/getAcceptedContentTypes';
 
 interface Props {
   setErrorMessage: ErrorHandlerType;
@@ -29,6 +30,14 @@ export function UploadPage({ setErrorMessage }: Props) {
   const [showCardOptionsModal, setShowCardOptionsModal] = useState(
     view === 'template' || view === 'deck-options' || view === 'card-options'
   );
+
+  const readableSupportedFiles = getAcceptedContentTypes()
+    .split(',')
+    .map((type, index, array) => {
+      if (index === array.length - 1) return `and ${type}`;
+      return type;
+    })
+    .join(', ');
 
   return (
     <PageContainer>
@@ -46,7 +55,8 @@ export function UploadPage({ setErrorMessage }: Props) {
           </FlexColumn>
           <div className="container">
             <UploadForm setErrorMessage={setErrorMessage} />
-            <p>{getVisibleText('upload.page.subtitle')}</p>
+            <p>The following files are supported: {readableSupportedFiles}</p>
+
             <InfoMessage>
               All files uploaded here are automatically deleted after 21
               minutes.
