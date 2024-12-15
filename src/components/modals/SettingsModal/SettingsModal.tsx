@@ -28,13 +28,14 @@ interface Props {
 }
 
 function SettingsModal({
-                         pageTitle,
-                         pageId,
-                         isActive,
-                         onClickClose,
-                         setError
-                       }: Props) {
-  const { isLoading, isError, options, loadingDefaultsError } = useSettingsCardsOptions(pageId);
+  pageTitle,
+  pageId,
+  isActive,
+  onClickClose,
+  setError,
+}: Props) {
+  const { isLoading, isError, options, loadingDefaultsError } =
+    useSettingsCardsOptions(pageId);
   const [settings, setSettings] = useState<SettingsPayload>({});
   const [loading, setLoading] = useState(!!pageId);
   const deckNameKey = 'deckName';
@@ -91,7 +92,6 @@ function SettingsModal({
     }
   }, [pageId]);
 
-
   if (isError) {
     setError(loadingDefaultsError);
   }
@@ -100,6 +100,8 @@ function SettingsModal({
     if (pageId) {
       setDeckName(pageTitle || '');
       await get2ankiApi().deleteSettings(pageId);
+    } else {
+      setDeckName('');
     }
     if (options) {
       clearStoredCardOptions(options);
@@ -149,7 +151,6 @@ function SettingsModal({
       });
   };
 
-
   return (
     <div className={`modal ${isActive ? 'is-active' : ''}`}>
       <div className="modal-background" />
@@ -158,7 +159,9 @@ function SettingsModal({
         {!loading && (
           <>
             <div className="modal-card-head">
-              <div className="modal-card-title">{getVisibleText('card.options')}</div>
+              <div className="modal-card-title">
+                {getVisibleText('card.options')}
+              </div>
               <button
                 type="button"
                 className="delete"
@@ -207,12 +210,12 @@ function SettingsModal({
                         { label: 'Icon first', value: 'first_emoji' },
                         {
                           label: 'Icon last',
-                          value: 'last_emoji'
+                          value: 'last_emoji',
                         },
                         {
                           label: 'Disable icon',
-                          value: 'disable_emoji'
-                        }
+                          value: 'disable_emoji',
+                        },
                       ]}
                       value={pageEmoji}
                       name="page-emoji"
@@ -227,8 +230,8 @@ function SettingsModal({
                   <strong>Toggle Mode</strong>
                   <p className="is-size-7">
                     If you use nested toggles in your flashcards then this
-                    option is useful in the case where you want to collapse
-                    them so you can open them manually when you want in Anki.
+                    option is useful in the case where you want to collapse them
+                    so you can open them manually when you want in Anki.
                   </p>
                   <TemplateSelect
                     className="mb-4 mt-2"
@@ -236,8 +239,8 @@ function SettingsModal({
                       { label: 'Open nested toggles', value: 'open_toggle' },
                       {
                         label: 'Close nested toggles',
-                        value: 'close_toggle'
-                      }
+                        value: 'close_toggle',
+                      },
                     ]}
                     value={toggleMode}
                     name="toggle-mode"
@@ -246,18 +249,26 @@ function SettingsModal({
                       saveValueInLocalStorage('toggle-mode', t, pageId);
                     }}
                   />
-                  {options && options.map((o: CardOption) => <LocalCheckbox
-                    key={o.key}
-                    defaultValue={
-                      getLocalStorageBooleanValue(
-                        o.key, o.value.toString(), settings)
-                    }
-                    label={o.label}
-                    description={o.description}
-                    onChecked={(checked) => {
-                      saveValueInLocalStorage(o.key, checked.toString(), pageId);
-                    }}
-                  />)}
+                  {options &&
+                    options.map((o: CardOption) => (
+                      <LocalCheckbox
+                        key={o.key}
+                        defaultValue={getLocalStorageBooleanValue(
+                          o.key,
+                          o.value.toString(),
+                          settings
+                        )}
+                        label={o.label}
+                        description={o.description}
+                        onChecked={(checked) => {
+                          saveValueInLocalStorage(
+                            o.key,
+                            checked.toString(),
+                            pageId
+                          );
+                        }}
+                      />
+                    ))}
                 </div>
                 <h2 className="title is-4 mb-0 py-4">Template Options</h2>
                 <TemplateSelect
@@ -335,7 +346,7 @@ function SettingsModal({
 }
 
 SettingsModal.defaultProps = {
-  pageTitle: null
+  pageTitle: null,
 };
 
 export default SettingsModal;
