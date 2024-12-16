@@ -18,7 +18,7 @@
     "@bugsnag/plugin-react": "^8.1.1",
     "@notionhq/client": "^2.2.14",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
-    "@reduxjs/toolkit": "^2.3.0",
+    "@reduxjs/toolkit": "^2.5.0",
     "@svgr/webpack": "^8.1.0",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/react-query": "^1.2.9",
