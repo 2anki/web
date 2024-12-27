@@ -13,6 +13,7 @@ export default function getAcceptedContentTypes(): string {
     '.pdf',
     '.ppt',
     '.pptx',
+    '.xlsx',
   ];
   return acceptedTypes.join(',');
 }
