@@ -1,14 +1,12 @@
-import React from 'react';
-import { useQuery } from 'react-query';
 import { useCookies } from 'react-cookie';
 import { PageContainer } from '../../components/styled';
 import { getVisibleText } from '../../lib/text/getVisibleText';
-import { getUserLocals } from '../../lib/backend/getUserLocals';
 import LoadingIndicator from '../../components/Loading';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
 import { getPatreonLink } from './getPatreonLink';
 import { LinkEmail } from './LinkEmail';
 import { SettingsPageContainer } from './styled';
+import { useUserLocals } from '../../lib/hooks/useUserLocals';
 
 const portalLinks = {
   production: 'https://billing.stripe.com/p/login/aEUaHp8ma4VPfPW9AA',
@@ -29,13 +27,7 @@ export default function SettingsPage({
 
   const [, , removeCookie] = useCookies(['token']);
 
-  const { isLoading, isError, data, error } = useQuery(
-    'userlocals',
-    getUserLocals,
-    {
-      cacheTime: 0
-    }
-  );
+  const { isLoading, isError, data, error } = useUserLocals();
 
   if (isLoading) {
     return <LoadingIndicator />;

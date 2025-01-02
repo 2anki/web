@@ -3,10 +3,14 @@ import { getVisibleText } from '../../lib/text/getVisibleText';
 import { getLifetimeLink, getSubscribeLink } from './payment.links';
 import { PricingCard } from './components/PricingCard';
 import TopMessage from '../../components/TopMessage/TopMessage';
-import { useIsLoggedIn } from '../../lib/useIsLoggedIn';
 
-export default function PricingPage() {
-  const isLoggedIn = useIsLoggedIn();
+interface PricingPageProps {
+  isLoggedIn: boolean;
+}
+
+export default function PricingPage({
+  isLoggedIn,
+}: Readonly<PricingPageProps>) {
   const subcribeLink = isLoggedIn ? getSubscribeLink() : '/login';
   const lifetimeLink = isLoggedIn ? getLifetimeLink() : '/login';
 

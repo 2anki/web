@@ -11,9 +11,13 @@ import { useSettingsCardsOptions } from '../../components/modals/SettingsModal/u
 
 interface HomePageProps {
   setErrorMessage: ErrorHandlerType;
+  isLoggedIn: boolean;
 }
 
-export function HomePage({ setErrorMessage }: Readonly<HomePageProps>) {
+export function HomePage({
+  setErrorMessage,
+  isLoggedIn,
+}: Readonly<HomePageProps>) {
   // Load the default settings cards options for backend compatibility
   useSettingsCardsOptions(null);
 
@@ -23,7 +27,7 @@ export function HomePage({ setErrorMessage }: Readonly<HomePageProps>) {
       <FormSection>
         <UploadForm setErrorMessage={setErrorMessage} />
       </FormSection>
-      <TierSection />
+      <TierSection isLoggedIn={isLoggedIn} />
       <AboutSection />
       <TestimonialsSection />
       <BenefitsSection />

@@ -7,7 +7,6 @@ import UploadPage from './pages/UploadPage';
 import HomePage from './pages/HomePage';
 
 import Footer from './components/Footer';
-import GlobalStyle from './GlobalStyle';
 import isOfflineMode from './lib/isOfflineMode';
 import DebugPage from './pages/DebugPage';
 import { ContactPage } from './pages/ContactPage/ContactPage';
@@ -16,6 +15,7 @@ import { PageLayout } from './components/Layout/PageLayout';
 import DeleteAccountPage from './pages/DeleteAccountPage';
 import { getErrorMessage } from './components/errors/helpers/getErrorMessage';
 import { sendError } from './lib/SendError';
+import { useUserLocals } from './lib/hooks/useUserLocals';
 
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 const SearchPage = lazy(() => import('./pages/SearchPage'));
@@ -31,8 +31,85 @@ const SuccessfulCheckoutPage = lazy(
 
 const queryClient = new QueryClient();
 
+function AppContent({
+  error,
+  setErrorMessage,
+}: {
+  error: Error | null;
+  setErrorMessage: (error: unknown) => void;
+}) {
+  const { data } = useUserLocals();
+  const isLoggedIn = !!data?.user?.id;
+  return (
+    <BrowserRouter>
+      <PageLayout error={error} isLoggedIn={isLoggedIn}>
+        <Routes>
+          <Route
+            path="/favorites"
+            element={<FavoritesPage setError={setErrorMessage} />}
+          />
+          <Route
+            path="/uploads"
+            element={<DownloadsPage setError={setErrorMessage} />}
+          />
+          <Route
+            path="/upload"
+            element={<UploadPage setErrorMessage={setErrorMessage} />}
+          />
+          <Route
+            path="/register"
+            element={<RegisterPage setErrorMessage={setErrorMessage} />}
+          />
+          <Route
+            path="/search"
+            element={<SearchPage setError={setErrorMessage} />}
+          />
+          <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/forgot"
+            element={<ForgotPasswordPage setErrorMessage={setErrorMessage} />}
+          />
+          <Route
+            path="/settings"
+            element={<SettingsPage setErrorMessage={setErrorMessage} />}
+          />
+          <Route
+            path="/users/r/:id"
+            element={<NewPasswordPage setErrorMessage={setErrorMessage} />}
+          />
+          <Route path="/debug" element={<DebugPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route
+            path="/delete-account"
+            element={<DeleteAccountPage setError={setErrorMessage} />}
+          />
+          <Route
+            path="/pricing"
+            element={<PricingPage isLoggedIn={isLoggedIn} />}
+          />
+          <Route
+            path="/"
+            element={
+              <HomePage
+                setErrorMessage={setErrorMessage}
+                isLoggedIn={isLoggedIn}
+              />
+            }
+          />
+          <Route
+            path="/successful-checkout"
+            element={<SuccessfulCheckoutPage />}
+          />
+        </Routes>
+        <Footer />
+      </PageLayout>
+    </BrowserRouter>
+  );
+}
+
 function App() {
   const [cookies, setCookie] = useCookies(['token']);
+
   if (isOfflineMode() && !cookies.token) {
     setCookie('token', '?');
   }
@@ -50,62 +127,10 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <GlobalStyle />
-      <BrowserRouter>
-        <PageLayout error={apiError as Error | null}>
-          <Routes>
-            <Route
-              path="/favorites"
-              element={<FavoritesPage setError={handledError} />}
-            />
-            <Route
-              path="/uploads"
-              element={<DownloadsPage setError={handledError} />}
-            />
-            <Route
-              path="/upload"
-              element={<UploadPage setErrorMessage={handledError} />}
-            />
-            <Route
-              path="/register"
-              element={<RegisterPage setErrorMessage={handledError} />}
-            />
-            <Route
-              path="/search"
-              element={<SearchPage setError={handledError} />}
-            />
-            <Route path="/login" element={<LoginPage />} />
-            <Route
-              path="/forgot"
-              element={<ForgotPasswordPage setErrorMessage={handledError} />}
-            />
-            <Route
-              path="/settings"
-              element={<SettingsPage setErrorMessage={handledError} />}
-            />
-            <Route
-              path="/users/r/:id"
-              element={<NewPasswordPage setErrorMessage={handledError} />}
-            />
-            <Route path="/debug" element={<DebugPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route
-              path="/delete-account"
-              element={<DeleteAccountPage setError={handledError} />}
-            />
-            <Route path="/pricing" element={<PricingPage />} />
-            <Route
-              path="/"
-              element={<HomePage setErrorMessage={handledError} />}
-            />
-            <Route
-              path="/successful-checkout"
-              element={<SuccessfulCheckoutPage />}
-            />
-          </Routes>
-          <Footer />
-        </PageLayout>
-      </BrowserRouter>
+      <AppContent
+        error={apiError as Error | null}
+        setErrorMessage={handledError}
+      />
     </QueryClientProvider>
   );
 }

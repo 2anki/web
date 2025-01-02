@@ -1,10 +1,9 @@
 import React from 'react';
-import { useQuery } from 'react-query';
 import { getVisibleText } from '../../../lib/text/getVisibleText';
 import Backend from '../../../lib/backend';
 import NavbarItem from '../NavbarItem';
-import { getUserLocals } from '../../../lib/backend/getUserLocals';
 import { getSearchPath } from './getSearchPath';
+import { useUserLocals } from '../../../lib/hooks/useUserLocals';
 
 export default function useNavbarEnd(path: string, backend: Backend) {
   const onLogOut = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
@@ -12,13 +11,8 @@ export default function useNavbarEnd(path: string, backend: Backend) {
     backend.logout();
   };
 
-  const { isLoading, data } = useQuery(
-    'userlocals',
-    getUserLocals,
-    {
-      cacheTime: 0
-    }
-  );
+  const { isLoading, data } = useUserLocals();
+
   const isPaying = data?.locals?.patreon || data?.locals?.subscriber;
 
   return (

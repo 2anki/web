@@ -5,13 +5,15 @@ import { Navbar } from './styled';
 import { RightSide } from './components/RightSide';
 import useNavbarEnd from './helpers/useNavbarEnd';
 import { get2ankiApi } from '../../lib/backend/get2ankiApi';
-import { useIsLoggedIn } from '../../lib/useIsLoggedIn';
 
-function NavigationBar() {
+interface NavigationBarProps {
+  isLoggedIn: boolean;
+}
+
+function NavigationBar({ isLoggedIn }: Readonly<NavigationBarProps>) {
   const [active, setActive] = useState(false);
   const path = window.location.pathname;
   const loggedInNavbar = useNavbarEnd(path, get2ankiApi());
-  const isLoggedIn = useIsLoggedIn();
 
   return (
     <Navbar
@@ -47,7 +49,6 @@ function NavigationBar() {
         {isLoggedIn && loggedInNavbar}
         {!isLoggedIn && <RightSide path={path} />}
       </div>
-
     </Navbar>
   );
 }

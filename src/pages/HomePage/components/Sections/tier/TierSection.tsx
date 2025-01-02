@@ -1,12 +1,16 @@
-import { getLifetimeLink, getSubscribeLink } from '../../../../PricingPage/payment.links';
+import {
+  getLifetimeLink,
+  getSubscribeLink,
+} from '../../../../PricingPage/payment.links';
 import { TierInfoColumn } from './TierInfoColumn';
-import { useIsLoggedIn } from '../../../../../lib/useIsLoggedIn';
 
-function TierSection() {
-  const isLoggedIn = useIsLoggedIn();
+interface TierSectionProps {
+  isLoggedIn: boolean;
+}
+
+function TierSection({ isLoggedIn }: Readonly<TierSectionProps>) {
   const subcribeLink = isLoggedIn ? getSubscribeLink() : '/login';
   const lifetimeLink = isLoggedIn ? getLifetimeLink() : '/login';
-
 
   return (
     <div className="container">
@@ -22,7 +26,7 @@ function TierSection() {
               description="Create 200++ flashcards per upload (500mb)"
               action={{
                 text: 'Subscribe',
-                link: subcribeLink
+                link: subcribeLink,
               }}
             />
             <TierInfoColumn
@@ -30,7 +34,7 @@ function TierSection() {
               description="Forever premium access to 2anki.net"
               action={{
                 text: 'Buy',
-                link: lifetimeLink
+                link: lifetimeLink,
               }}
             />
           </div>
