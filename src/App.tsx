@@ -34,10 +34,11 @@ const queryClient = new QueryClient();
 function AppContent({
   error,
   setErrorMessage,
-}: {
+}: Readonly<{
   error: Error | null;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setErrorMessage: (error: unknown) => void;
-}) {
+}>) {
   const { data } = useUserLocals();
   const isLoggedIn = !!data?.user?.id;
   return (
