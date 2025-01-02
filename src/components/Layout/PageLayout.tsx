@@ -4,14 +4,19 @@ import { ErrorPresenter } from '../errors/ErrorPresenter';
 import NavigationBar from '../NavigationBar/NavigationBar';
 
 interface PageLayoutProps {
+  isLoggedIn: boolean;
   children: ReactNode;
   error?: Error | null;
 }
 
-export function PageLayout({ children, error }: Readonly<PageLayoutProps>) {
+export function PageLayout({
+  children,
+  error,
+  isLoggedIn,
+}: Readonly<PageLayoutProps>) {
   return (
     <PageContent>
-      <NavigationBar />
+      <NavigationBar isLoggedIn={isLoggedIn} />
       {error && <ErrorPresenter error={error} />}
       {children}
     </PageContent>
