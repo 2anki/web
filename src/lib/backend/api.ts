@@ -1,5 +1,5 @@
 import handleRedirect from '../handleRedirect';
-import { OK } from './http';
+import { NOT_FOUND, UNAUTHORIZED } from './http';
 
 interface ClientSideOptions {
   redirect?: boolean;
@@ -25,12 +25,30 @@ export const get = async (
   const response = await fetch(url, {
     credentials: 'include',
   });
+
   if (options.redirect && handleRedirect(response)) {
     return undefined;
   }
-  if (response.status !== OK) {
-    throw new Error(response.statusText);
+
+  if (!response.ok) {
+    if (response.status === UNAUTHORIZED) {
+      window.location.href = '/login';
+      return undefined;
+    }
+    if (response.status === NOT_FOUND) {
+      throw new Error(
+        `Resource not found: ${response.status} ${response.statusText}`
+      );
+    } else {
+      const errorData = await response
+        .json()
+        .catch(() => ({ message: response.statusText }));
+      throw new Error(
+        `HTTP error! status: ${response.status}, message: ${errorData.message}`
+      );
+    }
   }
+
   return response.json();
 };
 
