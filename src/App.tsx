@@ -16,6 +16,7 @@ import DeleteAccountPage from './pages/DeleteAccountPage';
 import { getErrorMessage } from './components/errors/helpers/getErrorMessage';
 import { sendError } from './lib/SendError';
 import { useUserLocals } from './lib/hooks/useUserLocals';
+import NotFoundPage from './pages/NotFoundPage';
 
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 const SearchPage = lazy(() => import('./pages/SearchPage'));
@@ -101,6 +102,7 @@ function AppContent({
             path="/successful-checkout"
             element={<SuccessfulCheckoutPage />}
           />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <Footer />
       </PageLayout>
