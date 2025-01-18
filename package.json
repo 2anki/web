@@ -90,7 +90,10 @@
     "test": "node scripts/test.js",
     "lint": "eslint src",
     "lint:fix": "eslint --fix src",
-    "schema:generate-types": "npx kanel"
+    "schema:generate-types": "npx kanel",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug"
   },
   "eslintConfig": {
     "extends": [
@@ -129,7 +132,9 @@
     "eslint-config-airbnb-typescript": "^18.0.0",
     "eslint-config-prettier": "^8.8.0",
     "jest-environment-jsdom": "^29.7.0",
-    "prettier": "^3.4.2"
+    "prettier": "^3.4.2",
+    "@playwright/test": "^1.42.1",
+    "playwright": "^1.42.1"
   },
   "proxy": "http://localhost:2020",
   "jest": {
