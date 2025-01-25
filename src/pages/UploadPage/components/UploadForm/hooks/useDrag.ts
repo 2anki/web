@@ -5,7 +5,7 @@ interface UseDragInput {
 }
 
 export const useDrag = ({ onDrop }: UseDragInput) => {
-  const [dropHover, setDropHover] = useState(false);
+  const [dropHover, setDropHover] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
     const body = document.getElementsByTagName('body')[0];
