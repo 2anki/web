@@ -6,7 +6,7 @@ interface ProtectedItemsProps {
 export function ProtectedItems({
   visible,
   children,
-}: ProtectedItemsProps): JSX.Element | null {
+}: ProtectedItemsProps): React.ReactNode | null {
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return visible ? <>{children}</> : null;
 }
