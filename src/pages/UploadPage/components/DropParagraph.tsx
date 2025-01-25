@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const DropParagraph = styled.div<{ hover: boolean }>`
+const DropParagraph = styled.div<{ hover: boolean | undefined }>`
   border: 1.3px dashed;
   border-radius: 3px;
   border-color: ${(props) => (props.hover ? '#5997f5' : 'lightgray')};
