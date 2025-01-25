@@ -1,3 +1,4 @@
+import React from 'react';
 import SearchContainer from './components/SearchContainer';
 import useNotionData from './helpers/useNotionData';
 import ConnectNotion from './components/ConnectNotion';
@@ -18,14 +19,23 @@ export function SearchPage({ setError }: SearchPageProps) {
   const { connected, connectionLink } = notionData;
 
   return (
-    <>
-      <ConnectNotion ready={!connected} connectionLink={connectionLink} />
-      <SearchContainer
-        ready={connected}
-        notionData={notionData}
-        backend={get2ankiApi()}
-        setError={setError}
-      />
-    </>
+    <div className="section">
+      {!connected && (
+        <>
+          <h1 className="title is-2 has-text-centered">
+            Connect to Notion or Upload Manually
+          </h1>
+          <ConnectNotion ready={!connected} connectionLink={connectionLink} />
+        </>
+      )}
+      {connected && (
+        <SearchContainer
+          ready={connected}
+          notionData={notionData}
+          backend={get2ankiApi()}
+          setError={setError}
+        />
+      )}
+    </div>
   );
 }
