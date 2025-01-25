@@ -12,7 +12,7 @@ interface ListSearchResultsProps {
 
 export default function ListSearchResults(
   props: ListSearchResultsProps
-): JSX.Element {
+): React.ReactNode {
   const { results, handleEmpty, setFavorites, setError } = props;
   const isEmpty = results.length < 1;
 
