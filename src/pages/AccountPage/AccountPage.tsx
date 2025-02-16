@@ -6,10 +6,32 @@ import LoadingIndicator from '../../components/Loading';
 import { postLinkEmail } from '../../lib/backend/postLinkEmail';
 
 export default function AccountPage() {
-  const { isLoading, data } = useUserLocals();
-  const [linkEmail, setLinkEmail] = useState<string>(data?.linked_email ?? '');
+  const { isLoading, data, refetch } = useUserLocals();
+  const [linkEmail, setLinkEmail] = useState<string>('');
+
+  React.useEffect(() => {
+    if (data?.linked_email) {
+      setLinkEmail(data.linked_email);
+    }
+  }, [data]);
+
+  const [linkError, setLinkError] = useState<string>('');
+  const [linkSuccess, setLinkSuccess] = useState<boolean>(false);
   const { mutate: linkEmailMutate, isLoading: isLinking } = useMutation({
     mutationFn: (email: string) => postLinkEmail(email),
+    onError: (error: any) => {
+      setLinkSuccess(false);
+      const message =
+        error?.response?.data?.message ||
+        error?.message ||
+        'Failed to link email';
+      setLinkError(message);
+    },
+    onSuccess: async () => {
+      setLinkError('');
+      setLinkSuccess(true);
+      await refetch();
+    },
   });
 
   if (isLoading) {
@@ -205,11 +227,17 @@ export default function AccountPage() {
                       value={linkEmail}
                       onChange={onChangeLinkEmail}
                       id="email"
-                      className="input"
+                      className={`input ${linkError ? 'is-danger' : ''} ${linkSuccess ? 'is-success' : ''}`}
                       type="email"
                       placeholder="Enter subscription email"
                     />
                   </div>
+                  {linkError && <p className="help is-danger">{linkError}</p>}
+                  {linkSuccess && (
+                    <p className="help is-success">
+                      Email linked successfully!
+                    </p>
+                  )}
                   <p className="py-4">
                     <button
                       type="button"

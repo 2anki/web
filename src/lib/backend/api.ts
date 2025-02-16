@@ -7,8 +7,8 @@ interface ClientSideOptions {
 
 export const getLoginURL = (baseURL: string) => `${baseURL}users/login`;
 
-export const post = async (url: string, body: unknown) =>
-  fetch(url, {
+export const post = async (url: string, body: unknown) => {
+  const response = await fetch(url, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -17,6 +17,22 @@ export const post = async (url: string, body: unknown) =>
     },
     body: JSON.stringify(body),
   });
+
+  if (!response.ok) {
+    if (response.status === UNAUTHORIZED) {
+      window.location.href = '/login';
+      return undefined;
+    }
+    const errorData = await response
+      .json()
+      .catch(() => ({ message: response.statusText }));
+    throw new Error(
+      `HTTP error! status: ${response.status}, message: ${errorData.message}`
+    );
+  }
+
+  return response.json();
+};
 
 export const get = async (
   url: string,
