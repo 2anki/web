@@ -64,7 +64,7 @@ export default function AboutPage() {
                       rel="noreferrer"
                     >
                       SuperMemo
-                    </a>
+                    </a>{' '}
                     .
                   </p>
                 </div>
