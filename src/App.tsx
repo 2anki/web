@@ -100,6 +100,7 @@ function AppContent({
             element={<SuccessfulCheckoutPage />}
           />
           <Route path="/account" element={<AccountPage />} />
+          <Route path="/settings" element={<AccountPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
