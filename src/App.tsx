@@ -5,6 +5,7 @@ import { lazy, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import UploadPage from './pages/UploadPage';
 import HomePage from './pages/HomePage';
+import AboutPage from './pages/AboutPage/AboutPage';
 
 import Footer from './components/Footer';
 import isOfflineMode from './lib/isOfflineMode';
@@ -25,7 +26,7 @@ const NewPasswordPage = lazy(() => import('./pages/NewPasswordPage'));
 const DownloadsPage = lazy(() => import('./pages/DownloadsPage'));
 const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'));
 const PricingPage = lazy(() => import('./pages/PricingPage'));
-const SettingsPage = lazy(() => import('./pages/SettingsPage/SettingsPage'));
+const AccountPage = lazy(() => import('./pages/AccountPage/AccountPage'));
 const SuccessfulCheckoutPage = lazy(
   () => import('./pages/SuccessfulCheckout/SuccessfulCheckout')
 );
@@ -72,10 +73,6 @@ function AppContent({
             element={<ForgotPasswordPage setErrorMessage={setErrorMessage} />}
           />
           <Route
-            path="/settings"
-            element={<SettingsPage setErrorMessage={setErrorMessage} />}
-          />
-          <Route
             path="/users/r/:id"
             element={<NewPasswordPage setErrorMessage={setErrorMessage} />}
           />
@@ -102,6 +99,8 @@ function AppContent({
             path="/successful-checkout"
             element={<SuccessfulCheckoutPage />}
           />
+          <Route path="/account" element={<AccountPage />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <Footer />

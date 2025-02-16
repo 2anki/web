@@ -37,13 +37,7 @@ function Footer() {
           <div>Copyright © 2024-2025 Alexander Alemayhu.</div>
           <Links>
             <li>
-              <a
-                target="_blank"
-                href="https://github.com/2anki/2anki.net/blob/main/README.md"
-                rel="noreferrer"
-              >
-                About
-              </a>
+              <a href="/about">About</a>
             </li>
             <li>
               <a
@@ -62,6 +56,9 @@ function Footer() {
               >
                 Privacy
               </a>
+            </li>
+            <li>
+              <a href="/contact">Contact</a>
             </li>
           </Links>
         </div>

@@ -1,6 +1,3 @@
-import TestimonialsSection from './components/Sections/testimonials';
-import BenefitsSection from './components/Sections/benefits';
-import AboutSection from './components/Sections/about';
 import HeroSection from './components/Sections/hero';
 import { HomeContainer } from '../../components/styled';
 import UploadForm from '../UploadPage/components/UploadForm/UploadForm';
@@ -28,9 +25,6 @@ export function HomePage({
         <UploadForm setErrorMessage={setErrorMessage} />
       </FormSection>
       <TierSection isLoggedIn={isLoggedIn} />
-      <AboutSection />
-      <TestimonialsSection />
-      <BenefitsSection />
     </HomeContainer>
   );
 }
