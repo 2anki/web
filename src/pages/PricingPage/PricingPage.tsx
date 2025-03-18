@@ -12,7 +12,7 @@ export default function PricingPage({
   isLoggedIn,
 }: Readonly<PricingPageProps>) {
   const subcribeLink = isLoggedIn ? getSubscribeLink() : '/login';
-  const lifetimeLink = isLoggedIn ? getLifetimeLink() : '/login';
+  const lifetimeLink = getLifetimeLink();
 
   return (
     <PageContainer>
@@ -68,9 +68,17 @@ export default function PricingPage({
                     'One-time payment - no subscription needed',
                   ]}
                   link={lifetimeLink}
-                  linkText="Buy"
+                  linkText="Contact us"
                 />
               </div>
+            </div>
+
+            <div className="has-text-centered mt-5">
+              <p>
+                Lifetime access is available by application only. Please contact{' '}
+                <a href="mailto:support@2anki.net">support@2anki.net</a> to
+                apply.
+              </p>
             </div>
           </div>
         </section>

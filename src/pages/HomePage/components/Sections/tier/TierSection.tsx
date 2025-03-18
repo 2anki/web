@@ -10,7 +10,7 @@ interface TierSectionProps {
 
 function TierSection({ isLoggedIn }: Readonly<TierSectionProps>) {
   const subcribeLink = isLoggedIn ? getSubscribeLink() : '/login';
-  const lifetimeLink = isLoggedIn ? getLifetimeLink() : '/login';
+  const lifetimeLink = getLifetimeLink();
 
   return (
     <div className="container">
@@ -33,7 +33,7 @@ function TierSection({ isLoggedIn }: Readonly<TierSectionProps>) {
               title="Lifetime Access"
               description="Forever premium access to 2anki.net"
               action={{
-                text: 'Buy',
+                text: 'Contact us',
                 link: lifetimeLink,
               }}
             />
