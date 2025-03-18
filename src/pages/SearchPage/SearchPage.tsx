@@ -12,30 +12,34 @@ interface SearchPageProps {
 
 export function SearchPage({ setError }: SearchPageProps) {
   const notionData = useNotionData(get2ankiApi());
-  if (notionData.loading) {
-    return <LoadingIndicator />;
-  }
-
   const { connected, connectionLink } = notionData;
 
-  return (
-    <div className="section">
-      {!connected && (
-        <>
-          <h1 className="title is-2 has-text-centered">
-            Connect to Notion or Upload Manually
-          </h1>
-          <ConnectNotion ready={!connected} connectionLink={connectionLink} />
-        </>
-      )}
-      {connected && (
-        <SearchContainer
-          ready={connected}
-          notionData={notionData}
-          backend={get2ankiApi()}
-          setError={setError}
-        />
-      )}
-    </div>
-  );
+  let content;
+  if (notionData.loading) {
+    content = (
+      <div className="has-text-centered">
+        <LoadingIndicator />
+      </div>
+    );
+  } else if (!connected) {
+    content = (
+      <>
+        <h1 className="title is-2 has-text-centered">
+          Connect to Notion or Upload Manually
+        </h1>
+        <ConnectNotion ready={!connected} connectionLink={connectionLink} />
+      </>
+    );
+  } else {
+    content = (
+      <SearchContainer
+        ready={connected}
+        notionData={notionData}
+        backend={get2ankiApi()}
+        setError={setError}
+      />
+    );
+  }
+
+  return <div className="section">{content}</div>;
 }

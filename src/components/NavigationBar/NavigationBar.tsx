@@ -46,8 +46,9 @@ function NavigationBar({ isLoggedIn }: Readonly<NavigationBarProps>) {
         id="navbar"
         className={`is-flex-grow-0	navbar-menu ${active ? 'is-active' : ''}`}
       >
-        {isLoggedIn && loggedInNavbar}
-        {!isLoggedIn && <RightSide path={path} />}
+        <div style={{ opacity: isLoggedIn === undefined ? 0 : 1 }}>
+          {isLoggedIn ? loggedInNavbar : <RightSide path={path} />}
+        </div>
       </div>
     </Navbar>
   );
