@@ -14,6 +14,9 @@ interface GetUserLocalsResponse {
   };
   linked_email: string;
   user?: ExtendedUser;
+  features?: {
+    kiUI: boolean;
+  };
 }
 
 export const getUserLocals = async (): Promise<GetUserLocalsResponse> =>

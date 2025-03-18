@@ -15,6 +15,7 @@ export default function useNavbarEnd(path: string, backend: Backend) {
   const { isLoading, data } = useUserLocals();
   const isPaying = data?.locals?.patreon || data?.locals?.subscriber;
   const isLoggedIn = !!data?.user;
+  const showKiLink = data?.features?.kiUI;
 
   const toggleDropdown = () => setIsActive(!isActive);
   const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -25,6 +26,11 @@ export default function useNavbarEnd(path: string, backend: Backend) {
 
   return (
     <div className="navbar-end">
+      {showKiLink && (
+        <NavbarItem href="/ki" path={path}>
+          KI 🧪
+        </NavbarItem>
+      )}
       {!isLoading && !isPaying && (
         <NavbarItem href="/pricing" path={path}>
           {getVisibleText('navigation.pricing')}
