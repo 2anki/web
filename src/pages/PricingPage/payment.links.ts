@@ -1,9 +1,7 @@
 export const getSubscribeLink = () =>
-  process.env.NODE_ENV === 'development' ?
-    'https://buy.stripe.com/test_fZebM83k00Rj6PeeUU' :
-    'https://buy.stripe.com/cN2cPC6ek7RCbjGdQU';
+  process.env.NODE_ENV === 'development'
+    ? 'https://buy.stripe.com/test_fZebM83k00Rj6PeeUU'
+    : 'https://buy.stripe.com/cN2cPC6ek7RCbjGdQU';
 
 export const getLifetimeLink = () =>
-  process.env.NODE_ENV === 'development' ?
-    'https://buy.stripe.com/test_14kbM82fW43v6PeeUV' :
-    'https://buy.stripe.com/28obLyeKQ3BmcnK8wB';
+  'mailto:support@2anki.net?subject=Lifetime%20Access%20for%202anki.net&body=Hello,%20I%20would%20like%20to%20purchase%20a%20lifetime%20access%20for%202anki.net.';
