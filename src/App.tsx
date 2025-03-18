@@ -41,8 +41,8 @@ function AppContent({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setErrorMessage: (error: unknown) => void;
 }>) {
-  const { data } = useUserLocals();
-  const isLoggedIn = !!data?.user?.id;
+  const { data, isLoading } = useUserLocals();
+  const isLoggedIn = !isLoading && !!data?.user?.id;
   return (
     <BrowserRouter>
       <PageLayout error={error} isLoggedIn={isLoggedIn}>

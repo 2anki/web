@@ -16,7 +16,7 @@ export default function useNotionData(backend: Backend): NotionData {
     localStorage.getItem('__workspace')
   );
 
-  const [loading, setIsLoading] = useState(false);
+  const [loading, setIsLoading] = useState(true);
 
   useEffect(() => {
     backend
