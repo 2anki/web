@@ -12,13 +12,12 @@ export interface NotionData {
 }
 
 export default function useNotionData(backend: Backend): NotionData {
-  const [connectionLink, updateConnectionLink] = useState('');
-  const [connected, updateConnected] = useState(false);
-  const [workSpace, setWorkSpace] = useState<string | null>(
-    localStorage.getItem('__workspace')
-  );
-  const [error, setError] = useState<Error>();
-  const [loading, setIsLoading] = useState(true);
+  const [state, setState] = useState<NotionData>({
+    loading: true,
+    workSpace: localStorage.getItem('__workspace'),
+    connected: false,
+    connectionLink: '',
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,41 +27,32 @@ export default function useNotionData(backend: Backend): NotionData {
         const data = await backend.getNotionConnectionInfo();
         console.log('[useNotionData] Received data:', data);
 
-        if (data && !data.isConnected) {
-          console.log('[useNotionData] Not connected, updating link');
-          updateConnectionLink(data.link);
-          updateConnected(data.isConnected);
-        } else {
-          console.log('[useNotionData] Connected, updating state');
-          updateConnectionLink(data.link);
-          updateConnected(true);
-        }
-        console.log('[useNotionData] Setting workspace:', data.workspace);
-        setWorkSpace(data.workspace);
+        setState((prev) => ({
+          ...prev,
+          loading: false,
+          connected: data.isConnected ?? true,
+          connectionLink: data.link,
+          workSpace: data.workspace,
+        }));
+
+        console.log('[useNotionData] State updated with:', {
+          connected: data.isConnected ?? true,
+          connectionLink: data.link,
+          workSpace: data.workspace,
+        });
       } catch (err) {
-        console.error('[useNotionData] Error fetching data:', err);
-        setError(err as Error);
-        updateConnected(false);
-      } finally {
-        console.log(
-          '[useNotionData] Finishing fetch, setting loading to false'
-        );
-        setIsLoading(false);
+        console.error('[useNotionData] Error:', err);
+        setState((prev) => ({
+          ...prev,
+          loading: false,
+          connected: false,
+          error: err as Error,
+        }));
       }
     };
 
     fetchData();
-
-    return () => {
-      console.log('[useNotionData] Cleanup');
-    };
   }, []);
 
-  return {
-    loading,
-    workSpace,
-    connected,
-    connectionLink,
-    error,
-  };
+  return state;
 }
