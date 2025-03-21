@@ -260,7 +260,7 @@ export default function AccountPage() {
                   Deleting your account will permanently remove all your data
                   and cannot be undone.
                 </p>
-                <a href="/delete-account" className="button is-danger">
+                <a href="/delete-account" className="button is-danger is-small">
                   Delete Account
                 </a>
               </div>
