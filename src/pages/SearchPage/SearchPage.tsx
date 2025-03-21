@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import SearchContainer from './components/SearchContainer';
 import useNotionData from './helpers/useNotionData';
@@ -13,30 +14,37 @@ interface SearchPageProps {
 
 export function SearchPage({ setError }: SearchPageProps) {
   const notionData = useNotionData(get2ankiApi());
-  const { connected, connectionLink, error } = notionData;
+  console.log('[SearchPage] NotionData:', notionData);
 
   let content;
   if (notionData.loading) {
+    console.log('[SearchPage] Showing loading state');
     content = (
       <div className="has-text-centered">
         <LoadingIndicator />
       </div>
     );
-  } else if (error) {
-    content = <ErrorPresenter error={error} />;
-  } else if (!connected) {
+  } else if (notionData.error) {
+    console.log('[SearchPage] Showing error state');
+    content = <ErrorPresenter error={notionData.error} />;
+  } else if (!notionData.connected) {
+    console.log('[SearchPage] Showing not connected state');
     content = (
       <>
         <h1 className="title is-2 has-text-centered">
           Connect to Notion or Upload Manually
         </h1>
-        <ConnectNotion ready={!connected} connectionLink={connectionLink} />
+        <ConnectNotion
+          ready={!notionData.connected}
+          connectionLink={notionData.connectionLink}
+        />
       </>
     );
   } else {
+    console.log('[SearchPage] Showing search container');
     content = (
       <SearchContainer
-        ready={connected}
+        ready={notionData.connected}
         notionData={notionData}
         backend={get2ankiApi()}
         setError={setError}
