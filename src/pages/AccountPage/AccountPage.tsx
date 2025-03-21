@@ -73,6 +73,7 @@ export default function AccountPage() {
                   `https://www.gravatar.com/avatar/${user.email}?s=128&d=mp`
                 }
                 alt="User avatar"
+                data-hj-suppress
               />
             </figure>
           </div>
@@ -80,8 +81,12 @@ export default function AccountPage() {
             <div className="level is-mobile">
               <div className="level-left">
                 <div>
-                  <h1 className="title mb-2">{user.name}</h1>
-                  <p className="subtitle is-6 mb-2">{user.email}</p>
+                  <h1 className="title mb-2" data-hj-suppress>
+                    {user.name}
+                  </h1>
+                  <p className="subtitle is-6 mb-2" data-hj-suppress>
+                    {user.email}
+                  </p>
                   <div className="tags">
                     <span className="tag is-primary is-medium">
                       {subscriptionStatus}
