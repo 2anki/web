@@ -1,7 +1,6 @@
 import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
 import { PageContainer } from '../../../components/styled';
 import Backend from '../../../lib/backend';
-import LoadingIndicator from '../../../components/Loading';
 
 import { NotionData } from '../helpers/useNotionData';
 import useSearchQuery from '../helpers/useSearchQuery';
@@ -22,15 +21,13 @@ export default function SearchContainer({
   const { myPages, inProgress, triggerSearch, isLoading, setSearchQuery } =
     useSearchQuery(backend, setError);
 
-  if (isLoading) return <LoadingIndicator />;
-
   return (
     <PageContainer>
       <WorkSpaceHeader notionData={notionData} />
       <SearchPresenter
         setError={setError}
         myPages={myPages}
-        inProgress={inProgress}
+        inProgress={isLoading || inProgress}
         setSearchQuery={setSearchQuery}
         triggerSearch={triggerSearch}
       />
