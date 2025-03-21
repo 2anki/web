@@ -5,6 +5,7 @@ import ConnectNotion from './components/ConnectNotion';
 import LoadingIndicator from '../../components/Loading';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
 import { get2ankiApi } from '../../lib/backend/get2ankiApi';
+import { ErrorPresenter } from '../../components/errors/ErrorPresenter';
 
 interface SearchPageProps {
   setError: ErrorHandlerType;
@@ -12,7 +13,7 @@ interface SearchPageProps {
 
 export function SearchPage({ setError }: SearchPageProps) {
   const notionData = useNotionData(get2ankiApi());
-  const { connected, connectionLink } = notionData;
+  const { connected, connectionLink, error } = notionData;
 
   let content;
   if (notionData.loading) {
@@ -21,6 +22,8 @@ export function SearchPage({ setError }: SearchPageProps) {
         <LoadingIndicator />
       </div>
     );
+  } else if (error) {
+    content = <ErrorPresenter error={error} />;
   } else if (!connected) {
     content = (
       <>
