@@ -8,19 +8,21 @@ import useSearchQuery from '../helpers/useSearchQuery';
 import SearchPresenter from './SearchPresenter';
 import WorkSpaceHeader from './WorkspaceHeader';
 
-interface SearchContentProps {
-  ready: boolean;
-  backend: Backend;
+interface SearchContainerProps {
   notionData: NotionData;
+  backend: Backend;
   setError: ErrorHandlerType;
 }
 
-export default function SearchContainer(props: SearchContentProps) {
-  const { backend, notionData, setError, ready } = props;
+export default function SearchContainer({
+  notionData,
+  backend,
+  setError,
+}: SearchContainerProps) {
   const { myPages, inProgress, triggerSearch, isLoading, setSearchQuery } =
     useSearchQuery(backend, setError);
 
-  if (isLoading || !ready) return <LoadingIndicator />;
+  if (isLoading) return <LoadingIndicator />;
 
   return (
     <PageContainer>
