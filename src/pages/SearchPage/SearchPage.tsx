@@ -14,21 +14,17 @@ interface SearchPageProps {
 
 export function SearchPage({ setError }: SearchPageProps) {
   const notionData = useNotionData(get2ankiApi());
-  console.log('[SearchPage] NotionData:', notionData);
 
   let content;
   if (notionData.loading) {
-    console.log('[SearchPage] Showing loading state');
     content = (
       <div className="has-text-centered">
         <LoadingIndicator />
       </div>
     );
   } else if (notionData.error) {
-    console.log('[SearchPage] Showing error state');
     content = <ErrorPresenter error={notionData.error} />;
   } else if (!notionData.connected) {
-    console.log('[SearchPage] Showing not connected state');
     content = (
       <>
         <h1 className="title is-2 has-text-centered">
@@ -41,10 +37,8 @@ export function SearchPage({ setError }: SearchPageProps) {
       </>
     );
   } else {
-    console.log('[SearchPage] Showing search container');
     content = (
       <SearchContainer
-        ready={notionData.connected}
         notionData={notionData}
         backend={get2ankiApi()}
         setError={setError}

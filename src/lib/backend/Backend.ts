@@ -40,15 +40,7 @@ export class Backend {
   }
 
   async getNotionConnectionInfo(): Promise<ConnectionInfo> {
-    console.log('[Backend] Fetching notion connection info');
-    try {
-      const response = await get(`${this.baseURL}notion/get-notion-link`);
-      console.log('[Backend] Notion connection response:', response);
-      return response;
-    } catch (err) {
-      console.error('[Backend] Error fetching notion connection:', err);
-      throw err;
-    }
+    return get(`${this.baseURL}notion/get-notion-link`);
   }
 
   saveSettings(settings: Settings) {
