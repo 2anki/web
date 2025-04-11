@@ -6,17 +6,21 @@ import getHeadersFilename from '../../helpers/getHeadersFilename';
 import DownloadButton from '../DownloadButton';
 import DropParagraph from '../DropParagraph';
 import { useDrag } from './hooks/useDrag';
+import SubscriptionModal from '../../../../components/modals/SubscriptionModal';
 
 interface UploadFormProps {
   setErrorMessage: ErrorHandlerType;
+  isLoggedIn: boolean;
 }
 
-function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
+function UploadForm({ setErrorMessage, isLoggedIn }: Readonly<UploadFormProps>) {
   const [uploading, setUploading] = useState(false);
   const [downloadLink, setDownloadLink] = useState<null | string>('');
   const [deckName, setDeckName] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const convertRef = useRef<HTMLButtonElement>(null);
+  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+  const [limitInfo, setLimitInfo] = useState<{ type: 'cards' | 'size', current: number, limit: number }>({ type: 'cards', current: 0, limit: 100 });
   const { dropHover } = useDrag({
     onDrop: (event) => {
       const { dataTransfer } = event;
@@ -34,6 +38,30 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
     event.preventDefault();
     setUploading(true);
     try {
+      // Check file size limits for free tier
+      const fileInput = fileInputRef.current;
+      if (fileInput && fileInput.files && fileInput.files.length > 0) {
+        const totalSize = Array.from(fileInput.files).reduce((sum, file) => sum + file.size, 0);
+        const FREE_SIZE_LIMIT = 100 * 1024 * 1024; // 100MB
+        
+        // Estimate number of cards based on file size (rough estimate)
+        // Assuming average of 1KB per card
+        const estimatedCards = Math.round(totalSize / 1024);
+        const FREE_CARD_LIMIT = 100; // 100 cards
+        
+        // Check if user exceeds free limits and is not logged in or not a subscriber
+        if (!isLoggedIn && (estimatedCards > FREE_CARD_LIMIT || totalSize > FREE_SIZE_LIMIT)) {
+          if (estimatedCards > FREE_CARD_LIMIT) {
+            setLimitInfo({ type: 'cards', current: estimatedCards, limit: FREE_CARD_LIMIT });
+          } else {
+            setLimitInfo({ type: 'size', current: totalSize, limit: FREE_SIZE_LIMIT });
+          }
+          setShowSubscriptionModal(true);
+          setUploading(false);
+          return false;
+        }
+      }
+      
       const storedFields = Object.entries(window.localStorage);
       const element = event.currentTarget as HTMLFormElement;
       const formData = new FormData(element);
@@ -80,13 +108,22 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
   };
 
   return (
-    <form
-      encType="multipart/form-data"
-      method="post"
-      onSubmit={(event) => {
-        handleSubmit(event);
-      }}
-    >
+    <>
+      <SubscriptionModal
+        isActive={showSubscriptionModal}
+        onClickClose={() => setShowSubscriptionModal(false)}
+        isLoggedIn={isLoggedIn}
+        limitType={limitInfo.type}
+        currentValue={limitInfo.current}
+        limitValue={limitInfo.limit}
+      />
+      <form
+        encType="multipart/form-data"
+        method="post"
+        onSubmit={(event) => {
+          handleSubmit(event);
+        }}
+      >
       <div className="container">
         <div>
           <div className="field">
@@ -124,6 +161,7 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
         </div>
       </div>
     </form>
+    </>
   );
 }
 

@@ -22,7 +22,7 @@ export function HomePage({
     <HomeContainer>
       <HeroSection />
       <FormSection>
-        <UploadForm setErrorMessage={setErrorMessage} />
+        <UploadForm setErrorMessage={setErrorMessage} isLoggedIn={isLoggedIn} />
       </FormSection>
       <TierSection isLoggedIn={isLoggedIn} />
     </HomeContainer>

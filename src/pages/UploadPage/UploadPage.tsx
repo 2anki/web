@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import useQuery from '../../lib/hooks/useQuery';
+import { useUserLocals } from '../../lib/hooks/useUserLocals';
 import WarningMessage from '../../components/WarningMessage';
 import UploadForm from './components/UploadForm/UploadForm';
 import SettingsIcon from '../../components/icons/SettingsIcon';
@@ -26,6 +27,8 @@ export function UploadPage({ setErrorMessage }: Props) {
   const isDevelopment = !window.location.host.match(/2anki.(com|net|de)/);
   const query = useQuery();
   const view = query.get('view');
+  const { data, isLoading } = useUserLocals();
+  const isLoggedIn = !isLoading && !!data?.user?.id;
 
   const [showCardOptionsModal, setShowCardOptionsModal] = useState(
     view === 'template' || view === 'deck-options' || view === 'card-options'
@@ -54,7 +57,7 @@ export function UploadPage({ setErrorMessage }: Props) {
             </CardOptionsLink>
           </FlexColumn>
           <div className="container">
-            <UploadForm setErrorMessage={setErrorMessage} />
+            <UploadForm setErrorMessage={setErrorMessage} isLoggedIn={isLoggedIn} />
             <p>The following files are supported: {readableSupportedFiles}</p>
 
             <InfoMessage>
