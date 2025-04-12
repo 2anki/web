@@ -40,7 +40,7 @@ function UploadForm({ setErrorMessage, isLoggedIn }: Readonly<UploadFormProps>) 
     try {
       // Check file size limits for free tier
       const fileInput = fileInputRef.current;
-      if (fileInput && fileInput.files && fileInput.files.length > 0) {
+      if (fileInput?.files && fileInput.files.length > 0) {
         const totalSize = Array.from(fileInput.files).reduce((sum, file) => sum + file.size, 0);
         const FREE_SIZE_LIMIT = 100 * 1024 * 1024; // 100MB
         
