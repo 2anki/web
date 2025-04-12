@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { Card, ProcessingState } from '../types';
 
 export const useKiFlashcards = () => {
@@ -10,23 +10,55 @@ export const useKiFlashcards = () => {
   });
   const [error, setError] = useState<string | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
+  // Create a ref to track cards during processing
+  const cardsRef = useRef<Card[]>([]);
 
   // Parse card from event data
   const parseCard = useCallback((data: string) => {
     try {
-      return JSON.parse(data);
+      // Try to clean up the data if it's not valid JSON
+      const cleanData = data.trim();
+      
+      // Try to parse the JSON
+      const parsed = JSON.parse(cleanData);
+      
+      // Validate that it has the required fields
+      if (!parsed.front && !parsed.back && !parsed.deck) {
+        // Card is missing required fields
+      }
+      
+      return parsed;
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error('Failed to parse card data:', err);
+      // Try to handle partial JSON or malformed data
+      try {
+        // Sometimes the server might send malformed JSON with extra characters
+        const fixedData = data.replace(/[\r\n]+/g, '').trim();
+        const match = fixedData.match(/\{.*\}/);
+        if (match) {
+          return JSON.parse(match[0]);
+        }
+      } catch (fixErr) {
+        // Ignore error parsing fixed JSON
+      }
+      
       return null;
     }
   }, []);
 
   // Handle card event
-  const handleCardEvent = useCallback((data: string) => {
+  const handleCardEvent = useCallback((data: string, cardCollection: React.MutableRefObject<Card[]>) => {
     const card = parseCard(data);
     if (card) {
-      setCards(prevCards => [...prevCards, card]);
+      
+      // Update the ref first to keep track of all cards during processing
+      const updatedCards = [...cardCollection.current, card];
+      // eslint-disable-next-line no-param-reassign
+      cardCollection.current = updatedCards;
+
+      
+      // Then update the state to trigger UI updates
+      setCards(updatedCards);
+      
       return true;
     }
     return false;
@@ -45,8 +77,7 @@ export const useKiFlashcards = () => {
       }
       return true;
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error('Failed to parse status data:', err);
+
       return false;
     }
   }, []);
@@ -54,6 +85,7 @@ export const useKiFlashcards = () => {
   // Generate flashcards from text or files
   const generateFlashcards = useCallback(async (text: string, formData?: FormData) => {
     // Clear previous results
+    cardsRef.current = [];
     setCards([]);
     setError(null);
     setIsProcessing(true);
@@ -63,6 +95,8 @@ export const useKiFlashcards = () => {
       text: text || undefined,
       files: formData ? Array.from(formData.getAll('files') as File[]) : undefined
     });
+    
+
 
     // Cancel any ongoing requests
     if (abortControllerRef.current) {
@@ -109,26 +143,56 @@ export const useKiFlashcards = () => {
         message: 'Initializing AI session...'
       }));
 
+      // Prepare request data
+      let requestBody;
+      let headers = {};
+
+      // If we have files, use FormData to send multipart/form-data
+      if (formData) {
+        // Add text to the existing FormData
+        formData.append('text', text);
+        requestBody = formData;
+        // Don't set Content-Type header for multipart/form-data
+        // The browser will set it automatically with the boundary
+      } else {
+        // If we only have text, use JSON
+        requestBody = JSON.stringify({ text });
+        headers = {
+          'Content-Type': 'application/json'
+        };
+      }
+
       // Use the existing API utility for consistent redirect handling
       const response = await fetch('/ki/generate', {
         method: 'POST',
         credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          text,
-          files: formData ? Array.from(formData.getAll('files') as File[]).map(f => f.name) : []
-        }),
+        headers,
+        body: requestBody,
         signal
       });
       
+
+      
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        // Try to get more detailed error information
+        try {
+          const errorText = await response.text();
+          throw new Error(`HTTP error! status: ${response.status}, message: ${errorText || response.statusText}`);
+        } catch (textError) {
+          // If we can't get the response text, fall back to basic error
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
       }
 
+      // Check if we have a response body
+      if (!response.body) {
+        throw new Error('Response has no body');
+      }
+      
+
+      
       // Process the stream
-      const reader = response.body?.getReader();
+      const reader = response.body.getReader();
       if (!reader) {
         throw new Error('Response body is not readable');
       }
@@ -153,10 +217,15 @@ export const useKiFlashcards = () => {
           const eventType = lines.find(line => line.startsWith('event:'))?.replace('event:', '').trim();
           const data = lines.find(line => line.startsWith('data:'))?.replace('data:', '').trim();
 
-          if (!eventType || !data) return;
+          if (!eventType || !data) {
+            return;
+          }
 
+
+          
           if (eventType === 'card') {
-            handleCardEvent(data);
+            handleCardEvent(data, cardsRef);
+            // Process card event result
           } else if (eventType === 'status') {
             handleStatusEvent(data);
           } else if (eventType === 'progress') {
@@ -168,8 +237,7 @@ export const useKiFlashcards = () => {
                 message: progress.message || prev.message
               }));
             } catch (err) {
-              // eslint-disable-next-line no-console
-              console.error('Failed to parse progress data:', err);
+              // Ignore progress parsing errors
             }
           }
         });
@@ -187,6 +255,9 @@ export const useKiFlashcards = () => {
       };
       
       await processAllChunks();
+      
+
+      
       setProcessingState(prev => ({
         ...prev,
         message: 'Processing complete!',
@@ -202,14 +273,21 @@ export const useKiFlashcards = () => {
         // eslint-disable-next-line no-promise-executor-return
         return () => clearTimeout(timeoutId);
       });
+      
+      // Final update with all collected cards
+
+      
+      // Set the final cards state
+      setCards([...cardsRef.current]);
+      
+      // Final check of cards before setting isProcessing to false
+      // Final check complete
+      
       setIsProcessing(false);
     } catch (err) {
       if ((err as Error).name === 'AbortError') {
-        // eslint-disable-next-line no-console
-        console.log('Request was cancelled');
+        // Request was cancelled by user
       } else {
-        // eslint-disable-next-line no-console
-        console.error('Error generating flashcards:', err);
         setError((err as Error).message);
         setIsProcessing(false);
       }

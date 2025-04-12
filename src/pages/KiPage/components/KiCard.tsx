@@ -106,18 +106,12 @@ const DebugInfo = styled.pre`
   line-height: 1.5;
 `;
 
-export function KiCard({ card, isDebugMode }: KiCardProps): React.ReactElement {
+export function KiCard({ card, isDebugMode }: KiCardProps): React.ReactElement | null {
   const [isFlipped, setIsFlipped] = useState(false);
 
   // If this is a deck name card (no front/back) or an empty card
   if ((card.deck && !card.front && !card.back) || (!card.front && !card.back)) {
-    return (
-      <CardContainer>
-        <CardHeader>
-          <span>Deck: {card.deck}</span>
-        </CardHeader>
-      </CardContainer>
-    );
+    return null;
   }
 
   return (
