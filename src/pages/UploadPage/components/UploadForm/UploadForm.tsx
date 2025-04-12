@@ -34,73 +34,102 @@ function UploadForm({ setErrorMessage, isLoggedIn }: Readonly<UploadFormProps>) 
     }
   });
 
+  // Check if upload exceeds free tier limits
+  const checkFreeTierLimits = (fileInput: HTMLInputElement | null): boolean => {
+    if (!fileInput?.files || fileInput.files.length === 0) return false;
+    
+    const FREE_SIZE_LIMIT = 100 * 1024 * 1024; // 100MB
+    const FREE_CARD_LIMIT = 100; // 100 cards
+    
+    const totalSize = Array.from(fileInput.files).reduce(
+      (sum, file) => sum + file.size, 0
+    );
+    
+    // Estimate number of cards based on file size (rough estimate - 1KB per card)
+    const estimatedCards = Math.round(totalSize / 1024);
+    
+    // Only show limits for non-logged in users
+    if (!isLoggedIn && (estimatedCards > FREE_CARD_LIMIT || totalSize > FREE_SIZE_LIMIT)) {
+      // Set the appropriate limit info based on which limit was exceeded
+      if (estimatedCards > FREE_CARD_LIMIT) {
+        setLimitInfo({ type: 'cards', current: estimatedCards, limit: FREE_CARD_LIMIT });
+      } else {
+        setLimitInfo({ type: 'size', current: totalSize, limit: FREE_SIZE_LIMIT });
+      }
+      return true;
+    }
+    
+    return false;
+  };
+  
+  // Process the server response
+  const processResponse = async (request: Response): Promise<boolean> => {
+    const contentType = request.headers.get('Content-Type');
+    
+    // Handle redirects
+    if (request.redirected) {
+      return handleRedirect(request);
+    }
+    
+    // Handle errors
+    if (request.status !== 200) {
+      const text = await request.text();
+      setDownloadLink(null);
+      setErrorMessage(text);
+      return false;
+    }
+    
+    // Set the deck name
+    const fileNameHeader = getHeadersFilename(request.headers);
+    if (fileNameHeader) {
+      setDeckName(fileNameHeader);
+    } else {
+      const fallback = contentType === 'application/zip' 
+        ? 'Your Decks.zip' 
+        : 'Your deck.apkg';
+      setDeckName(fallback);
+    }
+    
+    // Create download link
+    const blob = await request.blob();
+    setDownloadLink(window.URL.createObjectURL(blob));
+    return true;
+  };
+
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
     setUploading(true);
+    
     try {
-      // Check file size limits for free tier
+      // Check free tier limits
       const fileInput = fileInputRef.current;
-      if (fileInput?.files && fileInput.files.length > 0) {
-        const totalSize = Array.from(fileInput.files).reduce((sum, file) => sum + file.size, 0);
-        const FREE_SIZE_LIMIT = 100 * 1024 * 1024; // 100MB
-        
-        // Estimate number of cards based on file size (rough estimate)
-        // Assuming average of 1KB per card
-        const estimatedCards = Math.round(totalSize / 1024);
-        const FREE_CARD_LIMIT = 100; // 100 cards
-        
-        // Check if user exceeds free limits and is not logged in or not a subscriber
-        if (!isLoggedIn && (estimatedCards > FREE_CARD_LIMIT || totalSize > FREE_SIZE_LIMIT)) {
-          if (estimatedCards > FREE_CARD_LIMIT) {
-            setLimitInfo({ type: 'cards', current: estimatedCards, limit: FREE_CARD_LIMIT });
-          } else {
-            setLimitInfo({ type: 'size', current: totalSize, limit: FREE_SIZE_LIMIT });
-          }
-          setShowSubscriptionModal(true);
-          setUploading(false);
-          return false;
-        }
+      if (checkFreeTierLimits(fileInput)) {
+        setShowSubscriptionModal(true);
+        setUploading(false);
+        return false;
       }
       
+      // Prepare and send form data
       const storedFields = Object.entries(window.localStorage);
       const element = event.currentTarget as HTMLFormElement;
       const formData = new FormData(element);
       storedFields.forEach((sf) => formData.append(sf[0], sf[1]));
+      
       const request = await window.fetch('/api/upload/file', {
         method: 'post',
         body: formData
       });
-      const contentType = request.headers.get('Content-Type');
-      const notOK = request.status !== 200;
-      if (request.redirected) {
-        return handleRedirect(request);
-      }
-
-      if (notOK) {
-        const text = await request.text();
-        setDownloadLink(null);
-        return setErrorMessage(text);
-      }
-      const fileNameHeader = getHeadersFilename(request.headers);
-      if (fileNameHeader) {
-        setDeckName(fileNameHeader);
-      } else {
-        const fallback =
-          contentType === 'application/zip'
-            ? 'Your Decks.zip'
-            : 'Your deck.apkg';
-        setDeckName(fallback);
-      }
-      const blob = await request.blob();
-      setDownloadLink(window.URL.createObjectURL(blob));
+      
+      // Process the response
+      const success = await processResponse(request);
       setUploading(false);
+      return success;
     } catch (error) {
       setDownloadLink(null);
       setErrorMessage(error as Error);
       setUploading(false);
       return false;
     }
-    return true;
   };
 
   const fileSelected = () => {
