@@ -30,6 +30,7 @@ const AccountPage = lazy(() => import('./pages/AccountPage/AccountPage'));
 const SuccessfulCheckoutPage = lazy(
   () => import('./pages/SuccessfulCheckout/SuccessfulCheckout')
 );
+const KiPage = lazy(() => import('./pages/KiPage'));
 
 const queryClient = new QueryClient();
 
@@ -86,6 +87,7 @@ function AppContent({
             path="/pricing"
             element={<PricingPage isLoggedIn={isLoggedIn} />}
           />
+          <Route path="/ki" element={<KiPage />} />
           <Route
             path="/"
             element={
