@@ -9,7 +9,7 @@ import { KiProcessingState } from './components/KiProcessingState';
 import { KiToast } from './components/KiToast';
 import { useKiSession } from './hooks/useKiSession';
 import { useKiFlashcards } from './hooks/useKiFlashcards';
-import { Card } from './types';
+import { Card, UploadedFile } from './types';
 import KiStyles from './KiStyles';
 
 const Container = styled.div`
@@ -67,8 +67,18 @@ function KiPage(): React.ReactElement {
   } = useKiSession();
   
   // Determine which cards to display - either from the current session or from generated cards
-  // Use a more reliable way to determine the source of cards for better state management
-  const cards = currentSession?.id ? (currentSession.cards || []) : generatedCards;
+  // If we're processing or have generated cards, always show those first
+  const cards = isProcessing || generatedCards.length > 0 ? generatedCards : (currentSession?.cards || []);
+  
+  // Add debugging to track card state
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log('Current display cards:', cards.length, 'Generated cards:', generatedCards.length);
+    if (cards.length > 0) {
+      // eslint-disable-next-line no-console
+      console.log('First card:', cards[0]);
+    }
+  }, [cards, generatedCards]);
 
   const cardsContainerRef = useRef<HTMLDivElement>(null);
   // Virtual scroller is disabled due to type issues
@@ -253,6 +263,25 @@ function KiPage(): React.ReactElement {
                 state={processingState} 
                 onCancel={cancelProcessing} 
               />
+            )}
+            
+            {!isProcessing && cards.length === 0 && currentSession?.uploadedFiles && currentSession.uploadedFiles.length > 0 && (
+              <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-color-secondary)' }}>
+                <h3>No flashcards were generated</h3>
+                <p>The file was processed but no flashcards could be created. Try with different content or use the text input.</p>
+                {currentSession.uploadedFiles.map((file: UploadedFile) => (
+                  <div key={`file-${file.path}`} style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
+                    <span>Uploaded file: {file.name}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {!isProcessing && cards.length === 0 && (!currentSession?.uploadedFiles || currentSession.uploadedFiles.length === 0) && (
+              <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-color-secondary)' }}>
+                <h3>No content to display</h3>
+                <p>Enter some text or upload a file to generate flashcards.</p>
+              </div>
             )}
             
             {cards.map((card: Card, index: number) => (

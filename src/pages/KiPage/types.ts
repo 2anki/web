@@ -53,12 +53,19 @@ export interface ProcessingState {
   timer?: number;
 }
 
+export interface UploadedFile {
+  id: string;
+  name: string;
+  path: string;
+}
+
 export interface Session {
   id: string;
   name?: string;
   createdAt: string;
   cards: Card[];
   text?: string;
+  uploadedFiles?: UploadedFile[];
 }
 
 export interface SessionHistory {
