@@ -31,7 +31,8 @@ function SubscriptionModal({
 
   return (
     <div className={`modal ${isActive ? 'is-active' : ''}`}>
-      <div 
+      <button 
+        type="button"
         className="modal-background" 
         onClick={onClickClose} 
         onKeyDown={(event) => {
@@ -39,8 +40,6 @@ function SubscriptionModal({
             onClickClose();
           }
         }}
-        role="button"
-        tabIndex={0}
         aria-label="Close modal"
       />
       <div className="modal-card">
