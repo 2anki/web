@@ -87,32 +87,9 @@ export const useKiSession = () => {
         console.warn('Session history endpoint not available:', e);
       }
       
-      // If we get here, the endpoint failed, so we'll use mock data
-      const mockData: SessionHistory = {
-        sessions: [
-          {
-            id: '1',
-            name: 'Biology Flashcards',
-            createdAt: new Date().toISOString(),
-            cards: []
-          },
-          {
-            id: '2',
-            name: 'Chemistry Notes',
-            createdAt: new Date(Date.now() - 86400000).toISOString(), // Yesterday
-            cards: []
-          },
-          {
-            id: '3',
-            name: 'Physics Concepts',
-            createdAt: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
-            cards: []
-          },
-        ],
-        currentSessionId: '',
-      };
-      
-      setSessionHistory(mockData);
+      // If we get here, the endpoint failed, so we'll show unavailable or empty state
+      setSessionHistory(null); // or set to { sessions: [], currentSessionId: '' } for empty
+      setCurrentSession(null);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Error loading session history:', error);
