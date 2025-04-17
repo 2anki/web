@@ -152,12 +152,6 @@ const SessionName = styled.div`
   font-size: 15px;
 `;
 
-const SessionActions = styled.div`
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-`;
-
 const ActionButton = styled.button`
   background: none;
   border: none;
