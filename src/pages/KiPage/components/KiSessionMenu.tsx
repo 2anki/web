@@ -105,9 +105,11 @@ const SessionItem = styled.div<{ $isActive: boolean }>`
   background: ${props => props.$isActive ? 'var(--primary-light)' : 'transparent'};
   color: ${props => props.$isActive ? 'white' : 'var(--text-primary)'};
   cursor: pointer;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
   transition: all var(--transition-normal);
   border: 1px solid ${props => props.$isActive ? 'var(--primary-light)' : 'transparent'};
   box-shadow: ${props => props.$isActive ? '0 2px 8px rgba(66, 99, 235, 0.1)' : 'none'};
@@ -141,18 +143,19 @@ const SessionIcon = styled.div`
 `;
 
 const SessionName = styled.div`
-  flex: 1;
+  min-width: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: var(--font-weight-medium);
   letter-spacing: -0.01em;
   font-size: 15px;
-  padding-right: 12px;
 `;
 
 const SessionActions = styled.div`
   display: flex;
+  flex-shrink: 0;
+  align-items: center;
 `;
 
 const ActionButton = styled.button`
@@ -160,8 +163,8 @@ const ActionButton = styled.button`
   border: none;
   color: inherit;
   cursor: pointer;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   font-size: 14px;
   opacity: 0.7;
   transition: all var(--transition-normal);
@@ -169,6 +172,8 @@ const ActionButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+  z-index: 2;
   
   &:hover {
     opacity: 1;
@@ -280,24 +285,18 @@ export function KiSessionMenu({
       <SessionList>
         {/* Current session */}
         {currentSession && (
-          <SessionItem 
-            $isActive
-          >
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <SessionIcon>📝</SessionIcon>
-              <SessionName>
-                {currentSession.name || 'Current Session'}
-              </SessionName>
-            </div>
-            <SessionActions>
-              <ActionButton 
-                onClick={handleDeleteClick}
-                title={confirmDelete ? 'Confirm delete' : 'Delete session'}
-                aria-label={confirmDelete ? 'Confirm delete' : 'Delete session'}
-              >
-                {confirmDelete ? '✓' : '❌'}
-              </ActionButton>
-            </SessionActions>
+          <SessionItem $isActive>
+            <SessionIcon>📝</SessionIcon>
+            <SessionName title={currentSession.name || 'Current Session'}>
+              {currentSession.name || 'Current Session'}
+            </SessionName>
+            <ActionButton 
+              onClick={handleDeleteClick}
+              title={confirmDelete ? 'Confirm delete' : 'Delete session'}
+              aria-label={confirmDelete ? 'Confirm delete' : 'Delete session'}
+            >
+              {confirmDelete ? '✓' : '❌'}
+            </ActionButton>
           </SessionItem>
         )}
         
@@ -309,12 +308,10 @@ export function KiSessionMenu({
               $isActive={false}
               onClick={() => handleSessionClick(session.id)}
             >
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <SessionIcon>📝</SessionIcon>
-                <SessionName>
-                  {session.name || `Session ${new Date(session.createdAt).toLocaleString()}`}
-                </SessionName>
-              </div>
+              <SessionIcon>📝</SessionIcon>
+              <SessionName title={session.name || `Session ${new Date(session.createdAt).toLocaleString()}`}>
+                {session.name || `Session ${new Date(session.createdAt).toLocaleString()}`}
+              </SessionName>
             </SessionItem>
           )
         ))}
@@ -324,7 +321,7 @@ export function KiSessionMenu({
             $isActive={false}
           >
             <SessionIcon>ℹ️</SessionIcon>
-            <SessionName>
+            <SessionName title="No saved sessions">
               No saved sessions
             </SessionName>
           </SessionItem>
