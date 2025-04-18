@@ -30,14 +30,13 @@ const AccountPage = lazy(() => import('./pages/AccountPage/AccountPage'));
 const SuccessfulCheckoutPage = lazy(
   () => import('./pages/SuccessfulCheckout/SuccessfulCheckout')
 );
-const KiPage = lazy(() => import('./pages/KiPage'));
 
 const queryClient = new QueryClient();
 
 function AppContent({
-  error,
-  setErrorMessage,
-}: Readonly<{
+                      error,
+                      setErrorMessage
+                    }: Readonly<{
   error: Error | null;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setErrorMessage: (error: unknown) => void;
@@ -87,7 +86,6 @@ function AppContent({
             path="/pricing"
             element={<PricingPage isLoggedIn={isLoggedIn} />}
           />
-          <Route path="/ki" element={<KiPage />} />
           <Route
             path="/"
             element={
