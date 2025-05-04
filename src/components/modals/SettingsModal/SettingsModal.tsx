@@ -28,13 +28,13 @@ interface Props {
   setError: ErrorHandlerType;
 }
 
-function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: Props) {
+function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: Readonly<Props>) {
   const { isLoading, isError, options, loadingDefaultsError } = useSettingsCardsOptions(pageId);
   const [settings, setSettings] = useState<SettingsPayload>({});
   const [loading, setLoading] = useState(!!pageId);
   const deckNameKey = 'deckName';
   const [deckName, setDeckName] = useState(
-    getLocalStorageValue(deckNameKey, pageTitle || localStorage.getItem(deckNameKey) || '', settings)
+    getLocalStorageValue(deckNameKey, pageTitle ?? localStorage.getItem(deckNameKey) ?? '', settings)
   );
   const [fontSize, setFontSize] = useState(getLocalStorageValue('font-size', '', settings));
   const [template, setTemplate] = useState(getLocalStorageValue('template', 'specialstyle', settings));
@@ -104,7 +104,7 @@ function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: 
   const onSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     if (!pageId) {
       onClickClose(event);
-      return null;
+      return;
     }
     const payload: { [key: string]: string } = {};
     if (options) {
@@ -128,7 +128,6 @@ function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: 
       .saveSettings(newSettings)
       .then(() => onClickClose(event))
       .catch((error) => setError(error));
-    return null;
   };
 
   return (
@@ -198,7 +197,7 @@ function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: 
                 />
               </div>
 
-              {options && options.map((o) => (
+              {options?.map((o) => (
                 <LocalCheckbox
                   key={o.key}
                   defaultValue={getLocalStorageBooleanValue(o.key, o.value.toString(), settings)}
