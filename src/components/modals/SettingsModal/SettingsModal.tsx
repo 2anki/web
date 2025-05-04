@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { SettingsPayload } from '../../../lib/types';
 
@@ -27,45 +28,35 @@ interface Props {
   setError: ErrorHandlerType;
 }
 
-function SettingsModal({
-  pageTitle,
-  pageId,
-  isActive,
-  onClickClose,
-  setError,
-}: Props) {
-  const { isLoading, isError, options, loadingDefaultsError } =
-    useSettingsCardsOptions(pageId);
+function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: Props) {
+  const { isLoading, isError, options, loadingDefaultsError } = useSettingsCardsOptions(pageId);
   const [settings, setSettings] = useState<SettingsPayload>({});
   const [loading, setLoading] = useState(!!pageId);
   const deckNameKey = 'deckName';
   const [deckName, setDeckName] = useState(
+    getLocalStorageValue(deckNameKey, pageTitle || localStorage.getItem(deckNameKey) || '', settings)
+  );
+  const [fontSize, setFontSize] = useState(getLocalStorageValue('font-size', '', settings));
+  const [template, setTemplate] = useState(getLocalStorageValue('template', 'specialstyle', settings));
+  const [toggleMode, setToggleMode] = useState(getLocalStorageValue('toggle-mode', 'close_toggle', settings));
+  const [pageEmoji, setPageEmoji] = useState(getLocalStorageValue('page-emoji', 'first_emoji', settings));
+  const [basicName, setBasicName] = useState(getLocalStorageValue('basic_model_name', '', settings));
+  const [clozeName, setClozeName] = useState(getLocalStorageValue('cloze_model_name', '', settings));
+  const [inputName, setInputName] = useState(getLocalStorageValue('input_model_name', '', settings));
+  const [userInstructions, setUserInstructions] = useState(
     getLocalStorageValue(
-      deckNameKey,
-      pageTitle || localStorage.getItem(deckNameKey) || '',
+      'user-instructions',
+      `Some extra rules and explanations:
+- Read the document from start to finish and identify any question and answers. 
+- Use the same language as the document or infer the language based on what is mostly used.
+- Use the same text as in the document and do not make up any questions or answers.
+- Cite the document as source for the text.
+- Be complete by finding all of the questions and answer in the document.
+- Do not limit the number of number of questions and answer but create all of them!
+- Do not make up any questions and use the questions in the document!
+- Create a ul for every question pair, not one ul for all of them with li!`,
       settings
     )
-  );
-  const [fontSize, setFontSize] = useState(
-    getLocalStorageValue('font-size', '', settings)
-  );
-  const [template, setTemplate] = useState(
-    getLocalStorageValue('template', 'specialstyle', settings)
-  );
-  const [toggleMode, setToggleMode] = useState(
-    getLocalStorageValue('toggle-mode', 'close_toggle', settings)
-  );
-  const [pageEmoji, setPageEmoji] = useState(
-    getLocalStorageValue('page-emoji', 'first_emoji', settings)
-  );
-  const [basicName, setBasicName] = useState(
-    getLocalStorageValue('basic_model_name', '', settings)
-  );
-  const [clozeName, setClozeName] = useState(
-    getLocalStorageValue('cloze_model_name', '', settings)
-  );
-  const [inputName, setInputName] = useState(
-    getLocalStorageValue('input_model_name', '', settings)
   );
 
   useEffect(() => {
@@ -75,9 +66,7 @@ function SettingsModal({
         .getSettings(pageId)
         .then((payload) => {
           if (payload) {
-            if (payload.deckName) {
-              setDeckName(payload.deckName);
-            }
+            if (payload.deckName) setDeckName(payload.deckName);
             setToggleMode(payload['toggle-mode']);
             setPageEmoji(payload['page-emoji']);
             setTemplate(payload.template);
@@ -92,9 +81,7 @@ function SettingsModal({
     }
   }, [pageId]);
 
-  if (isError) {
-    setError(loadingDefaultsError);
-  }
+  if (isError) setError(loadingDefaultsError);
 
   const resetStore = async () => {
     if (pageId) {
@@ -103,9 +90,7 @@ function SettingsModal({
     } else {
       setDeckName('');
     }
-    if (options) {
-      clearStoredCardOptions(options);
-    }
+    if (options) clearStoredCardOptions(options);
     setFontSize('20');
     setToggleMode('close_toggle');
     setTemplate('specialstyle');
@@ -116,17 +101,15 @@ function SettingsModal({
     onClickClose();
   };
 
-  const onSubmit = async (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const onSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     if (!pageId) {
       onClickClose(event);
-      return;
+      return null;
     }
     const payload: { [key: string]: string } = {};
     if (options) {
       options.forEach((option: CardOption) => {
-        payload[option.key] = option.value.toString(); // use string for backwards compat
+        payload[option.key] = option.value.toString();
       });
     } else {
       sendError(new Error('No options found'));
@@ -143,12 +126,9 @@ function SettingsModal({
     const newSettings = { object_id: pageId, payload };
     await get2ankiApi()
       .saveSettings(newSettings)
-      .then(() => {
-        onClickClose(event);
-      })
-      .catch((error) => {
-        setError(error);
-      });
+      .then(() => onClickClose(event))
+      .catch((error) => setError(error));
+    return null;
   };
 
   return (
@@ -159,118 +139,98 @@ function SettingsModal({
         {!loading && (
           <>
             <div className="modal-card-head">
-              <div className="modal-card-title">
-                {getVisibleText('card.options')}
-              </div>
-              <button
-                type="button"
-                className="delete"
-                aria-label="close"
-                onClick={onClickClose}
-              />
+              <div className="modal-card-title text-xl font-bold">{getVisibleText('card.options')}</div>
+              <button type="button" className="delete" aria-label="close" onClick={onClickClose} />
             </div>
-            <section className="modal-card-body">
-              <div className="container">
-                <div className="field">
-                  <strong>Deck Name</strong>
-                  <p className="is-size-7">
-                    You can use this to change the default name which comes from
-                    the Notion page. If you have an existing deck in Anki you
-                    want to update then you can also set the name here. It works
-                    like Anki so you can create groupings (Parent::Child).
-                    Please don&apos;t change the deck name if you have subpages,
-                    it&apos;s more reliable to leave this empty if you have
-                    subpages.
-                  </p>
-                  <div className="control">
-                    <StyledInput
-                      className="input mb-0 mt-2"
-                      placeholder="Enter deck name (optional)"
-                      value={deckName}
-                      onChange={(
-                        event: React.ChangeEvent<HTMLInputElement>
-                      ) => {
-                        const newName = event.target.value;
-                        if (newName !== deckName) {
-                          setDeckName(newName);
-                        }
-                        saveValueInLocalStorage(deckNameKey, newName, pageId);
+            <section className="modal-card-body space-y-6">
+              <div className="p-4 bg-white rounded shadow">
+                <label htmlFor="deck-name" className="font-semibold">Deck Name</label>
+                <p className="text-sm text-gray-600 mb-2">
+                  You can customize the deck name here. Leave it empty if you use subpages.
+                </p>
+                <StyledInput
+                  id="deck-name"
+                  name="deck-name"
+                  className="input"
+                  placeholder="Enter deck name (optional)"
+                  value={deckName}
+                  onChange={(e) => {
+                    const newName = e.target.value;
+                    if (newName !== deckName) setDeckName(newName);
+                    saveValueInLocalStorage(deckNameKey, newName, pageId);
+                  }}
+                />
+              </div>
+
+              <div className="p-4 bg-white rounded shadow">
+                <label htmlFor="page-emoji" className="font-semibold">Page Icon</label>
+                <p className="text-sm text-gray-600 mb-2">
+                  Control whether to use the Notion page icon and its position.
+                </p>
+                <TemplateSelect
+                  values={[
+                    { label: 'Icon first', value: 'first_emoji' },
+                    { label: 'Icon last', value: 'last_emoji' },
+                    { label: 'Disable icon', value: 'disable_emoji' },
+                  ]}
+                  value={pageEmoji}
+                  name="page-emoji"
+                  pickedTemplate={(t) => {
+                    setPageEmoji(t);
+                    saveValueInLocalStorage('page-emoji', t, pageId);
+                  }}
+                />
+              </div>
+
+              <div className="p-4 bg-white rounded shadow">
+                <label htmlFor="toggle-mode" className="font-semibold">Toggle Mode</label>
+                <TemplateSelect
+                  values={[
+                    { label: 'Open nested toggles', value: 'open_toggle' },
+                    { label: 'Close nested toggles', value: 'close_toggle' },
+                  ]}
+                  value={toggleMode}
+                  name="toggle-mode"
+                  pickedTemplate={(t) => {
+                    setToggleMode(t);
+                    saveValueInLocalStorage('toggle-mode', t, pageId);
+                  }}
+                />
+              </div>
+
+              {options && options.map((o) => (
+                <LocalCheckbox
+                  key={o.key}
+                  defaultValue={getLocalStorageBooleanValue(o.key, o.value.toString(), settings)}
+                  label={o.label}
+                  description={o.description}
+                  onChecked={(checked) => {
+                    saveValueInLocalStorage(o.key, checked.toString(), pageId);
+                  }}
+                />
+              ))}
+
+              <div className="p-4 bg-white rounded shadow w-full">
+                <details className="w-full">
+                  <summary className="font-medium cursor-pointer">User Instructions for PDF conversion</summary>
+                  <div className="w-full">
+                    <textarea
+                      style={{width: '100%', minHeight: '148px'}}
+                      value={userInstructions}
+                      onChange={(e) => {
+                        setUserInstructions(e.target.value);
+                        saveValueInLocalStorage('user-instructions', e.target.value, pageId);
                       }}
+                      rows={4}
+                      className="w-full mt-2 p-2 border rounded resize-none"
+                      placeholder="Instructions for PDF conversion..."
                     />
                   </div>
-                  <div className="control my-4">
-                    <strong>Page icon</strong>
-                    <p className="is-size-7">
-                      By default the icon is the Notion page icon. You can
-                      disable this for example when sorting gets messed up.
-                    </p>
-                    <TemplateSelect
-                      className="mb-4 mt-2"
-                      values={[
-                        { label: 'Icon first', value: 'first_emoji' },
-                        {
-                          label: 'Icon last',
-                          value: 'last_emoji',
-                        },
-                        {
-                          label: 'Disable icon',
-                          value: 'disable_emoji',
-                        },
-                      ]}
-                      value={pageEmoji}
-                      name="page-emoji"
-                      pickedTemplate={(t) => {
-                        setPageEmoji(t);
-                        saveValueInLocalStorage('page-emoji', t, pageId);
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="container">
-                  <strong>Toggle Mode</strong>
-                  <p className="is-size-7">
-                    If you use nested toggles in your flashcards then this
-                    option is useful in the case where you want to collapse them
-                    so you can open them manually when you want in Anki.
-                  </p>
-                  <TemplateSelect
-                    className="mb-4 mt-2"
-                    values={[
-                      { label: 'Open nested toggles', value: 'open_toggle' },
-                      {
-                        label: 'Close nested toggles',
-                        value: 'close_toggle',
-                      },
-                    ]}
-                    value={toggleMode}
-                    name="toggle-mode"
-                    pickedTemplate={(t) => {
-                      setToggleMode(t);
-                      saveValueInLocalStorage('toggle-mode', t, pageId);
-                    }}
-                  />
-                  {options &&
-                    options.map((o: CardOption) => (
-                      <LocalCheckbox
-                        key={o.key}
-                        defaultValue={getLocalStorageBooleanValue(
-                          o.key,
-                          o.value.toString(),
-                          settings
-                        )}
-                        label={o.label}
-                        description={o.description}
-                        onChecked={(checked) => {
-                          saveValueInLocalStorage(
-                            o.key,
-                            checked.toString(),
-                            pageId
-                          );
-                        }}
-                      />
-                    ))}
-                </div>
-                <h2 className="title is-4 mb-0 py-4">Template Options</h2>
+                </details>
+              </div>
+
+              <div className="p-4 bg-white rounded shadow">
+                <h2 className="text-lg font-semibold mb-2">Template Options</h2>
                 <TemplateSelect
                   values={availableTemplates}
                   value={template}
@@ -310,34 +270,20 @@ function SettingsModal({
                     saveValueInLocalStorage('input_model_name', name, pageId);
                   }}
                 />
-
-                <FontSizePicker
-                  fontSize={fontSize}
-                  pickedFontSize={(fs) => {
-                    setFontSize(fs);
-                    saveValueInLocalStorage('font-size', fs.toString(), pageId);
-                  }}
-                />
-
-                <hr />
               </div>
+
+              <FontSizePicker
+                fontSize={fontSize}
+                pickedFontSize={(fs) => {
+                  setFontSize(fs);
+                  saveValueInLocalStorage('font-size', fs.toString(), pageId);
+                }}
+              />
             </section>
-            <div className="modal-card-foot is-justify-content-center">
-              <button
-                type="button"
-                className="button is-link"
-                onClick={onSubmit}
-              >
-                Save
-              </button>
-              <button
-                type="button"
-                className="button"
-                onClick={() => resetStore()}
-              >
-                Delete
-              </button>
-            </div>
+            <footer className="modal-card-foot flex justify-center gap-4">
+              <button type="button" className="button is-link" onClick={onSubmit}>Save</button>
+              <button type="button" className="button" onClick={resetStore}>Delete</button>
+            </footer>
           </>
         )}
       </div>
