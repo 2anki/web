@@ -175,7 +175,7 @@ export default function AccountPage() {
 
                 {locals?.subscriber && (
                   <div className="mt-5">
-                    <h4 className="title is-6">Linked Stripe Email</h4>
+                    <h4 className="title is-6">Linked 2anki.net Email</h4>
                     {locals.subscriptionInfo?.linked_email === user.email ? (
                       <p>
                         Your subscription is managed through your Stripe account at{' '}
