@@ -11,6 +11,11 @@ interface GetUserLocalsResponse {
     owner: number;
     patreon: boolean;
     subscriber: boolean;
+    subscriptionInfo: {
+      active: boolean;
+      email: string;
+      linked_email: string;
+    };
   };
   linked_email: string;
   user?: ExtendedUser;
