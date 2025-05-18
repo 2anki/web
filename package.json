@@ -1,8 +1,7 @@
 {
   "name": "web",
   "version": "0.1.1",
-  "private": true,
-  "type": "module",
+  "private": false,
   "resolve": {
     "fallback": {
       "assert": false,
