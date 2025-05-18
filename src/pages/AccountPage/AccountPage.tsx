@@ -24,7 +24,7 @@ export default function AccountPage() {
     onError: (error: any) => {
       setLinkSuccess(false);
       const message =
-        error?.response?.data?.message || error?.message || 'Failed to link email';
+        error?.response?.data?.message ?? error?.message ?? 'Failed to link email';
       setLinkError(message);
     },
     onSuccess: async () => {
