@@ -108,8 +108,7 @@
     "biome": "^0.3.3",
     "dotenv": "^16.4.7",
     "jest-environment-jsdom": "^29.7.0",
-    "playwright": "^1.42.1",
-    "prettier": "^3.4.2"
+    "playwright": "^1.42.1"
   },
   "proxy": "http://localhost:2020",
   "jest": {
