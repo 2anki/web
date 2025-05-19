@@ -82,7 +82,7 @@
     "source-map-loader": "^5.0.0",
     "style-loader": "^4.0.0",
     "styled-components": "^6.1.13",
-    "terser-webpack-plugin": "^5.2.5",
+    "terser-webpack-plugin": "^5.3.14",
     "typescript": "^5.8.2",
     "universal-cookie": "^7.2.1",
     "webpack": "^5.97.1",
