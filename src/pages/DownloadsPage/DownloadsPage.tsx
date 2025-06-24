@@ -17,7 +17,7 @@ interface DownloadsPageProps {
 
 export function DownloadsPage({ setError }: DownloadsPageProps) {
   const { deleteUpload, loading, uploads, error } = useUploads(get2ankiApi());
-  const { jobs, deleteJob, restartJob } = useJobs(get2ankiApi(), setError);
+  const { jobs, deleteJob, restartJob, refreshJobs } = useJobs(get2ankiApi(), setError);
   const unfinishedJob = jobs.length > 0;
 
   if (error) {
@@ -50,6 +50,7 @@ export function DownloadsPage({ setError }: DownloadsPageProps) {
               restartJob={restartJob}
               jobs={jobs}
               deleteJob={(id) => deleteJob(id)}
+              refreshJobs={refreshJobs}
             />
           </div>
         )}

@@ -8,6 +8,7 @@ interface UseJobsResult {
   jobs: Jobs[];
   deleteJob: (id: JobsId) => Promise<void>;
   restartJob: (job: Jobs) => Promise<void>;
+  refreshJobs: () => Promise<void>;
 }
 
 export default function useJobs(
@@ -36,11 +37,20 @@ export default function useJobs(
 
   async function restartJob(job: Jobs) {
     await backend.convert(job.object_id, job.type, job.title);
+    await fetchJobs();
   }
 
   useEffect(() => {
     fetchJobs();
+
+    // Set up automatic refetching every 10 seconds
+    const intervalId = setInterval(() => {
+      fetchJobs();
+    }, 10000);
+
+    // Clean up the interval when the component unmounts
+    return () => clearInterval(intervalId);
   }, [backend]);
 
-  return { jobs, deleteJob, restartJob };
+  return { jobs, deleteJob, restartJob, refreshJobs: fetchJobs };
 }
