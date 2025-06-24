@@ -2,10 +2,6 @@ import { get } from './api';
 import { get2ankiApi } from './get2ankiApi';
 import Users from '../../schemas/public/Users';
 
-interface ExtendedUser extends Users {
-  picture?: string;
-}
-
 interface GetUserLocalsResponse {
   locals: {
     owner: number;
@@ -18,7 +14,7 @@ interface GetUserLocalsResponse {
     };
   };
   linked_email: string;
-  user?: ExtendedUser;
+  user?: Users;
   features?: {
     kiUI: boolean;
   };

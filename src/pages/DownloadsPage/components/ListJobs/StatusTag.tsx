@@ -11,16 +11,20 @@ interface Prop {
   status: JobStatus;
 }
 
-function getIndicator(status: JobStatus) {
+function getStatusStyle(status: JobStatus): { className: string; dotColor: string } {
   switch (status) {
     case 'started':
-      return 'is-info';
+      return { className: 'stripe-status-info', dotColor: '#3b82f6' };
     case 'step1_create_workspace':
     case 'step2_creating_flashcards':
     case 'step3_building_deck':
-      return 'is-info';
+      return { className: 'stripe-status-info', dotColor: '#3b82f6' };
+    case 'failed':
+      return { className: 'stripe-status-danger', dotColor: '#ef4444' };
+    case 'cancelled':
+      return { className: 'stripe-status-danger', dotColor: '#ef4444' };
     default:
-      return 'is-warning';
+      return { className: 'stripe-status-warning', dotColor: '#f59e0b' };
   }
 }
 
@@ -44,10 +48,13 @@ function getStatusText(status: JobStatus): string {
 }
 
 export function StatusTag({ status }: Prop) {
-  const indicator = getIndicator(status);
+  const { className, dotColor } = getStatusStyle(status);
   const displayText = getStatusText(status);
 
   return (
-    <span className={`is-small mx-2 tag ${indicator}`}>{displayText}</span>
+    <span className={`stripe-status ${className}`}>
+      <span className="stripe-status-dot" style={{ backgroundColor: dotColor }}></span>
+      {displayText}
+    </span>
   );
 }
