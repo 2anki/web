@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "cross-env REACT_SKIP_SENTRY=true node scripts/start.js",
-    "dev": "cross-env node scripts/start.js --max_old_space_size=4096",
+    "dev": "cross-env NODE_OPTIONS=--max_old_space_size=4096 node scripts/start.js",
     "local": "cross-env REACT_APP_LOCALHOST=true node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
