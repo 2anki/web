@@ -13,9 +13,9 @@
     }
   },
   "scripts": {
-    "start": "REACT_SKIP_SENTRY=true node scripts/start.js",
-    "dev": "node scripts/start.js --max_old_space_size=4096",
-    "local": "REACT_APP_LOCALHOST=true node scripts/start.js",
+    "start": "cross-env REACT_SKIP_SENTRY=true node scripts/start.js",
+    "dev": "cross-env NODE_OPTIONS=--max_old_space_size=4096 node scripts/start.js",
+    "local": "cross-env REACT_APP_LOCALHOST=true node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "lint": "biome lint .",
@@ -105,6 +105,7 @@
     "@types/styled-components": "^5.1.34",
     "babel-jest": "^29.5.0",
     "biome": "^0.3.3",
+    "cross-env": "^10.0.0",
     "dotenv": "^16.4.7",
     "jest-environment-jsdom": "^29.7.0",
     "playwright": "^1.42.1"
