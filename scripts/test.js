@@ -5,15 +5,15 @@ process.env.BABEL_ENV = 'test';
 process.env.NODE_ENV = 'test';
 process.env.PUBLIC_URL = '';
 
+// Load environment variables from .env files
+require('dotenv').config();
+
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
 // terminate the Node.js process with a non-zero exit code.
 process.on('unhandledRejection', err => {
   throw err;
 });
-
-// Ensure environment variables are read.
-require('../config/env');
 
 const jest = require('jest');
 const execSync = require('child_process').execSync;

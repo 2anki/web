@@ -34,16 +34,12 @@
     "@reduxjs/toolkit": "^2.6.1",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/react-query": "^1.2.9",
-    "babel-plugin-named-asset-import": "^0.3.8",
-    "babel-preset-react-app": "^10.0.1",
-    "bfj": "^9.1.2",
     "browserslist": "^4.24.2",
     "bulma": "^1.0.4",
     "bulma-switch": "^2.0.4",
     "camelcase": "^6.2.1",
     "date-fns": "^4.1.0",
     "dotenv-expand": "^12.0.1",
-    "file-loader": "^6.2.0",
     "fs-extra": "^11.3.0",
     "get-notion-object-title": "^0.2.6",
     "identity-obj-proxy": "^3.0.0",
@@ -55,29 +51,25 @@
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-normalize": "^13.0.1",
     "postcss-preset-env": "^10.1.1",
-    "prompts": "^2.4.2",
     "react": "^19.0.0",
     "react-app-polyfill": "^3.0.0",
     "react-confetti": "^6.1.0",
     "react-cookie": "^7.2.1",
-    "react-dev-utils": "^12.0.1",
     "react-dom": "^19.0.0",
     "react-query": "^3.39.3",
     "react-redux": "^9.2.0",
-    "react-refresh": "^0.11.0",
     "react-router": "^7.6.0",
     "react-router-dom": "^6.27.0",
-    "resolve": "^1.22.10",
-    "resolve-url-loader": "^5.0.0",
-    "sass-loader": "^16.0.5",
     "semver": "^7.6.3",
-    "source-map-loader": "^5.0.0",
     "styled-components": "^6.1.13",
     "typescript": "^5.8.2",
     "universal-cookie": "^7.2.1"
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/preset-env": "^7.28.3",
+    "@babel/preset-react": "^7.27.1",
+    "@babel/preset-typescript": "^7.27.1",
     "@playwright/test": "^1.42.1",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
@@ -89,6 +81,7 @@
     "@types/styled-components": "^5.1.34",
     "@vitejs/plugin-legacy": "^6.1.1",
     "@vitejs/plugin-react": "^4.7.0",
+    "@vitejs/plugin-react-refresh": "^1.3.6",
     "autoprefixer": "^10.4.21",
     "babel-jest": "^29.5.0",
     "biome": "^0.3.3",
@@ -152,7 +145,21 @@
   },
   "babel": {
     "presets": [
-      "react-app"
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ],
+      [
+        "@babel/preset-react",
+        {
+          "runtime": "automatic"
+        }
+      ],
+      "@babel/preset-typescript"
     ]
   },
   "browserslist": {
