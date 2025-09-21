@@ -1,6 +1,7 @@
 {
   "name": "2anki-web",
   "version": "0.1.1",
+  "type": "module",
   "private": false,
   "scripts": {
     "start": "cross-env REACT_SKIP_SENTRY=true vite",

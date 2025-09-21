@@ -1,7 +1,8 @@
-require('dotenv').config();
+import { config } from 'dotenv';
+config();
 
 /** @type {import('kanel').Config} */
-module.exports = {
+export default {
   connection: {
     host: process.env.POSTGRES_HOST,
     user: process.env.POSTGRES_USER,
