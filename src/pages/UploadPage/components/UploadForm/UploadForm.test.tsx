@@ -6,16 +6,12 @@ import UploadForm from './UploadForm';
 
 describe('UploadForm', () => {
   test('download button is light by default', () => {
-    const { container } = render(
-      <UploadForm setErrorMessage={vi.fn()} />
-    );
+    const { container } = render(<UploadForm setErrorMessage={vi.fn()} />);
     expect(container.querySelector('.button.cta.is-light')).toBeInTheDocument();
   });
 
   test('no null classes', () => {
-    const { container } = render(
-      <UploadForm setErrorMessage={vi.fn()} />
-    );
+    const { container } = render(<UploadForm setErrorMessage={vi.fn()} />);
     expect(container.querySelector('.null')).toBeNull();
   });
 
