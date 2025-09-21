@@ -59,6 +59,16 @@ export default defineConfig(({ command, mode }) => {
       }),
     ],
 
+    // Test configuration
+    test: {
+      globals: true,
+      environment: 'jsdom',
+      setupFiles: ['./src/setupTests.ts'],
+      css: true,
+      include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+      exclude: ['tests/**/*', 'e2e/**/*'],
+    },
+
     // Define aliases
     resolve: {
       alias: {
