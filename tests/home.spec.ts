@@ -9,7 +9,7 @@ test('homepage has correct title and hero text', async ({ page }) => {
   // Check hero section is present
   const heroSection = page.locator('.hero');
   await expect(heroSection).toBeVisible();
-  
+
   // Check that the hero section contains the key text elements
   await expect(heroSection).toContainText('Create');
   await expect(heroSection).toContainText('Anki flashcards');
