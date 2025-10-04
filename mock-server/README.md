@@ -1,17 +1,26 @@
 # Mock Server for 2anki Web Application
 
+⚠️ **DEVELOPMENT/TESTING ONLY** - This server is intended for development and testing environments only. Do not deploy to production.
+
 This mock server provides a comprehensive API simulation for testing the 2anki web application with Playwright.
 
 ## Overview
 
 The mock server runs on `http://localhost:2020` and provides mocked responses for all API endpoints used by the 2anki web application. This allows for reliable and fast end-to-end testing without depending on external services.
 
+## Security Considerations
+
+- **CORS Configuration**: Restricted to development origins only (`localhost:3000`, `localhost:5173`)
+- **Environment Variables**: Use `MOCK_SERVER_ALLOWED_ORIGINS` to add custom origins (comma-separated)
+- **Port Configuration**: Use `MOCK_SERVER_PORT` to change the default port (2020)
+- **No Authentication**: This server does not implement real authentication - for testing only
+
 ## Features
 
 - **Complete API Coverage**: Mocks all API endpoints found in the application
 - **Swagger Documentation**: Interactive API documentation available at `/docs`
 - **Realistic Data**: Provides realistic mock data for testing scenarios
-- **CORS Enabled**: Properly configured for cross-origin requests
+- **Secure CORS**: Properly configured CORS for development environments only
 - **Error Handling**: Includes proper error responses for testing error scenarios
 
 ## API Endpoints

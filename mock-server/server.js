@@ -1,13 +1,48 @@
+/**
+ * Mock API Server for Development and Testing
+ * 
+ * WARNING: This server is intended for development and testing only.
+ * Do not use this configuration in production environments.
+ * 
+ * The CORS configuration is restricted to development origins only.
+ */
+
 import express from 'express';
 import cors from 'cors';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
 const app = express();
-const PORT = 2020;
+const PORT = process.env.MOCK_SERVER_PORT || 2020;
+
+// CORS configuration for development/testing only
+// Only allow requests from the development server and test environments
+const getAllowedOrigins = () => {
+  const defaultOrigins = [
+    'http://localhost:3000',
+    'http://localhost:5173', // Vite dev server
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:5173',
+  ];
+  
+  // Allow custom origins from environment variable
+  if (process.env.MOCK_SERVER_ALLOWED_ORIGINS) {
+    return [...defaultOrigins, ...process.env.MOCK_SERVER_ALLOWED_ORIGINS.split(',')];
+  }
+  
+  return defaultOrigins;
+};
+
+const corsOptions = {
+  origin: getAllowedOrigins(),
+  credentials: true,
+  optionsSuccessStatus: 200, // Some legacy browsers choke on 204
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+};
 
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
