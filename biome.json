@@ -12,7 +12,11 @@
         "linter": {
                 "enabled": true,
                 "rules": {
-                        "recommended": true
+                        "recommended": false,
+                        "correctness": {
+                                "noUnusedLabels": "error",
+                                "useValidForDirection": "error"
+                        }
                 }
         },
         "formatter": {
