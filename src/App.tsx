@@ -34,9 +34,9 @@ const SuccessfulCheckoutPage = lazy(
 const queryClient = new QueryClient();
 
 function AppContent({
-                      error,
-                      setErrorMessage
-                    }: Readonly<{
+  error,
+  setErrorMessage,
+}: Readonly<{
   error: Error | null;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setErrorMessage: (error: unknown) => void;
