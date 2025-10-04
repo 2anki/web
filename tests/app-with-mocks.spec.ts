@@ -147,7 +147,7 @@ test.describe('Application with Mock API', () => {
     await page.waitForTimeout(2000);
 
     // Check that there are no console errors related to API calls
-    const consoleLogs = [];
+    const consoleLogs: string[] = [];
     page.on('console', (msg) => {
       if (msg.type() === 'error') {
         consoleLogs.push(msg.text());
@@ -160,7 +160,7 @@ test.describe('Application with Mock API', () => {
 
     // Filter out non-API related errors
     const apiErrors = consoleLogs.filter(
-      (log) =>
+      (log: string) =>
         log.includes('fetch') || log.includes('API') || log.includes('proxy')
     );
 
