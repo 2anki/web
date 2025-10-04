@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { lazy, useState } from 'react';
 
-import { useCookies } from 'react-cookie';
+import { useCookies, CookiesProvider } from 'react-cookie';
 import UploadPage from './pages/UploadPage';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage/AboutPage';
@@ -34,9 +34,9 @@ const SuccessfulCheckoutPage = lazy(
 const queryClient = new QueryClient();
 
 function AppContent({
-                      error,
-                      setErrorMessage
-                    }: Readonly<{
+  error,
+  setErrorMessage,
+}: Readonly<{
   error: Error | null;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setErrorMessage: (error: unknown) => void;
@@ -110,7 +110,7 @@ function AppContent({
   );
 }
 
-function App() {
+function AppWithCookies() {
   const [cookies, setCookie] = useCookies(['token']);
 
   if (isOfflineMode() && !cookies.token) {
@@ -135,6 +135,14 @@ function App() {
         setErrorMessage={handledError}
       />
     </QueryClientProvider>
+  );
+}
+
+function App() {
+  return (
+    <CookiesProvider defaultSetOptions={{ path: '/' }}>
+      <AppWithCookies />
+    </CookiesProvider>
   );
 }
 
