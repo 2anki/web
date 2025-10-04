@@ -65,32 +65,42 @@
 
   <!-- Legacy redirect (early + preserve URL) -->
   <script>
-    (function () {
-      const legacyHosts = new Set([
+    (function() {
+      const legacyHosts=new Set([
         'notion2anki.alemayhu.com',
         'notion.2anki.net',
         '2anki.com',
       ]);
-      const { hostname, pathname, search, hash } = globalThis.location;
-      if (legacyHosts.has(hostname)) {
-        globalThis.location.replace('https://2anki.net' + pathname + search + hash);
+      const {hostname,pathname,search,hash}=globalThis.location;
+      if(legacyHosts.has(hostname)) {
+        globalThis.location.replace('https://2anki.net'+pathname+search+hash);
       }
     })();
   </script>
   <link rel="stylesheet" href="/bulma-switch.css">
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X6K69TY3EX"></script>
+  <!-- Note: SRI not used for gtag.js as Google frequently updates this script, 
+       which would break the integrity hash. Using secure loading with error handling instead. -->
   <script>
-    globalThis.dataLayer=globalThis.dataLayer||[];
-
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-
-    gtag('js',new Date());
-
-    gtag('config','G-X6K69TY3EX', { anonymize_ip: true });
+    (function() {
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-X6K69TY3EX';
+      script.onerror = function() {
+        console.warn('Failed to load Google Analytics');
+      };
+      script.onload = function() {
+        // Initialize gtag only after successful load
+        globalThis.dataLayer = globalThis.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'G-X6K69TY3EX', { anonymize_ip: true });
+      };
+      document.head.appendChild(script);
+    })();
   </script>
 </head>
 
