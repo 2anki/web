@@ -57,7 +57,7 @@
       scriptElement.async=1;
       scriptElement.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
       headElement.appendChild(scriptElement);
-    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    })(globalThis,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
   </script>
 
   <!-- Legacy redirect -->
@@ -67,8 +67,8 @@
       'notion.2anki.net',
       '2anki.com'
     ];
-    if(legacyHosts.includes(window.location.hostname)) {
-      window.location.href='https://2anki.net'+window.location.pathname;
+    if(legacyHosts.includes(globalThis.location.hostname)) {
+      globalThis.location.href='https://2anki.net'+globalThis.location.pathname;
     }
   </script>
   <link rel="stylesheet" href="bulma-switch.css">
@@ -76,7 +76,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-X6K69TY3EX"></script>
   <script>
-    window.dataLayer=window.dataLayer||[];
+    globalThis.dataLayer=globalThis.dataLayer||[];
 
     function gtag() {
       dataLayer.push(arguments);

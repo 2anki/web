@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 import legacy from '@vitejs/plugin-legacy';
 import svgr from 'vite-plugin-svgr';
-import path from 'path';
+import path from 'node:path';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {

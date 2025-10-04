@@ -59,7 +59,10 @@ app.use((req, res, next) => {
   // Enable XSS protection
   res.setHeader('X-XSS-Protection', '1; mode=block');
   // Add CSP for development (relaxed for testing)
-  res.setHeader('Content-Security-Policy', "default-src 'self' 'unsafe-inline' 'unsafe-eval'");
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self' 'unsafe-inline' 'unsafe-eval'"
+  );
   next();
 });
 
@@ -537,7 +540,7 @@ app.get('/api/upload/jobs', (req, res) => {
  */
 app.delete('/api/upload/jobs/:id', (req, res) => {
   const { id } = req.params;
-  const index = mockJobs.findIndex((job) => job.id === parseInt(id));
+  const index = mockJobs.findIndex((job) => job.id === Number.parseInt(id, 10));
   if (index !== -1) {
     mockJobs.splice(index, 1);
     res.json({ success: true });
@@ -626,7 +629,7 @@ app.post('/api/settings/create/:objectId', (req, res) => {
  *         description: Settings not found
  */
 app.get('/api/settings/find/:id', (req, res) => {
-  const { id } = req.params;
+  // Note: id parameter available if needed for specific settings logic
   res.json({
     payload: {
       basic: true,
@@ -732,7 +735,7 @@ app.post('/api/rules/create/:id', (req, res) => {
  *         description: Rules not found
  */
 app.get('/api/rules/find/:id', (req, res) => {
-  const { id } = req.params;
+  // Note: id parameter available if needed for specific rules logic
   res.json({
     payload: {
       flashcard: ['default'],
@@ -765,7 +768,7 @@ app.get('/api/rules/find/:id', (req, res) => {
  *         description: Added to favorites successfully
  */
 app.post('/api/favorite/create', (req, res) => {
-  const { id, type } = req.body;
+  const { id } = req.body; // Only extract id, type is not used in this mock
   const existing = mockNotionObjects.find((obj) => obj.id === id);
   if (existing) {
     existing.isFavorite = true;

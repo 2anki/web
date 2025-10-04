@@ -51,7 +51,8 @@
   <script>
     (function(h,o,t,j,a,r) {
       h.hj=h.hj||function() {
-        (h.hj.q=h.hj.q||[]).push(arguments);
+        const hjQueue = h.hj.q=h.hj.q||[];
+        hjQueue.push(arguments);
       };
       h._hjSettings={hjid: 2603407,hjsv: 6};
       var headElement=o.getElementsByTagName('head')[0];
@@ -59,7 +60,7 @@
       scriptElement.async=1;
       scriptElement.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
       headElement.appendChild(scriptElement);
-    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    })(globalThis,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
   </script>
 
   <!-- Legacy redirect -->
@@ -69,8 +70,8 @@
       'notion.2anki.net',
       '2anki.com'
     ];
-    if(legacyHosts.includes(window.location.hostname)) {
-      window.location.href='https://2anki.net'+window.location.pathname;
+    if(legacyHosts.includes(globalThis.location.hostname)) {
+      globalThis.location.href='https://2anki.net'+globalThis.location.pathname;
     }
   </script>
   <link rel="stylesheet" href="bulma-switch.css">
@@ -80,7 +81,7 @@
     integrity="sha384-iqW5v1+n8hMVce+B1+2WTbaJfaSFU5QwgQgL32fx/cvraOOeg4/S4kg2cCPYkuRR"
     crossorigin="anonymous"></script>
   <script>
-    window.dataLayer=window.dataLayer||[];
+    globalThis.dataLayer=globalThis.dataLayer||[];
 
     function gtag() {
       dataLayer.push(arguments);
