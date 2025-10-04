@@ -500,7 +500,7 @@ app.get('/api/upload/mine', (req, res) => {
 app.delete('/api/upload/mine/:key', (req, res) => {
   const { key } = req.params;
   const index = mockUploads.findIndex((upload) => upload.key === key);
-  if (index !== -1) {
+  if (index >= 0) {
     mockUploads.splice(index, 1);
     res.json({ success: true });
   } else {
@@ -541,7 +541,7 @@ app.get('/api/upload/jobs', (req, res) => {
 app.delete('/api/upload/jobs/:id', (req, res) => {
   const { id } = req.params;
   const index = mockJobs.findIndex((job) => job.id === Number.parseInt(id, 10));
-  if (index !== -1) {
+  if (index >= 0) {
     mockJobs.splice(index, 1);
     res.json({ success: true });
   } else {
@@ -798,7 +798,7 @@ app.post('/api/favorite/create', (req, res) => {
 app.post('/api/favorite/delete', (req, res) => {
   const { id } = req.body;
   const index = mockFavorites.findIndex((fav) => fav.id === id);
-  if (index !== -1) {
+  if (index >= 0) {
     mockFavorites.splice(index, 1);
   }
   const existing = mockNotionObjects.find((obj) => obj.id === id);
