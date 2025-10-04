@@ -1,5 +1,10 @@
 import { defineConfig, devices } from '@playwright/test';
 
+// Check if we need to run the mock server based on environment variable or test patterns
+const shouldRunMockServer =
+  process.env.PLAYWRIGHT_WITH_MOCK === 'true' ||
+  process.argv.some((arg) => arg.includes('mock-api.spec.ts'));
+
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
@@ -26,9 +31,25 @@ export default defineConfig({
       use: { ...devices['Desktop Safari'] },
     },
   ],
-  webServer: {
-    command: 'npm run start',
-    url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
-  },
+  // Conditionally start mock server based on test needs
+  webServer: shouldRunMockServer
+    ? [
+        {
+          command: 'node mock-server/server.js',
+          url: 'http://localhost:2020/health',
+          reuseExistingServer: !process.env.CI,
+          timeout: 120 * 1000,
+        },
+        {
+          command: 'npm run start',
+          url: 'http://localhost:3000',
+          reuseExistingServer: !process.env.CI,
+          timeout: 120 * 1000,
+        },
+      ]
+    : {
+        command: 'npm run start',
+        url: 'http://localhost:3000',
+        reuseExistingServer: !process.env.CI,
+      },
 });
