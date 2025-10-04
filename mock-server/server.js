@@ -1,9 +1,9 @@
 /**
  * Mock API Server for Development and Testing
- * 
+ *
  * WARNING: This server is intended for development and testing only.
  * Do not use this configuration in production environments.
- * 
+ *
  * The CORS configuration is restricted to development origins only.
  */
 
@@ -15,6 +15,9 @@ import swaggerUi from 'swagger-ui-express';
 const app = express();
 const PORT = process.env.MOCK_SERVER_PORT || 2020;
 
+// Security: Disable X-Powered-By header to prevent framework fingerprinting
+app.disable('x-powered-by');
+
 // CORS configuration for development/testing only
 // Only allow requests from the development server and test environments
 const getAllowedOrigins = () => {
@@ -24,12 +27,15 @@ const getAllowedOrigins = () => {
     'http://127.0.0.1:3000',
     'http://127.0.0.1:5173',
   ];
-  
+
   // Allow custom origins from environment variable
   if (process.env.MOCK_SERVER_ALLOWED_ORIGINS) {
-    return [...defaultOrigins, ...process.env.MOCK_SERVER_ALLOWED_ORIGINS.split(',')];
+    return [
+      ...defaultOrigins,
+      ...process.env.MOCK_SERVER_ALLOWED_ORIGINS.split(','),
+    ];
   }
-  
+
   return defaultOrigins;
 };
 
@@ -43,6 +49,20 @@ const corsOptions = {
 
 // Middleware
 app.use(cors(corsOptions));
+
+// Additional security headers for development/testing
+app.use((req, res, next) => {
+  // Prevent MIME type sniffing
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  // Prevent clickjacking
+  res.setHeader('X-Frame-Options', 'DENY');
+  // Enable XSS protection
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  // Add CSP for development (relaxed for testing)
+  res.setHeader('Content-Security-Policy', "default-src 'self' 'unsafe-inline' 'unsafe-eval'");
+  next();
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
