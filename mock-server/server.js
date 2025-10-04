@@ -32,7 +32,9 @@ const getAllowedOrigins = () => {
   if (process.env.MOCK_SERVER_ALLOWED_ORIGINS) {
     return [
       ...defaultOrigins,
-      ...process.env.MOCK_SERVER_ALLOWED_ORIGINS.split(','),
+      ...process.env.MOCK_SERVER_ALLOWED_ORIGINS.split(',')
+        .map((origin) => origin.trim())
+        .filter(Boolean),
     ];
   }
 
@@ -161,7 +163,7 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: ['./server.js'], // Path to the API docs
+  apis: ['./mock-server/server.js'], // Path to the API docs
 };
 
 const specs = swaggerJsdoc(swaggerOptions);

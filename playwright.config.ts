@@ -42,7 +42,9 @@ export default defineConfig({
         },
         {
           command: process.env.CI ? 'npm run preview' : 'npm run start',
-          url: process.env.CI ? 'http://localhost:4173' : 'http://localhost:3000',
+          url: process.env.CI
+            ? 'http://localhost:4173'
+            : 'http://localhost:3000',
           reuseExistingServer: !process.env.CI,
           timeout: 120 * 1000,
         },

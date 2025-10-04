@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
   <meta http-equiv="Content-Security-Policy"
-    content="script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://static.hotjar.com; object-src 'none'; base-uri 'self';">
+    content="script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://static.hotjar.com https://script.hotjar.com; object-src 'none'; base-uri 'self';">
   <link rel="apple-touch-icon" href="/logo192.png" />
   <!--
       Notice the use of  in the tags above.
@@ -63,23 +63,24 @@
     })(globalThis,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
   </script>
 
-  <!-- Legacy redirect -->
+  <!-- Legacy redirect (early + preserve URL) -->
   <script>
-    const legacyHosts=[
-      'notion2anki.alemayhu.com',
-      'notion.2anki.net',
-      '2anki.com'
-    ];
-    if(legacyHosts.includes(globalThis.location.hostname)) {
-      globalThis.location.href='https://2anki.net'+globalThis.location.pathname;
-    }
+    (function () {
+      const legacyHosts = new Set([
+        'notion2anki.alemayhu.com',
+        'notion.2anki.net',
+        '2anki.com',
+      ]);
+      const { hostname, pathname, search, hash } = globalThis.location;
+      if (legacyHosts.has(hostname)) {
+        globalThis.location.replace('https://2anki.net' + pathname + search + hash);
+      }
+    })();
   </script>
-  <link rel="stylesheet" href="bulma-switch.css">
+  <link rel="stylesheet" href="/bulma-switch.css">
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X6K69TY3EX"
-    integrity="sha384-iqW5v1+n8hMVce+B1+2WTbaJfaSFU5QwgQgL32fx/cvraOOeg4/S4kg2cCPYkuRR"
-    crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X6K69TY3EX"></script>
   <script>
     globalThis.dataLayer=globalThis.dataLayer||[];
 
@@ -89,7 +90,7 @@
 
     gtag('js',new Date());
 
-    gtag('config','G-X6K69TY3EX');
+    gtag('config','G-X6K69TY3EX', { anonymize_ip: true });
   </script>
 </head>
 

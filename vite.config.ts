@@ -13,10 +13,7 @@ export default defineConfig(({ command, mode }) => {
 
   return {
     plugins: [
-      react({
-        // Enable React Fast Refresh
-        fastRefresh: true,
-      }),
+      react(),
       svgr({
         // SVG as React components
         svgrOptions: {
@@ -113,7 +110,8 @@ export default defineConfig(({ command, mode }) => {
     // Build configuration
     build: {
       outDir: 'build',
-      sourcemap: command === 'serve', // Source maps in dev
+      // Dev sourcemaps are handled by Vite automatically
+      sourcemap: false,
       rollupOptions: {
         output: {
           manualChunks: {
