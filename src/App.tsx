@@ -110,7 +110,7 @@ function AppContent({
   );
 }
 
-function App() {
+function AppWithCookies() {
   const [cookies, setCookie] = useCookies(['token']);
 
   if (isOfflineMode() && !cookies.token) {
@@ -129,13 +129,19 @@ function App() {
   };
 
   return (
+    <QueryClientProvider client={queryClient}>
+      <AppContent
+        error={apiError as Error | null}
+        setErrorMessage={handledError}
+      />
+    </QueryClientProvider>
+  );
+}
+
+function App() {
+  return (
     <CookiesProvider defaultSetOptions={{ path: '/' }}>
-      <QueryClientProvider client={queryClient}>
-        <AppContent
-          error={apiError as Error | null}
-          setErrorMessage={handledError}
-        />
-      </QueryClientProvider>
+      <AppWithCookies />
     </CookiesProvider>
   );
 }
