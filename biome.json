@@ -1,0 +1,38 @@
+{
+        "files": {
+                "ignoreUnknown": false,
+                "includes": [
+                        "src/**",
+                        "tests/**",
+                        "*.js",
+                        "*.ts",
+                        "*.tsx"
+                ]
+        },
+        "linter": {
+                "enabled": true,
+                "rules": {
+                        "recommended": true
+                }
+        },
+        "formatter": {
+                "enabled": true,
+                "formatWithErrors": false,
+                "indentStyle": "space",
+                "indentWidth": 2,
+                "lineEnding": "lf",
+                "lineWidth": 80
+        },
+        "javascript": {
+                "formatter": {
+                        "jsxQuoteStyle": "double",
+                        "quoteProperties": "asNeeded",
+                        "trailingCommas": "es5",
+                        "semicolons": "always",
+                        "arrowParentheses": "always",
+                        "bracketSpacing": true,
+                        "bracketSameLine": false,
+                        "quoteStyle": "single"
+                }
+        }
+}
