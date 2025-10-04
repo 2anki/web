@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { lazy, useState } from 'react';
 
-import { useCookies } from 'react-cookie';
+import { useCookies, CookiesProvider } from 'react-cookie';
 import UploadPage from './pages/UploadPage';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage/AboutPage';
@@ -129,12 +129,14 @@ function App() {
   };
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <AppContent
-        error={apiError as Error | null}
-        setErrorMessage={handledError}
-      />
-    </QueryClientProvider>
+    <CookiesProvider defaultSetOptions={{ path: '/' }}>
+      <QueryClientProvider client={queryClient}>
+        <AppContent
+          error={apiError as Error | null}
+          setErrorMessage={handledError}
+        />
+      </QueryClientProvider>
+    </CookiesProvider>
   );
 }
 
