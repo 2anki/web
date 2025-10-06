@@ -31,7 +31,11 @@ export default function useJobs(
       await backend.deleteJob(id);
       setJobs(jobs.filter((job: Jobs) => job.id !== id));
     } catch (error) {
-      setError(error);
+      if (error instanceof Error && error.message.includes('Cannot delete job while it is in progress')) {
+        setError(new Error('Cannot delete this job because it is currently running. Please wait for it to complete.'));
+      } else {
+        setError(error);
+      }
     }
   }
 

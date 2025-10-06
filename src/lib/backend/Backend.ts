@@ -15,7 +15,7 @@ import getObjectIcon, { ObjectIcon } from '../notion/getObjectIcon';
 import { Rules, Settings } from '../types';
 import { del, get, getLoginURL, post } from './api';
 import { getResourceUrl } from './getResourceUrl';
-import { OK } from './http';
+import { CONFLICT, OK } from './http';
 
 /* eslint-disable no-console */
 
@@ -191,7 +191,14 @@ export class Backend {
   }
 
   async deleteJob(id: JobsId) {
-    await del(`${this.baseURL}upload/jobs/${id}`);
+    const response = await del(`${this.baseURL}upload/jobs/${id}`);
+    if (response && !response.ok) {
+      if (response.status === CONFLICT) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Cannot delete job while it is in progress');
+      }
+      throw new Error(`Failed to delete job: ${response.status} ${response.statusText}`);
+    }
   }
 
   async convert(id: string, type: string | null, title: string | null) {
