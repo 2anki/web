@@ -64,7 +64,7 @@
     "autoprefixer": "^10.4.21",
     "concurrently": "^9.2.1",
     "cors": "^2.8.5",
-    "cross-env": "^10.0.0",
+    "cross-env": "^10.1.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "jsdom": "^27.0.0",
