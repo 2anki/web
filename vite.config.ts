@@ -26,6 +26,17 @@ export default defineConfig(({ command, mode }) => {
         workbox: {
           globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
           maximumFileSizeToCacheInBytes: 5000000, // 5MB
+          navigateFallbackDenylist: [/^\/api\//, /^\/download\//],
+          runtimeCaching: [
+            {
+              urlPattern: /^https:\/\/2anki\.net\/api\//,
+              handler: 'NetworkOnly',
+            },
+            {
+              urlPattern: /^https:\/\/2anki\.net\/download\//,
+              handler: 'NetworkOnly',
+            },
+          ],
         },
         includeAssets: [
           'favicon.ico',
