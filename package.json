@@ -55,7 +55,7 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/react": "^19.2.0",
-    "@types/react-dom": "^19.0.0",
+    "@types/react-dom": "^19.2.1",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
     "@vitejs/plugin-legacy": "^6.1.1",
