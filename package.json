@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@bugsnag/js": "^7.23.0",
-    "@bugsnag/plugin-react": "^8.1.1",
+    "@bugsnag/plugin-react": "^8.6.0",
     "@notionhq/client": "^2.2.14",
     "@reduxjs/toolkit": "^2.6.1",
     "@types/react-query": "^1.2.9",
