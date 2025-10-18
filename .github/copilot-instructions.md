@@ -7,7 +7,7 @@ _Adapted from [Jmen](https://github.com/Jmen)_
 - KEEP IT SIMPLE
 - The most important thing is for the code to be readable
 - Don't remove duplication too early
-- We don't want to over optimize for code that is "convenient" to change, we want it to be SIMPLE to understand
+- We don't want to over-optimize for code that is "convenient" to change, we want it to be SIMPLE to understand
 - When tests fail, please provide the specific error message
 - After completing a request, check if any extra unnecessary code has been added, and remove it
 - Use meaningful names for variables and functions instead of comments
