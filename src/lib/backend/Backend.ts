@@ -1,10 +1,9 @@
 import Cookies from 'universal-cookie';
 
 import { getNotionObjectTitle } from 'get-notion-object-title';
-import {
-  NotionDatabase,
-  NotionPage,
-  NotionObject as GeneratedNotionObject,
+import { 
+  NotionDatabase, 
+  NotionPage 
 } from '../../generated/data-contracts';
 import NotionObject from '../interfaces/NotionObject';
 import UserUpload from '../interfaces/UserUpload';
