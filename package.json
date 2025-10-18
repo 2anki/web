@@ -16,6 +16,7 @@
     "lint": "biome lint .",
     "lint:fix": "biome format . --write",
     "schema:generate-types": "npx kanel",
+    "generate:api-types": "swagger-typescript-api generate -p http://localhost:2020/docs/swagger.json -o ./src/generated --modular",
     "mock-server": "node mock-server/server.js",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
@@ -26,7 +27,6 @@
   "dependencies": {
     "@bugsnag/js": "^7.23.0",
     "@bugsnag/plugin-react": "^8.6.0",
-    "@notionhq/client": "^5.2.1",
     "bulma": "^1.0.4",
     "bulma-switch": "^2.0.4",
     "date-fns": "^4.1.0",
@@ -65,6 +65,7 @@
     "playwright": "^1.55.0",
     "postcss-selector-parser": "^7.1.0",
     "swagger-jsdoc": "^6.2.8",
+    "swagger-typescript-api": "^13.2.15",
     "swagger-ui-express": "^5.0.1",
     "typescript": "^5.8.2",
     "vite": "^6.3.6",

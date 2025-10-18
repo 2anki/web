@@ -1,17 +1,6 @@
-import {
-  GetDatabaseResponse,
-  GetPageResponse,
-  PageObjectResponse,
-  PartialPageObjectResponse,
-} from '@notionhq/client/build/src/api-endpoints';
+import { NotionDatabase, NotionPage } from '../../generated/data-contracts';
 
-export function getResourceUrl(
-  p:
-    | GetDatabaseResponse
-    | GetPageResponse
-    | PageObjectResponse
-    | PartialPageObjectResponse
-) {
+export function getResourceUrl(p: NotionDatabase | NotionPage) {
   if ('url' in p) {
     return p.url;
   }
