@@ -1,11 +1,9 @@
 {
         "files": {
                 "ignoreUnknown": false,
-                "ignore": [
-                        "src/generated/**"
-                ],
                 "includes": [
                         "src/**",
+                        "!src/generated/**",
                         "tests/**",
                         "*.js",
                         "*.ts",
