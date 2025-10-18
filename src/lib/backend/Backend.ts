@@ -17,8 +17,6 @@ import { del, get, getLoginURL, post } from './api';
 import { getResourceUrl } from './getResourceUrl';
 import { CONFLICT, OK } from './http';
 
-/* eslint-disable no-console */
-
 export class Backend {
   public baseURL: string;
 
