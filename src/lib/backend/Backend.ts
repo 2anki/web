@@ -1,10 +1,11 @@
 import Cookies from 'universal-cookie';
 
-import {
-  GetDatabaseResponse,
-  GetPageResponse,
-} from '@notionhq/client/build/src/api-endpoints';
 import { getNotionObjectTitle } from 'get-notion-object-title';
+import {
+  NotionDatabase,
+  NotionPage,
+  NotionObject as GeneratedNotionObject,
+} from '../../generated/data-contracts';
 import NotionObject from '../interfaces/NotionObject';
 import UserUpload from '../interfaces/UserUpload';
 
@@ -125,7 +126,7 @@ export class Backend {
     }
 
     if (data?.results) {
-      return data.results.map((p: GetDatabaseResponse | GetPageResponse) => ({
+      return data.results.map((p: NotionDatabase | NotionPage) => ({
         object: p.object,
         title: getNotionObjectTitle(p, { emoji: false }),
         icon: getObjectIcon(p as ObjectIcon),
@@ -195,9 +196,13 @@ export class Backend {
     if (response && !response.ok) {
       if (response.status === CONFLICT) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || 'Cannot delete job while it is in progress');
+        throw new Error(
+          errorData.message || 'Cannot delete job while it is in progress'
+        );
       }
-      throw new Error(`Failed to delete job: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `Failed to delete job: ${response.status} ${response.statusText}`
+      );
     }
   }
 
@@ -221,7 +226,7 @@ export class Backend {
       const favorites = await get(`${this.baseURL}favorite`, {
         redirect: false,
       });
-      return favorites.map((f: GetDatabaseResponse | GetPageResponse) => ({
+      return favorites.map((f: NotionDatabase | NotionPage) => ({
         object: f,
         title: getNotionObjectTitle(f, { emoji: false }),
         icon: getObjectIcon(f as ObjectIcon),
