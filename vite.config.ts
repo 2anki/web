@@ -127,7 +127,6 @@ export default defineConfig(({ command, mode }) => {
         output: {
           manualChunks: {
             vendor: ['react', 'react-dom'],
-            redux: ['@reduxjs/toolkit', 'react-redux'],
             router: ['react-router-dom'],
           },
         },
@@ -161,7 +160,7 @@ export default defineConfig(({ command, mode }) => {
 
     // Additional configuration
     optimizeDeps: {
-      include: ['react', 'react-dom', '@reduxjs/toolkit', 'react-redux'],
+      include: ['react', 'react-dom'],
     },
   };
 });
