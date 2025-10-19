@@ -26,7 +26,7 @@ export default defineConfig(({ command, mode }) => {
         workbox: {
           globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
           maximumFileSizeToCacheInBytes: 5000000, // 5MB
-          navigateFallbackDenylist: [/^\/api\//, /^\/download\//],
+          navigateFallbackDenylist: [/^\/api\//, /^\/download\//, /^\/docs\//],
           runtimeCaching: [
             {
               urlPattern: /^https:\/\/2anki\.net\/api\//,
@@ -34,6 +34,10 @@ export default defineConfig(({ command, mode }) => {
             },
             {
               urlPattern: /^https:\/\/2anki\.net\/download\//,
+              handler: 'NetworkOnly',
+            },
+            {
+              urlPattern: /^http:\/\/localhost:2020\/docs\//,
               handler: 'NetworkOnly',
             },
           ],
