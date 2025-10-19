@@ -90,6 +90,20 @@ const mockNotionObjects = [
     },
     isFavorite: false,
   },
+  {
+    id: 'database-1',
+    object: 'database',
+    title: 'Sample Database',
+    url: 'https://notion.so/sample-database',
+    icon: '🗃️',
+    data: {
+      id: 'database-1',
+      object: 'database',
+      created_time: '2023-01-01T00:00:00.000Z',
+      properties: {},
+    },
+    isFavorite: false,
+  },
 ];
 
 const mockJobs = [
@@ -124,6 +138,18 @@ const mockApiSpec = {
       get: {
         summary: 'Get user debug information',
         responses: { 200: { description: 'User debug info' } },
+      },
+    },
+    '/api/notion/pages': {
+      post: {
+        summary: 'Search Notion pages',
+        responses: { 200: { description: 'Search results' } },
+      },
+    },
+    '/api/upload/mine': {
+      get: {
+        summary: 'Get user uploads',
+        responses: { 200: { description: 'List of uploads' } },
       },
     },
   },
@@ -203,6 +229,10 @@ app.post('/api/notion/convert', (req, res) => {
 
 app.get('/api/upload/jobs', (req, res) => {
   res.json(mockJobs);
+});
+
+app.get('/api/upload/mine', (req, res) => {
+  res.json([]);
 });
 
 app.get('/health', (req, res) => {
