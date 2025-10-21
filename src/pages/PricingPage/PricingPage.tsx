@@ -60,7 +60,7 @@ export default function PricingPage({
               </div>
               <div className="column is-4">
                 <PricingCard
-                  price="$96"
+                  price="$105"
                   title="Lifetime Access"
                   benefits={[
                     'Forever premium access to 2anki.net',
