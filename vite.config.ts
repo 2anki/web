@@ -21,56 +21,7 @@ export default defineConfig(({ command, mode }) => {
         },
         include: '**/*.svg',
       }),
-      VitePWA({
-        registerType: 'autoUpdate',
-        workbox: {
-          globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
-          maximumFileSizeToCacheInBytes: 5000000, // 5MB
-            navigateFallbackDenylist: [
-              new RegExp('^/api/download/.*'),
-              /^\/api\//,
-              /^\/download\//,
-              /^\/docs\//,
-            ],
-          runtimeCaching: [
-            {
-              urlPattern: /^https:\/\/2anki\.net\/api\//,
-              handler: 'NetworkOnly',
-            },
-            {
-              urlPattern: /^https:\/\/2anki\.net\/download\//,
-              handler: 'NetworkOnly',
-            },
-            {
-              urlPattern: /^http:\/\/localhost:2020\/docs\//,
-              handler: 'NetworkOnly',
-            },
-          ],
-        },
-        includeAssets: [
-          'favicon.ico',
-          'apple-touch-icon.png',
-          'masked-icon.svg',
-        ],
-        manifest: {
-          name: '2anki - Notion to Anki Converter',
-          short_name: '2anki',
-          description: 'Free Website for Notion to Anki Conversion',
-          theme_color: '#000000',
-          icons: [
-            {
-              src: 'android-chrome-192x192.png',
-              sizes: '192x192',
-              type: 'image/png',
-            },
-            {
-              src: 'android-chrome-512x512.png',
-              sizes: '512x512',
-              type: 'image/png',
-            },
-          ],
-        },
-      }),
+      // VitePWA disabled
       legacy({
         targets: ['defaults', 'not IE 11'],
       }),
