@@ -65,6 +65,7 @@
     "postcss-selector-parser": "^7.1.0",
     "swagger-typescript-api": "^13.2.15",
     "swagger-ui-express": "^5.0.1",
+    "terser": "^5.44.0",
     "typescript": "^5.8.2",
     "vite": "^6.3.6",
     "vite-plugin-svgr": "^4.5.0",
