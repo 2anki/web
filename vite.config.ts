@@ -26,7 +26,12 @@ export default defineConfig(({ command, mode }) => {
         workbox: {
           globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
           maximumFileSizeToCacheInBytes: 5000000, // 5MB
-          navigateFallbackDenylist: [/^\/api\//, /^\/download\//, /^\/docs\//],
+            navigateFallbackDenylist: [
+              new RegExp('^/api/download/.*'),
+              /^\/api\//,
+              /^\/download\//,
+              /^\/docs\//,
+            ],
           runtimeCaching: [
             {
               urlPattern: /^https:\/\/2anki\.net\/api\//,
