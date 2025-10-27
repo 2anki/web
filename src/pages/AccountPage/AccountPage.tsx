@@ -35,7 +35,7 @@ export default function AccountPage() {
   });
 
   if (isLoading) return <LoadingIndicator />;
-  if (!data?.user) {
+    if (!data?.user?.email) {
     window.location.href = '/login';
     return null;
   }
