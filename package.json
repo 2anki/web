@@ -37,7 +37,7 @@
     "react-dom": "^19.2.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^7.6.0",
-    "styled-components": "^6.1.13",
+    "styled-components": "^6.1.19",
     "universal-cookie": "^8.0.1"
   },
   "devDependencies": {
