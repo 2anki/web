@@ -13,6 +13,7 @@ interface Prop {
 
 export function DeleteAccountPage({ setError }: Prop) {
   const [count, setCount] = React.useState(0);
+  const [isDeleting, setIsDeleting] = React.useState(false);
   const deleteButtonText = count === 0 ? 'Delete' : 'I am sure!';
 
   const handleDelete = async () => {
@@ -21,23 +22,46 @@ export function DeleteAccountPage({ setError }: Prop) {
       return;
     }
 
-    await get2ankiApi().deleteAccount(count === 2).catch(setError);
-    localStorage.clear();
-    sessionStorage.clear();
-    new Cookies().remove('token');
-    redirectToFrontPage();
+    setIsDeleting(true);
+    try {
+      await get2ankiApi().deleteAccount(count === 2);
+      localStorage.clear();
+      sessionStorage.clear();
+      new Cookies().remove('token');
+      redirectToFrontPage();
+    } catch (error) {
+      setError(error);
+      setIsDeleting(false);
+    }
   };
+
   return (
     <Layout>
       <UploadContainer>
         <div className="content">
           <h1>Delete Account</h1>
           <p>Are you sure you want to delete your account?</p>
-          <p>This action is irreversible.</p>
+          <p>
+            This action is irreversible and will also cancel any active
+            subscriptions.
+          </p>
+
+          {isDeleting && (
+            <div className="notification is-info">
+              <p>Deleting your account and cancelling subscriptions...</p>
+              <progress className="progress is-primary" max="100">
+                Deleting...
+              </progress>
+            </div>
+          )}
+
           <button
             onClick={handleDelete}
-            className="button is-small is-danger"
+            className={`button is-small is-danger ${
+              isDeleting ? 'is-loading' : ''
+            }`}
             type="button"
+            disabled={isDeleting}
           >
             {deleteButtonText}
           </button>
