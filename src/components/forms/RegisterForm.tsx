@@ -7,8 +7,8 @@ import { WithGoogleLink } from './WithGoogleLink';
 import { getVisibleText } from '../../lib/text/getVisibleText';
 
 interface Props {
-  setErrorMessage: ErrorHandlerType;
-  redirect?: string | null;
+  readonly setErrorMessage: ErrorHandlerType;
+  readonly redirect?: string | null;
 }
 
 function RegisterForm({ setErrorMessage, redirect }: Props) {
@@ -39,7 +39,7 @@ function RegisterForm({ setErrorMessage, redirect }: Props) {
         const loginUrl = redirect
           ? `/login?redirect=${encodeURIComponent(redirect)}`
           : '/login';
-        window.location.href = loginUrl;
+        globalThis.location.href = loginUrl;
       } else {
         setErrorMessage(
           'Unknown error. Please try again or reach out to support@2anki.net for assistance if the issue persists.'

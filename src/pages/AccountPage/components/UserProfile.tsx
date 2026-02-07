@@ -7,8 +7,8 @@ interface User {
 }
 
 interface UserProfileProps {
-  user: User;
-  subscriptionStatus: string;
+  readonly user: User;
+  readonly subscriptionStatus: string;
 }
 
 export function UserProfile({ user, subscriptionStatus }: UserProfileProps) {

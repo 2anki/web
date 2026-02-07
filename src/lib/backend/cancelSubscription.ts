@@ -6,7 +6,7 @@ export const cancelSubscription = async (): Promise<{ message: string }> => {
   try {
     const response = await post('/api/users/cancel-subscription', {});
     if (response?.status === UNAUTHORIZED) {
-      window.location.href = '/login';
+      globalThis.location.href = '/login';
       throw new Error('Authentication required');
     }
     if (response?.status !== 200) {
