@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import TopMessage from '../../../../components/TopMessage/TopMessage';
 import { isValidCredentials } from './helpers/isValidCredentials';
 import { useHandleLoginSubmit } from './helpers/useHandleLoginSubmit';
@@ -8,9 +9,15 @@ import { getVisibleText } from '../../../../lib/text/getVisibleText';
 import { WithGoogleLink } from '../../../../components/forms/WithGoogleLink';
 
 function LoginForm() {
+  const [searchParams] = useSearchParams();
   const [error, setError] = useState<string | null>(null);
   const { email, password, loading, onSubmit, setEmail, setPassword } =
     useHandleLoginSubmit((e) => setError((e as Error).message));
+
+  const registerHref =
+    searchParams.get('error') === 'upload_limit_exceeded'
+      ? '/register?redirect=/pricing'
+      : '/register';
 
   return (
     <FormContainer>
@@ -19,9 +26,13 @@ function LoginForm() {
           <div className="columns is-centered">
             <div className="column is-half">
               <TopMessage />
-              <h1 className="title is-1">{getVisibleText('navigation.login.title')}</h1>
+              <h1 className="title is-1">
+                {getVisibleText('navigation.login.title')}
+              </h1>
               <div className="control">
-                <WithGoogleLink text={getVisibleText('navigation.login.google')} />
+                <WithGoogleLink
+                  text={getVisibleText('navigation.login.google')}
+                />
               </div>
               <hr />
               <form onSubmit={onSubmit}>
@@ -77,7 +88,7 @@ function LoginForm() {
               </form>
               <p className="pt-4">
                 {getVisibleText('navigation.register.question')}{' '}
-                <a rel="noreferrer" href="/register">
+                <a rel="noreferrer" href={registerHref}>
                   Register!
                 </a>
               </p>
