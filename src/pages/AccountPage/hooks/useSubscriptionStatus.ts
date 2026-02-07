@@ -5,6 +5,8 @@ interface UserLocals {
   patreon?: boolean;
 }
 
+type SubscriptionType = 'subscriber' | 'lifetime' | 'free';
+
 export function useSubscriptionStatus(locals: UserLocals | undefined) {
   const subscriptionStatus = useMemo(() => {
     if (locals?.subscriber) return 'Active Subscriber';
@@ -12,7 +14,7 @@ export function useSubscriptionStatus(locals: UserLocals | undefined) {
     return 'Free Plan';
   }, [locals?.subscriber, locals?.patreon]);
 
-  const subscriptionType = useMemo(() => {
+  const subscriptionType = useMemo((): SubscriptionType => {
     if (locals?.subscriber) return 'subscriber';
     if (locals?.patreon) return 'lifetime';
     return 'free';

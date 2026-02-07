@@ -4,6 +4,8 @@ import { useSubscriptionCancellation } from '../hooks/useSubscriptionCancellatio
 
 interface User {
   email: string;
+  picture?: string | null;
+  name?: string;
 }
 
 interface LocalsData {
