@@ -2,7 +2,7 @@ import React from 'react';
 import { getPaymentPortalLink } from '../helpers/getPaymentPortalLink';
 
 interface PlanDetailsProps {
-  subscriptionType: 'subscriber' | 'lifetime' | 'free';
+  readonly subscriptionType: 'subscriber' | 'lifetime' | 'free';
 }
 
 export function PlanDetails({ subscriptionType }: PlanDetailsProps) {

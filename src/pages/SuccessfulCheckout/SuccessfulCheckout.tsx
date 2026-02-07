@@ -6,7 +6,7 @@ import { LoadingState } from './components/LoadingState';
 import { SuccessContent } from './components/SuccessContent';
 
 export default function SuccessfulCheckout() {
-  const { shouldShowLoading, timeoutReached, isError } =
+  const { shouldShowLoading, timeoutReached } =
     useSubscriptionStatus();
 
   if (shouldShowLoading) {

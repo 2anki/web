@@ -40,7 +40,7 @@ export const SuccessContent = ({ timeoutReached }: SuccessContentProps) => {
           Having trouble logging in with the email used for payment?
         </strong>
         {
-          " Don't worry, we're here to help! Feel free to reach out to on eamil via this link:"
+          " Don't worry, we're here to help! Feel free to reach out to on eamil via this link: "
         }
         <a href={supportLink}>email link</a>.
       </p>

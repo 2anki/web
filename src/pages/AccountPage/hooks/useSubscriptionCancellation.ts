@@ -25,7 +25,7 @@ export function useSubscriptionCancellation(onSuccess?: () => void) {
 
   const cancelUserSubscription = () => {
     if (
-      window.confirm(
+      globalThis.confirm(
         'Are you sure you want to cancel your subscription? You will still have access until the end of your current billing period.'
       )
     ) {

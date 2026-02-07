@@ -48,7 +48,7 @@ export const useSubscriptionStatus = () => {
 
       // Redirect if user has active subscription
       if (query.data.hasActiveSubscription) {
-        window.location.href = '/search';
+        globalThis.location.href = '/search';
       }
     }
   }, [query.data]);

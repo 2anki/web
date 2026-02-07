@@ -17,10 +17,10 @@ interface LocalsData {
 }
 
 interface SubscriptionManagementProps {
-  user: User;
-  locals: LocalsData;
-  hasActivePlan: boolean;
-  onRefetch: () => Promise<any>;
+  readonly user: User;
+  readonly locals: LocalsData;
+  readonly hasActivePlan: boolean;
+  readonly onRefetch: () => Promise<any>;
 }
 
 export function SubscriptionManagement({
