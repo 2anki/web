@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 
 import { useUserLocals } from '../../lib/hooks/useUserLocals';
 import { PageContainer } from '../../components/styled';
@@ -19,12 +19,14 @@ export default function AccountPage() {
     }
   }, [data]);
 
-  const { mutate: linkEmailMutate, isLoading: isLinking } = useMutation({
+  const { mutate: linkEmailMutate, isPending: isLinking } = useMutation({
     mutationFn: (email: string) => postLinkEmail(email),
     onError: (error: any) => {
       setLinkSuccess(false);
       const message =
-        error?.response?.data?.message ?? error?.message ?? 'Failed to link email';
+        error?.response?.data?.message ??
+        error?.message ??
+        'Failed to link email';
       setLinkError(message);
     },
     onSuccess: async () => {
@@ -35,7 +37,7 @@ export default function AccountPage() {
   });
 
   if (isLoading) return <LoadingIndicator />;
-    if (!data?.user?.email) {
+  if (!data?.user?.email) {
     window.location.href = '/login';
     return null;
   }
@@ -65,7 +67,10 @@ export default function AccountPage() {
             <figure className="image is-128x128 mb-4">
               <img
                 className="is-rounded"
-                src={user.picture ?? `https://www.gravatar.com/avatar/${user.email}?s=128&d=mp`}
+                src={
+                  user.picture ??
+                  `https://www.gravatar.com/avatar/${user.email}?s=128&d=mp`
+                }
                 alt="User avatar"
                 data-hj-suppress
               />
@@ -75,10 +80,16 @@ export default function AccountPage() {
             <div className="level is-mobile">
               <div className="level-left">
                 <div>
-                  <h1 className="title mb-2" data-hj-suppress>{user.name}</h1>
-                  <p className="subtitle is-6 mb-2" data-hj-suppress>{user.email}</p>
+                  <h1 className="title mb-2" data-hj-suppress>
+                    {user.name}
+                  </h1>
+                  <p className="subtitle is-6 mb-2" data-hj-suppress>
+                    {user.email}
+                  </p>
                   <div className="tags">
-                    <span className="tag is-primary is-medium">{subscriptionStatus}</span>
+                    <span className="tag is-primary is-medium">
+                      {subscriptionStatus}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -141,7 +152,9 @@ export default function AccountPage() {
                   </div>
                 </div>
                 <div className="level-right">
-                  <a href="/pricing" className="button is-primary">Upgrade Now</a>
+                  <a href="/pricing" className="button is-primary">
+                    Upgrade Now
+                  </a>
                 </div>
               </div>
             </div>
@@ -152,7 +165,10 @@ export default function AccountPage() {
             <div className="box mt-5">
               <h3 className="title is-5">Subscription & Account Management</h3>
               <div className="content">
-                <p>You can manage or cancel your subscription through Stripe’s customer portal:</p>
+                <p>
+                  You can manage or cancel your subscription through Stripe’s
+                  customer portal:
+                </p>
                 <ol>
                   <li>
                     <a
@@ -165,12 +181,19 @@ export default function AccountPage() {
                   </li>
                 </ol>
                 <p className="mt-4">
-                  <strong>Important:</strong> Use the email address you used when subscribing—it may differ from your 2anki.net account email.
+                  <strong>Important:</strong> Use the email address you used
+                  when subscribing—it may differ from your 2anki.net account
+                  email.
                 </p>
-                <p className="mt-4"><strong>Having trouble?</strong></p>
+                <p className="mt-4">
+                  <strong>Having trouble?</strong>
+                </p>
                 <ul>
                   <li>Check your spam folder for login emails</li>
-                  <li>Email us at <a href="mailto:support@2anki.net">support@2anki.net</a></li>
+                  <li>
+                    Email us at{' '}
+                    <a href="mailto:support@2anki.net">support@2anki.net</a>
+                  </li>
                 </ul>
 
                 {locals?.subscriber && (
@@ -178,8 +201,9 @@ export default function AccountPage() {
                     <h4 className="title is-6">Linked 2anki.net Email</h4>
                     {locals.subscriptionInfo?.linked_email === user.email ? (
                       <p>
-                        Your subscription is managed through your Stripe account at{' '}
-                        <strong>{locals.subscriptionInfo?.email}</strong>. You can:
+                        Your subscription is managed through your Stripe account
+                        at <strong>{locals.subscriptionInfo?.email}</strong>.
+                        You can:
                         <ul>
                           <li>Manage your subscription</li>
                           <li>Update payment details</li>
@@ -188,25 +212,41 @@ export default function AccountPage() {
                       </p>
                     ) : (
                       <div>
-                        <div className={`control ${isLinking ? 'is-loading' : ''}`}>
+                        <div
+                          className={`control ${isLinking ? 'is-loading' : ''}`}
+                        >
                           <input
                             value={linkEmail}
                             onChange={onChangeLinkEmail}
                             id="email"
-                            className={`input ${linkError ? 'is-danger' : ''} ${linkSuccess ? 'is-success' : ''}`}
+                            className={`input ${linkError ? 'is-danger' : ''} ${
+                              linkSuccess ? 'is-success' : ''
+                            }`}
                             type="email"
                             placeholder="Enter subscription email"
-                            disabled={locals.subscriptionInfo?.linked_email === user.email}
+                            disabled={
+                              locals.subscriptionInfo?.linked_email ===
+                              user.email
+                            }
                           />
                         </div>
-                        {linkError && <p className="help is-danger">{linkError}</p>}
-                        {linkSuccess && <p className="help is-success">Email linked successfully!</p>}
+                        {linkError && (
+                          <p className="help is-danger">{linkError}</p>
+                        )}
+                        {linkSuccess && (
+                          <p className="help is-success">
+                            Email linked successfully!
+                          </p>
+                        )}
                         <p className="py-4">
                           <button
                             type="button"
                             className="button is-link"
                             onClick={onLink}
-                            disabled={locals.subscriptionInfo?.linked_email === user.email}
+                            disabled={
+                              locals.subscriptionInfo?.linked_email ===
+                              user.email
+                            }
                           >
                             Link Email
                           </button>
@@ -219,9 +259,15 @@ export default function AccountPage() {
                 {/* Account Deletion */}
                 <div className="mt-5">
                   <p className="has-text-danger">
-                    Deleting your account will permanently remove all your data and cannot be undone.
+                    Deleting your account will permanently remove all your data
+                    and cannot be undone.
                   </p>
-                  <a href="/delete-account" className="button is-danger is-small">Delete Account</a>
+                  <a
+                    href="/delete-account"
+                    className="button is-danger is-small"
+                  >
+                    Delete Account
+                  </a>
                 </div>
               </div>
             </div>
