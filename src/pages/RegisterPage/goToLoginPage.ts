@@ -1,3 +1,6 @@
-export const goToLoginPage = () => {
-  window.location.href = '/login';
+export const goToLoginPage = (redirect?: string | null) => {
+  const url = redirect
+    ? `/login?redirect=${encodeURIComponent(redirect)}`
+    : '/login';
+  window.location.href = url;
 };

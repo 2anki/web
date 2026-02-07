@@ -8,9 +8,10 @@ import { getVisibleText } from '../../lib/text/getVisibleText';
 
 interface Props {
   setErrorMessage: ErrorHandlerType;
+  redirect?: string | null;
 }
 
-function RegisterForm({ setErrorMessage }: Props) {
+function RegisterForm({ setErrorMessage, redirect }: Props) {
   const [name, setName] = useState(localStorage.getItem('name') || '');
   const [email, setEmail] = useState(localStorage.getItem('email') || '');
   const [tos, setTos] = useState(localStorage.getItem('tos') === 'true');
@@ -25,8 +26,8 @@ function RegisterForm({ setErrorMessage }: Props) {
     email.length > 0 &&
     email.length < 256 &&
     password.length > 7 &&
-    password.length < 256
-    && password === confirmPassword;
+    password.length < 256 &&
+    password === confirmPassword;
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
@@ -35,7 +36,10 @@ function RegisterForm({ setErrorMessage }: Props) {
     try {
       const res = await get2ankiApi().register(name, email, password);
       if (res.status === 200) {
-        window.location.href = '/login';
+        const loginUrl = redirect
+          ? `/login?redirect=${encodeURIComponent(redirect)}`
+          : '/login';
+        window.location.href = loginUrl;
       } else {
         setErrorMessage(
           'Unknown error. Please try again or reach out to support@2anki.net for assistance if the issue persists.'
@@ -57,7 +61,9 @@ function RegisterForm({ setErrorMessage }: Props) {
               <TopMessage />
               <h1 className="title">Register</h1>
               <div>
-                <WithGoogleLink text={getVisibleText('navigation.register.google')} />
+                <WithGoogleLink
+                  text={getVisibleText('navigation.register.google')}
+                />
               </div>
               <hr />
               <p className="subtitle">Or create a new account.</p>
@@ -127,7 +133,9 @@ function RegisterForm({ setErrorMessage }: Props) {
                         min="8"
                         max="255"
                         value={confirmPassword}
-                        onChange={(event) => setConfirmPassword(event.target.value)}
+                        onChange={(event) =>
+                          setConfirmPassword(event.target.value)
+                        }
                         required
                         className="input"
                         type="password"
