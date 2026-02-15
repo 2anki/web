@@ -1,4 +1,4 @@
-Frontend code for [2anki.net](https://2anki.net), for backend see https://github.com/2anki/2anki.net
+Frontend code for [2anki.net](https://2anki.net), for backend see https://github.com/2anki/server
 
 <p align="center"><img width="256" src="public/mascot/Notion%201.png?raw=true" alt="Notion to Anki logo" /></p>
 
