@@ -58,7 +58,7 @@
     "concurrently": "^9.2.1",
     "cors": "^2.8.5",
     "cross-env": "^10.1.0",
-    "dotenv": "^17.2.3",
+    "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "jsdom": "^27.0.1",
     "playwright": "^1.56.1",
