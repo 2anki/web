@@ -43,9 +43,11 @@ function AppContent({
 }>) {
   const { data, isLoading } = useUserLocals();
   const isLoggedIn = !isLoading && !!data?.user?.id;
+  const isPaying =
+    !isLoading && (!!data?.locals?.patreon || !!data?.locals?.subscriber);
   return (
     <BrowserRouter>
-      <PageLayout error={error} isLoggedIn={isLoggedIn}>
+      <PageLayout error={error} isLoggedIn={isLoggedIn} isPaying={isPaying}>
         <Routes>
           <Route
             path="/favorites"
