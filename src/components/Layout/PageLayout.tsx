@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { PageContent, ClaudePromoBanner } from './styled';
 import { ErrorPresenter } from '../errors/ErrorPresenter';
 import NavigationBar from '../NavigationBar/NavigationBar';
@@ -20,6 +20,8 @@ export function PageLayout({
   const [claudeEnabled, setClaudeEnabled] = useState(
     localStorage.getItem('claude-ai-flashcards') === 'true'
   );
+  const { pathname } = useLocation();
+  const showPromo = pathname !== '/search';
 
   const toggleClaude = () => {
     const next = !claudeEnabled;
@@ -30,7 +32,7 @@ export function PageLayout({
   return (
     <PageContent>
       <NavigationBar isLoggedIn={isLoggedIn} />
-      {isLoggedIn && isPaying && (
+      {isLoggedIn && isPaying && showPromo && (
         <ClaudePromoBanner>
           <label
             style={{
@@ -49,7 +51,7 @@ export function PageLayout({
           </label>
         </ClaudePromoBanner>
       )}
-      {isLoggedIn && !isPaying && (
+      {isLoggedIn && !isPaying && showPromo && (
         <ClaudePromoBanner>
           ✨{' '}
           <span>
