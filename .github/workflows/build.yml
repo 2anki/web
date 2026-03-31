@@ -20,6 +20,7 @@ jobs:
       - name: Install and build
         run: |
           pnpm install --frozen-lockfile
+          pnpm typecheck
           pnpm build
         env:
           CI: true
