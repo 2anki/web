@@ -19,6 +19,7 @@ import { getLocalStorageBooleanValue } from '../../../lib/data_layer/getLocalSto
 import CardOption from '../../../lib/data_layer/model/CardOption';
 import { getVisibleText } from '../../../lib/text/getVisibleText';
 import { useSettingsCardsOptions } from './useSettingsCardsOptions';
+import { ANTHROPIC_ENABLED_KEY } from '../AnthropicConsentModal/AnthropicConsentModal';
 
 interface Props {
   pageTitle?: string;
@@ -31,6 +32,9 @@ interface Props {
 function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: Readonly<Props>) {
   const { isLoading, isError, options, loadingDefaultsError } = useSettingsCardsOptions(pageId);
   const [settings, setSettings] = useState<SettingsPayload>({});
+  const [anthropicEnabled, setAnthropicEnabled] = useState(
+    localStorage.getItem(ANTHROPIC_ENABLED_KEY) === 'true'
+  );
   const [loading, setLoading] = useState(!!pageId);
   const deckNameKey = 'deckName';
   const [deckName, setDeckName] = useState(
@@ -208,6 +212,31 @@ function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: 
                   }}
                 />
               ))}
+
+              <div className="p-4 bg-white rounded shadow">
+                <label htmlFor="anthropic-enabled" className="font-semibold">
+                  ✨ Recommended AI (Anthropic)
+                </label>
+                <p className="text-sm text-gray-600 mb-2">
+                  Anthropic is our recommended AI engine. It produces more accurate flashcards, better structure, and handles complex input better.
+                  {!anthropicEnabled && (
+                    <span className="has-text-warning-dark"> Disabling this may result in lower-quality output and more manual corrections.</span>
+                  )}
+                </p>
+                <label className="checkbox" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                  <input
+                    id="anthropic-enabled"
+                    type="checkbox"
+                    checked={anthropicEnabled}
+                    onChange={(e) => {
+                      const enabled = e.target.checked;
+                      setAnthropicEnabled(enabled);
+                      localStorage.setItem(ANTHROPIC_ENABLED_KEY, String(enabled));
+                    }}
+                  />
+                  <strong>Enable recommended AI (Anthropic)</strong>
+                </label>
+              </div>
 
               <div className="p-4 bg-white rounded shadow w-full">
                 <details className="w-full">
