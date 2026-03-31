@@ -5,7 +5,6 @@ import { ErrorPresenter } from '../errors/ErrorPresenter';
 import NavigationBar from '../NavigationBar/NavigationBar';
 import AnthropicConsentModal, {
   ANTHROPIC_ENABLED_KEY,
-  ANTHROPIC_CONSENT_SHOWN_KEY,
 } from '../modals/AnthropicConsentModal/AnthropicConsentModal';
 
 interface PageLayoutProps {
@@ -25,7 +24,7 @@ export function PageLayout({
     localStorage.getItem(ANTHROPIC_ENABLED_KEY) === 'true'
   );
   const [showConsentModal, setShowConsentModal] = useState(
-    isLoggedIn && isPaying && localStorage.getItem(ANTHROPIC_CONSENT_SHOWN_KEY) !== 'true'
+    isLoggedIn && isPaying && localStorage.getItem(ANTHROPIC_ENABLED_KEY) === null
   );
   const { pathname } = useLocation();
   const showPromo = pathname !== '/search';

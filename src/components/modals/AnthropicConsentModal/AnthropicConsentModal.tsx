@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 export const ANTHROPIC_ENABLED_KEY = 'claude-ai-flashcards';
-export const ANTHROPIC_CONSENT_SHOWN_KEY = 'anthropic-consent-shown';
 
 interface Props {
   onClose: () => void;
@@ -12,7 +11,6 @@ function AnthropicConsentModal({ onClose }: Props) {
 
   const handleConfirm = () => {
     localStorage.setItem(ANTHROPIC_ENABLED_KEY, String(useAnthropicChoice));
-    localStorage.setItem(ANTHROPIC_CONSENT_SHOWN_KEY, 'true');
     onClose();
   };
 

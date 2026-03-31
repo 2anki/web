@@ -2,7 +2,6 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
 import AnthropicConsentModal, {
   ANTHROPIC_ENABLED_KEY,
-  ANTHROPIC_CONSENT_SHOWN_KEY,
 } from './AnthropicConsentModal';
 
 describe('AnthropicConsentModal', () => {
@@ -34,22 +33,20 @@ describe('AnthropicConsentModal', () => {
     expect(screen.queryByText(/disabling this may result in lower-quality output/i)).not.toBeInTheDocument();
   });
 
-  test('saves Anthropic enabled and consent shown when confirmed with recommended option', () => {
+  test('saves claude-ai-flashcards as true when confirmed with recommended option', () => {
     const onClose = vi.fn();
     render(<AnthropicConsentModal onClose={onClose} />);
     fireEvent.click(screen.getByRole('button', { name: /confirm/i }));
     expect(localStorage.getItem(ANTHROPIC_ENABLED_KEY)).toBe('true');
-    expect(localStorage.getItem(ANTHROPIC_CONSENT_SHOWN_KEY)).toBe('true');
     expect(onClose).toHaveBeenCalled();
   });
 
-  test('saves Anthropic disabled and consent shown when confirmed with basic option', () => {
+  test('saves claude-ai-flashcards as false when confirmed with basic option', () => {
     const onClose = vi.fn();
     render(<AnthropicConsentModal onClose={onClose} />);
     fireEvent.click(screen.getByRole('radio', { name: /use basic alternative/i }));
     fireEvent.click(screen.getByRole('button', { name: /confirm/i }));
     expect(localStorage.getItem(ANTHROPIC_ENABLED_KEY)).toBe('false');
-    expect(localStorage.getItem(ANTHROPIC_CONSENT_SHOWN_KEY)).toBe('true');
     expect(onClose).toHaveBeenCalled();
   });
 });
