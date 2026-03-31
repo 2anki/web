@@ -1,4 +1,4 @@
-import { SyntheticEvent, useRef, useState } from 'react';
+import { SyntheticEvent, useEffect, useRef, useState } from 'react';
 import { ErrorHandlerType } from '../../../../components/errors/helpers/getErrorMessage';
 import handleRedirect from '../../../../lib/handleRedirect';
 import getAcceptedContentTypes from '../../helpers/getAcceptedContentTypes';
@@ -6,6 +6,37 @@ import getHeadersFilename from '../../helpers/getHeadersFilename';
 import DownloadButton from '../DownloadButton';
 import DropParagraph from '../DropParagraph';
 import { useDrag } from './hooks/useDrag';
+
+const CLAUDE_STAGES = [
+  { label: 'Preparing document…', cumulative: 0 },
+  { label: 'Sending to Claude AI…', cumulative: 800 },
+  { label: 'Claude is generating flashcards…', cumulative: 2000 },
+  { label: 'Building your Anki deck…', cumulative: 12000 },
+  { label: 'Almost ready…', cumulative: 14500 },
+];
+
+interface ClaudeProgressProps {
+  stage: number;
+}
+
+function ClaudeProgress({ stage }: Readonly<ClaudeProgressProps>) {
+  const label = CLAUDE_STAGES[Math.min(stage, CLAUDE_STAGES.length - 1)].label;
+  const progressValue = Math.min(95, (stage / (CLAUDE_STAGES.length - 1)) * 95);
+
+  return (
+    <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+      <p style={{ marginBottom: '0.5rem', color: '#7c3aed', fontWeight: 500 }}>
+        ✨ {label}
+      </p>
+      <progress
+        className="progress is-small"
+        value={progressValue}
+        max={100}
+        style={{ accentColor: '#7c3aed' }}
+      />
+    </div>
+  );
+}
 
 interface UploadFormProps {
   setErrorMessage: ErrorHandlerType;
@@ -15,8 +46,21 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
   const [uploading, setUploading] = useState(false);
   const [downloadLink, setDownloadLink] = useState<null | string>('');
   const [deckName, setDeckName] = useState('');
+  const [claudeStage, setClaudeStage] = useState(0);
+  const claudeEnabled = localStorage.getItem('claude-ai-flashcards') === 'true';
   const fileInputRef = useRef<HTMLInputElement>(null);
   const convertRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!uploading || !claudeEnabled) {
+      setClaudeStage(0);
+      return;
+    }
+    const timers = CLAUDE_STAGES.slice(1).map(({ cumulative }, i) =>
+      setTimeout(() => setClaudeStage(i + 1), cumulative)
+    );
+    return () => timers.forEach(clearTimeout);
+  }, [uploading, claudeEnabled]);
   const { dropHover } = useDrag({
     onDrop: (event) => {
       const { dataTransfer } = event;
@@ -115,6 +159,7 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
             deckName={deckName}
             uploading={uploading}
           />
+          {uploading && claudeEnabled && <ClaudeProgress stage={claudeStage} />}
           <button
             aria-label="Upload file"
             style={{ visibility: 'hidden' }}
