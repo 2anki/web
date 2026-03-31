@@ -6,6 +6,7 @@ import getHeadersFilename from '../../helpers/getHeadersFilename';
 import DownloadButton from '../DownloadButton';
 import DropParagraph from '../DropParagraph';
 import { useDrag } from './hooks/useDrag';
+import { ClaudeProgress } from './ClaudeProgress';
 
 interface UploadFormProps {
   setErrorMessage: ErrorHandlerType;
@@ -15,19 +16,19 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
   const [uploading, setUploading] = useState(false);
   const [downloadLink, setDownloadLink] = useState<null | string>('');
   const [deckName, setDeckName] = useState('');
+  const claudeEnabled = localStorage.getItem('claude-ai-flashcards') === 'true';
   const fileInputRef = useRef<HTMLInputElement>(null);
   const convertRef = useRef<HTMLButtonElement>(null);
+
   const { dropHover } = useDrag({
     onDrop: (event) => {
       const { dataTransfer } = event;
-
       if (dataTransfer && dataTransfer.files.length > 0) {
         fileInputRef.current!.files = dataTransfer.files;
         convertRef.current?.click();
       }
-
       event.preventDefault();
-    }
+    },
   });
 
   const handleSubmit = async (event: SyntheticEvent) => {
@@ -40,29 +41,20 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
       storedFields.forEach((sf) => formData.append(sf[0], sf[1]));
       const request = await window.fetch('/api/upload/file', {
         method: 'post',
-        body: formData
+        body: formData,
       });
       const contentType = request.headers.get('Content-Type');
-      const notOK = request.status !== 200;
       if (request.redirected) {
         return handleRedirect(request);
       }
-
-      if (notOK) {
+      if (request.status !== 200) {
         const text = await request.text();
         setDownloadLink(null);
         return setErrorMessage(text);
       }
       const fileNameHeader = getHeadersFilename(request.headers);
-      if (fileNameHeader) {
-        setDeckName(fileNameHeader);
-      } else {
-        const fallback =
-          contentType === 'application/zip'
-            ? 'Your Decks.zip'
-            : 'Your deck.apkg';
-        setDeckName(fallback);
-      }
+      const fallback = contentType === 'application/zip' ? 'Your Decks.zip' : 'Your deck.apkg';
+      setDeckName(fileNameHeader ?? fallback);
       const blob = await request.blob();
       setDownloadLink(window.URL.createObjectURL(blob));
       setUploading(false);
@@ -75,18 +67,8 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
     return true;
   };
 
-  const fileSelected = () => {
-    convertRef.current?.click();
-  };
-
   return (
-    <form
-      encType="multipart/form-data"
-      method="post"
-      onSubmit={(event) => {
-        handleSubmit(event);
-      }}
-    >
+    <form encType="multipart/form-data" method="post" onSubmit={handleSubmit}>
       <div className="container">
         <div>
           <div className="field">
@@ -104,7 +86,7 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
                   accept={getAcceptedContentTypes()}
                   required
                   multiple
-                  onChange={() => fileSelected()}
+                  onChange={() => convertRef.current?.click()}
                 />
               </label>
               <span className="tag is-large is-link">Click to convert your notes</span>
@@ -115,6 +97,7 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
             deckName={deckName}
             uploading={uploading}
           />
+          <ClaudeProgress active={uploading && claudeEnabled} />
           <button
             aria-label="Upload file"
             style={{ visibility: 'hidden' }}
@@ -128,3 +111,4 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
 }
 
 export default UploadForm;
+

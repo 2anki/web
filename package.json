@@ -3,11 +3,13 @@
   "version": "0.1.1",
   "type": "module",
   "private": true,
+  "packageManager": "pnpm@10.18.2",
   "scripts": {
     "start": "cross-env REACT_SKIP_SENTRY=true vite",
     "dev": "cross-env NODE_OPTIONS=--max_old_space_size=4096 vite",
     "local": "cross-env REACT_APP_LOCALHOST=true vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
     "preview": "vite preview",
     "test": "vitest",
     "test:ui": "vitest --ui",
@@ -22,7 +24,7 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "playwright test --debug",
     "test:e2e:with-mock": "cross-env PLAYWRIGHT_WITH_MOCK=true playwright test",
-    "test:e2e:with-servers": "concurrently \"npm run mock-server\" \"npm run start\" --names \"mock,app\" --prefix-colors \"blue,green\""
+    "test:e2e:with-servers": "concurrently \"pnpm mock-server\" \"pnpm start\" --names \"mock,app\" --prefix-colors \"blue,green\""
   },
   "dependencies": {
     "@bugsnag/js": "^7.23.0",
@@ -82,5 +84,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "pnpm": {
+    "overrides": {
+      "rollup": ">=4.59.0",
+      "picomatch": ">=4.0.4",
+      "path-to-regexp": ">=8.4.0",
+      "yaml": ">=2.8.3"
+    }
   }
 }

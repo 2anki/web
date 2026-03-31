@@ -12,13 +12,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
       - name: Web
         run: |
-          npm install
-          npm run test
+          pnpm install --frozen-lockfile
+          pnpm test
         env:
           CI: true
