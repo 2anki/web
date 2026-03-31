@@ -12,13 +12,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm run lint
+      - name: Run lint
         run: |
-          npm  install
-          npm run lint
+          pnpm install --frozen-lockfile
+          pnpm lint
         env:
           CI: true

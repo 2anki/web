@@ -3,6 +3,7 @@
   "version": "0.1.1",
   "type": "module",
   "private": true,
+  "packageManager": "pnpm@10.18.2",
   "scripts": {
     "start": "cross-env REACT_SKIP_SENTRY=true vite",
     "dev": "cross-env NODE_OPTIONS=--max_old_space_size=4096 vite",
@@ -22,7 +23,7 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "playwright test --debug",
     "test:e2e:with-mock": "cross-env PLAYWRIGHT_WITH_MOCK=true playwright test",
-    "test:e2e:with-servers": "concurrently \"npm run mock-server\" \"npm run start\" --names \"mock,app\" --prefix-colors \"blue,green\""
+    "test:e2e:with-servers": "concurrently \"pnpm mock-server\" \"pnpm start\" --names \"mock,app\" --prefix-colors \"blue,green\""
   },
   "dependencies": {
     "@bugsnag/js": "^7.23.0",
