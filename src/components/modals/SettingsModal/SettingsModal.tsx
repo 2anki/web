@@ -230,6 +230,14 @@ function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: 
 
               <div className="p-4 bg-white rounded shadow">
                 <h2 className="text-lg font-semibold mb-2">Template Options</h2>
+                <a
+                  href="https://templates.2anki.net"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="button is-small is-link mb-3"
+                >
+                  Edit Templates
+                </a>
                 <TemplateSelect
                   values={availableTemplates}
                   value={template}
