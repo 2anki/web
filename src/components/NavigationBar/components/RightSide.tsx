@@ -9,6 +9,12 @@ interface RightSideProps {
 
 export function RightSide({ path }: Readonly<RightSideProps>) {
   return <div className="navbar-end">
+    <NavbarItem href="/marketplace" path={path}>
+      Marketplace
+    </NavbarItem>
+    <NavbarItem href="https://templates.2anki.net" path={path}>
+      Templates
+    </NavbarItem>
     <NavbarItem href="/contact" path={path}>
       {getVisibleText('navigation.contact')}
     </NavbarItem>

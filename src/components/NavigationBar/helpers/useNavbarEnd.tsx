@@ -36,6 +36,12 @@ export default function useNavbarEnd(path: string, backend: Backend) {
           {getVisibleText('navigation.pricing')}
         </NavbarItem>
       )}
+      <NavbarItem href="/marketplace" path={path}>
+        Marketplace
+      </NavbarItem>
+      <NavbarItem href="https://templates.2anki.net" path={path}>
+        Templates
+      </NavbarItem>
       <NavbarItem href="/upload" path={path}>
         {getVisibleText('navigation.upload')}
       </NavbarItem>

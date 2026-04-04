@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 interface PublicTemplate {
   id: string;
-  owner: string;
+  ownerName: string;
   name: string;
   description: string;
   tags: string[];
@@ -14,7 +14,10 @@ function TemplateCard({ template }: Readonly<{ template: PublicTemplate }>) {
     const response = await fetch('/api/templates/export', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ noteType: (template as any).noteType, previewData: (template as any).previewData }),
+      body: JSON.stringify({
+        noteType: (template as any).noteType,
+        previewData: (template as any).previewData,
+      }),
     });
 
     if (!response.ok) return;
@@ -46,7 +49,7 @@ function TemplateCard({ template }: Readonly<{ template: PublicTemplate }>) {
             ))}
           </div>
         )}
-        <p className="is-size-7 has-text-grey">By {template.owner}</p>
+        <p className="is-size-7 has-text-grey">By {template.ownerName}</p>
       </div>
       <div className="card-footer">
         <button
@@ -91,7 +94,8 @@ export function MarketplacePage() {
       <div className="container">
         <h1 className="title is-2">Template Marketplace</h1>
         <p className="subtitle mb-5">
-          Community-shared Anki note type templates. Download any as a ready-to-import APKG.
+          Community-shared Anki note type templates. Download any as a
+          ready-to-import APKG.
         </p>
 
         {error && (
