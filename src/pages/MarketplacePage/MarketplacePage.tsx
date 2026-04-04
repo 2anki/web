@@ -5,38 +5,54 @@ interface PublicTemplate {
   ownerName: string;
   name: string;
   description: string;
+  noteType: object;
+  previewData: Record<string, string>;
   tags: string[];
   createdAt: string;
 }
 
 function TemplateCard({ template }: Readonly<{ template: PublicTemplate }>) {
+  const [downloading, setDownloading] = useState(false);
+  const [downloadError, setDownloadError] = useState<string | null>(null);
+
   const handleDownload = async () => {
-    const response = await fetch('/api/templates/export', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        noteType: (template as any).noteType,
-        previewData: (template as any).previewData,
-      }),
-    });
+    setDownloading(true);
+    setDownloadError(null);
+    try {
+      const response = await fetch('/api/templates/export', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          noteType: template.noteType,
+          previewData: template.previewData,
+        }),
+      });
 
-    if (!response.ok) return;
+      if (!response.ok) {
+        setDownloadError('Download failed. Please try again.');
+        return;
+      }
 
-    const blob = await response.blob();
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${template.name}.apkg`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${template.name}.apkg`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch {
+      setDownloadError('Download failed. Please try again.');
+    } finally {
+      setDownloading(false);
+    }
   };
 
   return (
     <div className="card">
       <div className="card-content">
-        <p className="title is-5">{template.name}</p>
+        <h2 className="title is-5">{template.name}</h2>
         {template.description && (
           <p className="subtitle is-6">{template.description}</p>
         )}
@@ -50,11 +66,18 @@ function TemplateCard({ template }: Readonly<{ template: PublicTemplate }>) {
           </div>
         )}
         <p className="is-size-7 has-text-grey">By {template.ownerName}</p>
+        {downloadError && (
+          <p className="help is-danger mt-2">{downloadError}</p>
+        )}
       </div>
       <div className="card-footer">
         <button
-          className="card-footer-item button is-link is-light"
+          className={`card-footer-item button is-link is-light ${
+            downloading ? 'is-loading' : ''
+          }`}
           onClick={handleDownload}
+          disabled={downloading}
+          aria-label={`Download ${template.name} as APKG`}
         >
           Download APKG
         </button>
@@ -110,7 +133,10 @@ export function MarketplacePage() {
 
         <div className="columns is-multiline">
           {templates.map((template) => (
-            <div key={template.id} className="column is-4">
+            <div
+              key={template.id}
+              className="column is-full-mobile is-half-tablet is-4-desktop"
+            >
               <TemplateCard template={template} />
             </div>
           ))}
