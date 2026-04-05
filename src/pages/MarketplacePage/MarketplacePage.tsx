@@ -5,6 +5,7 @@ interface PublicTemplate {
   ownerName: string;
   name: string;
   description: string;
+  baseType: string;
   noteType: object;
   previewData: Record<string, string>;
   tags: string[];
@@ -58,6 +59,9 @@ function TemplateCard({ template }: Readonly<{ template: PublicTemplate }>) {
         )}
         {template.tags && template.tags.length > 0 && (
           <div className="tags">
+            {template.baseType && (
+              <span className="tag is-info is-light">{template.baseType}</span>
+            )}
             {template.tags.map((tag) => (
               <span key={tag} className="tag is-light">
                 {tag}
