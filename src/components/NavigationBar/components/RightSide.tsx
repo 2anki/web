@@ -8,15 +8,23 @@ interface RightSideProps {
 }
 
 export function RightSide({ path }: Readonly<RightSideProps>) {
-  return <div className="navbar-end">
-    <NavbarItem href="/contact" path={path}>
-      {getVisibleText('navigation.contact')}
-    </NavbarItem>
-    <NavbarItem path="pricing" href="/pricing">
-      {getVisibleText('navigation.pricing')}
-    </NavbarItem>
-    <LoginButton className="button has-text-white m-2" href="/login#login">
-      {getVisibleText('navigation.login')}
-    </LoginButton>
-  </div>;
+  return (
+    <div className="navbar-end">
+      <NavbarItem href="/marketplace" path={path}>
+        Marketplace
+      </NavbarItem>
+      <NavbarItem href="https://templates.2anki.net" path={path}>
+        Templates
+      </NavbarItem>
+      <NavbarItem href="/contact" path={path}>
+        {getVisibleText('navigation.contact')}
+      </NavbarItem>
+      <NavbarItem path="pricing" href="/pricing">
+        {getVisibleText('navigation.pricing')}
+      </NavbarItem>
+      <LoginButton className="button has-text-white m-2" href="/login#login">
+        {getVisibleText('navigation.login')}
+      </LoginButton>
+    </div>
+  );
 }

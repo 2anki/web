@@ -28,21 +28,46 @@ interface Props {
   setError: ErrorHandlerType;
 }
 
-function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: Readonly<Props>) {
-  const { isLoading, isError, options, loadingDefaultsError } = useSettingsCardsOptions(pageId);
+function SettingsModal({
+  pageTitle,
+  pageId,
+  isActive,
+  onClickClose,
+  setError,
+}: Readonly<Props>) {
+  const { isLoading, isError, options, loadingDefaultsError } =
+    useSettingsCardsOptions(pageId);
   const [settings, setSettings] = useState<SettingsPayload>({});
   const [loading, setLoading] = useState(!!pageId);
   const deckNameKey = 'deckName';
   const [deckName, setDeckName] = useState(
-    getLocalStorageValue(deckNameKey, pageTitle ?? localStorage.getItem(deckNameKey) ?? '', settings)
+    getLocalStorageValue(
+      deckNameKey,
+      pageTitle ?? localStorage.getItem(deckNameKey) ?? '',
+      settings
+    )
   );
-  const [fontSize, setFontSize] = useState(getLocalStorageValue('font-size', '', settings));
-  const [template, setTemplate] = useState(getLocalStorageValue('template', 'specialstyle', settings));
-  const [toggleMode, setToggleMode] = useState(getLocalStorageValue('toggle-mode', 'close_toggle', settings));
-  const [pageEmoji, setPageEmoji] = useState(getLocalStorageValue('page-emoji', 'first_emoji', settings));
-  const [basicName, setBasicName] = useState(getLocalStorageValue('basic_model_name', '', settings));
-  const [clozeName, setClozeName] = useState(getLocalStorageValue('cloze_model_name', '', settings));
-  const [inputName, setInputName] = useState(getLocalStorageValue('input_model_name', '', settings));
+  const [fontSize, setFontSize] = useState(
+    getLocalStorageValue('font-size', '', settings)
+  );
+  const [template, setTemplate] = useState(
+    getLocalStorageValue('template', 'specialstyle', settings)
+  );
+  const [toggleMode, setToggleMode] = useState(
+    getLocalStorageValue('toggle-mode', 'close_toggle', settings)
+  );
+  const [pageEmoji, setPageEmoji] = useState(
+    getLocalStorageValue('page-emoji', 'first_emoji', settings)
+  );
+  const [basicName, setBasicName] = useState(
+    getLocalStorageValue('basic_model_name', '', settings)
+  );
+  const [clozeName, setClozeName] = useState(
+    getLocalStorageValue('cloze_model_name', '', settings)
+  );
+  const [inputName, setInputName] = useState(
+    getLocalStorageValue('input_model_name', '', settings)
+  );
   const [userInstructions, setUserInstructions] = useState(
     getLocalStorageValue(
       'user-instructions',
@@ -138,14 +163,24 @@ function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: 
         {!loading && (
           <>
             <div className="modal-card-head">
-              <div className="modal-card-title text-xl font-bold">{getVisibleText('card.options')}</div>
-              <button type="button" className="delete" aria-label="close" onClick={onClickClose} />
+              <div className="modal-card-title text-xl font-bold">
+                {getVisibleText('card.options')}
+              </div>
+              <button
+                type="button"
+                className="delete"
+                aria-label="close"
+                onClick={onClickClose}
+              />
             </div>
             <section className="modal-card-body space-y-6">
               <div className="p-4 bg-white rounded shadow">
-                <label htmlFor="deck-name" className="font-semibold">Deck Name</label>
+                <label htmlFor="deck-name" className="font-semibold">
+                  Deck Name
+                </label>
                 <p className="text-sm text-gray-600 mb-2">
-                  You can customize the deck name here. Leave it empty if you use subpages.
+                  You can customize the deck name here. Leave it empty if you
+                  use subpages.
                 </p>
                 <StyledInput
                   id="deck-name"
@@ -162,7 +197,9 @@ function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: 
               </div>
 
               <div className="p-4 bg-white rounded shadow">
-                <label htmlFor="page-emoji" className="font-semibold">Page Icon</label>
+                <label htmlFor="page-emoji" className="font-semibold">
+                  Page Icon
+                </label>
                 <p className="text-sm text-gray-600 mb-2">
                   Control whether to use the Notion page icon and its position.
                 </p>
@@ -182,7 +219,9 @@ function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: 
               </div>
 
               <div className="p-4 bg-white rounded shadow">
-                <label htmlFor="toggle-mode" className="font-semibold">Toggle Mode</label>
+                <label htmlFor="toggle-mode" className="font-semibold">
+                  Toggle Mode
+                </label>
                 <TemplateSelect
                   values={[
                     { label: 'Open nested toggles', value: 'open_toggle' },
@@ -200,7 +239,11 @@ function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: 
               {options?.map((o) => (
                 <LocalCheckbox
                   key={o.key}
-                  defaultValue={getLocalStorageBooleanValue(o.key, o.value.toString(), settings)}
+                  defaultValue={getLocalStorageBooleanValue(
+                    o.key,
+                    o.value.toString(),
+                    settings
+                  )}
                   label={o.label}
                   description={o.description}
                   onChecked={(checked) => {
@@ -211,14 +254,20 @@ function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: 
 
               <div className="p-4 bg-white rounded shadow w-full">
                 <details className="w-full">
-                  <summary className="font-medium cursor-pointer">User Instructions for PDF conversion</summary>
+                  <summary className="font-medium cursor-pointer">
+                    User Instructions for PDF conversion
+                  </summary>
                   <div className="w-full">
                     <textarea
-                      style={{width: '100%', minHeight: '148px'}}
+                      style={{ width: '100%', minHeight: '148px' }}
                       value={userInstructions}
                       onChange={(e) => {
                         setUserInstructions(e.target.value);
-                        saveValueInLocalStorage('user-instructions', e.target.value, pageId);
+                        saveValueInLocalStorage(
+                          'user-instructions',
+                          e.target.value,
+                          pageId
+                        );
                       }}
                       rows={4}
                       className="w-full mt-2 p-2 border rounded resize-none"
@@ -230,6 +279,18 @@ function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: 
 
               <div className="p-4 bg-white rounded shadow">
                 <h2 className="text-lg font-semibold mb-2">Template Options</h2>
+                <a
+                  href={
+                    import.meta.env.DEV
+                      ? 'http://localhost:3000'
+                      : 'https://templates.2anki.net'
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="button is-small is-link mb-3"
+                >
+                  Edit Templates
+                </a>
                 <TemplateSelect
                   values={availableTemplates}
                   value={template}
@@ -280,8 +341,16 @@ function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: 
               />
             </section>
             <footer className="modal-card-foot flex justify-center gap-4">
-              <button type="button" className="button is-link" onClick={onSubmit}>Save</button>
-              <button type="button" className="button" onClick={resetStore}>Delete</button>
+              <button
+                type="button"
+                className="button is-link"
+                onClick={onSubmit}
+              >
+                Save
+              </button>
+              <button type="button" className="button" onClick={resetStore}>
+                Delete
+              </button>
             </footer>
           </>
         )}

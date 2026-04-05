@@ -36,6 +36,12 @@ export default function useNavbarEnd(path: string, backend: Backend) {
           {getVisibleText('navigation.pricing')}
         </NavbarItem>
       )}
+      <NavbarItem href="/marketplace" path={path}>
+        Marketplace
+      </NavbarItem>
+      <NavbarItem href="https://templates.2anki.net" path={path}>
+        Templates
+      </NavbarItem>
       <NavbarItem href="/upload" path={path}>
         {getVisibleText('navigation.upload')}
       </NavbarItem>
@@ -62,7 +68,9 @@ export default function useNavbarEnd(path: string, backend: Backend) {
                 className="is-rounded"
                 src={
                   data?.user?.picture ??
-                  `https://www.gravatar.com/avatar/${data?.user?.email ?? ''}?s=32&d=mp`
+                  `https://www.gravatar.com/avatar/${
+                    data?.user?.email ?? ''
+                  }?s=32&d=mp`
                 }
                 alt="User avatar"
               />
