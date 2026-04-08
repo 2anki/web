@@ -42,8 +42,8 @@ importers:
         specifier: ^6.4.0
         version: 6.4.0(react@19.2.0)
       react-cookie:
-        specifier: ^8.0.1
-        version: 8.0.1(@types/react@19.2.2)(react@19.2.0)
+        specifier: ^8.1.0
+        version: 8.1.0(@types/react@19.2.2)(react@19.2.0)
       react-dom:
         specifier: ^19.2.0
         version: 19.2.0(react@19.2.0)
@@ -2297,8 +2297,8 @@ packages:
     peerDependencies:
       react: ^16.3.0 || ^17.0.1 || ^18.0.0 || ^19.0.0
 
-  react-cookie@8.0.1:
-    resolution: {integrity: sha512-QNdAd0MLuAiDiLcDU/2s/eyKmmfMHtjPUKJ2dZ/5CcQ9QKUium4B3o61/haq6PQl/YWFqC5PO8GvxeHKhy3GFA==}
+  react-cookie@8.1.0:
+    resolution: {integrity: sha512-Qs+gD3gpQmUXnJUZafhJtNWhhNdi8OYbOAF5YQRAZa/D171ILOIEMfXDz/tmhkE+nOthllmqryHH6I/qmvIYWQ==}
     peerDependencies:
       react: '>= 16.3.0'
 
@@ -5092,7 +5092,7 @@ snapshots:
       react: 19.2.0
       tween-functions: 1.2.0
 
-  react-cookie@8.0.1(@types/react@19.2.2)(react@19.2.0):
+  react-cookie@8.1.0(@types/react@19.2.2)(react@19.2.0):
     dependencies:
       '@types/hoist-non-react-statics': 3.3.7(@types/react@19.2.2)
       hoist-non-react-statics: 3.3.2
