@@ -1,0 +1,339 @@
+.page {
+  background: #f9f9f8;
+  min-height: 100vh;
+  padding: 32px 0;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.pageTitle {
+  font-size: 22px;
+  font-weight: 500;
+  margin: 0 0 4px;
+  color: #1a1a1a;
+}
+
+.pageSubtitle {
+  font-size: 15px;
+  color: #7a7a78;
+  margin: 0 0 24px;
+}
+
+.aiBanner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #f9f9f8;
+  border: 0.5px solid #e5e5e3;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s;
+}
+
+.aiBanner:hover {
+  border-color: #a0a09e;
+}
+
+.aiBannerIcon {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  background: #f0efff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #6c63ff;
+}
+
+.aiBannerText {
+  flex: 1;
+}
+
+.aiBannerTitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.aiBannerDesc {
+  font-size: 12px;
+  color: #7a7a78;
+}
+
+.aiBannerArrow {
+  font-size: 18px;
+  color: #a0a09e;
+}
+
+.filterBar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.filterPill {
+  border: 0.5px solid #e5e5e3;
+  background: transparent;
+  color: #7a7a78;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.filterPill:hover {
+  border-color: #a0a09e;
+  color: #1a1a1a;
+}
+
+.filterPillActive {
+  background: #6c63ff;
+  color: #ffffff;
+  border-color: #6c63ff;
+}
+
+.filterPillActive:hover {
+  background: #5a52e0;
+  border-color: #5a52e0;
+  color: #ffffff;
+}
+
+.featuredCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  background: #ffffff;
+  border: 1px solid #e5e5e3;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+
+.featuredLeft {
+  flex: 1;
+  min-width: 0;
+}
+
+.featuredBadge {
+  display: inline-block;
+  background: #f0efff;
+  color: #6c63ff;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 12px;
+  padding: 3px 10px;
+  margin-bottom: 8px;
+}
+
+.featuredName {
+  font-size: 18px;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin: 0 0 4px;
+}
+
+.featuredDesc {
+  font-size: 13px;
+  color: #7a7a78;
+  margin: 0 0 10px;
+  line-height: 1.5;
+}
+
+.featuredMeta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+  color: #7a7a78;
+}
+
+.starRating {
+  color: #f59e0b;
+}
+
+.featuredRight {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.previewButton {
+  background: transparent;
+  border: 0.5px solid #d0d0cd;
+  border-radius: 8px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1a1a;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+.previewButton:hover {
+  border-color: #6c63ff;
+  color: #6c63ff;
+}
+
+.downloadButtonFilled {
+  background: #6c63ff;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.downloadButtonFilled:hover {
+  background: #5a52e0;
+}
+
+.downloadButtonFilled:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .featuredCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.card {
+  background: #ffffff;
+  border: 0.5px solid #e5e5e3;
+  border-radius: 12px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.15s;
+}
+
+.card:hover {
+  border-color: #a0a09e;
+}
+
+.cardName {
+  font-size: 15px;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin: 0 0 6px;
+}
+
+.cardDesc {
+  font-size: 13px;
+  color: #7a7a78;
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+
+.cardTags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.cardTag {
+  background: #f3f3f1;
+  color: #7a7a78;
+  font-size: 11px;
+  border-radius: 12px;
+  padding: 3px 9px;
+}
+
+.cardMeta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+  color: #7a7a78;
+  margin-top: auto;
+  margin-bottom: 14px;
+}
+
+.downloadButton {
+  width: 100%;
+  border: 0.5px solid #d0d0cd;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 9px 0;
+  cursor: pointer;
+  font-family: inherit;
+  color: #1a1a1a;
+  transition: all 0.15s;
+}
+
+.downloadButton:hover {
+  background: #6c63ff;
+  color: #ffffff;
+  border-color: #6c63ff;
+}
+
+.downloadButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.errorBox {
+  background: #fff5f5;
+  border: 0.5px solid #e5e5e3;
+  border-radius: 12px;
+  padding: 14px 18px;
+  color: #c53030;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.emptyBox {
+  background: #f9f9f8;
+  border: 0.5px solid #e5e5e3;
+  border-radius: 12px;
+  padding: 14px 18px;
+  color: #7a7a78;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.downloadError {
+  color: #c53030;
+  font-size: 12px;
+  margin-top: 6px;
+}
