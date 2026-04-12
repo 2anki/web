@@ -8,6 +8,9 @@ export const Layout = styled.div`
 export const PageContent = styled.div`
   flex-basis: 0;
   flex-grow: 999;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 `;
 
 export const PageHeader = styled.div.attrs({ className: 'is-hidden-desktop' })`

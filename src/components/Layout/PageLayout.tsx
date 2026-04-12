@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { PageContent, ClaudePromoBanner } from './styled';
 import { ErrorPresenter } from '../errors/ErrorPresenter';
 import NavigationBar from '../NavigationBar/NavigationBar';
+import Footer from '../Footer';
 import sharedStyles from '../../styles/shared.module.css';
 
 interface PageLayoutProps {
@@ -55,7 +56,8 @@ export function PageLayout({
         </ClaudePromoBanner>
       )}
       {error && <ErrorPresenter error={error} />}
-      {children}
+      <div style={{ flex: 1 }}>{children}</div>
+      <Footer />
     </PageContent>
   );
 }

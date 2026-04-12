@@ -33,7 +33,7 @@ const Links = styled.ul`
 function Footer() {
   return (
     <StyledFooter className={styles.textCenter}>
-      <div className={styles.page}>
+      <div>
         <div className={styles.flexColumn}>
           <div>Copyright © 2024-2025 Alexander Alemayhu.</div>
           <Links>

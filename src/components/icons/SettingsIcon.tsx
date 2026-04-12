@@ -1,7 +1,8 @@
 function SettingsIcon() {
   return (
     <svg
-      className="icon"
+      width="20"
+      height="20"
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"
