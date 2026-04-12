@@ -1,16 +1,29 @@
+import { useState } from 'react';
+
 import UserUpload from '../../../lib/interfaces/UserUpload';
 import styles from '../DownloadsPage.module.css';
 import sharedStyles from '../../../styles/shared.module.css';
 
 interface Prop {
   uploads: UserUpload[] | undefined;
-  deleteUpload: (key: string) => void;
+  deleteUpload: (key: string) => Promise<void>;
 }
 
 export function FinishedJobs({ uploads, deleteUpload }: Prop) {
+  const [deletingKey, setDeletingKey] = useState<string | null>(null);
+
   if (!uploads || uploads.length === 0) {
     return null;
   }
+
+  const handleDelete = async (key: string) => {
+    setDeletingKey(key);
+    try {
+      await deleteUpload(key);
+    } finally {
+      setDeletingKey(null);
+    }
+  };
 
   return (
     <div className={styles.section}>
@@ -45,10 +58,11 @@ export function FinishedJobs({ uploads, deleteUpload }: Prop) {
                   <div className={styles.actions}>
                     <button
                       type="button"
-                      onClick={() => deleteUpload(u.key)}
+                      onClick={() => handleDelete(u.key)}
                       className={styles.deleteButton}
+                      disabled={deletingKey === u.key}
                     >
-                      Delete
+                      {deletingKey === u.key ? 'Deleting...' : 'Delete'}
                     </button>
                     <a
                       href={`/api/download/u/${u.key}`}
