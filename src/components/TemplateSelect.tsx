@@ -12,16 +12,16 @@ interface TemplateSelectPicker {
 }
 
 function TemplateSelect({
-                          name,
-                          value,
-                          pickedTemplate,
-                          values,
-                          className
-                        }: TemplateSelectPicker) {
+  name,
+  value,
+  pickedTemplate,
+  values,
+  className,
+}: TemplateSelectPicker) {
   return (
-    <div className={`${className ?? ''} field`}>
-      <div className="control">
-        <div className="select">
+    <div className={className ?? ''}>
+      <div>
+        <div>
           <select
             name={name}
             value={value}

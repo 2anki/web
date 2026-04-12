@@ -53,7 +53,7 @@ export function UploadPage({ setErrorMessage }: Props) {
               </Link>
             </CardOptionsLink>
           </FlexColumn>
-          <div className="container">
+          <div>
             <UploadForm setErrorMessage={setErrorMessage} />
             <p>The following files are supported: {readableSupportedFiles}</p>
 

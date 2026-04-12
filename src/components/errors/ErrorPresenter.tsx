@@ -1,5 +1,6 @@
 import { getErrorMessage } from './helpers/getErrorMessage';
 import { useDismissed } from './helpers/useDismissed';
+import styles from '../../styles/shared.module.css';
 
 interface ErrorPresenterProps {
   error: unknown;
@@ -13,15 +14,18 @@ export function ErrorPresenter({ error }: ErrorPresenterProps) {
   }
 
   return (
-    <article className="message is-info is-large">
-      <div className="message-body">
-        {/* eslint-disable-next-line react/no-danger */}
+    <article className={styles.alertInfo}>
+      <div className={styles.modalBody}>
         <div dangerouslySetInnerHTML={{ __html: getErrorMessage(error) }} />
       </div>
-      <div className="field is-grouped p-4 is-flex is-align-items-center is-justify-content-center">
-        <p className="control">
-          <button type="button" className="button" onClick={() => setDismissed(true)}>Close</button>
-        </p>
+      <div className={styles.modalFooter}>
+        <button
+          type="button"
+          className={styles.btnSecondary}
+          onClick={() => setDismissed(true)}
+        >
+          Close
+        </button>
       </div>
     </article>
   );

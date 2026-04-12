@@ -1,5 +1,6 @@
 import { SearchInput } from './styled';
 import { getQueryValue } from '../helpers/getQueryValue';
+import styles from '../../../styles/shared.module.css';
 
 interface SearchBarProps {
   onSearchQueryChanged: (query: string) => void;
@@ -13,12 +14,11 @@ function SearchBar({
   inProgress,
 }: SearchBarProps) {
   return (
-    <div className="my-1 mt-4 has-text-centered is-flex is-justify-content-center">
-      <div className="field has-addons">
-        <div className="control">
+    <div className={styles.searchBarWrapper}>
+      <div className={styles.searchBarGroup}>
+        <div>
           <SearchInput
             defaultValue={getQueryValue()}
-            className="input"
             type="text"
             placeholder="  🔍 🅰  📑 "
             onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -31,15 +31,14 @@ function SearchBar({
             }}
           />
         </div>
-        <div className="control">
+        <div>
           <button
             type="button"
             onClick={onSearchClicked}
-            className={`button ${
-              inProgress ? 'is-loading is-light' : 'is-info'
-            }`}
+            className={styles.searchButton}
+            disabled={inProgress}
           >
-            Search
+            {inProgress ? 'Searching...' : 'Search'}
           </button>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styles from '../styles/shared.module.css';
 
 interface Props {
   label: string;
@@ -8,18 +9,17 @@ interface Props {
 }
 
 function LocalCheckbox({
-                         label,
-                         defaultValue,
-                         description = null,
-                         onChecked
-                       }: Props) {
+  label,
+  defaultValue,
+  description = null,
+  onChecked,
+}: Props) {
   const [isChecked, setChecked] = useState(defaultValue);
 
   return (
-    <label htmlFor={label} className="checkbox">
+    <label htmlFor={label} className={styles.checkbox}>
       <input
         name={label}
-        className="mr-2"
         type="checkbox"
         checked={isChecked}
         onChange={(event) => {
@@ -28,7 +28,9 @@ function LocalCheckbox({
         }}
       />
       <strong>{label}</strong>
-      {description && <p className="is-size-7 py-1 px-5 mb-2">{description}</p>}
+      {description && (
+        <p className={styles.checkboxDescription}>{description}</p>
+      )}
     </label>
   );
 }

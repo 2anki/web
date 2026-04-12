@@ -3,6 +3,8 @@ import { getVisibleText } from '../../../lib/text/getVisibleText';
 import Backend from '../../../lib/backend';
 import NavbarItem from '../NavbarItem';
 import { useUserLocals } from '../../../lib/hooks/useUserLocals';
+import styles from '../NavigationBar.module.css';
+import sharedStyles from '../../../styles/shared.module.css';
 
 export default function useNavbarEnd(path: string, backend: Backend) {
   const [isActive, setIsActive] = useState(false);
@@ -24,7 +26,7 @@ export default function useNavbarEnd(path: string, backend: Backend) {
   };
 
   return (
-    <div className="navbar-end">
+    <div className={styles.navEnd}>
       {showKiLink && (
         <NavbarItem href="/ki" path={path}>
           KI 🧪
@@ -45,39 +47,43 @@ export default function useNavbarEnd(path: string, backend: Backend) {
         {getVisibleText('navigation.search')}
       </NavbarItem>
       {isLoggedIn && (
-        <div
-          className={`navbar-item has-dropdown ${isActive ? 'is-active' : ''}`}
-        >
+        <div className={styles.dropdown}>
           <button
             onClick={toggleDropdown}
             onKeyDown={handleKeyDown}
-            className="navbar-link button is-ghost"
+            className={styles.dropdownToggle}
             aria-haspopup="true"
             aria-controls="dropdown-menu"
             type="button"
           >
-            <figure className="image is-32x32">
-              <img
-                className="is-rounded"
-                src={
-                  data?.user?.picture ??
-                  `https://www.gravatar.com/avatar/${
-                    data?.user?.email ?? ''
-                  }?s=32&d=mp`
-                }
-                alt="User avatar"
-              />
-            </figure>
+            <img
+              className={sharedStyles.avatar}
+              src={
+                data?.user?.picture ??
+                `https://www.gravatar.com/avatar/${
+                  data?.user?.email ?? ''
+                }?s=32&d=mp`
+              }
+              alt="User avatar"
+            />
           </button>
-          <div className="navbar-dropdown is-right">
+          <div
+            className={`${styles.dropdownMenu} ${
+              isActive ? styles.dropdownMenuActive : ''
+            }`}
+          >
             <NavbarItem href="/account" path={path}>
               Account
             </NavbarItem>
             <NavbarItem href="/favorites" path={path}>
               {getVisibleText('navigation.favorites')}
             </NavbarItem>
-            <hr className="navbar-divider" />
-            <a className="navbar-item" href="/users/logout" onClick={onLogOut}>
+            <hr className={styles.dropdownDivider} />
+            <a
+              className={styles.dropdownItem}
+              href="/users/logout"
+              onClick={onLogOut}
+            >
               {getVisibleText('navigation.logout')}
             </a>
           </div>

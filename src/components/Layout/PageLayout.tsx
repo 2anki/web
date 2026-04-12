@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { PageContent, ClaudePromoBanner } from './styled';
 import { ErrorPresenter } from '../errors/ErrorPresenter';
 import NavigationBar from '../NavigationBar/NavigationBar';
+import sharedStyles from '../../styles/shared.module.css';
 
 interface PageLayoutProps {
   isLoggedIn: boolean;
@@ -34,14 +35,7 @@ export function PageLayout({
       <NavigationBar isLoggedIn={isLoggedIn} />
       {isLoggedIn && isPaying && showPromo && (
         <ClaudePromoBanner>
-          <label
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              cursor: 'pointer',
-            }}
-          >
+          <label className={sharedStyles.claudeLabel}>
             <input
               type="checkbox"
               checked={claudeEnabled}

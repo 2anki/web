@@ -1,6 +1,8 @@
 import React, { ChangeEvent, useEffect } from 'react';
 import { useEmailLinking } from '../hooks/useEmailLinking';
 import { useSubscriptionCancellation } from '../hooks/useSubscriptionCancellation';
+import styles from '../AccountPage.module.css';
+import sharedStyles from '../../../styles/shared.module.css';
 
 interface User {
   email: string;
@@ -62,93 +64,83 @@ export function SubscriptionManagement({
   }
 
   return (
-    <div className="box mt-5">
-      <h3 className="title is-5">Subscription Management</h3>
-      <div className="content">
-        {locals?.subscriber && (
-          <div className="mb-4">
-            <p className="mb-3">
-              Manage your active subscription. You can cancel anytime and will
-              retain access until the end of your current billing period.
-            </p>
-            <button
-              type="button"
-              className={`button is-danger ${isCancelling ? 'is-loading' : ''}`}
-              onClick={cancelUserSubscription}
-              disabled={isCancelling}
-            >
-              Cancel Subscription
-            </button>
-          </div>
-        )}
-
-        <div className="content mt-4">
-          <p>
-            <strong>Need help?</strong>
+    <div className={styles.managementCard}>
+      <h3 className={styles.managementTitle}>Subscription Management</h3>
+      {locals?.subscriber && (
+        <div className={sharedStyles.marginBottomMd}>
+          <p className={sharedStyles.smallDescription}>
+            Manage your active subscription. You can cancel anytime and will
+            retain access until the end of your current billing period.
           </p>
-          <ul>
-            <li>
-              Email us at{' '}
-              <a href="mailto:support@2anki.net">support@2anki.net</a>
-            </li>
-          </ul>
+          <button
+            type="button"
+            className={styles.dangerButton}
+            onClick={cancelUserSubscription}
+            disabled={isCancelling}
+          >
+            {isCancelling ? 'Cancelling...' : 'Cancel Subscription'}
+          </button>
         </div>
+      )}
 
-        {locals?.subscriber && (
-          <div className="mt-5">
-            <h4 className="title is-6">Linked 2anki.net Email</h4>
-            {isEmailLinked ? (
-              <div className="notification is-success is-light">
-                <p>
-                  Your subscription is managed through your Stripe account at{' '}
-                  <strong>{locals.subscriptionInfo?.email}</strong>. You can:
-                </p>
-                <ul className="mt-2">
-                  <li>Manage your subscription</li>
-                  <li>Update payment details</li>
-                  <li>Cancel your subscription</li>
-                </ul>
-              </div>
-            ) : (
-              <div>
-                <div className="field">
-                  <label className="label" htmlFor="subscription-email">
-                    Subscription Email
-                  </label>
-                  <div className={`control ${isLinking ? 'is-loading' : ''}`}>
-                    <input
-                      id="subscription-email"
-                      value={linkEmail}
-                      onChange={onChangeLinkEmail}
-                      className={`input ${linkError ? 'is-danger' : ''} ${
-                        linkSuccess ? 'is-success' : ''
-                      }`}
-                      type="email"
-                      placeholder="Enter subscription email"
-                      disabled={isEmailLinked}
-                    />
-                  </div>
-                  {linkError && <p className="help is-danger">{linkError}</p>}
-                  {linkSuccess && (
-                    <p className="help is-success">
-                      Email linked successfully!
-                    </p>
-                  )}
-                </div>
-
-                <button
-                  type="button"
-                  className={`button is-link ${isLinking ? 'is-loading' : ''}`}
-                  onClick={onLink}
-                  disabled={isEmailLinked || !linkEmail.trim()}
-                >
-                  Link Email
-                </button>
-              </div>
-            )}
-          </div>
-        )}
+      <div className={sharedStyles.marginTopMd}>
+        <p className={sharedStyles.smallDescription}>
+          <strong>Need help?</strong>
+        </p>
+        <ul className={sharedStyles.featureList}>
+          <li>
+            Email us at <a href="mailto:support@2anki.net">support@2anki.net</a>
+          </li>
+        </ul>
       </div>
+
+      {locals?.subscriber && (
+        <div className={sharedStyles.marginTopLg}>
+          <h4 className={sharedStyles.smallHeading}>Linked 2anki.net Email</h4>
+          {isEmailLinked ? (
+            <div className={styles.linkedEmail}>
+              <p>
+                Your subscription is managed through your Stripe account at{' '}
+                <strong>{locals.subscriptionInfo?.email}</strong>. You can:
+              </p>
+              <ul className={sharedStyles.featureList}>
+                <li>Manage your subscription</li>
+                <li>Update payment details</li>
+                <li>Cancel your subscription</li>
+              </ul>
+            </div>
+          ) : (
+            <div>
+              <div className={styles.field}>
+                <label htmlFor="subscription-email">Subscription Email</label>
+                <input
+                  id="subscription-email"
+                  value={linkEmail}
+                  onChange={onChangeLinkEmail}
+                  type="email"
+                  placeholder="Enter subscription email"
+                  disabled={isEmailLinked}
+                />
+                {linkError && <p className={styles.helpDanger}>{linkError}</p>}
+                {linkSuccess && (
+                  <p className={styles.helpSuccess}>
+                    Email linked successfully!
+                  </p>
+                )}
+              </div>
+
+              <button
+                type="button"
+                className={styles.planButton}
+                onClick={onLink}
+                disabled={isEmailLinked || !linkEmail.trim()}
+              >
+                {isLinking ? 'Linking...' : 'Link Email'}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

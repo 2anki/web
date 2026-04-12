@@ -1,3 +1,5 @@
+import styles from '../../../../styles/shared.module.css';
+
 export type JobStatus =
   | 'started'
   | 'step1_create_workspace'
@@ -11,20 +13,32 @@ interface Prop {
   status: JobStatus;
 }
 
-function getStatusStyle(status: JobStatus): { className: string; dotColor: string } {
+function getStatusStyle(status: JobStatus): {
+  className: string;
+  dotClassName: string;
+} {
   switch (status) {
     case 'started':
-      return { className: 'stripe-status-info', dotColor: '#3b82f6' };
+      return { className: 'stripe-status-info', dotClassName: styles.dotInfo };
     case 'step1_create_workspace':
     case 'step2_creating_flashcards':
     case 'step3_building_deck':
-      return { className: 'stripe-status-info', dotColor: '#3b82f6' };
+      return { className: 'stripe-status-info', dotClassName: styles.dotInfo };
     case 'failed':
-      return { className: 'stripe-status-danger', dotColor: '#ef4444' };
+      return {
+        className: 'stripe-status-danger',
+        dotClassName: styles.dotDanger,
+      };
     case 'cancelled':
-      return { className: 'stripe-status-danger', dotColor: '#ef4444' };
+      return {
+        className: 'stripe-status-danger',
+        dotClassName: styles.dotDanger,
+      };
     default:
-      return { className: 'stripe-status-warning', dotColor: '#f59e0b' };
+      return {
+        className: 'stripe-status-warning',
+        dotClassName: styles.dotWarning,
+      };
   }
 }
 
@@ -48,12 +62,12 @@ function getStatusText(status: JobStatus): string {
 }
 
 export function StatusTag({ status }: Prop) {
-  const { className, dotColor } = getStatusStyle(status);
+  const { className, dotClassName } = getStatusStyle(status);
   const displayText = getStatusText(status);
 
   return (
     <span className={`stripe-status ${className}`}>
-      <span className="stripe-status-dot" style={{ backgroundColor: dotColor }}></span>
+      <span className={`stripe-status-dot ${dotClassName}`} />
       {displayText}
     </span>
   );

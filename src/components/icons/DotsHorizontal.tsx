@@ -7,7 +7,8 @@ export default function DotsHorizontal(props: IconProps) {
   const { width, height } = props;
   return (
     <svg
-      style={{ width, height }}
+      width={width}
+      height={height}
       fill="currentColor"
       viewBox="0 0 20 20"
       xmlns="http://www.w3.org/2000/svg"

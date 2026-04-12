@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
 import NotionObject from '../../../lib/interfaces/NotionObject';
 import SearchObjectEntry from './SearchObjectEntry';
+import styles from '../../../styles/shared.module.css';
 
 interface ListSearchResultsProps {
   results: NotionObject[];
@@ -18,8 +19,8 @@ export default function ListSearchResults(
 
   if (isEmpty && handleEmpty) {
     return (
-      <div className="column is-main-content has-text-centered">
-        <div className="subtitle my-4">
+      <div className={styles.textCenter}>
+        <div className={styles.secondaryText}>
           No search results, try typing something above 👌🏾 Also ensure you{' '}
           <a
             target="_blank"

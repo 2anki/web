@@ -2,6 +2,7 @@ import React from 'react';
 
 import FlashcardType from './FlashcardType';
 import { Details } from './styled';
+import styles from '../../../styles/shared.module.css';
 
 interface RuleDefinitionProps {
   description: string;
@@ -17,7 +18,7 @@ export default function RuleDefinition(props: RuleDefinitionProps) {
     <Details>
       <summary>{title}</summary>
       <p>{description}</p>
-      <div className="is-group">
+      <div className={styles.flexWrap}>
         {options.map((fco) => (
           <FlashcardType
             key={fco}

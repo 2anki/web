@@ -7,6 +7,7 @@ import DownloadButton from '../DownloadButton';
 import DropParagraph from '../DropParagraph';
 import { useDrag } from './hooks/useDrag';
 import { ClaudeProgress } from './ClaudeProgress';
+import styles from '../../../../styles/shared.module.css';
 
 interface UploadFormProps {
   setErrorMessage: ErrorHandlerType;
@@ -53,7 +54,8 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
         return setErrorMessage(text);
       }
       const fileNameHeader = getHeadersFilename(request.headers);
-      const fallback = contentType === 'application/zip' ? 'Your Decks.zip' : 'Your deck.apkg';
+      const fallback =
+        contentType === 'application/zip' ? 'Your Decks.zip' : 'Your deck.apkg';
       setDeckName(fileNameHeader ?? fallback);
       const blob = await request.blob();
       setDownloadLink(window.URL.createObjectURL(blob));
@@ -69,9 +71,9 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
 
   return (
     <form encType="multipart/form-data" method="post" onSubmit={handleSubmit}>
-      <div className="container">
+      <div>
         <div>
-          <div className="field">
+          <div>
             <DropParagraph hover={dropHover}>
               Drag a file and Drop it here
               <p className="my-2">
@@ -89,7 +91,9 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
                   onChange={() => convertRef.current?.click()}
                 />
               </label>
-              <span className="tag is-large is-link">Click to convert your notes</span>
+              <span className={styles.btnPrimary}>
+                Click to convert your notes
+              </span>
             </DropParagraph>
           </div>
           <DownloadButton
@@ -100,7 +104,7 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
           <ClaudeProgress active={uploading && claudeEnabled} />
           <button
             aria-label="Upload file"
-            style={{ visibility: 'hidden' }}
+            className={styles.hidden}
             ref={convertRef}
             type="submit"
           />
@@ -111,4 +115,3 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
 }
 
 export default UploadForm;
-

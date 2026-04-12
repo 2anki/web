@@ -1,3 +1,5 @@
+import styles from '../styles/shared.module.css';
+
 interface FontPickerDelegate {
   fontSize: string;
   pickedFontSize: (fs: string) => void;
@@ -7,17 +9,9 @@ function FontSizePicker(delegate: FontPickerDelegate) {
   const { fontSize, pickedFontSize } = delegate;
 
   return (
-    <div className="field">
-      <div className="control">
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '0',
-            flexDirection: 'column',
-          }}
-        >
+    <div>
+      <div>
+        <div className={`${styles.flexColumn} ${styles.flexCenter}`}>
           <label htmlFor="font-size" className="label">
             Font Size
             <input

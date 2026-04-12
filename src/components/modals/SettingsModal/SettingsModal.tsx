@@ -19,6 +19,7 @@ import { getLocalStorageBooleanValue } from '../../../lib/data_layer/getLocalSto
 import CardOption from '../../../lib/data_layer/model/CardOption';
 import { getVisibleText } from '../../../lib/text/getVisibleText';
 import { useSettingsCardsOptions } from './useSettingsCardsOptions';
+import sharedStyles from '../../../styles/shared.module.css';
 
 interface Props {
   pageTitle?: string;
@@ -28,21 +29,46 @@ interface Props {
   setError: ErrorHandlerType;
 }
 
-function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: Readonly<Props>) {
-  const { isLoading, isError, options, loadingDefaultsError } = useSettingsCardsOptions(pageId);
+function SettingsModal({
+  pageTitle,
+  pageId,
+  isActive,
+  onClickClose,
+  setError,
+}: Readonly<Props>) {
+  const { isLoading, isError, options, loadingDefaultsError } =
+    useSettingsCardsOptions(pageId);
   const [settings, setSettings] = useState<SettingsPayload>({});
   const [loading, setLoading] = useState(!!pageId);
   const deckNameKey = 'deckName';
   const [deckName, setDeckName] = useState(
-    getLocalStorageValue(deckNameKey, pageTitle ?? localStorage.getItem(deckNameKey) ?? '', settings)
+    getLocalStorageValue(
+      deckNameKey,
+      pageTitle ?? localStorage.getItem(deckNameKey) ?? '',
+      settings
+    )
   );
-  const [fontSize, setFontSize] = useState(getLocalStorageValue('font-size', '', settings));
-  const [template, setTemplate] = useState(getLocalStorageValue('template', 'specialstyle', settings));
-  const [toggleMode, setToggleMode] = useState(getLocalStorageValue('toggle-mode', 'close_toggle', settings));
-  const [pageEmoji, setPageEmoji] = useState(getLocalStorageValue('page-emoji', 'first_emoji', settings));
-  const [basicName, setBasicName] = useState(getLocalStorageValue('basic_model_name', '', settings));
-  const [clozeName, setClozeName] = useState(getLocalStorageValue('cloze_model_name', '', settings));
-  const [inputName, setInputName] = useState(getLocalStorageValue('input_model_name', '', settings));
+  const [fontSize, setFontSize] = useState(
+    getLocalStorageValue('font-size', '', settings)
+  );
+  const [template, setTemplate] = useState(
+    getLocalStorageValue('template', 'specialstyle', settings)
+  );
+  const [toggleMode, setToggleMode] = useState(
+    getLocalStorageValue('toggle-mode', 'close_toggle', settings)
+  );
+  const [pageEmoji, setPageEmoji] = useState(
+    getLocalStorageValue('page-emoji', 'first_emoji', settings)
+  );
+  const [basicName, setBasicName] = useState(
+    getLocalStorageValue('basic_model_name', '', settings)
+  );
+  const [clozeName, setClozeName] = useState(
+    getLocalStorageValue('cloze_model_name', '', settings)
+  );
+  const [inputName, setInputName] = useState(
+    getLocalStorageValue('input_model_name', '', settings)
+  );
   const [userInstructions, setUserInstructions] = useState(
     getLocalStorageValue(
       'user-instructions',
@@ -131,21 +157,37 @@ function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: 
   };
 
   return (
-    <div className={`modal ${isActive ? 'is-active' : ''}`}>
-      <div className="modal-background" />
-      <div className="modal-card">
-        {(loading || isLoading) && <div className="loader is-loading" />}
+    <div className={isActive ? sharedStyles.modal : sharedStyles.modalHidden}>
+      <div className={sharedStyles.modalBackdrop} onClick={onClickClose} />
+      <div className={sharedStyles.modalCard}>
+        {(loading || isLoading) && (
+          <div
+            className={`${sharedStyles.spinner} ${sharedStyles.marginTopLg}`}
+          />
+        )}
         {!loading && (
           <>
-            <div className="modal-card-head">
-              <div className="modal-card-title text-xl font-bold">{getVisibleText('card.options')}</div>
-              <button type="button" className="delete" aria-label="close" onClick={onClickClose} />
+            <div className={sharedStyles.modalHeader}>
+              <div className={sharedStyles.modalHeaderTitle}>
+                {getVisibleText('card.options')}
+              </div>
+              <button
+                type="button"
+                aria-label="close"
+                onClick={onClickClose}
+                className={sharedStyles.modalClose}
+              >
+                &times;
+              </button>
             </div>
-            <section className="modal-card-body space-y-6">
-              <div className="p-4 bg-white rounded shadow">
-                <label htmlFor="deck-name" className="font-semibold">Deck Name</label>
+            <section className={sharedStyles.modalBody}>
+              <div>
+                <label htmlFor="deck-name" className="font-semibold">
+                  Deck Name
+                </label>
                 <p className="text-sm text-gray-600 mb-2">
-                  You can customize the deck name here. Leave it empty if you use subpages.
+                  You can customize the deck name here. Leave it empty if you
+                  use subpages.
                 </p>
                 <StyledInput
                   id="deck-name"
@@ -162,7 +204,9 @@ function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: 
               </div>
 
               <div className="p-4 bg-white rounded shadow">
-                <label htmlFor="page-emoji" className="font-semibold">Page Icon</label>
+                <label htmlFor="page-emoji" className="font-semibold">
+                  Page Icon
+                </label>
                 <p className="text-sm text-gray-600 mb-2">
                   Control whether to use the Notion page icon and its position.
                 </p>
@@ -182,7 +226,9 @@ function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: 
               </div>
 
               <div className="p-4 bg-white rounded shadow">
-                <label htmlFor="toggle-mode" className="font-semibold">Toggle Mode</label>
+                <label htmlFor="toggle-mode" className="font-semibold">
+                  Toggle Mode
+                </label>
                 <TemplateSelect
                   values={[
                     { label: 'Open nested toggles', value: 'open_toggle' },
@@ -200,7 +246,11 @@ function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: 
               {options?.map((o) => (
                 <LocalCheckbox
                   key={o.key}
-                  defaultValue={getLocalStorageBooleanValue(o.key, o.value.toString(), settings)}
+                  defaultValue={getLocalStorageBooleanValue(
+                    o.key,
+                    o.value.toString(),
+                    settings
+                  )}
                   label={o.label}
                   description={o.description}
                   onChecked={(checked) => {
@@ -211,14 +261,20 @@ function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: 
 
               <div className="p-4 bg-white rounded shadow w-full">
                 <details className="w-full">
-                  <summary className="font-medium cursor-pointer">User Instructions for PDF conversion</summary>
+                  <summary className="font-medium cursor-pointer">
+                    User Instructions for PDF conversion
+                  </summary>
                   <div className="w-full">
                     <textarea
-                      style={{width: '100%', minHeight: '148px'}}
+                      className={sharedStyles.fullWidthTextarea}
                       value={userInstructions}
                       onChange={(e) => {
                         setUserInstructions(e.target.value);
-                        saveValueInLocalStorage('user-instructions', e.target.value, pageId);
+                        saveValueInLocalStorage(
+                          'user-instructions',
+                          e.target.value,
+                          pageId
+                        );
                       }}
                       rows={4}
                       className="w-full mt-2 p-2 border rounded resize-none"
@@ -279,9 +335,21 @@ function SettingsModal({ pageTitle, pageId, isActive, onClickClose, setError }: 
                 }}
               />
             </section>
-            <footer className="modal-card-foot flex justify-center gap-4">
-              <button type="button" className="button is-link" onClick={onSubmit}>Save</button>
-              <button type="button" className="button" onClick={resetStore}>Delete</button>
+            <footer className={sharedStyles.modalFooter}>
+              <button
+                type="button"
+                className={sharedStyles.btnPrimary}
+                onClick={onSubmit}
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                className={sharedStyles.btnSecondary}
+                onClick={resetStore}
+              >
+                Delete
+              </button>
             </footer>
           </>
         )}

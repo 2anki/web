@@ -1,4 +1,5 @@
 import { useClaudeProgress } from './hooks/useClaudeProgress';
+import styles from '../../../../styles/shared.module.css';
 
 interface Props {
   active: boolean;
@@ -10,16 +11,9 @@ export function ClaudeProgress({ active }: Readonly<Props>) {
   if (!active) return null;
 
   return (
-    <div style={{ marginTop: '1rem', textAlign: 'center' }}>
-      <p style={{ marginBottom: '0.5rem', color: '#7c3aed', fontWeight: 500 }}>
-        ✨ {label}
-      </p>
-      <progress
-        className="progress is-small"
-        value={progress}
-        max={100}
-        style={{ accentColor: '#7c3aed' }}
-      />
+    <div className={`${styles.textCenter} ${styles.marginTopMd}`}>
+      <p className={styles.claudeText}>✨ {label}</p>
+      <progress className={styles.progressBar} value={progress} max={100} />
     </div>
   );
 }

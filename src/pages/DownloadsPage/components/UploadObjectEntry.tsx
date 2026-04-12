@@ -9,11 +9,7 @@ interface Props {
   deleteUpload: () => void;
 }
 
-export default function UploadObjectEntry({
-                                            title,
-                                            url,
-                                            deleteUpload
-                                          }: Props) {
+export default function UploadObjectEntry({ title, url, deleteUpload }: Props) {
   return (
     <Entry>
       <ObjectMeta>
@@ -21,7 +17,6 @@ export default function UploadObjectEntry({
         <div />
         <UploadTitle
           data-hj-suppress
-          className="subtitle ml-2 is-6"
           dangerouslySetInnerHTML={{ __html: title }}
         />
       </ObjectMeta>

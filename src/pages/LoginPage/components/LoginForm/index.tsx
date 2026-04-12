@@ -3,10 +3,9 @@ import { useSearchParams } from 'react-router-dom';
 import TopMessage from '../../../../components/TopMessage/TopMessage';
 import { isValidCredentials } from './helpers/isValidCredentials';
 import { useHandleLoginSubmit } from './helpers/useHandleLoginSubmit';
-import { SubmitButton } from './styled';
-import { FormContainer } from '../../../../components/forms/styled';
 import { getVisibleText } from '../../../../lib/text/getVisibleText';
 import { WithGoogleLink } from '../../../../components/forms/WithGoogleLink';
+import styles from '../../../../styles/auth.module.css';
 
 function LoginForm() {
   const [searchParams] = useSearchParams();
@@ -20,88 +19,72 @@ function LoginForm() {
       : '/register';
 
   return (
-    <FormContainer>
-      <section className="section">
-        <div className="container">
-          <div className="columns is-centered">
-            <div className="column is-half">
-              <TopMessage />
-              <h1 className="title is-1">
-                {getVisibleText('navigation.login.title')}
-              </h1>
-              <div className="control">
-                <WithGoogleLink
-                  text={getVisibleText('navigation.login.google')}
-                />
-              </div>
-              <hr />
-              <form onSubmit={onSubmit}>
-                <div className="field">
-                  <label htmlFor="email" className="label">
-                    Email
-                    <input
-                      name="email"
-                      min="3"
-                      max="255"
-                      value={email}
-                      onChange={(event) => {
-                        setEmail(event.target.value);
-                        localStorage.setItem('email', event.target.value);
-                      }}
-                      className="input"
-                      type="email"
-                      placeholder="Your e-mail"
-                      required
-                    />
-                  </label>
-                </div>
-                <div className="field">
-                  <label htmlFor="password" className="label">
-                    Password
-                    <div className="control">
-                      <input
-                        name="password"
-                        min="8"
-                        max="255"
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
-                        required
-                        className="input"
-                        type="password"
-                        placeholder="Your password"
-                      />
-                    </div>
-                  </label>
-                </div>
-
-                <div className="field">
-                  <div className="control">
-                    <SubmitButton
-                      type="submit"
-                      disabled={!isValidCredentials(email, password) || loading}
-                    >
-                      Login in
-                    </SubmitButton>
-                    {error && <p className="help is-danger">{error}</p>}
-                  </div>
-                </div>
-              </form>
-              <p className="pt-4">
-                {getVisibleText('navigation.register.question')}{' '}
-                <a rel="noreferrer" href={registerHref}>
-                  Register!
-                </a>
-              </p>
-              <p className="pt-2">
-                <a rel="noreferrer" href="/forgot">
-                  I forgot my password
-                </a>
-              </p>
-            </div>
+    <div className={styles.formPage}>
+      <div className={styles.formCard}>
+        <TopMessage />
+        <h1 className={styles.formTitle}>
+          {getVisibleText('navigation.login.title')}
+        </h1>
+        <WithGoogleLink text={getVisibleText('navigation.login.google')} />
+        <hr />
+        <form onSubmit={onSubmit}>
+          <div className={styles.field}>
+            <label htmlFor="email">
+              Email
+              <input
+                name="email"
+                min="3"
+                max="255"
+                value={email}
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                  localStorage.setItem('email', event.target.value);
+                }}
+                type="email"
+                placeholder="Your e-mail"
+                required
+              />
+            </label>
           </div>
-        </div>
-      </section>
-    </FormContainer>
+          <div className={styles.field}>
+            <label htmlFor="password">
+              Password
+              <input
+                name="password"
+                min="8"
+                max="255"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                required
+                type="password"
+                placeholder="Your password"
+              />
+            </label>
+          </div>
+          <div className={styles.field}>
+            <button
+              type="submit"
+              className={styles.submitButton}
+              disabled={!isValidCredentials(email, password) || loading}
+            >
+              Log in
+            </button>
+            {error && <p className={styles.helpDanger}>{error}</p>}
+          </div>
+        </form>
+        <p className={styles.footerText}>
+          {getVisibleText('navigation.register.question')}{' '}
+          <a rel="noreferrer" href={registerHref}>
+            Register!
+          </a>
+        </p>
+        <p className={styles.footerText}>
+          <a rel="noreferrer" href="/forgot">
+            I forgot my password
+          </a>
+        </p>
+      </div>
+    </div>
   );
 }
 

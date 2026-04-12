@@ -23,12 +23,6 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.90.20
         version: 5.90.20(react@19.2.0)
-      bulma:
-        specifier: ^1.0.4
-        version: 1.0.4
-      bulma-switch:
-        specifier: ^2.0.4
-        version: 2.0.4
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
@@ -1549,12 +1543,6 @@ packages:
 
   buffer-from@1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
-
-  bulma-switch@2.0.4:
-    resolution: {integrity: sha512-kMu4H0Pr0VjvfsnT6viRDCgptUq0Rvy7y7PX6q+IHg1xUynsjszPjhAdal5ysAlCG5HNO+5YXxeiu92qYGQolw==}
-
-  bulma@1.0.4:
-    resolution: {integrity: sha512-Ffb6YGXDiZYX3cqvSbHWqQ8+LkX6tVoTcZuVB3lm93sbAVXlO0D6QlOTMnV6g18gILpAXqkG2z9hf9z4hCjz2g==}
 
   byline@5.0.0:
     resolution: {integrity: sha512-s6webAy+R4SR8XVuJWt2V2rGvhnrhxN+9S15GNuTK3wKPOXFF6RNc+8ug2XhH+2s4f+uudG4kUVYmYOQWL2g0Q==}
@@ -4335,10 +4323,6 @@ snapshots:
       update-browserslist-db: 1.2.3(browserslist@4.28.2)
 
   buffer-from@1.1.2: {}
-
-  bulma-switch@2.0.4: {}
-
-  bulma@1.0.4: {}
 
   byline@5.0.0: {}
 

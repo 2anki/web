@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import styles from '../styles/shared.module.css';
 
 const StyledFooter = styled.footer`
   padding: 1.5rem 1rem;
@@ -31,9 +32,9 @@ const Links = styled.ul`
 
 function Footer() {
   return (
-    <StyledFooter className="has-text-centered">
-      <div className="container">
-        <div className="is-flex is-flex-direction-column is-align-items-center">
+    <StyledFooter className={styles.textCenter}>
+      <div className={styles.page}>
+        <div className={styles.flexColumn}>
           <div>Copyright © 2024-2025 Alexander Alemayhu.</div>
           <Links>
             <li>

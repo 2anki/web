@@ -44,7 +44,7 @@ function SearchObjectEntry(props: Props) {
       <Entry data-hj-suppress>
         <ObjectMeta>
           <BlockIcon icon={icon} />
-          <span className="subtitle is-6">{title}</span>
+          <span>{title}</span>
         </ObjectMeta>
         <ObjectActions>
           <ObjectAction

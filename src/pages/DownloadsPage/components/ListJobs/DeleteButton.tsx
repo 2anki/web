@@ -1,3 +1,5 @@
+import styles from '../../../../styles/shared.module.css';
+
 interface Prop {
   onDelete: () => void;
 }
@@ -7,7 +9,7 @@ export function DeleteButton({ onDelete }: Prop) {
     <button
       aria-label="delete"
       type="button"
-      className="is-small button transparent"
+      className={styles.btnGhost}
       onClick={() => onDelete()}
     >
       ❌

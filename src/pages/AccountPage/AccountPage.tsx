@@ -1,6 +1,4 @@
-import React from 'react';
 import { useUserLocals } from '../../lib/hooks/useUserLocals';
-import { PageContainer } from '../../components/styled';
 import LoadingIndicator from '../../components/Loading';
 import { useSubscriptionStatus } from './hooks';
 import {
@@ -9,6 +7,7 @@ import {
   SubscriptionManagement,
   AccountDeletion,
 } from './components';
+import styles from './AccountPage.module.css';
 
 export default function AccountPage() {
   const { isLoading, data, refetch } = useUserLocals();
@@ -25,24 +24,22 @@ export default function AccountPage() {
   const { user, locals } = data;
 
   return (
-    <PageContainer>
-      <div className="box">
+    <div className={styles.page}>
+      <div className={styles.mainCard}>
         <UserProfile user={user} subscriptionStatus={subscriptionStatus} />
 
-        <div className="content mt-5">
-          <h2 className="title is-4">Plan Details</h2>
-          <PlanDetails subscriptionType={subscriptionType} />
+        <h2 className={styles.sectionTitle}>Plan Details</h2>
+        <PlanDetails subscriptionType={subscriptionType} />
 
-          <SubscriptionManagement
-            user={user}
-            locals={locals}
-            hasActivePlan={hasActivePlan}
-            onRefetch={refetch}
-          />
+        <SubscriptionManagement
+          user={user}
+          locals={locals}
+          hasActivePlan={hasActivePlan}
+          onRefetch={refetch}
+        />
 
-          <AccountDeletion />
-        </div>
+        <AccountDeletion />
       </div>
-    </PageContainer>
+    </div>
   );
 }

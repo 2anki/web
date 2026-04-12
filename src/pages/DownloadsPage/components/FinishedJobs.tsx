@@ -1,5 +1,6 @@
 import UserUpload from '../../../lib/interfaces/UserUpload';
 import styles from '../DownloadsPage.module.css';
+import sharedStyles from '../../../styles/shared.module.css';
 
 interface Prop {
   uploads: UserUpload[] | undefined;
@@ -29,7 +30,7 @@ export function FinishedJobs({ uploads, deleteUpload }: Prop) {
           <thead>
             <tr>
               <th>Name</th>
-              <th style={{ width: '180px', textAlign: 'right' }}>Actions</th>
+              <th className={sharedStyles.actionColumnWide}>Actions</th>
             </tr>
           </thead>
           <tbody>
