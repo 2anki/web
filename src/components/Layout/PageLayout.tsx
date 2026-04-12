@@ -21,7 +21,7 @@ export function PageLayout({
     localStorage.getItem('claude-ai-flashcards') === 'true'
   );
   const { pathname } = useLocation();
-  const showPromo = pathname !== '/search';
+  const showPromo = pathname !== '/search' && pathname !== '/uploads';
 
   const toggleClaude = () => {
     const next = !claudeEnabled;
