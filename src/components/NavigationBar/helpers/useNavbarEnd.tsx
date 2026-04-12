@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { getVisibleText } from '../../../lib/text/getVisibleText';
 import Backend from '../../../lib/backend';
 import NavbarItem from '../NavbarItem';
-import { getSearchPath } from './getSearchPath';
 import { useUserLocals } from '../../../lib/hooks/useUserLocals';
 
 export default function useNavbarEnd(path: string, backend: Backend) {
