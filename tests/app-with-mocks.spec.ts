@@ -134,14 +134,12 @@ test.describe('Application with Mock API', () => {
     // Check that the page loads correctly
     await expect(page).toHaveTitle(/2anki/);
 
-    // Check for hero section
-    const heroSection = page.locator('.hero');
-    await expect(heroSection).toBeVisible();
-
-    // Check that the hero section contains the key text elements
-    await expect(heroSection).toContainText('Create');
-    await expect(heroSection).toContainText('Anki flashcards');
-    await expect(heroSection).toContainText('fast');
+    // Check that the hero heading is present
+    const heroHeading = page.locator('h1');
+    await expect(heroHeading).toBeVisible();
+    await expect(heroHeading).toContainText('Create');
+    await expect(heroHeading).toContainText('Anki flashcards');
+    await expect(heroHeading).toContainText('fast');
 
     // Wait a bit to ensure all API calls have been made and handled
     await page.waitForTimeout(2000);
@@ -186,7 +184,7 @@ test.describe('Application with Mock API', () => {
       expect(true).toBe(true); // Test passes if we get here without errors
     } else {
       // If there's no search input visible, just verify the page loaded properly
-      await expect(page.locator('.hero')).toBeVisible();
+      await expect(page.locator('h1')).toBeVisible();
     }
   });
 
