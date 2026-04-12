@@ -30,7 +30,7 @@ function LoginForm() {
         <form onSubmit={onSubmit}>
           <div className={styles.field}>
             <label htmlFor="email">
-              Email
+              <span>Email</span>
               <input
                 name="email"
                 min="3"
@@ -48,7 +48,7 @@ function LoginForm() {
           </div>
           <div className={styles.field}>
             <label htmlFor="password">
-              Password
+              <span>Password</span>
               <input
                 name="password"
                 min="8"

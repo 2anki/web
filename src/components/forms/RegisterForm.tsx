@@ -64,7 +64,7 @@ function RegisterForm({ setErrorMessage, redirect }: Props) {
         <form onSubmit={handleSubmit}>
           <div className={styles.field}>
             <label htmlFor="name">
-              Name
+              <span>Name</span>
               <input
                 name="name"
                 min="1"
@@ -82,7 +82,7 @@ function RegisterForm({ setErrorMessage, redirect }: Props) {
           </div>
           <div className={styles.field}>
             <label htmlFor="email">
-              Email
+              <span>Email</span>
               <input
                 min="3"
                 max="255"
@@ -100,7 +100,7 @@ function RegisterForm({ setErrorMessage, redirect }: Props) {
           </div>
           <div className={styles.field}>
             <label htmlFor="password">
-              Password (minimum 8 characters)
+              <span>Password (minimum 8 characters)</span>
               <input
                 name="password"
                 min="8"
@@ -116,7 +116,7 @@ function RegisterForm({ setErrorMessage, redirect }: Props) {
               htmlFor="confirm_password"
               className={sharedStyles.marginTopSm}
             >
-              Confirm Password
+              <span>Confirm Password</span>
               <input
                 name="confirm_password"
                 min="8"

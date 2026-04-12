@@ -43,7 +43,7 @@ function NewPasswordForm({ setErrorMessage }: Props) {
         <form onSubmit={handleSubmit}>
           <div className={styles.field}>
             <label htmlFor="password">
-              New password
+              <span>New password</span>
               <input
                 min="8"
                 max="255"
@@ -59,7 +59,7 @@ function NewPasswordForm({ setErrorMessage }: Props) {
           </div>
           <div className={styles.field}>
             <label htmlFor="confirm_password">
-              Confirm new password
+              <span>Confirm new password</span>
               <input
                 min="8"
                 max="255"

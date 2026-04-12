@@ -250,18 +250,19 @@
 
 .columns2 {
   composes: columns;
-  grid-template-columns: repeat(2, 1fr);
 }
 
 .columns3 {
   composes: columns;
-  grid-template-columns: repeat(3, 1fr);
 }
 
-@media (max-width: 768px) {
-  .columns2,
+@media (min-width: 769px) {
+  .columns2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .columns3 {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -769,7 +770,8 @@
 }
 
 .wordBreak {
-  word-break: break-word;
+  word-break: normal;
+  overflow-wrap: anywhere;
 }
 
 .smallHeading {
