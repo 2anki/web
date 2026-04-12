@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { getDownloadFileName } from '../../DownloadsPage/helpers/getDownloadFileName';
+import formStyles from './UploadForm/UploadForm.module.css';
 
 interface Props {
   downloadLink: string | null | undefined;
@@ -12,10 +13,6 @@ function DownloadButton(props: Props) {
   const isDownloadable = downloadLink && deckName;
   const downloadRef = useRef<HTMLAnchorElement>(null);
 
-  const className = `button cta
-              ${isDownloadable ? 'is-primary' : 'is-light'} 
-              ${uploading ? 'is-loading' : ''}`;
-
   const isReady = downloadLink && !uploading;
 
   useEffect(() => {
@@ -24,11 +21,17 @@ function DownloadButton(props: Props) {
     }
   }, [isReady, downloadRef]);
 
+  if (!isDownloadable && !uploading) {
+    return null;
+  }
+
   return (
-    <div>
+    <div className={formStyles.downloadWrapper}>
       <button
         type="button"
-        className={className}
+        className={`${formStyles.downloadButton} ${
+          isReady ? formStyles.downloadButtonReady : ''
+        }`}
         onClick={(event) => {
           if (!isDownloadable) {
             event?.preventDefault();
@@ -37,7 +40,7 @@ function DownloadButton(props: Props) {
         }}
         disabled={!isDownloadable}
       >
-        Download
+        {uploading ? 'Converting...' : 'Download'}
       </button>
       {downloadLink && (
         <a

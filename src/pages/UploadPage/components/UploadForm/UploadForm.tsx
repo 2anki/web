@@ -4,9 +4,9 @@ import handleRedirect from '../../../../lib/handleRedirect';
 import getAcceptedContentTypes from '../../helpers/getAcceptedContentTypes';
 import getHeadersFilename from '../../helpers/getHeadersFilename';
 import DownloadButton from '../DownloadButton';
-import DropParagraph from '../DropParagraph';
 import { useDrag } from './hooks/useDrag';
 import { ClaudeProgress } from './ClaudeProgress';
+import formStyles from './UploadForm.module.css';
 import styles from '../../../../styles/shared.module.css';
 
 interface UploadFormProps {
@@ -71,45 +71,44 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
 
   return (
     <form encType="multipart/form-data" method="post" onSubmit={handleSubmit}>
-      <div>
-        <div>
-          <div>
-            <DropParagraph hover={dropHover}>
-              Drag a file and Drop it here
-              <p className="my-2">
-                <i>or</i>
-              </p>
-              <label htmlFor="pakker">
-                <input
-                  ref={fileInputRef}
-                  className="file-input"
-                  type="file"
-                  name="pakker"
-                  accept={getAcceptedContentTypes()}
-                  required
-                  multiple
-                  onChange={() => convertRef.current?.click()}
-                />
-              </label>
-              <span className={styles.btnPrimary}>
-                Click to convert your notes
-              </span>
-            </DropParagraph>
-          </div>
-          <DownloadButton
-            downloadLink={downloadLink}
-            deckName={deckName}
-            uploading={uploading}
-          />
-          <ClaudeProgress active={uploading && claudeEnabled} />
-          <button
-            aria-label="Upload file"
-            className={styles.hidden}
-            ref={convertRef}
-            type="submit"
-          />
-        </div>
-      </div>
+      <label
+        htmlFor="pakker"
+        className={`${formStyles.dropZone} ${
+          dropHover ? formStyles.dropZoneActive : ''
+        }`}
+      >
+        <span className={formStyles.dropIcon}>📄</span>
+        <span className={formStyles.dropText}>
+          Drag and drop your files here
+        </span>
+        <span className={formStyles.dropHint}>or</span>
+        <span className={formStyles.convertButton}>
+          Click to convert your notes
+        </span>
+        <input
+          ref={fileInputRef}
+          className={formStyles.fileInput}
+          id="pakker"
+          type="file"
+          name="pakker"
+          accept={getAcceptedContentTypes()}
+          required
+          multiple
+          onChange={() => convertRef.current?.click()}
+        />
+      </label>
+      <DownloadButton
+        downloadLink={downloadLink}
+        deckName={deckName}
+        uploading={uploading}
+      />
+      <ClaudeProgress active={uploading && claudeEnabled} />
+      <button
+        aria-label="Upload file"
+        className={styles.hidden}
+        ref={convertRef}
+        type="submit"
+      />
     </form>
   );
 }
