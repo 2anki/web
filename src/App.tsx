@@ -7,7 +7,6 @@ import UploadPage from './pages/UploadPage';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage/AboutPage';
 
-import Footer from './components/Footer';
 import isOfflineMode from './lib/isOfflineMode';
 import DebugPage from './pages/DebugPage';
 import { ContactPage } from './pages/ContactPage/ContactPage';
@@ -106,7 +105,6 @@ function AppContent({
           <Route path="/about" element={<AboutPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
-        <Footer />
       </PageLayout>
     </BrowserRouter>
   );

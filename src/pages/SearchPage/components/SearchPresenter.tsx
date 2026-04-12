@@ -5,7 +5,7 @@ import ListSearchResults from './ListSearchResults';
 import useFavorites from '../helpers/useFavorites';
 import Backend from '../../../lib/backend';
 import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
-import { StickyContainer } from './styled';
+import searchStyles from '../SearchPage.module.css';
 
 interface SearchPresenterProps {
   inProgress: boolean;
@@ -23,7 +23,7 @@ export default function SearchPresenter(props: SearchPresenterProps) {
 
   return (
     <>
-      <StickyContainer>
+      <div className={searchStyles.stickyBar}>
         <SearchBar
           inProgress={inProgress}
           onSearchQueryChanged={(s) => {
@@ -35,7 +35,7 @@ export default function SearchPresenter(props: SearchPresenterProps) {
           }}
           onSearchClicked={() => triggerSearch(false)}
         />
-      </StickyContainer>
+      </div>
       <ListSearchResults
         setError={setError}
         setFavorites={setFavorites}

@@ -6,6 +6,7 @@ import useQuery from '../../../lib/hooks/useQuery';
 import NotionObject from '../../../lib/interfaces/NotionObject';
 
 export const QUERY_KEY = 'q';
+export const SESSION_STORAGE_KEY = 'search-query';
 interface SearchQuery {
   isLoading: boolean;
   myPages: NotionObject[];
@@ -21,16 +22,21 @@ export default function useSearchQuery(
   const query = useQuery();
 
   const [searchQuery, setSearchQuery] = useState<string>(
-    query.get(QUERY_KEY) || ''
+    query.get(QUERY_KEY) ||
+      sessionStorage.getItem(SESSION_STORAGE_KEY) ||
+      'anki'
   );
+
+  const updateSearchQuery = useCallback((value: string) => {
+    setSearchQuery(value);
+    setMyPages([]);
+    sessionStorage.setItem(SESSION_STORAGE_KEY, value);
+  }, []);
   const [myPages, setMyPages] = useState<NotionObject[]>([]);
   const [inProgress, setInProgress] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const triggerSearch = useCallback(() => {
-    if (inProgress) {
-      return;
-    }
     setInProgress(true);
     backend
       .search(searchQuery)
@@ -44,18 +50,25 @@ export default function useSearchQuery(
         setIsLoading(false);
         setInProgress(false);
       });
-  }, [inProgress, searchQuery]);
+  }, [searchQuery]);
 
   useEffect(() => {
     setIsLoading(true);
     triggerSearch();
   }, []);
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      triggerSearch();
+    }, 400);
+    return () => clearTimeout(timeout);
+  }, [searchQuery, triggerSearch]);
+
   return {
     myPages,
     inProgress,
     triggerSearch,
     isLoading,
-    setSearchQuery,
+    setSearchQuery: updateSearchQuery,
   };
 }

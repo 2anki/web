@@ -6,14 +6,7 @@ import WarningMessage from '../../components/WarningMessage';
 import UploadForm from './components/UploadForm/UploadForm';
 import SettingsIcon from '../../components/icons/SettingsIcon';
 import SettingsModal from '../../components/modals/SettingsModal/SettingsModal';
-import {
-  FlexColumn,
-  ImportTitle,
-  InfoMessage,
-  CardOptionsLink,
-  UploadContainer,
-} from './styled';
-import { Main, PageContainer } from '../../components/styled';
+import styles from '../../styles/shared.module.css';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
 import { getVisibleText } from '../../lib/text/getVisibleText';
 import getAcceptedContentTypes from './helpers/getAcceptedContentTypes';
@@ -40,38 +33,32 @@ export function UploadPage({ setErrorMessage }: Props) {
     .join(', ');
 
   return (
-    <PageContainer>
-      <UploadContainer>
-        <Main>
-          {isDevelopment ? <WarningMessage /> : null}
-          <FlexColumn>
-            <ImportTitle>{getVisibleText('upload.page.title')}</ImportTitle>
-            <CardOptionsLink onClick={() => setShowCardOptionsModal(true)}>
-              <Link className="link" to="?view=template">
-                <SettingsIcon />
-                {getVisibleText('card.options')}
-              </Link>
-            </CardOptionsLink>
-          </FlexColumn>
-          <div className="container">
-            <UploadForm setErrorMessage={setErrorMessage} />
-            <p>The following files are supported: {readableSupportedFiles}</p>
-
-            <InfoMessage>
-              All files uploaded here are automatically deleted after 2 hours.
-            </InfoMessage>
-            <SettingsModal
-              setError={setErrorMessage}
-              pageId={null}
-              isActive={showCardOptionsModal}
-              onClickClose={() => {
-                window.history.pushState({}, '', 'upload');
-                setShowCardOptionsModal(false);
-              }}
-            />
-          </div>
-        </Main>
-      </UploadContainer>
-    </PageContainer>
+    <div className={styles.page}>
+      {isDevelopment ? <WarningMessage /> : null}
+      <div className={styles.flexBetween}>
+        <h2 className={styles.title}>{getVisibleText('upload.page.title')}</h2>
+        <Link
+          className={styles.secondaryText}
+          to="?view=template"
+          onClick={() => setShowCardOptionsModal(true)}
+        >
+          <SettingsIcon />
+        </Link>
+      </div>
+      <UploadForm setErrorMessage={setErrorMessage} />
+      <p>The following files are supported: {readableSupportedFiles}</p>
+      <p className={styles.smallDescription}>
+        All files uploaded here are automatically deleted after 2 hours.
+      </p>
+      <SettingsModal
+        setError={setErrorMessage}
+        pageId={null}
+        isActive={showCardOptionsModal}
+        onClickClose={() => {
+          window.history.pushState({}, '', 'upload');
+          setShowCardOptionsModal(false);
+        }}
+      />
+    </div>
   );
 }

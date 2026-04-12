@@ -58,8 +58,6 @@ test.describe('Mock API Tests', () => {
     await expect(page).toHaveTitle(/2anki/);
 
     // The application should load without API errors since we have mocks
-    // Check for hero section
-    const heroSection = page.locator('.hero');
-    await expect(heroSection).toBeVisible();
+    await expect(page.locator('h1')).toBeVisible();
   });
 });

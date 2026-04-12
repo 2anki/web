@@ -1,14 +1,19 @@
 import HeroText from './HeroText';
-import { HeroSubtitle, HeroSubtitleAlignRight, HeroTitle, HeroTitleContainer } from './styled';
+import styles from '../../../../../styles/shared.module.css';
+import {
+  HeroSubtitle,
+  HeroSubtitleAlignRight,
+  HeroTitle,
+  HeroTitleContainer,
+} from './styled';
 
 function HeroSection() {
-
   return (
-    <div className="section hero">
-      <div className="container">
+    <div className={styles.heroSection}>
+      <div className={styles.heroInner}>
         <HeroTitleContainer>
-          <HeroTitle>Create{' '}
-            <HeroSubtitle>Anki flashcards{' '}</HeroSubtitle>
+          <HeroTitle>
+            Create <HeroSubtitle>Anki flashcards </HeroSubtitle>
             <HeroSubtitleAlignRight>fast</HeroSubtitleAlignRight>
           </HeroTitle>
         </HeroTitleContainer>

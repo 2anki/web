@@ -7,6 +7,7 @@ import LoadingIndicator from '../../components/Loading';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
 import { get2ankiApi } from '../../lib/backend/get2ankiApi';
 import { ErrorPresenter } from '../../components/errors/ErrorPresenter';
+import styles from '../../styles/shared.module.css';
 
 interface SearchPageProps {
   setError: ErrorHandlerType;
@@ -18,7 +19,7 @@ export function SearchPage({ setError }: SearchPageProps) {
   let content;
   if (notionData.loading) {
     content = (
-      <div className="has-text-centered">
+      <div className={styles.textCenter}>
         <LoadingIndicator />
       </div>
     );
@@ -27,7 +28,7 @@ export function SearchPage({ setError }: SearchPageProps) {
   } else if (!notionData.connected) {
     content = (
       <>
-        <h1 className="title is-2 has-text-centered">
+        <h1 className={`${styles.title} ${styles.textCenter}`}>
           Connect to Notion or Upload Manually
         </h1>
         <ConnectNotion
@@ -37,14 +38,8 @@ export function SearchPage({ setError }: SearchPageProps) {
       </>
     );
   } else {
-    content = (
-      <SearchContainer
-        notionData={notionData}
-        backend={get2ankiApi()}
-        setError={setError}
-      />
-    );
+    content = <SearchContainer backend={get2ankiApi()} setError={setError} />;
   }
 
-  return <div className="section">{content}</div>;
+  return <div className={styles.page}>{content}</div>;
 }

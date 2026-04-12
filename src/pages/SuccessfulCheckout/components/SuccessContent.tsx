@@ -1,5 +1,6 @@
 import { UserActionCards } from './UserActionCards';
 import { TimeoutWarning } from './TimeoutWarning';
+import styles from '../../../styles/shared.module.css';
 
 const settingsLink = 'https://2anki.net/settings';
 const supportLink = 'mailto:support@2anki.net';
@@ -11,7 +12,7 @@ interface SuccessContentProps {
 export const SuccessContent = ({ timeoutReached }: SuccessContentProps) => {
   return (
     <>
-      <h1 className="title">Your payment has been confirmed</h1>
+      <h1 className={styles.title}>Your payment has been confirmed</h1>
 
       <p>
         Your payment has been successfully processed. To access your newly
@@ -21,7 +22,9 @@ export const SuccessContent = ({ timeoutReached }: SuccessContentProps) => {
 
       <UserActionCards />
 
-      <p className="has-text-weight-bold">Important Note:</p>
+      <p>
+        <strong>Important Note:</strong>
+      </p>
       <p>
         To ensure a smooth experience, please ensure you log in or register
         using the <strong>same email address</strong> you used during your

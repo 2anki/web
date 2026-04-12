@@ -1,3 +1,5 @@
+import styles from '../../styles/shared.module.css';
+
 interface SwitchProps {
   title: string;
   id: string;
@@ -10,7 +12,7 @@ function Switch({ title, id, checked, onSwitched }: SwitchProps) {
     <div
       tabIndex={-12}
       role="button"
-      className="field is-flex is-justify-content-space-between is-flex-direction-column"
+      className={styles.switchField}
       onClick={() => onSwitched()}
       onKeyDown={(event) => {
         if (event.altKey && event.key === id) {
@@ -22,7 +24,7 @@ function Switch({ title, id, checked, onSwitched }: SwitchProps) {
         id={id}
         type="checkbox"
         name={id}
-        className="switch is-rounded is-info"
+        className="switch"
         checked={checked}
         onChange={() => onSwitched()}
       />

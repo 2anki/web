@@ -2,8 +2,9 @@ import { SyntheticEvent, useState } from 'react';
 
 import { ErrorHandlerType } from '../../errors/helpers/getErrorMessage';
 import { ForgotPassword } from './ForgotPassword';
-import { FormContainer } from '../styled';
 import { get2ankiApi } from '../../../lib/backend/get2ankiApi';
+import styles from '../../../styles/auth.module.css';
+import sharedStyles from '../../../styles/shared.module.css';
 
 interface ForgotPasswordProps {
   setError: ErrorHandlerType;
@@ -29,40 +30,35 @@ function ForgotPasswordForm({ setError }: ForgotPasswordProps) {
     }
   };
   return (
-    <FormContainer>
-      <section className="section">
-        <div className="container">
-          <div className="columns is-centered">
-            <div className="column is-half">
-              <h1 className="title is-4">Forgot your password?</h1>
-              <p className="subtitle">Please enter your email below.</p>
-              <form onSubmit={handleSubmit}>
-                <div className="field">
-                  <label htmlFor="email" className="label">
-                    Email
-                    <input
-                      name="email"
-                      min="3"
-                      max="255"
-                      value={email}
-                      onChange={(event) => {
-                        setEmail(event.target.value);
-                        localStorage.setItem('email', event.target.value);
-                      }}
-                      className="input"
-                      type="email"
-                      placeholder="Your e-mail"
-                      required
-                    />
-                  </label>
-                </div>
-                <ForgotPassword didReset={didReset} loading={loading} />
-              </form>
-            </div>
+    <div className={styles.formPage}>
+      <div className={styles.formCard}>
+        <h1 className={styles.formTitle}>Forgot your password?</h1>
+        <p className={sharedStyles.formDescription}>
+          Please enter your email below.
+        </p>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.field}>
+            <label htmlFor="email">
+              Email
+              <input
+                name="email"
+                min="3"
+                max="255"
+                value={email}
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                  localStorage.setItem('email', event.target.value);
+                }}
+                type="email"
+                placeholder="Your e-mail"
+                required
+              />
+            </label>
           </div>
-        </div>
-      </section>
-    </FormContainer>
+          <ForgotPassword didReset={didReset} loading={loading} />
+        </form>
+      </div>
+    </div>
   );
 }
 

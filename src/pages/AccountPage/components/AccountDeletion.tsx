@@ -1,18 +1,16 @@
-import React from 'react';
+import styles from '../AccountPage.module.css';
 
 export function AccountDeletion() {
   return (
-    <div className="mt-6">
-      <h4 className="title is-6 has-text-danger">Delete Account</h4>
-      <div className="notification is-danger is-light">
-        <p className="mb-2">
-          <strong>Warning:</strong> Deleting your account will permanently
-          remove all your data and cannot be undone.
-        </p>
+    <div className={styles.dangerSection}>
+      <h4 className={styles.dangerTitle}>Delete Account</h4>
+      <div className={styles.dangerNotice}>
+        <strong>Warning:</strong> Deleting your account will permanently remove
+        all your data and cannot be undone.
       </div>
       <a
         href="/delete-account"
-        className="button is-danger is-outlined"
+        className={styles.dangerButton}
         onClick={(e) => {
           if (
             !confirm(

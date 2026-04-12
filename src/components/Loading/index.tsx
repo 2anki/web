@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import styles from '../../styles/shared.module.css';
 
 const StyledLoader = styled.div`
   display: flex;
@@ -13,11 +14,7 @@ const StyledLoader = styled.div`
 export default function LoadingIndicator() {
   return (
     <StyledLoader>
-      <button
-        aria-label="loading"
-        type="button"
-        className="button is-loading is-light"
-      />
+      <div aria-label="loading" className={styles.spinner} />
     </StyledLoader>
   );
 }

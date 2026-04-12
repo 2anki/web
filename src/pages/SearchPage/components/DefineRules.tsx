@@ -9,6 +9,7 @@ import RuleDefinition from './RuleDefinition';
 import { Details } from './styled';
 import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
 import { get2ankiApi } from '../../../lib/backend/get2ankiApi';
+import styles from '../../../styles/shared.module.css';
 
 interface Props {
   id: string;
@@ -28,7 +29,7 @@ const flashCardOptions = [
   'heading_2',
   'heading_3',
   'column_list',
-  'quote'
+  'quote',
 ];
 const tagOptions = ['heading', 'strikethrough'];
 const subDeckOptions = ['child_page', 'child_database', ...flashCardOptions];
@@ -45,7 +46,7 @@ function DefineRules(props: Props) {
     sub_deck_is: ['child_page'],
     tags_is: 'strikethrough',
     deck_is: ['page', 'database'],
-    email_notification: false
+    email_notification: false,
   });
 
   const [isLoading, setIsloading] = useState(true);
@@ -67,7 +68,7 @@ function DefineRules(props: Props) {
             ...rule,
             flashcard_is: rule.flashcard_is.split(','),
             sub_deck_is: rule.sub_deck_is.split(','),
-            deck_is: rule.deck_is.split(',')
+            deck_is: rule.deck_is.split(','),
           };
           setRules(newRules);
           setSendEmail(newRules.email_notification);
@@ -151,131 +152,125 @@ function DefineRules(props: Props) {
   };
 
   return (
-    <div className="modal is-active">
-      <div className="modal-background" />
-      <div className="modal-card">
-        <div className="card" style={{ maxWidth: '480px' }}>
-          <header className="card-header">
-            <p data-hj-suppress className="card-header-title">
-              Rules for {parent}
-            </p>
-            {isLoading && (
-              <button
-                aria-label="loading"
-                type="button"
-                className="m-2 card-header-icon button is-loading"
+    <div className={styles.modal}>
+      <div className={styles.modalBackdrop} />
+      <div className={styles.modalCardNarrow}>
+        <header className={styles.modalHeader}>
+          <p data-hj-suppress className={styles.modalRuleTitle}>
+            Rules for {parent}
+          </p>
+          {isLoading && (
+            <div aria-label="loading" className={styles.spinnerSmall} />
+          )}
+          <button
+            onClick={() => setDone()}
+            aria-label="close"
+            type="button"
+            className={styles.modalClose}
+          >
+            &times;
+          </button>
+        </header>
+        {!isLoading && (
+          <>
+            {more && (
+              <SettingsModal
+                setError={setError}
+                pageId={id}
+                pageTitle={parent}
+                isActive={more}
+                onClickClose={() => {
+                  setMore(false);
+                }}
               />
             )}
-            <div className="card-header-icon">
-              <button
-                onClick={() => setDone()}
-                aria-label="delete"
-                type="button"
-                className="delete"
+            <div>
+              <RuleDefinition
+                title="What is a deck?"
+                description="This will be the first ones you see in the deck overview in Anki."
+                value={rules.deck_is}
+                options={deckOptions}
+                onSelected={onSelectedDeckTypes}
               />
-            </div>
-          </header>
-          {!isLoading && (
-            <>
-              {more && (
-                <SettingsModal
-                  setError={setError}
-                  pageId={id}
-                  pageTitle={parent}
-                  isActive={more}
-                  onClickClose={() => {
-                    setMore(false);
+              <RuleDefinition
+                title="What is a sub deck?"
+                description="These decks will be grouped under the decks above it."
+                value={rules.sub_deck_is}
+                options={subDeckOptions}
+                onSelected={onSelectedSubDeckTypes}
+              />
+              <RuleDefinition
+                title="What is a flashcard?"
+                description="Select the block types to create flashcards from."
+                value={rules.flashcard_is}
+                options={flashCardOptions}
+                onSelected={onSelectedFlashcardTypes}
+              />
+              <Details>
+                <summary>Miscellaneous</summary>
+                <TemplateSelect
+                  data-hj-suppress
+                  pickedTemplate={(name: string) => setTags(name)}
+                  values={tagOptions.map((fco) => ({
+                    label: `Tags are ${fco}`,
+                    value: fco,
+                  }))}
+                  name="Tags"
+                  value={rules.tags_is}
+                />
+                <Switch
+                  key="email-notification"
+                  id="email-notification"
+                  title="Receive email notifications when deck(s) are ready"
+                  checked={sendEmail}
+                  onSwitched={() => {
+                    rules.email_notification = !rules.email_notification;
+                    setSendEmail(rules.email_notification);
                   }}
                 />
-              )}
-              <div>
-                <RuleDefinition
-                  title="What is a deck?"
-                  description="This will be the first ones you see in the deck overview in Anki."
-                  value={rules.deck_is}
-                  options={deckOptions}
-                  onSelected={onSelectedDeckTypes}
+                <Switch
+                  key="is-favorite"
+                  id="is-favorite"
+                  title="Mark this as a favorite"
+                  checked={favorite || false} // TODO: review if we can make this assumption
+                  onSwitched={toggleFavorite}
                 />
-                <RuleDefinition
-                  title="What is a sub deck?"
-                  description="These decks will be grouped under the decks above it."
-                  value={rules.sub_deck_is}
-                  options={subDeckOptions}
-                  onSelected={onSelectedSubDeckTypes}
-                />
-                <RuleDefinition
-                  title="What is a flashcard?"
-                  description="Select the block types to create flashcards from."
-                  value={rules.flashcard_is}
-                  options={flashCardOptions}
-                  onSelected={onSelectedFlashcardTypes}
-                />
-                <Details>
-                  <summary>Miscellaneous</summary>
-                  <TemplateSelect
-                    data-hj-suppress
-                    pickedTemplate={(name: string) => setTags(name)}
-                    values={tagOptions.map((fco) => ({
-                      label: `Tags are ${fco}`,
-                      value: fco
-                    }))}
-                    name="Tags"
-                    value={rules.tags_is}
-                  />
-                  <Switch
-                    key="email-notification"
-                    id="email-notification"
-                    title="Receive email notifications when deck(s) are ready"
-                    checked={sendEmail}
-                    onSwitched={() => {
-                      rules.email_notification = !rules.email_notification;
-                      setSendEmail(rules.email_notification);
-                    }}
-                  />
-                  <Switch
-                    key="is-favorite"
-                    id="is-favorite"
-                    title="Mark this as a favorite"
-                    checked={favorite || false} // TODO: review if we can make this assumption
-                    onSwitched={toggleFavorite}
-                  />
-                </Details>
-                <div className="has-text-centered my-2">
-                  <hr />
-                  <button
-                    type="button"
-                    className="button is-small"
-                    onClick={() => setMore(!more)}
-                  >
-                    More!
-                  </button>
-                </div>
+              </Details>
+              <div className={`${styles.textCenter} ${styles.marginBottomMd}`}>
+                <hr />
+                <button
+                  type="button"
+                  className={styles.btnSmall}
+                  onClick={() => setMore(!more)}
+                >
+                  More!
+                </button>
               </div>
-              <footer className="card-footer">
-                <a
-                  href="/save-rules"
-                  className="card-footer-item"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    saveRules(event);
-                  }}
-                >
-                  Save
-                </a>
-                <a
-                  href="/cancel-rules"
-                  className="card-footer-item"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    setDone();
-                  }}
-                >
-                  Cancel
-                </a>
-              </footer>
-            </>
-          )}
-        </div>
+            </div>
+            <footer className={styles.modalFooterSplit}>
+              <a
+                href="/save-rules"
+                className={styles.btnPrimary}
+                onClick={(event) => {
+                  event.preventDefault();
+                  saveRules(event);
+                }}
+              >
+                Save
+              </a>
+              <a
+                href="/cancel-rules"
+                className={styles.btnSecondary}
+                onClick={(event) => {
+                  event.preventDefault();
+                  setDone();
+                }}
+              >
+                Cancel
+              </a>
+            </footer>
+          </>
+        )}
       </div>
     </div>
   );

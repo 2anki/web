@@ -1,3 +1,5 @@
+import styles from '../styles/shared.module.css';
+
 interface FontPickerDelegate {
   fontSize: string;
   pickedFontSize: (fs: string) => void;
@@ -7,31 +9,31 @@ function FontSizePicker(delegate: FontPickerDelegate) {
   const { fontSize, pickedFontSize } = delegate;
 
   return (
-    <div className="field">
-      <div className="control">
-        <div
+    <div className={styles.flexColumn}>
+      <label htmlFor="font-size">
+        <strong>Font Size</strong>
+      </label>
+      <div
+        className={styles.flexRow}
+        style={{ alignItems: 'center', gap: '1rem' }}
+      >
+        <input
+          id="font-size"
+          name="font-size"
+          type="range"
+          min="10"
+          max="100"
+          value={fontSize}
+          onChange={(event) => pickedFontSize(event.target.value)}
           style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '0',
-            flexDirection: 'column',
+            writingMode: 'vertical-lr',
+            direction: 'rtl',
+            height: '100px',
           }}
-        >
-          <label htmlFor="font-size" className="label">
-            Font Size
-            <input
-              id="font-size"
-              name="font-size"
-              type="range"
-              min="10"
-              max="100"
-              value={fontSize}
-              onChange={(event) => pickedFontSize(event.target.value)}
-            />
-          </label>
-          <span style={{ fontSize: `${fontSize}px` }}>{fontSize}</span>
-        </div>
+        />
+        <span style={{ fontSize: `${fontSize}px`, overflow: 'hidden' }}>
+          {fontSize}
+        </span>
       </div>
     </div>
   );

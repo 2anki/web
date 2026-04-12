@@ -1,5 +1,5 @@
-import { SearchInput } from './styled';
 import { getQueryValue } from '../helpers/getQueryValue';
+import searchStyles from '../SearchPage.module.css';
 
 interface SearchBarProps {
   onSearchQueryChanged: (query: string) => void;
@@ -13,36 +13,29 @@ function SearchBar({
   inProgress,
 }: SearchBarProps) {
   return (
-    <div className="my-1 mt-4 has-text-centered is-flex is-justify-content-center">
-      <div className="field has-addons">
-        <div className="control">
-          <SearchInput
-            defaultValue={getQueryValue()}
-            className="input"
-            type="text"
-            placeholder="  🔍 🅰  📑 "
-            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-              if (e.key === 'Enter') {
-                onSearchClicked();
-              }
-            }}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              onSearchQueryChanged(event.target.value);
-            }}
-          />
+    <div>
+      <div className={searchStyles.searchLabel}>Search Notion</div>
+      <input
+        defaultValue={getQueryValue()}
+        type="text"
+        className={searchStyles.searchInput}
+        placeholder="Start typing..."
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === 'Enter') {
+            onSearchClicked();
+          }
+        }}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          onSearchQueryChanged(event.target.value);
+        }}
+      />
+      <div className={searchStyles.returnHint}>Results update as you type</div>
+      {inProgress && (
+        <div className={searchStyles.searchingIndicator}>
+          <span className={searchStyles.searchingDot} />
+          <span className={searchStyles.searchingDot} />{' Searching...'}
         </div>
-        <div className="control">
-          <button
-            type="button"
-            onClick={onSearchClicked}
-            className={`button ${
-              inProgress ? 'is-loading is-light' : 'is-info'
-            }`}
-          >
-            Search
-          </button>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

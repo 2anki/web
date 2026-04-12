@@ -1,6 +1,4 @@
-import React from 'react';
 import { useUserLocals } from '../../lib/hooks/useUserLocals';
-import { PageContainer } from '../../components/styled';
 import LoadingIndicator from '../../components/Loading';
 import { useSubscriptionStatus } from './hooks';
 import {
@@ -9,11 +7,15 @@ import {
   SubscriptionManagement,
   AccountDeletion,
 } from './components';
+import useNotionData from '../SearchPage/helpers/useNotionData';
+import { get2ankiApi } from '../../lib/backend/get2ankiApi';
+import styles from './AccountPage.module.css';
 
 export default function AccountPage() {
   const { isLoading, data, refetch } = useUserLocals();
   const { subscriptionStatus, subscriptionType, hasActivePlan } =
     useSubscriptionStatus(data?.locals);
+  const notionData = useNotionData(get2ankiApi());
 
   if (isLoading) return <LoadingIndicator />;
 
@@ -25,24 +27,39 @@ export default function AccountPage() {
   const { user, locals } = data;
 
   return (
-    <PageContainer>
-      <div className="box">
+    <div className={styles.page}>
+      <div className={styles.mainCard}>
         <UserProfile user={user} subscriptionStatus={subscriptionStatus} />
 
-        <div className="content mt-5">
-          <h2 className="title is-4">Plan Details</h2>
-          <PlanDetails subscriptionType={subscriptionType} />
+        <h2 className={styles.sectionTitle}>Plan Details</h2>
+        <PlanDetails subscriptionType={subscriptionType} />
 
-          <SubscriptionManagement
-            user={user}
-            locals={locals}
-            hasActivePlan={hasActivePlan}
-            onRefetch={refetch}
-          />
+        {notionData.connected && notionData.workSpace && (
+          <>
+            <h2 className={styles.sectionTitle}>Notion Workspace</h2>
+            <div className={styles.planCard}>
+              <div className={styles.planHeader}>
+                <span className={styles.planName}>{notionData.workSpace}</span>
+                <a
+                  href={notionData.connectionLink}
+                  className={styles.planButton}
+                >
+                  Switch
+                </a>
+              </div>
+            </div>
+          </>
+        )}
 
-          <AccountDeletion />
-        </div>
+        <SubscriptionManagement
+          user={user}
+          locals={locals}
+          hasActivePlan={hasActivePlan}
+          onRefetch={refetch}
+        />
+
+        <AccountDeletion />
       </div>
-    </PageContainer>
+    </div>
   );
 }

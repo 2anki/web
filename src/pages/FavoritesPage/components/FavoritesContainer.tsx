@@ -1,6 +1,6 @@
-import { PageContainer } from '../../../components/styled';
 import Backend from '../../../lib/backend';
 import LoadingIndicator from '../../../components/Loading';
+import styles from '../../../styles/shared.module.css';
 
 import FavoritesPresenter from './FavoritesPresenter';
 import useFavorites from '../helpers/useFavorites';
@@ -25,12 +25,12 @@ export default function FavoritesContainer({
   }
 
   return (
-    <PageContainer>
+    <div className={styles.page}>
       <FavoritesPresenter
         favorites={favorites}
         setFavorites={setFavorites}
         setError={setError}
       />
-    </PageContainer>
+    </div>
   );
 }

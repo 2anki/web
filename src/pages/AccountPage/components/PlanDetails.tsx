@@ -1,5 +1,5 @@
-import React from 'react';
-import { getPaymentPortalLink } from '../helpers/getPaymentPortalLink';
+import styles from '../AccountPage.module.css';
+import sharedStyles from '../../../styles/shared.module.css';
 
 interface PlanDetailsProps {
   readonly subscriptionType: 'subscriber' | 'lifetime' | 'free';
@@ -8,27 +8,15 @@ interface PlanDetailsProps {
 export function PlanDetails({ subscriptionType }: PlanDetailsProps) {
   if (subscriptionType === 'subscriber') {
     return (
-      <div className="box">
-        <div className="level">
-          <div className="level-left">
-            <div>
-              <h3 className="title is-5 mb-2">Monthly Subscription</h3>
-              <ul>
-                <li>Unlimited Flashcards (9GB++)</li>
-                <li>PDF support using Vertex AI</li>
-                <li>Priority Support</li>
-              </ul>
-            </div>
-          </div>
-          <div className="level-right">
-            <a
-              href={getPaymentPortalLink()}
-              className="button is-link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Manage Subscription
-            </a>
+      <div className={styles.planCard}>
+        <div className={styles.planHeader}>
+          <div>
+            <h3 className={styles.planName}>Monthly Subscription</h3>
+            <ul className={sharedStyles.featureList}>
+              <li>Unlimited Flashcards (9GB++)</li>
+              <li>PDF support using Vertex AI</li>
+              <li>Priority Support</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -37,10 +25,10 @@ export function PlanDetails({ subscriptionType }: PlanDetailsProps) {
 
   if (subscriptionType === 'lifetime') {
     return (
-      <div className="box">
-        <h3 className="title is-5 mb-2">Lifetime Access</h3>
-        <p className="subtitle is-6 mb-3">Valid forever</p>
-        <ul>
+      <div className={styles.planCard}>
+        <h3 className={styles.planName}>Lifetime Access</h3>
+        <p className={styles.planDescription}>Valid forever</p>
+        <ul className={sharedStyles.featureList}>
           <li>Unlimited Flashcards (9GB++)</li>
           <li>PDF support using Vertex AI</li>
           <li>Priority Support</li>
@@ -51,23 +39,19 @@ export function PlanDetails({ subscriptionType }: PlanDetailsProps) {
   }
 
   return (
-    <div className="box">
-      <div className="level">
-        <div className="level-left">
-          <div>
-            <h3 className="title is-5 mb-2">Free Plan</h3>
-            <ul>
-              <li>100 flashcards per upload</li>
-              <li>Max upload size: 100mb</li>
-              <li>Community Support</li>
-            </ul>
-          </div>
+    <div className={styles.planCard}>
+      <div className={styles.planHeader}>
+        <div>
+          <h3 className={styles.planName}>Free Plan</h3>
+          <ul className={sharedStyles.featureList}>
+            <li>100 flashcards per upload</li>
+            <li>Max upload size: 100mb</li>
+            <li>Community Support</li>
+          </ul>
         </div>
-        <div className="level-right">
-          <a href="/pricing" className="button is-primary">
-            Upgrade Now
-          </a>
-        </div>
+        <a href="/pricing" className={styles.planButton}>
+          Upgrade
+        </a>
       </div>
     </div>
   );

@@ -14,13 +14,12 @@ function TemplateName({
   pickedName,
 }: TemplateNameDelegate) {
   return (
-    <div className="field">
+    <div>
       <label htmlFor={name}>
         {label}
-        <div className="control">
+        <div>
           <input
             type="text"
-            className="input"
             placeholder={placeholder}
             name={name}
             value={value}
