@@ -44,6 +44,16 @@ export default function useUploads(backend: Backend): UseUploads {
       setUploads(data);
       setLoading(false);
     });
+
+    const intervalId = setInterval(() => {
+      fetchUploads().then((data) => {
+        if (data) {
+          setUploads(data);
+        }
+      });
+    }, 10000);
+
+    return () => clearInterval(intervalId);
   }, [backend]);
 
   return {
