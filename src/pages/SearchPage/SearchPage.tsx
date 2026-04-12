@@ -38,13 +38,7 @@ export function SearchPage({ setError }: SearchPageProps) {
       </>
     );
   } else {
-    content = (
-      <SearchContainer
-        notionData={notionData}
-        backend={get2ankiApi()}
-        setError={setError}
-      />
-    );
+    content = <SearchContainer backend={get2ankiApi()} setError={setError} />;
   }
 
   return <div className={styles.page}>{content}</div>;

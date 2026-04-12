@@ -1,19 +1,15 @@
 import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
 import Backend from '../../../lib/backend';
 
-import { NotionData } from '../helpers/useNotionData';
 import useSearchQuery from '../helpers/useSearchQuery';
 import SearchPresenter from './SearchPresenter';
-import WorkSpaceHeader from './WorkspaceHeader';
 
 interface SearchContainerProps {
-  notionData: NotionData;
   backend: Backend;
   setError: ErrorHandlerType;
 }
 
 export default function SearchContainer({
-  notionData,
   backend,
   setError,
 }: SearchContainerProps) {
@@ -21,15 +17,12 @@ export default function SearchContainer({
     useSearchQuery(backend, setError);
 
   return (
-    <>
-      <WorkSpaceHeader notionData={notionData} />
-      <SearchPresenter
-        setError={setError}
-        myPages={myPages}
-        inProgress={isLoading || inProgress}
-        setSearchQuery={setSearchQuery}
-        triggerSearch={triggerSearch}
-      />
-    </>
+    <SearchPresenter
+      setError={setError}
+      myPages={myPages}
+      inProgress={isLoading || inProgress}
+      setSearchQuery={setSearchQuery}
+      triggerSearch={triggerSearch}
+    />
   );
 }
