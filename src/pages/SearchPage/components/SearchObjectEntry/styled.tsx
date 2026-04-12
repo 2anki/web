@@ -4,10 +4,10 @@ export const Entry = styled.div`
   display: flex;
   align-items: center;
   grid-gap: 1.2rem;
-  padding: 1rem;
+  padding: 1rem 0;
   font-size: 2.4vw;
   justify-content: space-between;
-  max-width: 720px;
+  width: 100%;
   margin: 0 auto;
 `;
 

@@ -47,5 +47,5 @@ export function SearchPage({ setError }: SearchPageProps) {
     );
   }
 
-  return <div className={styles.pageWide}>{content}</div>;
+  return <div className={styles.page}>{content}</div>;
 }

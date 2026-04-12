@@ -553,8 +553,11 @@
 }
 
 .searchBarGroup input {
+  flex: 1;
   border: none;
   border-radius: 0;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
 }
 
 .searchBarGroup input:focus {
@@ -824,4 +827,12 @@
   outline: none;
   border-color: var(--color-primary);
   box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
+}
+
+.stickySearch {
+  position: sticky;
+  top: 0;
+  padding: 1rem 0;
+  background: var(--color-bg-primary);
+  z-index: 10;
 }

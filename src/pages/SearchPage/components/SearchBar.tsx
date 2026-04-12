@@ -1,6 +1,5 @@
-import { SearchInput } from './styled';
 import { getQueryValue } from '../helpers/getQueryValue';
-import styles from '../../../styles/shared.module.css';
+import searchStyles from '../SearchPage.module.css';
 
 interface SearchBarProps {
   onSearchQueryChanged: (query: string) => void;
@@ -14,34 +13,30 @@ function SearchBar({
   inProgress,
 }: SearchBarProps) {
   return (
-    <div className={styles.searchBarWrapper}>
-      <div className={styles.searchBarGroup}>
-        <div>
-          <SearchInput
-            defaultValue={getQueryValue()}
-            type="text"
-            placeholder="  🔍 🅰  📑 "
-            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-              if (e.key === 'Enter') {
-                onSearchClicked();
-              }
-            }}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              onSearchQueryChanged(event.target.value);
-            }}
-          />
+    <div>
+      <div className={searchStyles.searchLabel}>Search Notion</div>
+      <input
+        defaultValue={getQueryValue()}
+        type="text"
+        className={searchStyles.searchInput}
+        placeholder="Start typing..."
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === 'Enter') {
+            onSearchClicked();
+          }
+        }}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          onSearchQueryChanged(event.target.value);
+        }}
+      />
+      <div className={searchStyles.returnHint}>Results update as you type</div>
+      {inProgress && (
+        <div className={searchStyles.searchingIndicator}>
+          <span className={searchStyles.searchingDot} />
+          <span className={searchStyles.searchingDot} />
+          Searching...
         </div>
-        <div>
-          <button
-            type="button"
-            onClick={onSearchClicked}
-            className={styles.searchButton}
-            disabled={inProgress}
-          >
-            {inProgress ? 'Searching...' : 'Search'}
-          </button>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

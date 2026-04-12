@@ -14,22 +14,23 @@ interface ListSearchResultsProps {
 export default function ListSearchResults(
   props: ListSearchResultsProps
 ): React.ReactNode {
-  const { results, handleEmpty, setFavorites, setError } = props;
+  const { results, handleEmpty = true, setFavorites, setError } = props;
   const isEmpty = results.length < 1;
 
   if (isEmpty && handleEmpty) {
     return (
-      <div className={styles.textCenter}>
-        <div className={styles.secondaryText}>
-          No search results, try typing something above 👌🏾 Also ensure you{' '}
+      <div className={styles.emptyState}>
+        <p>No results found</p>
+        <p className={styles.secondaryText}>
+          Try a different search term. Also ensure you{' '}
           <a
             target="_blank"
             rel="noreferrer"
             href="https://www.notion.so/help/guides/understanding-notions-sharing-settings"
           >
-            understand notions sharing settings
+            understand Notion's sharing settings
           </a>
-        </div>
+        </p>
       </div>
     );
   }
@@ -51,7 +52,3 @@ export default function ListSearchResults(
     </>
   );
 }
-
-ListSearchResults.defaultProps = {
-  handleEmpty: true,
-};

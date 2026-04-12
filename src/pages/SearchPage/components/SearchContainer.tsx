@@ -1,5 +1,4 @@
 import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
-import { PageContainer } from '../../../components/styled';
 import Backend from '../../../lib/backend';
 
 import { NotionData } from '../helpers/useNotionData';
@@ -22,7 +21,7 @@ export default function SearchContainer({
     useSearchQuery(backend, setError);
 
   return (
-    <PageContainer>
+    <>
       <WorkSpaceHeader notionData={notionData} />
       <SearchPresenter
         setError={setError}
@@ -31,6 +30,6 @@ export default function SearchContainer({
         setSearchQuery={setSearchQuery}
         triggerSearch={triggerSearch}
       />
-    </PageContainer>
+    </>
   );
 }

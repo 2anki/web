@@ -29,6 +29,7 @@ export default function useSearchQuery(
 
   const updateSearchQuery = useCallback((value: string) => {
     setSearchQuery(value);
+    setMyPages([]);
     sessionStorage.setItem(SESSION_STORAGE_KEY, value);
   }, []);
   const [myPages, setMyPages] = useState<NotionObject[]>([]);
@@ -36,9 +37,6 @@ export default function useSearchQuery(
   const [isLoading, setIsLoading] = useState(true);
 
   const triggerSearch = useCallback(() => {
-    if (inProgress) {
-      return;
-    }
     setInProgress(true);
     backend
       .search(searchQuery)
@@ -52,12 +50,19 @@ export default function useSearchQuery(
         setIsLoading(false);
         setInProgress(false);
       });
-  }, [inProgress, searchQuery]);
+  }, [searchQuery]);
 
   useEffect(() => {
     setIsLoading(true);
     triggerSearch();
   }, []);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      triggerSearch();
+    }, 400);
+    return () => clearTimeout(timeout);
+  }, [searchQuery, triggerSearch]);
 
   return {
     myPages,
