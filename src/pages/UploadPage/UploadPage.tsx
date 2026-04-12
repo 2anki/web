@@ -58,8 +58,7 @@ export function UploadPage({ setErrorMessage }: Props) {
             <p>The following files are supported: {readableSupportedFiles}</p>
 
             <InfoMessage>
-              All files uploaded here are automatically deleted after 21
-              minutes.
+              All files uploaded here are automatically deleted after 2 hours.
             </InfoMessage>
             <SettingsModal
               setError={setErrorMessage}
