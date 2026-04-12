@@ -33,8 +33,7 @@ function SearchBar({
       {inProgress && (
         <div className={searchStyles.searchingIndicator}>
           <span className={searchStyles.searchingDot} />
-          <span className={searchStyles.searchingDot} />
-          Searching...
+          <span className={searchStyles.searchingDot} />{' Searching...'}
         </div>
       )}
     </div>

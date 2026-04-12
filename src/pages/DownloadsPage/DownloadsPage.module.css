@@ -120,7 +120,7 @@
 
 .downloadButton:hover {
   background: #dbeafe;
-  color: #2563eb;
+  color: #1d4ed8;
 }
 
 .deleteButton {
@@ -185,7 +185,7 @@
   font-size: 0.875rem;
   font-weight: 500;
   color: #fff;
-  background: #3b82f6;
+  background: #1d4ed8;
   border-radius: 9999px;
   text-decoration: none;
   transition: background 0.15s ease;
