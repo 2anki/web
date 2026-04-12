@@ -4,7 +4,6 @@ import Backend from '../../../lib/backend';
 import NavbarItem from '../NavbarItem';
 import { useUserLocals } from '../../../lib/hooks/useUserLocals';
 import styles from '../NavigationBar.module.css';
-import sharedStyles from '../../../styles/shared.module.css';
 
 export default function useNavbarEnd(path: string, backend: Backend) {
   const [isActive, setIsActive] = useState(false);
@@ -56,16 +55,7 @@ export default function useNavbarEnd(path: string, backend: Backend) {
             aria-controls="dropdown-menu"
             type="button"
           >
-            <img
-              className={sharedStyles.avatar}
-              src={
-                data?.user?.picture ??
-                `https://www.gravatar.com/avatar/${
-                  data?.user?.email ?? ''
-                }?s=32&d=mp`
-              }
-              alt="User avatar"
-            />
+            <span className={styles.dropdownToggleText}>⋯</span>
           </button>
           <div
             className={`${styles.dropdownMenu} ${

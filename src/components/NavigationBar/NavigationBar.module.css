@@ -159,6 +159,11 @@
   font-weight: 700;
 }
 
+.dropdownToggleText {
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+}
+
 .dropdownMenu {
   display: none;
   position: absolute;
