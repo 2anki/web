@@ -8,10 +8,10 @@ import './ListJobs.css';
 import sharedStyles from '../../../../styles/shared.module.css';
 
 interface Props {
-  jobs: Jobs[];
-  deleteJob: (id: JobsId) => void;
-  restartJob: (job: Jobs) => void;
-  refreshJobs: () => Promise<void>;
+  readonly jobs: Jobs[];
+  readonly deleteJob: (id: JobsId) => void;
+  readonly restartJob: (job: Jobs) => void;
+  readonly refreshJobs: () => Promise<void>;
 }
 
 export default function Index({

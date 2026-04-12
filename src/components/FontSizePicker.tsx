@@ -21,7 +21,6 @@ function FontSizePicker(delegate: FontPickerDelegate) {
           id="font-size"
           name="font-size"
           type="range"
-          orient="vertical"
           min="10"
           max="100"
           value={fontSize}

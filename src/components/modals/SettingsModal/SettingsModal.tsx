@@ -158,7 +158,17 @@ function SettingsModal({
 
   return (
     <div className={isActive ? sharedStyles.modal : sharedStyles.modalHidden}>
-      <div className={sharedStyles.modalBackdrop} onClick={onClickClose} />
+      <div
+        className={sharedStyles.modalBackdrop}
+        onClick={onClickClose}
+        onKeyDown={(e) => {
+          if (e.key === 'Escape')
+            onClickClose(e as unknown as React.MouseEvent);
+        }}
+        role="button"
+        tabIndex={-1}
+        aria-label="Close modal"
+      />
       <div className={sharedStyles.modalCard}>
         {(loading || isLoading) && (
           <div

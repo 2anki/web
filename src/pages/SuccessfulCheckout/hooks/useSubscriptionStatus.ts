@@ -11,10 +11,9 @@ interface SubscriptionStatus {
   };
 }
 
-const fetchSubscriptionStatus = async (): Promise<SubscriptionStatus> => {
-  const sessionId = new URLSearchParams(globalThis.location.search).get(
-    'session_id'
-  );
+const fetchSubscriptionStatus = async (
+  sessionId: string | null
+): Promise<SubscriptionStatus> => {
   const url = sessionId
     ? `/api/stripe/subscription-status?session_id=${encodeURIComponent(
         sessionId
@@ -23,16 +22,25 @@ const fetchSubscriptionStatus = async (): Promise<SubscriptionStatus> => {
   const response = await fetch(url, {
     credentials: 'include',
   });
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error(
+      `Subscription status check failed (${response.status}): ${body}`
+    );
+  }
   return response.json();
 };
 
 export const useSubscriptionStatus = () => {
   const [shouldPoll, setShouldPoll] = useState(true);
   const [timeoutReached, setTimeoutReached] = useState(false);
+  const sessionId = new URLSearchParams(globalThis.location.search).get(
+    'session_id'
+  );
 
   const query = useQuery({
-    queryKey: ['subscription-status'],
-    queryFn: fetchSubscriptionStatus,
+    queryKey: ['subscription-status', sessionId],
+    queryFn: () => fetchSubscriptionStatus(sessionId),
     refetchInterval: shouldPoll ? 2000 : false,
     retry: 3,
     retryDelay: 1000,

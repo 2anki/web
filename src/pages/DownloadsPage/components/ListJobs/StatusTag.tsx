@@ -25,10 +25,6 @@ function getStatusStyle(status: JobStatus): {
     case 'step3_building_deck':
       return { className: 'stripe-status-info', dotClassName: styles.dotInfo };
     case 'failed':
-      return {
-        className: 'stripe-status-danger',
-        dotClassName: styles.dotDanger,
-      };
     case 'cancelled':
       return {
         className: 'stripe-status-danger',

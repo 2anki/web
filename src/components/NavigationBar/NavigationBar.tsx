@@ -2,7 +2,6 @@
 import { useState } from 'react';
 
 import styles from './NavigationBar.module.css';
-import sharedStyles from '../../styles/shared.module.css';
 import { RightSide } from './components/RightSide';
 import useNavbarEnd from './helpers/useNavbarEnd';
 import { get2ankiApi } from '../../lib/backend/get2ankiApi';

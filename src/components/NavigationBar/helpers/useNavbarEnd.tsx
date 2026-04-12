@@ -18,11 +18,6 @@ export default function useNavbarEnd(path: string, backend: Backend) {
   const showKiLink = data?.features?.kiUI;
 
   const toggleDropdown = () => setIsActive(!isActive);
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      toggleDropdown();
-    }
-  };
 
   return (
     <div className={styles.navEnd}>
@@ -46,13 +41,13 @@ export default function useNavbarEnd(path: string, backend: Backend) {
         {getVisibleText('navigation.search')}
       </NavbarItem>
       {isLoggedIn && (
-        <div className={styles.dropdown}>
+        <div className={styles.dropdown} id="navbar-user-menu">
           <button
             onClick={toggleDropdown}
-            onKeyDown={handleKeyDown}
             className={styles.dropdownToggle}
             aria-haspopup="true"
-            aria-controls="dropdown-menu"
+            aria-controls="navbar-user-menu"
+            aria-label="Account menu"
             type="button"
           >
             <span className={styles.dropdownToggleText}>⋯</span>
