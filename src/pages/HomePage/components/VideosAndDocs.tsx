@@ -14,10 +14,8 @@ export function VideosAndDocs() {
       <h3 className={styles.sectionHeading}>
         Conversion using the Notion integration
       </h3>
-      <figure>
+      <figure className={styles.videoWrapper}>
         <iframe
-          width="560"
-          height="315"
           src="https://www.youtube.com/embed/LqMiK2vGQ8Q?si=clbSHdVHrpwDl-9D"
           title="YouTube video player"
           frameBorder="0"
@@ -30,10 +28,8 @@ export function VideosAndDocs() {
       <h3 className={styles.sectionHeading}>
         Conversion using the file upload
       </h3>
-      <figure>
+      <figure className={styles.videoWrapper}>
         <iframe
-          width="560"
-          height="315"
           src="https://www.youtube.com/embed/5ZDA79KfRi8?si=SCnTnHRwP81-ha2c"
           title="YouTube video player"
           frameBorder="0"
