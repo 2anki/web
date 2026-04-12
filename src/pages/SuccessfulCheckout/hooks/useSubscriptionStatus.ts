@@ -12,7 +12,15 @@ interface SubscriptionStatus {
 }
 
 const fetchSubscriptionStatus = async (): Promise<SubscriptionStatus> => {
-  const response = await fetch('/api/stripe/subscription-status', {
+  const sessionId = new URLSearchParams(globalThis.location.search).get(
+    'session_id'
+  );
+  const url = sessionId
+    ? `/api/stripe/subscription-status?session_id=${encodeURIComponent(
+        sessionId
+      )}`
+    : '/api/stripe/subscription-status';
+  const response = await fetch(url, {
     credentials: 'include',
   });
   return response.json();
@@ -41,17 +49,18 @@ export const useSubscriptionStatus = () => {
 
   useEffect(() => {
     if (query.data) {
-      // Stop polling if user is not authenticated
       if (!query.data.authenticated) {
         setShouldPoll(false);
       }
 
-      // Redirect if user has active subscription
-      if (query.data.hasActiveSubscription) {
+      if (
+        query.data.hasActiveSubscription ||
+        (query.data.authenticated && timeoutReached)
+      ) {
         globalThis.location.href = '/search';
       }
     }
-  }, [query.data]);
+  }, [query.data, timeoutReached]);
 
   return {
     ...query,

@@ -1,4 +1,3 @@
-import { getPaymentPortalLink } from '../helpers/getPaymentPortalLink';
 import styles from '../AccountPage.module.css';
 import sharedStyles from '../../../styles/shared.module.css';
 
@@ -19,14 +18,6 @@ export function PlanDetails({ subscriptionType }: PlanDetailsProps) {
               <li>Priority Support</li>
             </ul>
           </div>
-          <a
-            href={getPaymentPortalLink()}
-            className={styles.planButton}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Manage
-          </a>
         </div>
       </div>
     );
