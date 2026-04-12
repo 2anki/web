@@ -9,23 +9,32 @@ function FontSizePicker(delegate: FontPickerDelegate) {
   const { fontSize, pickedFontSize } = delegate;
 
   return (
-    <div>
-      <div>
-        <div className={`${styles.flexColumn} ${styles.flexCenter}`}>
-          <label htmlFor="font-size" className="label">
-            Font Size
-            <input
-              id="font-size"
-              name="font-size"
-              type="range"
-              min="10"
-              max="100"
-              value={fontSize}
-              onChange={(event) => pickedFontSize(event.target.value)}
-            />
-          </label>
-          <span style={{ fontSize: `${fontSize}px` }}>{fontSize}</span>
-        </div>
+    <div className={styles.flexColumn}>
+      <label htmlFor="font-size">
+        <strong>Font Size</strong>
+      </label>
+      <div
+        className={styles.flexRow}
+        style={{ alignItems: 'center', gap: '1rem' }}
+      >
+        <input
+          id="font-size"
+          name="font-size"
+          type="range"
+          orient="vertical"
+          min="10"
+          max="100"
+          value={fontSize}
+          onChange={(event) => pickedFontSize(event.target.value)}
+          style={{
+            writingMode: 'vertical-lr',
+            direction: 'rtl',
+            height: '100px',
+          }}
+        />
+        <span style={{ fontSize: `${fontSize}px`, overflow: 'hidden' }}>
+          {fontSize}
+        </span>
       </div>
     </div>
   );

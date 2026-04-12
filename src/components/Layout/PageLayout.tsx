@@ -56,7 +56,7 @@ export function PageLayout({
         </ClaudePromoBanner>
       )}
       {error && <ErrorPresenter error={error} />}
-      <div style={{ flex: 1 }}>{children}</div>
+      <div className={sharedStyles.flexGrow}>{children}</div>
       <Footer />
     </PageContent>
   );

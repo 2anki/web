@@ -11,9 +11,9 @@ import { ErrorHandlerType } from '../../errors/helpers/getErrorMessage';
 import { clearStoredCardOptions } from '../../../lib/data_layer/clearStoredCardOptions';
 import { availableTemplates } from './constants';
 import { getLocalStorageValue } from '../../../lib/data_layer/getLocalStorageValue';
-import { StyledInput } from './styled';
 import { sendError } from '../../../lib/SendError';
 import { get2ankiApi } from '../../../lib/backend/get2ankiApi';
+import modalStyles from './SettingsModal.module.css';
 
 import { getLocalStorageBooleanValue } from '../../../lib/data_layer/getLocalStorageBooleanValue';
 import CardOption from '../../../lib/data_layer/model/CardOption';
@@ -181,18 +181,18 @@ function SettingsModal({
               </button>
             </div>
             <section className={sharedStyles.modalBody}>
-              <div>
-                <label htmlFor="deck-name" className="font-semibold">
+              <div className={modalStyles.section}>
+                <label htmlFor="deck-name" className={modalStyles.sectionLabel}>
                   Deck Name
                 </label>
-                <p className="text-sm text-gray-600 mb-2">
+                <p className={modalStyles.sectionHint}>
                   You can customize the deck name here. Leave it empty if you
                   use subpages.
                 </p>
-                <StyledInput
+                <input
                   id="deck-name"
                   name="deck-name"
-                  className="input"
+                  className={modalStyles.deckInput}
                   placeholder="Enter deck name (optional)"
                   value={deckName}
                   onChange={(e) => {
@@ -203,11 +203,14 @@ function SettingsModal({
                 />
               </div>
 
-              <div className="p-4 bg-white rounded shadow">
-                <label htmlFor="page-emoji" className="font-semibold">
+              <div className={modalStyles.section}>
+                <label
+                  htmlFor="page-emoji"
+                  className={modalStyles.sectionLabel}
+                >
                   Page Icon
                 </label>
-                <p className="text-sm text-gray-600 mb-2">
+                <p className={modalStyles.sectionHint}>
                   Control whether to use the Notion page icon and its position.
                 </p>
                 <TemplateSelect
@@ -225,8 +228,11 @@ function SettingsModal({
                 />
               </div>
 
-              <div className="p-4 bg-white rounded shadow">
-                <label htmlFor="toggle-mode" className="font-semibold">
+              <div className={modalStyles.section}>
+                <label
+                  htmlFor="toggle-mode"
+                  className={modalStyles.sectionLabel}
+                >
                   Toggle Mode
                 </label>
                 <TemplateSelect
@@ -259,33 +265,32 @@ function SettingsModal({
                 />
               ))}
 
-              <div className="p-4 bg-white rounded shadow w-full">
-                <details className="w-full">
-                  <summary className="font-medium cursor-pointer">
+              <div className={modalStyles.section}>
+                <details>
+                  <summary className={modalStyles.detailsSummary}>
                     User Instructions for PDF conversion
                   </summary>
-                  <div className="w-full">
-                    <textarea
-                      className={sharedStyles.fullWidthTextarea}
-                      value={userInstructions}
-                      onChange={(e) => {
-                        setUserInstructions(e.target.value);
-                        saveValueInLocalStorage(
-                          'user-instructions',
-                          e.target.value,
-                          pageId
-                        );
-                      }}
-                      rows={4}
-                      className="w-full mt-2 p-2 border rounded resize-none"
-                      placeholder="Instructions for PDF conversion..."
-                    />
-                  </div>
+                  <textarea
+                    className={modalStyles.instructionsTextarea}
+                    value={userInstructions}
+                    onChange={(e) => {
+                      setUserInstructions(e.target.value);
+                      saveValueInLocalStorage(
+                        'user-instructions',
+                        e.target.value,
+                        pageId
+                      );
+                    }}
+                    rows={4}
+                    placeholder="Instructions for PDF conversion..."
+                  />
                 </details>
               </div>
 
-              <div className="p-4 bg-white rounded shadow">
-                <h2 className="text-lg font-semibold mb-2">Template Options</h2>
+              <div className={modalStyles.section}>
+                <h2 className={modalStyles.templateHeading}>
+                  Template Options
+                </h2>
                 <TemplateSelect
                   values={availableTemplates}
                   value={template}
