@@ -6,6 +6,7 @@ import useQuery from '../../../lib/hooks/useQuery';
 import NotionObject from '../../../lib/interfaces/NotionObject';
 
 export const QUERY_KEY = 'q';
+export const SESSION_STORAGE_KEY = 'search-query';
 interface SearchQuery {
   isLoading: boolean;
   myPages: NotionObject[];
@@ -20,9 +21,14 @@ export default function useSearchQuery(
 ): SearchQuery {
   const query = useQuery();
 
-  const [searchQuery, setSearchQuery] = useState<string>(
-    query.get(QUERY_KEY) || ''
+  const [searchQuery, setSearchQueryState] = useState<string>(
+    query.get(QUERY_KEY) || sessionStorage.getItem(SESSION_STORAGE_KEY) || 'anki'
   );
+
+  const setSearchQuery = useCallback((value: string) => {
+    setSearchQueryState(value);
+    sessionStorage.setItem(SESSION_STORAGE_KEY, value);
+  }, []);
   const [myPages, setMyPages] = useState<NotionObject[]>([]);
   const [inProgress, setInProgress] = useState(false);
   const [isLoading, setIsLoading] = useState(true);

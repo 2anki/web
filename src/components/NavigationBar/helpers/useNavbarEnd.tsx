@@ -42,7 +42,7 @@ export default function useNavbarEnd(path: string, backend: Backend) {
       <NavbarItem href="/uploads" path={path}>
         {getVisibleText('navigation.uploads')}
       </NavbarItem>
-      <NavbarItem href={getSearchPath('anki')} path={path}>
+      <NavbarItem href="/search" path={path}>
         {getVisibleText('navigation.search')}
       </NavbarItem>
       {isLoggedIn && (
@@ -62,7 +62,9 @@ export default function useNavbarEnd(path: string, backend: Backend) {
                 className="is-rounded"
                 src={
                   data?.user?.picture ??
-                  `https://www.gravatar.com/avatar/${data?.user?.email ?? ''}?s=32&d=mp`
+                  `https://www.gravatar.com/avatar/${
+                    data?.user?.email ?? ''
+                  }?s=32&d=mp`
                 }
                 alt="User avatar"
               />
