@@ -40,6 +40,7 @@ export default function SearchPresenter(props: SearchPresenterProps) {
         setError={setError}
         setFavorites={setFavorites}
         results={myPages}
+        handleEmpty={!inProgress}
       />
     </>
   );
