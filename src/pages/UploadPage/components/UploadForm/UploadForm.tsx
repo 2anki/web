@@ -49,6 +49,7 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
         return handleRedirect(request);
       }
       if (request.status === 202) {
+        setUploading(false);
         globalThis.location.href = '/uploads';
         return true;
       }

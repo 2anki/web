@@ -40,13 +40,17 @@ export default function useJobs(
     }
   }
 
-  async function restartJob(job: Jobs) {
-    if (job.type === 'claude') {
-      await backend.restartClaudeJob(job.object_id);
-    } else {
-      await backend.convert(job.object_id, job.type, job.title);
+  async function restartJob(job: JobResponse) {
+    try {
+      if (job.type === 'claude') {
+        await backend.restartClaudeJob(job.object_id);
+      } else {
+        await backend.convert(job.object_id, job.type, job.title);
+      }
+      await fetchJobs();
+    } catch (error) {
+      setError(error);
     }
-    await fetchJobs();
   }
 
   const hasActiveJobs = jobs.some(

@@ -38,9 +38,11 @@ export default function Index({
       );
     }
     if (isFailedJob(j.status)) {
-      return j.job_reason_failure ? (
-        <div className="stripe-error">Reason: {j.job_reason_failure}</div>
-      ) : null;
+      return (
+        <div className="stripe-error">
+          {j.job_reason_failure ? `Reason: ${j.job_reason_failure}` : 'Failed'}
+        </div>
+      );
     }
     return <StatusTag status={j.status as JobStatus} />;
   };
