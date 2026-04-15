@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
 
 import Backend from '../../../lib/backend';
-import Jobs, { JobsId } from '../../../schemas/public/Jobs';
+import { JobsId } from '../../../schemas/public/Jobs';
+import JobResponse from '../../../schemas/public/JobResponse';
 
 interface UseJobsResult {
-  jobs: Jobs[];
+  jobs: JobResponse[];
   deleteJob: (id: JobsId) => Promise<void>;
-  restartJob: (job: Jobs) => Promise<void>;
+  restartJob: (job: JobResponse) => Promise<void>;
   refreshJobs: () => Promise<void>;
 }
 
@@ -15,7 +16,7 @@ export default function useJobs(
   backend: Backend,
   setError: ErrorHandlerType
 ): UseJobsResult {
-  const [jobs, setJobs] = useState<Jobs[]>([]);
+  const [jobs, setJobs] = useState<JobResponse[]>([]);
 
   async function fetchJobs() {
     try {
@@ -29,7 +30,7 @@ export default function useJobs(
   async function deleteJob(id: JobsId) {
     try {
       await backend.deleteJob(id);
-      setJobs(jobs.filter((job) => job.id !== id));
+      setJobs((prev) => prev.filter((job) => job.id !== id));
     } catch (error) {
       if (error instanceof Error && error.message.includes('Cannot delete job while it is in progress')) {
         setError(new Error('Cannot delete this job because it is currently running. Please wait for it to complete.'));

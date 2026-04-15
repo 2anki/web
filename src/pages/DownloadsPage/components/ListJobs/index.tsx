@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import Jobs, { JobsId } from '../../../../schemas/public/Jobs';
+import { JobsId } from '../../../../schemas/public/Jobs';
+import JobResponse from '../../../../schemas/public/JobResponse';
 import { JobStatus, StatusTag } from './StatusTag';
 import { getDistance } from '../../../../lib/getDistance';
 import RefreshIcon from '../../../../components/icons/RefreshIcon';
@@ -8,9 +9,9 @@ import './ListJobs.css';
 import sharedStyles from '../../../../styles/shared.module.css';
 
 interface Props {
-  readonly jobs: Jobs[];
+  readonly jobs: JobResponse[];
   readonly deleteJob: (id: JobsId) => void;
-  readonly restartJob: (job: Jobs) => void;
+  readonly restartJob: (job: JobResponse) => void;
   readonly refreshJobs: () => Promise<void>;
 }
 
@@ -22,10 +23,10 @@ export default function Index({
 }: Props) {
   const [hover, setHover] = useState<JobsId | null>(null);
 
-  const isFailedJob = (status: JobStatus) => status === 'failed';
+  const isFailedJob = (status: string) => ['failed', 'cancelled', 'interrupted'].includes(status);
   const isDoneJob = (status: JobStatus) => status === 'done';
 
-  const renderStatusCell = (j: Jobs) => {
+  const renderStatusCell = (j: JobResponse) => {
     if (isDoneJob(j.status as JobStatus)) {
       return (
         <a
@@ -36,7 +37,7 @@ export default function Index({
         </a>
       );
     }
-    if (isFailedJob(j.status as JobStatus)) {
+    if (isFailedJob(j.status)) {
       return j.job_reason_failure ? (
         <div className="stripe-error">Reason: {j.job_reason_failure}</div>
       ) : null;
@@ -69,7 +70,7 @@ export default function Index({
             >
               <td>
                 <div className="stripe-actions">
-                  {isFailedJob(j.status as JobStatus) && j.restartable && (
+                  {isFailedJob(j.status) && j.restartable && (
                     <button
                       type="button"
                       onClick={() => restartJob(j)}
@@ -85,10 +86,10 @@ export default function Index({
                     onClick={() => deleteJob(j.id)}
                     className="stripe-button stripe-button-danger"
                     title={
-                      isFailedJob(j.status as JobStatus) ? 'Delete' : 'Cancel'
+                      isFailedJob(j.status) ? 'Delete' : 'Cancel'
                     }
                     aria-label={
-                      isFailedJob(j.status as JobStatus)
+                      isFailedJob(j.status)
                         ? 'Delete job'
                         : 'Cancel job'
                     }

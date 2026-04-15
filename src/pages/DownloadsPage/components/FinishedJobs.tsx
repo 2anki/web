@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
 import UserUpload from '../../../lib/interfaces/UserUpload';
-import Jobs, { JobsId } from '../../../schemas/public/Jobs';
+import { JobsId } from '../../../schemas/public/Jobs';
+import JobResponse from '../../../schemas/public/JobResponse';
 import { getDistance } from '../../../lib/getDistance';
 import styles from '../DownloadsPage.module.css';
 import sharedStyles from '../../../styles/shared.module.css';
@@ -9,7 +10,7 @@ import sharedStyles from '../../../styles/shared.module.css';
 interface Prop {
   readonly uploads: UserUpload[] | undefined;
   readonly deleteUpload: (key: string) => Promise<void>;
-  readonly doneJobs?: Jobs[];
+  readonly doneJobs?: JobResponse[];
   readonly deleteJob?: (id: JobsId) => void;
 }
 
