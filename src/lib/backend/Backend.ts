@@ -9,6 +9,7 @@ import NotionObject from '../interfaces/NotionObject';
 import UserUpload from '../interfaces/UserUpload';
 
 import Jobs, { JobsId } from '../../schemas/public/Jobs';
+import JobResponse from '../../schemas/public/JobResponse';
 import { ConnectionInfo } from '../interfaces/ConnectionInfo';
 import isOfflineMode from '../isOfflineMode';
 import getObjectIcon, { ObjectIcon } from '../notion/getObjectIcon';
@@ -175,7 +176,7 @@ export class Backend {
     return get(`${this.baseURL}upload/mine`);
   }
 
-  async getJobs(): Promise<Jobs[]> {
+  async getJobs(): Promise<JobResponse[]> {
     return get(`${this.baseURL}upload/jobs`);
   }
 
