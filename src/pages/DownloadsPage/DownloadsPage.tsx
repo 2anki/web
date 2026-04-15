@@ -1,5 +1,4 @@
 import Index from './components/ListJobs';
-import JobResponse from '../../schemas/public/JobResponse';
 
 import useUploads from './hooks/useUploads';
 import useJobs from './hooks/useJobs';
