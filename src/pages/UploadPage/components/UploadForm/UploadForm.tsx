@@ -48,6 +48,11 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
       if (request.redirected) {
         return handleRedirect(request);
       }
+      if (request.status === 202) {
+        setUploading(false);
+        globalThis.location.href = '/uploads';
+        return true;
+      }
       if (request.status !== 200) {
         const text = await request.text();
         setDownloadLink(null);

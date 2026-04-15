@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import Jobs, { JobsId } from '../../../../schemas/public/Jobs';
+import { JobsId } from '../../../../schemas/public/Jobs';
+import JobResponse from '../../../../schemas/public/JobResponse';
 import { JobStatus, StatusTag } from './StatusTag';
 import { getDistance } from '../../../../lib/getDistance';
 import RefreshIcon from '../../../../components/icons/RefreshIcon';
@@ -8,9 +9,9 @@ import './ListJobs.css';
 import sharedStyles from '../../../../styles/shared.module.css';
 
 interface Props {
-  readonly jobs: Jobs[];
+  readonly jobs: JobResponse[];
   readonly deleteJob: (id: JobsId) => void;
-  readonly restartJob: (job: Jobs) => void;
+  readonly restartJob: (job: JobResponse) => void;
   readonly refreshJobs: () => Promise<void>;
 }
 
@@ -22,7 +23,29 @@ export default function Index({
 }: Props) {
   const [hover, setHover] = useState<JobsId | null>(null);
 
-  const isFailedJob = (status: JobStatus) => status === 'failed';
+  const isFailedJob = (status: string) => ['failed', 'cancelled', 'interrupted'].includes(status);
+  const isDoneJob = (status: JobStatus) => status === 'done';
+
+  const renderStatusCell = (j: JobResponse) => {
+    if (isDoneJob(j.status as JobStatus)) {
+      return (
+        <a
+          href={`/api/upload/jobs/${j.object_id}/download`}
+          className="stripe-button stripe-button-primary"
+        >
+          Download
+        </a>
+      );
+    }
+    if (isFailedJob(j.status)) {
+      return (
+        <div className="stripe-error">
+          {j.job_reason_failure ? `Reason: ${j.job_reason_failure}` : 'Failed'}
+        </div>
+      );
+    }
+    return <StatusTag status={j.status as JobStatus} />;
+  };
 
   if (!jobs || jobs.length === 0) {
     return null;
@@ -35,6 +58,7 @@ export default function Index({
           <tr>
             <th className={sharedStyles.actionColumnNarrow}>Action</th>
             <th>Name</th>
+            <th>Service</th>
             <th>Started</th>
             <th>Status</th>
           </tr>
@@ -48,7 +72,7 @@ export default function Index({
             >
               <td>
                 <div className="stripe-actions">
-                  {isFailedJob(j.status as JobStatus) && (
+                  {isFailedJob(j.status) && j.restartable && (
                     <button
                       type="button"
                       onClick={() => restartJob(j)}
@@ -64,10 +88,10 @@ export default function Index({
                     onClick={() => deleteJob(j.id)}
                     className="stripe-button stripe-button-danger"
                     title={
-                      isFailedJob(j.status as JobStatus) ? 'Delete' : 'Cancel'
+                      isFailedJob(j.status) ? 'Delete' : 'Cancel'
                     }
                     aria-label={
-                      isFailedJob(j.status as JobStatus)
+                      isFailedJob(j.status)
                         ? 'Delete job'
                         : 'Cancel job'
                     }
@@ -79,6 +103,7 @@ export default function Index({
               <td data-hj-suppress>
                 <div className="stripe-job-title">{j.title}</div>
               </td>
+              <td>{j.type ?? 'Notion'}</td>
               <td>
                 {j.created_at && (
                   <div className="stripe-time-ago">
@@ -86,17 +111,7 @@ export default function Index({
                   </div>
                 )}
               </td>
-              <td>
-                {isFailedJob(j.status as JobStatus) ? (
-                  j.job_reason_failure && (
-                    <div className="stripe-error">
-                      Reason: {j.job_reason_failure}
-                    </div>
-                  )
-                ) : (
-                  <StatusTag status={j.status as JobStatus} />
-                )}
-              </td>
+              <td>{renderStatusCell(j)}</td>
             </tr>
           ))}
         </tbody>

@@ -1,18 +1,23 @@
 import { useState } from 'react';
 
 import UserUpload from '../../../lib/interfaces/UserUpload';
+import { JobsId } from '../../../schemas/public/Jobs';
+import JobResponse from '../../../schemas/public/JobResponse';
+import { getDistance } from '../../../lib/getDistance';
 import styles from '../DownloadsPage.module.css';
 import sharedStyles from '../../../styles/shared.module.css';
 
 interface Prop {
-  uploads: UserUpload[] | undefined;
-  deleteUpload: (key: string) => Promise<void>;
+  readonly uploads: UserUpload[] | undefined;
+  readonly deleteUpload: (key: string) => Promise<void>;
+  readonly doneJobs?: JobResponse[];
+  readonly deleteJob?: (id: JobsId) => void;
 }
 
-export function FinishedJobs({ uploads, deleteUpload }: Prop) {
+export function FinishedJobs({ uploads, deleteUpload, doneJobs = [], deleteJob }: Prop) {
   const [deletingKey, setDeletingKey] = useState<string | null>(null);
 
-  if (!uploads || uploads.length === 0) {
+  if ((!uploads || uploads.length === 0) && doneJobs.length === 0) {
     return null;
   }
 
@@ -43,16 +48,59 @@ export function FinishedJobs({ uploads, deleteUpload }: Prop) {
           <thead>
             <tr>
               <th>Name</th>
+              <th>Created</th>
               <th className={sharedStyles.actionColumnWide}>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {uploads.map((u) => (
+            {doneJobs.map((j) => (
+              <tr key={j.id}>
+                <td>
+                  <span data-hj-suppress className={styles.fileName}>
+                    {j.title}
+                  </span>
+                </td>
+                <td>
+                  {j.created_at && (
+                    <span className={styles.timeAgo}>
+                      {getDistance(j.created_at)} ago
+                    </span>
+                  )}
+                </td>
+                <td>
+                  <div className={styles.actions}>
+                    {deleteJob && (
+                      <button
+                        type="button"
+                        onClick={() => deleteJob(j.id)}
+                        className={styles.deleteButton}
+                      >
+                        Delete
+                      </button>
+                    )}
+                    <a
+                      href={`/api/upload/jobs/${j.object_id}/download`}
+                      className={styles.downloadButton}
+                    >
+                      Download
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            ))}
+            {(uploads ?? []).map((u) => (
               <tr key={u.key}>
                 <td>
                   <span data-hj-suppress className={styles.fileName}>
                     {u.filename}
                   </span>
+                </td>
+                <td>
+                  {u.created_at && (
+                    <span className={styles.timeAgo}>
+                      {getDistance(u.created_at)} ago
+                    </span>
+                  )}
                 </td>
                 <td>
                   <div className={styles.actions}>

@@ -95,4 +95,18 @@ describe('Backend', () => {
       await expect(backend.deleteJob(123 as JobsId)).resolves.toBeUndefined();
     });
   });
+
+  describe('restartClaudeJob', () => {
+    it('should call post with the correct URL and empty payload', async () => {
+      const mockResponse = createMockResponse(202, true);
+      vi.mocked(api.post).mockResolvedValue(mockResponse);
+
+      await backend.restartClaudeJob('abc-123');
+
+      expect(api.post).toHaveBeenCalledWith(
+        expect.stringContaining('upload/jobs/abc-123/restart'),
+        {}
+      );
+    });
+  });
 });

@@ -101,6 +101,11 @@
   color: #1f2937;
 }
 
+.timeAgo {
+  font-size: 0.8125rem;
+  color: #6b7280;
+}
+
 .downloadButton {
   display: inline-flex;
   align-items: center;
