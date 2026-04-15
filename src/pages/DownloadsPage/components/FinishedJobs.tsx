@@ -7,10 +7,10 @@ import styles from '../DownloadsPage.module.css';
 import sharedStyles from '../../../styles/shared.module.css';
 
 interface Prop {
-  uploads: UserUpload[] | undefined;
-  deleteUpload: (key: string) => Promise<void>;
-  doneJobs?: Jobs[];
-  deleteJob?: (id: JobsId) => void;
+  readonly uploads: UserUpload[] | undefined;
+  readonly deleteUpload: (key: string) => Promise<void>;
+  readonly doneJobs?: Jobs[];
+  readonly deleteJob?: (id: JobsId) => void;
 }
 
 export function FinishedJobs({ uploads, deleteUpload, doneJobs = [], deleteJob }: Prop) {

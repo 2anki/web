@@ -25,6 +25,25 @@ export default function Index({
   const isFailedJob = (status: JobStatus) => status === 'failed';
   const isDoneJob = (status: JobStatus) => status === 'done';
 
+  const renderStatusCell = (j: Jobs) => {
+    if (isDoneJob(j.status as JobStatus)) {
+      return (
+        <a
+          href={`/api/upload/jobs/${j.object_id}/download`}
+          className="stripe-button stripe-button-primary"
+        >
+          Download
+        </a>
+      );
+    }
+    if (isFailedJob(j.status as JobStatus)) {
+      return j.job_reason_failure ? (
+        <div className="stripe-error">Reason: {j.job_reason_failure}</div>
+      ) : null;
+    }
+    return <StatusTag status={j.status as JobStatus} />;
+  };
+
   if (!jobs || jobs.length === 0) {
     return null;
   }
@@ -89,24 +108,7 @@ export default function Index({
                   </div>
                 )}
               </td>
-              <td>
-                {isDoneJob(j.status as JobStatus) ? (
-                  <a
-                    href={`/api/upload/jobs/${j.object_id}/download`}
-                    className="stripe-button stripe-button-primary"
-                  >
-                    Download
-                  </a>
-                ) : isFailedJob(j.status as JobStatus) ? (
-                  j.job_reason_failure && (
-                    <div className="stripe-error">
-                      Reason: {j.job_reason_failure}
-                    </div>
-                  )
-                ) : (
-                  <StatusTag status={j.status as JobStatus} />
-                )}
-              </td>
+              <td>{renderStatusCell(j)}</td>
             </tr>
           ))}
         </tbody>

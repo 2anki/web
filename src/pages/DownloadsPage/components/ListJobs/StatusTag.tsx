@@ -12,11 +12,11 @@ export type JobStatus =
   | 'done';
 
 interface Prop {
-  status: JobStatus;
+  readonly status: JobStatus;
 }
 
 function parseClaudeChunk(status: string): { current: number; total: number } | null {
-  const match = status.match(/^claude:chunk:(\d+):(\d+)$/);
+  const match = /^claude:chunk:(\d+):(\d+)$/.exec(status);
   if (!match) return null;
   return { current: Number(match[1]), total: Number(match[2]) };
 }
