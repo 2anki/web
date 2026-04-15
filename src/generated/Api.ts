@@ -1178,6 +1178,23 @@ export class Api<
       ...params,
     });
   /**
+   * @description Cancel the authenticated user's active subscription without deleting the account
+   *
+   * @tags Users
+   * @name UsersCancelSubscriptionCreate
+   * @summary Cancel user subscription
+   * @request POST:/api/users/cancel-subscription
+   * @secure
+   */
+  usersCancelSubscriptionCreate = (params: RequestParams = {}) =>
+    this.request<Success, Error>({
+      path: `/api/users/cancel-subscription`,
+      method: "POST",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
    * @description Get debugging information about the current user session (development only)
    *
    * @tags Debug
@@ -1276,6 +1293,34 @@ export class Api<
   versionList = (params: RequestParams = {}) =>
     this.request<Version, Error>({
       path: `/api/version`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Check if the authenticated user has an active subscription
+   *
+   * @tags Payments
+   * @name StripeSubscriptionStatusList
+   * @summary Check user subscription status
+   * @request GET:/api/stripe/subscription-status
+   * @secure
+   */
+  stripeSubscriptionStatusList = (params: RequestParams = {}) =>
+    this.request<
+      {
+        authenticated?: boolean;
+        hasActiveSubscription?: boolean;
+        user?: {
+          email?: string;
+          name?: string;
+          patreon?: boolean;
+        };
+      },
+      void
+    >({
+      path: `/api/stripe/subscription-status`,
       method: "GET",
       secure: true,
       format: "json",
