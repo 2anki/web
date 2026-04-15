@@ -94,7 +94,13 @@ export function FinishedJobs({ uploads, deleteUpload, doneJobs = [], deleteJob }
                     {u.filename}
                   </span>
                 </td>
-                <td />
+                <td>
+                  {u.created_at && (
+                    <span className={styles.timeAgo}>
+                      {getDistance(u.created_at)} ago
+                    </span>
+                  )}
+                </td>
                 <td>
                   <div className={styles.actions}>
                     <button
