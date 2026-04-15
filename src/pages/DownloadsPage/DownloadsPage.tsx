@@ -21,7 +21,10 @@ export function DownloadsPage({ setError }: DownloadsPageProps) {
     get2ankiApi(),
     setError
   );
-  const unfinishedJob = jobs.length > 0;
+  const activeJobs = jobs.filter((j) => !['done', 'failed', 'cancelled', 'interrupted'].includes(j.status));
+  const doneJobs = jobs.filter((j) => j.status === 'done');
+  const failedJobs = jobs.filter((j) => ['failed', 'cancelled', 'interrupted'].includes(j.status));
+  const unfinishedJob = activeJobs.length > 0;
 
   if (error) {
     redirectOnError(error);
@@ -48,14 +51,25 @@ export function DownloadsPage({ setError }: DownloadsPageProps) {
           <UnfinishedJobsInfo />
           <Index
             restartJob={restartJob}
-            jobs={jobs}
+            jobs={activeJobs}
             deleteJob={(id) => deleteJob(id)}
             refreshJobs={refreshJobs}
           />
         </div>
       )}
 
-      <FinishedJobs uploads={uploads} deleteUpload={deleteUpload} />
+      {failedJobs.length > 0 && (
+        <div className={styles.section}>
+          <Index
+            restartJob={restartJob}
+            jobs={failedJobs}
+            deleteJob={(id) => deleteJob(id)}
+            refreshJobs={refreshJobs}
+          />
+        </div>
+      )}
+
+      <FinishedJobs uploads={uploads} deleteUpload={deleteUpload} doneJobs={doneJobs} deleteJob={deleteJob} />
     </div>
   );
 }

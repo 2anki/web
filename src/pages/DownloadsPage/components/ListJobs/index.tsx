@@ -23,6 +23,7 @@ export default function Index({
   const [hover, setHover] = useState<JobsId | null>(null);
 
   const isFailedJob = (status: JobStatus) => status === 'failed';
+  const isDoneJob = (status: JobStatus) => status === 'done';
 
   if (!jobs || jobs.length === 0) {
     return null;
@@ -35,6 +36,7 @@ export default function Index({
           <tr>
             <th className={sharedStyles.actionColumnNarrow}>Action</th>
             <th>Name</th>
+            <th>Service</th>
             <th>Started</th>
             <th>Status</th>
           </tr>
@@ -48,7 +50,7 @@ export default function Index({
             >
               <td>
                 <div className="stripe-actions">
-                  {isFailedJob(j.status as JobStatus) && (
+                  {isFailedJob(j.status as JobStatus) && j.restartable && (
                     <button
                       type="button"
                       onClick={() => restartJob(j)}
@@ -79,6 +81,7 @@ export default function Index({
               <td data-hj-suppress>
                 <div className="stripe-job-title">{j.title}</div>
               </td>
+              <td>{j.type ?? 'Notion'}</td>
               <td>
                 {j.created_at && (
                   <div className="stripe-time-ago">
@@ -87,7 +90,14 @@ export default function Index({
                 )}
               </td>
               <td>
-                {isFailedJob(j.status as JobStatus) ? (
+                {isDoneJob(j.status as JobStatus) ? (
+                  <a
+                    href={`/api/upload/jobs/${j.object_id}/download`}
+                    className="stripe-button stripe-button-primary"
+                  >
+                    Download
+                  </a>
+                ) : isFailedJob(j.status as JobStatus) ? (
                   j.job_reason_failure && (
                     <div className="stripe-error">
                       Reason: {j.job_reason_failure}

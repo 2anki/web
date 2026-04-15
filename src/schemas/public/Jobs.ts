@@ -23,6 +23,8 @@ export default interface Jobs {
   type: string | null;
 
   job_reason_failure: string | null;
+
+  restartable: boolean;
 }
 
 /** Represents the initializer for the table public.jobs */

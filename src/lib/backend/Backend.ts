@@ -203,6 +203,10 @@ export class Backend {
     }
   }
 
+  async restartClaudeJob(jobId: string) {
+    return post(`${this.baseURL}upload/jobs/${jobId}/restart`, {});
+  }
+
   async convert(id: string, type: string | null, title: string | null) {
     const link = `${this.baseURL}notion/convert`;
     return post(link, { id, type, title });
