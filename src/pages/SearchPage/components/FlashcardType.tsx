@@ -6,7 +6,7 @@ interface FlashcardTypeProps {
   onSwitch: (name: string) => void;
 }
 
-export default function FlashcardType({ name, onSwitch, active }: FlashcardTypeProps) {
+export default function FlashcardType({ name, onSwitch, active }: Readonly<FlashcardTypeProps>) {
   return (
     <button
       type="button"

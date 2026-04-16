@@ -1,10 +1,10 @@
 import { ReactNode, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { PageContent, ClaudePromoBanner } from './styled';
 import { ErrorPresenter } from '../errors/ErrorPresenter';
 import NavigationBar from '../NavigationBar/NavigationBar';
 import Footer from '../Footer';
 import sharedStyles from '../../styles/shared.module.css';
+import styles from './Layout.module.css';
 
 interface PageLayoutProps {
   isLoggedIn: boolean;
@@ -32,10 +32,10 @@ export function PageLayout({
   };
 
   return (
-    <PageContent>
+    <div className={styles.pageContent}>
       <NavigationBar isLoggedIn={isLoggedIn} />
       {isLoggedIn && isPaying && showPromo && (
-        <ClaudePromoBanner>
+        <div className={styles.claudePromoBanner}>
           <label className={sharedStyles.claudeLabel}>
             <input
               type="checkbox"
@@ -44,20 +44,20 @@ export function PageLayout({
             />
             ✨ Generate flashcards with Claude AI
           </label>
-        </ClaudePromoBanner>
+        </div>
       )}
       {isLoggedIn && !isPaying && showPromo && (
-        <ClaudePromoBanner>
+        <div className={styles.claudePromoBanner}>
           ✨{' '}
           <span>
             Subscribers can generate flashcards with Claude AI for better
             results. <Link to="/pricing">Upgrade your plan</Link>
           </span>
-        </ClaudePromoBanner>
+        </div>
       )}
       {error && <ErrorPresenter error={error} />}
       <div className={sharedStyles.flexGrow}>{children}</div>
       <Footer />
-    </PageContent>
+    </div>
   );
 }

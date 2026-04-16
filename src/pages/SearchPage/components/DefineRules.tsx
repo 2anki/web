@@ -6,10 +6,10 @@ import TemplateSelect from '../../../components/TemplateSelect';
 import NotionObject from '../../../lib/interfaces/NotionObject';
 import { NewRule } from '../types';
 import RuleDefinition from './RuleDefinition';
-import { Details } from './styled';
 import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
 import { get2ankiApi } from '../../../lib/backend/get2ankiApi';
 import styles from '../../../styles/shared.module.css';
+import rulesStyles from './Rules.module.css';
 
 interface Props {
   id: string;
@@ -206,7 +206,7 @@ function DefineRules(props: Props) {
                 options={flashCardOptions}
                 onSelected={onSelectedFlashcardTypes}
               />
-              <Details>
+              <details className={rulesStyles.details}>
                 <summary>Miscellaneous</summary>
                 <TemplateSelect
                   data-hj-suppress
@@ -235,7 +235,7 @@ function DefineRules(props: Props) {
                   checked={favorite || false}
                   onSwitched={toggleFavorite}
                 />
-              </Details>
+              </details>
               <div className={styles.textCenter}>
                 <button
                   type="button"

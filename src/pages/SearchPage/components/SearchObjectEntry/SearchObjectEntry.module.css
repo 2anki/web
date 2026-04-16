@@ -1,6 +1,4 @@
-import styled from 'styled-components';
-
-export const Entry = styled.div`
+.entry {
   display: flex;
   align-items: center;
   grid-gap: 1.2rem;
@@ -9,15 +7,20 @@ export const Entry = styled.div`
   justify-content: space-between;
   width: 100%;
   margin: 0 auto;
-`;
+}
 
-export const ObjectMeta = styled.div`
+.objectMeta {
   align-items: center;
   display: flex;
   grid-gap: 1.2rem;
-`;
+}
 
-export const ObjectIconAction = styled.img`
+.objectIconAction {
   min-width: 32px;
   min-height: 32px;
-`;
+}
+
+.objectActions {
+  display: flex;
+  grid-gap: 1rem;
+}

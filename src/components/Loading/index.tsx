@@ -1,20 +1,10 @@
-import styled from 'styled-components';
-import styles from '../../styles/shared.module.css';
-
-const StyledLoader = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: var(--text-3xl);
-  height: 100vh;
-  width: 60vw;
-  margin: 0 auto;
-`;
+import shared from '../../styles/shared.module.css';
+import styles from './Loading.module.css';
 
 export default function LoadingIndicator() {
   return (
-    <StyledLoader>
-      <div aria-label="loading" className={styles.spinner} />
-    </StyledLoader>
+    <div className={styles.loader}>
+      <div aria-label="loading" className={shared.spinner} />
+    </div>
   );
 }
