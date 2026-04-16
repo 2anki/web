@@ -40,9 +40,6 @@ export default function useNavbarEnd(path: string, backend: Backend) {
       <NavbarItem href="/search" path={path}>
         {getVisibleText('navigation.search')}
       </NavbarItem>
-      <NavbarItem href="/documentation" path={path}>
-        {getVisibleText('navigation.documentation')}
-      </NavbarItem>
       {isLoggedIn && (
         <div className={styles.dropdown} id="navbar-user-menu">
           <button
@@ -65,6 +62,9 @@ export default function useNavbarEnd(path: string, backend: Backend) {
             </NavbarItem>
             <NavbarItem href="/favorites" path={path}>
               {getVisibleText('navigation.favorites')}
+            </NavbarItem>
+            <NavbarItem href="/documentation" path={path}>
+              {getVisibleText('navigation.documentation')}
             </NavbarItem>
             <hr className={styles.dropdownDivider} />
             <a
