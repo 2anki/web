@@ -180,7 +180,7 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
           ['user-instructions', setUserInstructions],
         ];
         assignments.forEach(([key, setter]) => {
-          if (Object.prototype.hasOwnProperty.call(payload, key)) {
+          if (Object.hasOwn(payload, key)) {
             setter(payload[key] ?? '');
           }
         });
