@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { JobsId } from '../../../../schemas/public/Jobs';
 import JobResponse from '../../../../schemas/public/JobResponse';
 import { JobStatus, StatusTag } from './StatusTag';
+import { StepIndicator } from '../../../../components/StepIndicator/StepIndicator';
+import { jobStepFromStatus } from '../../../../components/StepIndicator/jobStepFromStatus';
 import { getDistance } from '../../../../lib/getDistance';
 import RefreshIcon from '../../../../components/icons/RefreshIcon';
 import TrashIcon from '../../../../components/icons/TrashIcon';
@@ -44,7 +46,11 @@ export default function Index({
         </div>
       );
     }
-    return <StatusTag status={j.status as JobStatus} />;
+    if (j.status === 'stale') {
+      return <StatusTag status={j.status as JobStatus} />;
+    }
+    const { step, substep } = jobStepFromStatus(j.status);
+    return <StepIndicator currentStep={step} substep={substep} />;
   };
 
   if (!jobs || jobs.length === 0) {
