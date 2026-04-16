@@ -44,11 +44,13 @@ const defaultRules: NewRule = {
 
 type RuleListKey = 'flashcard_is' | 'sub_deck_is' | 'deck_is';
 
+const byLocale = (a: string, b: string) => a.localeCompare(b);
+
 function snapshot(rules: NewRule, tags: string, email: boolean) {
   return JSON.stringify({
-    flashcard_is: [...rules.flashcard_is].sort(),
-    sub_deck_is: [...rules.sub_deck_is].sort(),
-    deck_is: [...rules.deck_is].sort(),
+    flashcard_is: [...rules.flashcard_is].sort(byLocale),
+    sub_deck_is: [...rules.sub_deck_is].sort(byLocale),
+    deck_is: [...rules.deck_is].sort(byLocale),
     tags_is: tags,
     email_notification: email,
   });
@@ -117,7 +119,7 @@ export default function RulesPage({ setErrorMessage }: Readonly<Props>) {
 
   const confirmDiscard = () => {
     if (!isDirty) return true;
-    return window.confirm(
+    return globalThis.confirm(
       'You have unsaved rules. Leave without saving?'
     );
   };
