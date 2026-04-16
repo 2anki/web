@@ -7,6 +7,72 @@ import debugStyles from './DebugPage.module.css';
 
 const SHARE_FILES_KEY = 'share-files-for-debugging';
 
+function formatValue(value: unknown): string {
+  if (value === null || value === undefined) return String(value);
+  if (typeof value === 'string') return value;
+  return JSON.stringify(value);
+}
+
+function UserLocalsCard({ data }: { data: unknown }) {
+  const entries =
+    data && typeof data === 'object' ? Object.entries(data as object) : [];
+  return (
+    <section className={debugStyles.dataCard}>
+      <header className={debugStyles.dataCardHeader}>
+        User Locals
+        <span className={debugStyles.dataCardCount}>{entries.length}</span>
+      </header>
+      {entries.length === 0 ? (
+        <div className={debugStyles.dataEmpty}>No data</div>
+      ) : (
+        <table className={debugStyles.dataTable}>
+          <tbody>
+            {entries.map(([key, value]) => (
+              <tr key={key}>
+                <td className={debugStyles.dataKey}>{key}</td>
+                <td className={debugStyles.dataValue}>{formatValue(value)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </section>
+  );
+}
+
+function LocalStorageCard({ highlightKey }: { highlightKey: string }) {
+  const keys = getKeys(localStorage);
+  return (
+    <section className={debugStyles.dataCard}>
+      <header className={debugStyles.dataCardHeader}>
+        Local Storage
+        <span className={debugStyles.dataCardCount}>{keys.length}</span>
+      </header>
+      {keys.length === 0 ? (
+        <div className={debugStyles.dataEmpty}>Empty</div>
+      ) : (
+        <table className={debugStyles.dataTable}>
+          <tbody>
+            {keys.map((key) => (
+              <tr
+                key={key}
+                className={
+                  key === highlightKey ? debugStyles.dataRowHighlight : undefined
+                }
+              >
+                <td className={debugStyles.dataKey}>{key}</td>
+                <td className={debugStyles.dataValue}>
+                  {localStorage.getItem(key) ?? ''}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </section>
+  );
+}
+
 export function DebugPage() {
   const [show, setShow] = useState(false);
   const [shareFiles, setShareFiles] = useState(
@@ -62,20 +128,8 @@ export function DebugPage() {
         </div>
       </section>
 
-      <h2 className={styles.subtitle}>User Locals</h2>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-
-      <h2 className={`${styles.subtitle} ${styles.sectionHeading}`}>
-        Local Storage
-      </h2>
-      <pre>
-        {getKeys(localStorage).map(
-          (key) =>
-            `localStorage.setItem(${key}, ${JSON.stringify(
-              localStorage.getItem(key)
-            )});\n`
-        )}
-      </pre>
+      <UserLocalsCard data={data} />
+      <LocalStorageCard highlightKey={SHARE_FILES_KEY} />
       <div className={styles.debugActions}>
         <button
           className={styles.btnOutline}

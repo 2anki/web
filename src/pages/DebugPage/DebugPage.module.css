@@ -73,3 +73,78 @@
   background: #fee2e2;
   color: #991b1b;
 }
+
+.dataCard {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: white;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.dataCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f3f4f6;
+  background: #f9fafb;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: #374151;
+}
+
+.dataCardCount {
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  color: #6b7280;
+  background: #eef2ff;
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+.dataTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.dataTable tr:not(:last-child) td {
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.dataTable td {
+  padding: 0.5rem 1rem;
+  vertical-align: top;
+}
+
+.dataKey {
+  width: 30%;
+  color: #6b7280;
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: var(--text-xs);
+  white-space: nowrap;
+}
+
+.dataValue {
+  color: #111827;
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: var(--text-xs);
+  word-break: break-word;
+}
+
+.dataRowHighlight {
+  background: #eff6ff;
+}
+
+.dataRowHighlight .dataKey,
+.dataRowHighlight .dataValue {
+  color: #1e3a8a;
+}
+
+.dataEmpty {
+  padding: 1rem;
+  color: #6b7280;
+  font-size: var(--text-sm);
+  text-align: center;
+}
