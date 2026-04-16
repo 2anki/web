@@ -88,17 +88,27 @@ export default function RulesPage({ setErrorMessage }: Readonly<Props>) {
   const hasUnsavedChanges = () =>
     isRulesDirty || !!cardOptionsRef.current?.isDirty();
 
+  const [loadFailed, setLoadFailed] = useState(false);
+
   useEffect(() => {
     let cancelled = false;
+    setIsLoading(true);
+    setLoadFailed(false);
+    setInitialSnapshot('');
+    setRules(defaultRules);
+    setSendEmail(defaultRules.email_notification);
+    setTags(defaultRules.tags_is);
+    setFavorite(false);
+
     Promise.all([get2ankiApi().getRules(id), get2ankiApi().getFavorites()])
       .then(([rule, favorites]) => {
         if (cancelled) return;
         const loaded: NewRule = rule
           ? {
               ...rule,
-              flashcard_is: rule.flashcard_is.split(','),
-              sub_deck_is: rule.sub_deck_is.split(','),
-              deck_is: rule.deck_is.split(','),
+              flashcard_is: rule.flashcard_is.split(',').filter(Boolean),
+              sub_deck_is: rule.sub_deck_is.split(',').filter(Boolean),
+              deck_is: rule.deck_is.split(',').filter(Boolean),
             }
           : defaultRules;
         setRules(loaded);
@@ -111,7 +121,9 @@ export default function RulesPage({ setErrorMessage }: Readonly<Props>) {
         setIsLoading(false);
       })
       .catch((error) => {
+        if (cancelled) return;
         setErrorMessage(error);
+        setLoadFailed(true);
         setIsLoading(false);
       });
     return () => {
@@ -175,10 +187,11 @@ export default function RulesPage({ setErrorMessage }: Readonly<Props>) {
     setIsTogglingFavorite(true);
     const next = !favorite;
     try {
-      if (favorite) {
-        await get2ankiApi().deleteFavorite(id);
-      } else {
-        await get2ankiApi().addFavorite(id, type);
+      const ok = favorite
+        ? await get2ankiApi().deleteFavorite(id)
+        : await get2ankiApi().addFavorite(id, type);
+      if (!ok) {
+        throw new Error('Failed to update favorite');
       }
       setFavorite(next);
     } catch (error) {
@@ -219,11 +232,17 @@ export default function RulesPage({ setErrorMessage }: Readonly<Props>) {
         </div>
       </header>
 
-      {isLoading ? (
+      {isLoading && (
         <div className={`${styles.card} ${styles.loadingCard}`}>
           <div className={sharedStyles.spinner} />
         </div>
-      ) : (
+      )}
+      {!isLoading && loadFailed && (
+        <div className={`${styles.card} ${styles.loadingCard}`}>
+          <p>Couldn&apos;t load rules for this page. Please try again.</p>
+        </div>
+      )}
+      {!isLoading && !loadFailed && (
         <>
           <div className={styles.card}>
             <RuleDefinition

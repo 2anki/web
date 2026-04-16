@@ -143,32 +143,54 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
       setCheckboxValues(next);
     }, [options, settings]);
 
-    // Hydrate every server-backed field when settings load.
+    // Hydrate every server-backed field when settings load. Use key-presence
+    // checks so that a persisted empty string is applied (not skipped).
     useEffect(() => {
       if (!pageId) {
         setLoading(false);
         return;
       }
       setLoading(true);
+      setInitialSnapshot(null);
+      // Reset to the same defaults used for the first mount so switching
+      // pageId doesn't carry over the previous page's values.
+      setDeckName(pageTitle ?? localStorage.getItem(deckNameKey) ?? '');
+      setFontSize(localStorage.getItem('font-size') ?? '');
+      setTemplate(localStorage.getItem('template') ?? DEFAULT_TEMPLATE);
+      setToggleMode(localStorage.getItem('toggle-mode') ?? DEFAULT_TOGGLE_MODE);
+      setPageEmoji(localStorage.getItem('page-emoji') ?? DEFAULT_PAGE_EMOJI);
+      setBasicName(localStorage.getItem('basic_model_name') ?? '');
+      setClozeName(localStorage.getItem('cloze_model_name') ?? '');
+      setInputName(localStorage.getItem('input_model_name') ?? '');
+      setUserInstructions(
+        localStorage.getItem('user-instructions') ?? DEFAULT_USER_INSTRUCTIONS
+      );
+      setSettings({});
+
+      const applyPayload = (payload: SettingsPayload) => {
+        const assignments: Array<[string, (value: string) => void]> = [
+          ['deckName', setDeckName],
+          ['toggle-mode', setToggleMode],
+          ['page-emoji', setPageEmoji],
+          ['template', setTemplate],
+          ['font-size', setFontSize],
+          ['basic_model_name', setBasicName],
+          ['cloze_model_name', setClozeName],
+          ['input_model_name', setInputName],
+          ['user-instructions', setUserInstructions],
+        ];
+        assignments.forEach(([key, setter]) => {
+          if (Object.prototype.hasOwnProperty.call(payload, key)) {
+            setter(payload[key] ?? '');
+          }
+        });
+        setSettings(payload);
+      };
+
       get2ankiApi()
         .getSettings(pageId)
         .then((payload) => {
-          if (payload) {
-            if (payload.deckName) setDeckName(payload.deckName);
-            if (payload['toggle-mode']) setToggleMode(payload['toggle-mode']);
-            if (payload['page-emoji']) setPageEmoji(payload['page-emoji']);
-            if (payload.template) setTemplate(payload.template);
-            if (payload['font-size']) setFontSize(payload['font-size']);
-            if (payload.basic_model_name)
-              setBasicName(payload.basic_model_name);
-            if (payload.cloze_model_name)
-              setClozeName(payload.cloze_model_name);
-            if (payload.input_model_name)
-              setInputName(payload.input_model_name);
-            if (payload['user-instructions'])
-              setUserInstructions(payload['user-instructions']);
-            setSettings(payload);
-          }
+          if (payload) applyPayload(payload);
           setLoading(false);
         })
         .catch((error) => {
