@@ -18,38 +18,42 @@ export interface LoadedDoc {
 function unquote(value: string): string {
   if (value.length < 2) return value;
   const first = value[0];
-  const last = value[value.length - 1];
+  const last = value.at(-1);
   if ((first === '"' && last === '"') || (first === "'" && last === "'")) {
     return value.slice(1, -1);
   }
   return value;
 }
 
-function isKeyChar(code: number): boolean {
+function isKeyChar(code: number | undefined): boolean {
   return (
-    (code >= 48 && code <= 57) ||
-    (code >= 65 && code <= 90) ||
-    (code >= 97 && code <= 122) ||
-    code === 95 ||
-    code === 45
+    code !== undefined &&
+    ((code >= 48 && code <= 57) ||
+      (code >= 65 && code <= 90) ||
+      (code >= 97 && code <= 122) ||
+      code === 95 ||
+      code === 45)
   );
 }
 
-function isKeyStart(code: number): boolean {
+function isKeyStart(code: number | undefined): boolean {
   return (
-    (code >= 65 && code <= 90) || (code >= 97 && code <= 122) || code === 95
+    code !== undefined &&
+    ((code >= 65 && code <= 90) ||
+      (code >= 97 && code <= 122) ||
+      code === 95)
   );
 }
 
 function parseFrontmatterLine(line: string): [string, string] | null {
-  if (line.length === 0 || !isKeyStart(line.charCodeAt(0))) return null;
+  if (line.length === 0 || !isKeyStart(line.codePointAt(0))) return null;
   let i = 1;
-  while (i < line.length && isKeyChar(line.charCodeAt(i))) i++;
+  while (i < line.length && isKeyChar(line.codePointAt(i))) i++;
   const key = line.slice(0, i);
-  while (i < line.length && line.charCodeAt(i) === 32) i++;
-  if (i >= line.length || line.charCodeAt(i) !== 58) return null;
+  while (i < line.length && line.codePointAt(i) === 32) i++;
+  if (i >= line.length || line.codePointAt(i) !== 58) return null;
   i++;
-  while (i < line.length && line.charCodeAt(i) === 32) i++;
+  while (i < line.length && line.codePointAt(i) === 32) i++;
   return [key, unquote(line.slice(i).trim())];
 }
 
@@ -57,10 +61,10 @@ function splitLines(input: string): string[] {
   const lines: string[] = [];
   let start = 0;
   for (let i = 0; i < input.length; i++) {
-    const c = input.charCodeAt(i);
+    const c = input.codePointAt(i);
     if (c === 10) {
       const end =
-        i > start && input.charCodeAt(i - 1) === 13 ? i - 1 : i;
+        i > start && input.codePointAt(i - 1) === 13 ? i - 1 : i;
       lines.push(input.slice(start, end));
       start = i + 1;
     }
@@ -80,8 +84,8 @@ function parseFrontmatter(raw: string): LoadedDoc {
 
   const fmBlock = raw.slice(offset, closeIdx);
   let bodyStart = closeIdx + 4;
-  if (raw.charCodeAt(bodyStart) === 13) bodyStart++;
-  if (raw.charCodeAt(bodyStart) === 10) bodyStart++;
+  if (raw.codePointAt(bodyStart) === 13) bodyStart++;
+  if (raw.codePointAt(bodyStart) === 10) bodyStart++;
   const body = raw.slice(bodyStart);
 
   const frontmatter: DocFrontmatter = {};
@@ -96,7 +100,7 @@ function parseFrontmatter(raw: string): LoadedDoc {
 const ASSET_PATH = /\]\((?:\.\.\/){1,8}assets\/([^)\s]{1,256})\)/g;
 
 function rewriteAssetPaths(body: string): string {
-  return body.replace(ASSET_PATH, '](/docs-assets/$1)');
+  return body.replaceAll(ASSET_PATH, '](/docs-assets/$1)');
 }
 
 function slugFromPath(path: string): string {

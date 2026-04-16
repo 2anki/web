@@ -1,6 +1,6 @@
-import { useEffect, useMemo } from 'react';
+import { AnchorHTMLAttributes, useEffect, useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown, { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
@@ -16,9 +16,54 @@ function isExternal(href: string) {
   return /^(https?:)?\/\//i.test(href) || href.startsWith('mailto:');
 }
 
+type AnchorProps = AnchorHTMLAttributes<HTMLAnchorElement>;
+
+function DocsAnchor({ href, children, ...rest }: AnchorProps) {
+  const navigate = useNavigate();
+
+  if (!href) return <a {...rest}>{children}</a>;
+
+  if (isExternal(href)) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" {...rest}>
+        {children}
+      </a>
+    );
+  }
+
+  const to = href.startsWith('/')
+    ? `/documentation${href.replace(/\/$/, '')}`
+    : href;
+
+  return (
+    <a
+      href={to}
+      onClick={(e) => {
+        if (
+          e.defaultPrevented ||
+          e.button !== 0 ||
+          e.metaKey ||
+          e.ctrlKey ||
+          e.shiftKey ||
+          e.altKey
+        )
+          return;
+        e.preventDefault();
+        navigate(to);
+      }}
+      {...rest}
+    >
+      {children}
+    </a>
+  );
+}
+
+const markdownComponents: Components = { a: DocsAnchor };
+const remarkPlugins = [remarkGfm];
+const rehypePlugins = [rehypeRaw, rehypeSlug];
+
 export function DocContent({ slug }: Readonly<DocContentProps>) {
   const doc = loadDoc(slug);
-  const navigate = useNavigate();
   const { hash } = useLocation();
 
   useEffect(() => {
@@ -60,49 +105,9 @@ export function DocContent({ slug }: Readonly<DocContentProps>) {
 
       <div className={styles.markdown}>
         <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypeRaw, rehypeSlug]}
-          components={{
-            a: ({ href, children, ...rest }) => {
-              if (!href) return <a {...rest}>{children}</a>;
-              if (isExternal(href)) {
-                return (
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    {...rest}
-                  >
-                    {children}
-                  </a>
-                );
-              }
-              const to = href.startsWith('/')
-                ? `/documentation${href.replace(/\/$/, '')}`
-                : href;
-              return (
-                <a
-                  href={to}
-                  onClick={(e) => {
-                    if (
-                      e.defaultPrevented ||
-                      e.button !== 0 ||
-                      e.metaKey ||
-                      e.ctrlKey ||
-                      e.shiftKey ||
-                      e.altKey
-                    )
-                      return;
-                    e.preventDefault();
-                    navigate(to);
-                  }}
-                  {...rest}
-                >
-                  {children}
-                </a>
-              );
-            },
-          }}
+          remarkPlugins={remarkPlugins}
+          rehypePlugins={rehypePlugins}
+          components={markdownComponents}
         >
           {body}
         </ReactMarkdown>
