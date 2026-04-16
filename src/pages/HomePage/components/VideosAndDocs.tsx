@@ -5,9 +5,7 @@ export function VideosAndDocs() {
     <>
       <p>
         Checkout these videos on how to get started or read the documentation on{' '}
-        <a href="https://docs.2anki.net/guides/getting-started/">
-          getting started
-        </a>!
+        <a href="/documentation/guides/getting-started">getting started</a>!
       </p>
 
       <h3 className={styles.sectionHeading}>
