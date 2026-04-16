@@ -3,6 +3,9 @@
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .pill {
@@ -45,13 +48,13 @@
 }
 
 .pillPending {
-  color: #9ca3af;
+  color: #4b5563;
   background-color: #f9fafb;
   border-color: #e5e7eb;
 }
 
 .pillPending .dot {
-  background-color: #d1d5db;
+  background-color: #9ca3af;
 }
 
 .substep {
