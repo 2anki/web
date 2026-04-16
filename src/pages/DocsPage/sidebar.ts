@@ -38,7 +38,7 @@ export const sidebar: SidebarGroup[] = [
       { label: 'Terminology', slug: 'advanced/terminology' },
       { label: 'API', slug: 'advanced/api', href: '/api/docs' },
       { label: 'Domain', slug: 'advanced/domain' },
-      { label: 'New API', slug: 'advanced/napi' },
+      { label: 'API access', slug: 'advanced/napi' },
       { label: 'Strategy', slug: 'advanced/strategy' },
     ],
   },
