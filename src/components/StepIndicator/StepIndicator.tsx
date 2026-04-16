@@ -8,34 +8,32 @@ interface Props {
 
 const STEP_LABELS = ['Uploaded', 'Parsing', 'Generating', 'Packaging'] as const;
 
+function getPillClass(step: StepIndex, currentStep: StepIndex): string {
+  if (step < currentStep) return styles.pillDone;
+  if (step === currentStep) return styles.pillActive;
+  return styles.pillPending;
+}
+
 export function StepIndicator({ currentStep, substep }: Props) {
   return (
-    <div
-      className={styles.indicator}
-      role="progressbar"
-      aria-valuemin={1}
-      aria-valuemax={STEP_LABELS.length}
-      aria-valuenow={currentStep}
-      aria-valuetext={`Step ${currentStep} of ${STEP_LABELS.length}: ${STEP_LABELS[currentStep - 1]}${substep ? ` (${substep})` : ''}`}
-    >
+    <ol className={styles.indicator} aria-label="Conversion progress">
       {STEP_LABELS.map((label, index) => {
         const step = (index + 1) as StepIndex;
-        let pillClass = styles.pillPending;
-        if (step < currentStep) {
-          pillClass = styles.pillDone;
-        } else if (step === currentStep) {
-          pillClass = styles.pillActive;
-        }
+        const isActive = step === currentStep;
         return (
-          <span key={label} className={`${styles.pill} ${pillClass}`}>
+          <li
+            key={label}
+            className={`${styles.pill} ${getPillClass(step, currentStep)}`}
+            aria-current={isActive ? 'step' : undefined}
+          >
             <span className={styles.dot} />
             {label}
-            {step === currentStep && substep && (
+            {isActive && substep && (
               <span className={styles.substep}>({substep})</span>
             )}
-          </span>
+          </li>
         );
       })}
-    </div>
+    </ol>
   );
 }
