@@ -5,6 +5,10 @@ description: Template for reporting bugs
 
 Help us improve 2anki.net by filing a bug report. You can submit it publicly on [GitHub](https://github.com/2anki/2anki.net/issues/new?assignees=&labels=&template=bug_report.md&title=) or privately by emailing [support@2anki.net](mailto:support@2anki.net).
 
+## Before you report
+
+If the bug is a failed conversion, visit the [/debug](/debug) page and enable **Share files when a conversion fails**. This is off by default to keep your notes private, but with it enabled the next failed upload will send the file and error details straight to our inbox — no back-and-forth needed. Turn it back off once the issue is fixed.
+
 Use the template below.
 
 ## Describe the bug

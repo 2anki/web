@@ -7,7 +7,9 @@ If you have any questions about our privacy practices, please don't hesitate to 
 
 ## Data Processing
 
-Some file handling occurs on external servers to reduce browser overhead. For debugging purposes, your cards may be logged but are not preserved over time. If you accidentally upload sensitive information, contact us and we'll delete the server logs.
+Some file handling occurs on external servers to reduce browser overhead. Failed conversions are logged in the server error log (no file contents), but your uploaded files are **not** stored or emailed anywhere unless you opt in via the **Share files when a conversion fails** setting on the [/debug](/debug) page. When that opt-in is on, the uploaded files and error details are sent to the 2anki team so we can reproduce the issue.
+
+If you accidentally upload sensitive information, contact us and we'll delete the server logs.
 
 We log IP addresses for research purposes. No other personally identifiable information is collected or harvested.
 
