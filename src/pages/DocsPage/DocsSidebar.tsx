@@ -15,18 +15,24 @@ export function DocsSidebar({ onNavigate }: Readonly<DocsSidebarProps>) {
           <ul className={styles.sidebarList}>
             {group.items.map((item) => (
               <li key={item.slug}>
-                <NavLink
-                  to={`/documentation/${item.slug}`}
-                  className={({ isActive }) =>
-                    `${styles.sidebarLink} ${
-                      isActive ? styles.sidebarLinkActive : ''
-                    }`
-                  }
-                  onClick={onNavigate}
-                  end
-                >
-                  {item.label}
-                </NavLink>
+                {item.href ? (
+                  <a href={item.href} className={styles.sidebarLink}>
+                    {item.label}
+                  </a>
+                ) : (
+                  <NavLink
+                    to={`/documentation/${item.slug}`}
+                    className={({ isActive }) =>
+                      `${styles.sidebarLink} ${
+                        isActive ? styles.sidebarLinkActive : ''
+                      }`
+                    }
+                    onClick={onNavigate}
+                    end
+                  >
+                    {item.label}
+                  </NavLink>
+                )}
               </li>
             ))}
           </ul>

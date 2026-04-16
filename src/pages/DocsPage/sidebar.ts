@@ -1,6 +1,7 @@
 export interface SidebarItem {
   label: string;
   slug: string;
+  href?: string;
 }
 
 export interface SidebarGroup {
@@ -35,7 +36,7 @@ export const sidebar: SidebarGroup[] = [
     items: [
       { label: 'Self-hosting', slug: 'advanced/self-hosting' },
       { label: 'Terminology', slug: 'advanced/terminology' },
-      { label: 'API', slug: 'advanced/api' },
+      { label: 'API', slug: 'advanced/api', href: '/api/docs' },
       { label: 'Domain', slug: 'advanced/domain' },
       { label: 'New API', slug: 'advanced/napi' },
       { label: 'Strategy', slug: 'advanced/strategy' },
@@ -79,7 +80,9 @@ export const sidebar: SidebarGroup[] = [
 ];
 
 export function findAdjacent(slug: string) {
-  const flat: SidebarItem[] = sidebar.flatMap((group) => group.items);
+  const flat: SidebarItem[] = sidebar
+    .flatMap((group) => group.items)
+    .filter((item) => !item.href);
   const index = flat.findIndex((item) => item.slug === slug);
   return {
     prev: index > 0 ? flat[index - 1] : null,
