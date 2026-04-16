@@ -56,7 +56,7 @@ export function PageLayout({
         </div>
       )}
       {error && <ErrorPresenter error={error} />}
-      <div className={sharedStyles.flexGrow}>{children}</div>
+      <main className={sharedStyles.flexGrow}>{children}</main>
       <Footer />
     </div>
   );

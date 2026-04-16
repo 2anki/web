@@ -16,6 +16,13 @@ interface SearchPageProps {
 export function SearchPage({ setError }: SearchPageProps) {
   const notionData = useNotionData(get2ankiApi());
 
+  const headerTitle = notionData.connected
+    ? 'Search Notion'
+    : 'Connect to Notion or upload manually';
+  const headerSubtitle = notionData.connected
+    ? 'Find a Notion page and convert it into an Anki deck.'
+    : 'Link your Notion workspace to search pages, or upload files directly.';
+
   let content;
   if (notionData.loading) {
     content = (
@@ -27,19 +34,22 @@ export function SearchPage({ setError }: SearchPageProps) {
     content = <ErrorPresenter error={notionData.error} />;
   } else if (!notionData.connected) {
     content = (
-      <>
-        <h1 className={`${styles.title} ${styles.textCenter}`}>
-          Connect to Notion or Upload Manually
-        </h1>
-        <ConnectNotion
-          ready={!notionData.connected}
-          connectionLink={notionData.connectionLink}
-        />
-      </>
+      <ConnectNotion
+        ready={!notionData.connected}
+        connectionLink={notionData.connectionLink}
+      />
     );
   } else {
     content = <SearchContainer backend={get2ankiApi()} setError={setError} />;
   }
 
-  return <div className={styles.page}>{content}</div>;
+  return (
+    <div className={styles.page}>
+      <header className={styles.pageHeader}>
+        <h1 className={styles.title}>{headerTitle}</h1>
+        <p className={styles.subtitle}>{headerSubtitle}</p>
+      </header>
+      {content}
+    </div>
+  );
 }

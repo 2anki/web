@@ -37,16 +37,18 @@ export function DeleteAccountPage({ setError }: Prop) {
 
   return (
     <div className={styles.page}>
-      <div className={styles.mainCard}>
-        <h1 className={sharedStyles.sectionTitle}>Delete Account</h1>
-        <p className={sharedStyles.smallDescription}>
-          Are you sure you want to delete your account?
+      <header className={sharedStyles.pageHeader}>
+        <h1 className={sharedStyles.title}>Delete account</h1>
+        <p className={sharedStyles.subtitle}>
+          This action is irreversible and will cancel any active subscriptions.
         </p>
+      </header>
+      <div className={styles.mainCard}>
         <p
           className={`${sharedStyles.smallDescription} ${sharedStyles.marginBottomLg}`}
         >
-          This action is irreversible and will also cancel any active
-          subscriptions.
+          Are you sure you want to delete your account? All of your uploads,
+          favorites, and preferences will be removed.
         </p>
 
         {isDeleting && (

@@ -15,9 +15,9 @@ export function UserProfile({ user, subscriptionStatus }: UserProfileProps) {
   return (
     <div className={styles.profileSection}>
       <div className={styles.profileInfo}>
-        <h1 className={styles.profileName} data-hj-suppress>
+        <p className={styles.profileName} data-hj-suppress>
           {user.name}
-        </h1>
+        </p>
         <p className={styles.profileEmail} data-hj-suppress>
           {user.email}
         </p>
