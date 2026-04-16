@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test';
+import { expect, Page, test } from '@playwright/test';
 
 type RouteSetup = {
   rules?: unknown;
@@ -12,6 +12,16 @@ async function setupMocks(page: Page, overrides: RouteSetup = {}) {
     settings: overrides.settings ?? null,
     favorites: overrides.favorites ?? [],
   };
+
+  // Playwright matches routes in reverse registration order, so the catch-all
+  // goes first and the specific handlers below override it.
+  await page.route('**/api/**', (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({}),
+    })
+  );
 
   await page.route('**/api/users/debug/locals**', (route) =>
     route.fulfill({
@@ -86,14 +96,6 @@ async function setupMocks(page: Page, overrides: RouteSetup = {}) {
       status: 200,
       contentType: 'application/json',
       body: JSON.stringify({ isConnected: true, workspace: 'Test Workspace' }),
-    })
-  );
-
-  await page.route('**/api/**', (route) =>
-    route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify({}),
     })
   );
 }
