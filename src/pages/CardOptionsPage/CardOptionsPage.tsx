@@ -21,11 +21,7 @@ export default function CardOptionsPage({ setErrorMessage }: Readonly<Props>) {
   return (
     <div className={sharedStyles.page}>
       <header className={sharedStyles.pageHeader}>
-        <button
-          type="button"
-          onClick={goBack}
-          className={styles.backLink}
-        >
+        <button type="button" onClick={goBack} className={styles.backLink}>
           ← Back
         </button>
         <h1 className={sharedStyles.title}>Card options</h1>

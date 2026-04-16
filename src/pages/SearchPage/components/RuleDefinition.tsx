@@ -18,7 +18,7 @@ export default function RuleDefinition({
   description,
 }: Readonly<RuleDefinitionProps>) {
   return (
-    <details className={rulesStyles.details}>
+    <details className={rulesStyles.details} open>
       <summary>{title}</summary>
       <p className={styles.smallDescription}>{description}</p>
       <div className={styles.flexWrap}>
