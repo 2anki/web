@@ -1,13 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { DocsSidebar } from './DocsSidebar';
 import { DocContent } from './DocContent';
 import { DocsHome } from './DocsHome';
 import styles from './DocsPage.module.css';
-
-const EXTERNAL_REDIRECTS: Record<string, string> = {
-  'advanced/api': '/api/docs',
-};
 
 function stripTrailingSlashes(value: string): string {
   let end = value.length;
@@ -19,11 +15,6 @@ export default function DocsPage() {
   const params = useParams();
   const slug = stripTrailingSlashes(params['*'] ?? '');
   const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const target = EXTERNAL_REDIRECTS[slug];
-    if (target) window.location.replace(target);
-  }, [slug]);
 
   const closeMenu = () => setMenuOpen(false);
 

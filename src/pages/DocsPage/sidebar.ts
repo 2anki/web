@@ -36,9 +36,8 @@ export const sidebar: SidebarGroup[] = [
     items: [
       { label: 'Self-hosting', slug: 'advanced/self-hosting' },
       { label: 'Terminology', slug: 'advanced/terminology' },
-      { label: 'API', slug: 'advanced/api', href: '/api/docs' },
-      { label: 'Domain', slug: 'advanced/domain' },
       { label: 'API access', slug: 'advanced/napi' },
+      { label: 'Domain', slug: 'advanced/domain' },
       { label: 'Strategy', slug: 'advanced/strategy' },
     ],
   },
