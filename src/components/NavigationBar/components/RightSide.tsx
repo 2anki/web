@@ -9,6 +9,9 @@ interface RightSideProps {
 export function RightSide({ path }: Readonly<RightSideProps>) {
   return (
     <div className={styles.navEnd}>
+      <NavbarItem href="/documentation" path={path}>
+        {getVisibleText('navigation.documentation')}
+      </NavbarItem>
       <NavbarItem href="/contact" path={path}>
         {getVisibleText('navigation.contact')}
       </NavbarItem>

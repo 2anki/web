@@ -40,6 +40,9 @@ export default function useNavbarEnd(path: string, backend: Backend) {
       <NavbarItem href="/search" path={path}>
         {getVisibleText('navigation.search')}
       </NavbarItem>
+      <NavbarItem href="/documentation" path={path}>
+        {getVisibleText('navigation.documentation')}
+      </NavbarItem>
       {isLoggedIn && (
         <div className={styles.dropdown} id="navbar-user-menu">
           <button
