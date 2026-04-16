@@ -17,7 +17,6 @@ export default function FavoritesContainer({
   backend,
 }: FavoritesContentProps) {
   const { loading, favorites, setFavorites, error } = useFavorites(backend);
-  if (loading) return <LoadingIndicator />;
 
   if (error) {
     redirectOnError(error);
@@ -26,11 +25,21 @@ export default function FavoritesContainer({
 
   return (
     <div className={styles.page}>
-      <FavoritesPresenter
-        favorites={favorites}
-        setFavorites={setFavorites}
-        setError={setError}
-      />
+      <header className={styles.pageHeader}>
+        <h1 className={styles.title}>Favorites</h1>
+        <p className={styles.subtitle}>
+          Pages you&apos;ve starred for quick access.
+        </p>
+      </header>
+      {loading ? (
+        <LoadingIndicator />
+      ) : (
+        <FavoritesPresenter
+          favorites={favorites}
+          setFavorites={setFavorites}
+          setError={setError}
+        />
+      )}
     </div>
   );
 }

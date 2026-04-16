@@ -35,16 +35,17 @@ export function UploadPage({ setErrorMessage }: Props) {
   return (
     <div className={styles.page}>
       {isDevelopment ? <WarningMessage /> : null}
-      <div className={styles.flexBetween}>
-        <h2 className={styles.title}>{getVisibleText('upload.page.title')}</h2>
+      <header className={`${styles.pageHeader} ${styles.flexBetween}`}>
+        <h1 className={styles.title}>{getVisibleText('upload.page.title')}</h1>
         <Link
           className={styles.secondaryText}
           to="?view=template"
           onClick={() => setShowCardOptionsModal(true)}
+          aria-label="Card and deck options"
         >
           <SettingsIcon />
         </Link>
-      </div>
+      </header>
       <UploadForm setErrorMessage={setErrorMessage} />
       <p>The following files are supported: {readableSupportedFiles}</p>
       <p className={styles.smallDescription}>

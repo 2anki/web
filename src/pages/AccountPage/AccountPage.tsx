@@ -9,6 +9,7 @@ import {
 } from './components';
 import useNotionData from '../SearchPage/helpers/useNotionData';
 import { get2ankiApi } from '../../lib/backend/get2ankiApi';
+import sharedStyles from '../../styles/shared.module.css';
 import styles from './AccountPage.module.css';
 
 export default function AccountPage() {
@@ -28,15 +29,22 @@ export default function AccountPage() {
 
   return (
     <div className={styles.page}>
+      <header className={sharedStyles.pageHeader}>
+        <h1 className={sharedStyles.title}>Account</h1>
+        <p className={sharedStyles.subtitle}>
+          Manage your profile, plan, and connected services.
+        </p>
+      </header>
+
       <div className={styles.mainCard}>
         <UserProfile user={user} subscriptionStatus={subscriptionStatus} />
 
-        <h2 className={styles.sectionTitle}>Plan Details</h2>
+        <h2 className={styles.sectionTitle}>Plan details</h2>
         <PlanDetails subscriptionType={subscriptionType} />
 
         {notionData.connected && notionData.workSpace && (
           <>
-            <h2 className={styles.sectionTitle}>Notion Workspace</h2>
+            <h2 className={styles.sectionTitle}>Notion workspace</h2>
             <div className={styles.planCard}>
               <div className={styles.planHeader}>
                 <span className={styles.planName}>{notionData.workSpace}</span>
