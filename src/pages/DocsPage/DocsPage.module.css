@@ -78,6 +78,50 @@
   max-width: 760px;
 }
 
+.wipBanner {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  max-width: 760px;
+  margin: 0 0 1.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--color-warning-light);
+  border: 1px solid #fcd34d;
+  border-radius: var(--radius-md);
+  color: #78350f;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.wipLabel {
+  flex-shrink: 0;
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: #92400e;
+  background: #fde68a;
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--radius-full);
+  align-self: center;
+}
+
+.wipText {
+  flex: 1;
+  min-width: 0;
+}
+
+.wipBanner a {
+  color: #92400e;
+  font-weight: var(--font-medium);
+  text-decoration: underline;
+}
+
+.wipBanner a:hover {
+  color: #78350f;
+}
+
 .articleHeader {
   margin-bottom: 2rem;
   padding-bottom: 1.25rem;
