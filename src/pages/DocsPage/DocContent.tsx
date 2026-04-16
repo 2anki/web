@@ -62,6 +62,8 @@ const markdownComponents: Components = { a: DocsAnchor };
 const remarkPlugins = [remarkGfm];
 const rehypePlugins = [rehypeRaw, rehypeSlug];
 
+const EDIT_BASE = 'https://github.com/2anki/web/edit/main/';
+
 export function DocContent({ slug }: Readonly<DocContentProps>) {
   const doc = loadDoc(slug);
   const { hash } = useLocation();
@@ -90,7 +92,8 @@ export function DocContent({ slug }: Readonly<DocContentProps>) {
     );
   }
 
-  const { frontmatter, body } = doc;
+  const { frontmatter, body, sourcePath } = doc;
+  const editUrl = `${EDIT_BASE}${sourcePath}`;
 
   return (
     <article className={styles.article}>
@@ -111,6 +114,17 @@ export function DocContent({ slug }: Readonly<DocContentProps>) {
         >
           {body}
         </ReactMarkdown>
+      </div>
+
+      <div className={styles.editFooter}>
+        <a
+          href={editUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.editLink}
+        >
+          Edit this page on GitHub →
+        </a>
       </div>
 
       <nav className={styles.pager} aria-label="Pager">
