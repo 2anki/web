@@ -31,6 +31,7 @@ const SuccessfulCheckoutPage = lazy(
 );
 const DocsPage = lazy(() => import('./pages/DocsPage/DocsPage'));
 const CardOptionsPage = lazy(() => import('./pages/CardOptionsPage'));
+const RulesPage = lazy(() => import('./pages/RulesPage'));
 
 const queryClient = new QueryClient();
 
@@ -110,6 +111,10 @@ function AppContent({
           <Route
             path="/settings/card-options"
             element={<CardOptionsPage setErrorMessage={setErrorMessage} />}
+          />
+          <Route
+            path="/rules/:id"
+            element={<RulesPage setErrorMessage={setErrorMessage} />}
           />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
