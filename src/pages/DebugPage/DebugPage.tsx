@@ -13,26 +13,44 @@ function formatValue(value: unknown): string {
   return JSON.stringify(value);
 }
 
+interface UserLocalsShape {
+  user?: { id?: number };
+  locals?: {
+    patreon?: boolean;
+    subscriber?: boolean;
+    subscriptionInfo?: { active?: boolean };
+  };
+}
+
+function getPlanLabel(locals: UserLocalsShape['locals']): string {
+  if (locals?.patreon) return 'Lifetime (Patreon)';
+  if (locals?.subscriber || locals?.subscriptionInfo?.active) {
+    return 'Active subscriber';
+  }
+  return 'Free';
+}
+
 function UserLocalsCard({ data }: { data: unknown }) {
-  const entries =
-    data && typeof data === 'object' ? Object.entries(data as object) : [];
+  const shape =
+    data && typeof data === 'object' ? (data as UserLocalsShape) : null;
+  const userId = shape?.user?.id ?? null;
+  const plan = shape ? getPlanLabel(shape.locals) : null;
   return (
     <section className={debugStyles.dataCard}>
-      <header className={debugStyles.dataCardHeader}>
-        User Locals
-        <span className={debugStyles.dataCardCount}>{entries.length}</span>
-      </header>
-      {entries.length === 0 ? (
-        <div className={debugStyles.dataEmpty}>No data</div>
+      <header className={debugStyles.dataCardHeader}>User Locals</header>
+      {userId == null ? (
+        <div className={debugStyles.dataEmpty}>Not signed in</div>
       ) : (
         <table className={debugStyles.dataTable}>
           <tbody>
-            {entries.map(([key, value]) => (
-              <tr key={key}>
-                <td className={debugStyles.dataKey}>{key}</td>
-                <td className={debugStyles.dataValue}>{formatValue(value)}</td>
-              </tr>
-            ))}
+            <tr>
+              <td className={debugStyles.dataKey}>user id</td>
+              <td className={debugStyles.dataValue}>{userId}</td>
+            </tr>
+            <tr>
+              <td className={debugStyles.dataKey}>plan</td>
+              <td className={debugStyles.dataValue}>{plan}</td>
+            </tr>
           </tbody>
         </table>
       )}
