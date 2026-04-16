@@ -12,22 +12,10 @@ function Footer() {
               <a href="/about">About</a>
             </li>
             <li>
-              <a
-                target="_blank"
-                href="https://docs.2anki.net/misc/terms-of-service/"
-                rel="noreferrer"
-              >
-                Terms
-              </a>
+              <a href="/documentation/misc/terms-of-service">Terms</a>
             </li>
             <li>
-              <a
-                target="_blank"
-                href="https://docs.2anki.net/misc/privacy-policy/"
-                rel="noreferrer"
-              >
-                Privacy
-              </a>
+              <a href="/documentation/misc/privacy-policy">Privacy</a>
             </li>
             <li>
               <a href="/contact">Contact</a>
