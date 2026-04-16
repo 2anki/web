@@ -1,6 +1,5 @@
-import { Dispatch, SetStateAction, useState } from 'react';
-
-import DefineRules from '../DefineRules';
+import { Dispatch, SetStateAction } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import ObjectAction from '../actions/ObjectAction';
 import DotsHorizontal from '../../../../components/icons/DotsHorizontal';
@@ -34,64 +33,56 @@ const getType = (data: string | { object: string }): string | null => {
 };
 
 function SearchObjectEntry(props: Readonly<Props>) {
-  const { title, icon, url, id, type, isFavorite, setFavorites, setError } =
-    props;
-  const [showSettings, setShowSettings] = useState(false);
+  const { title, icon, url, id, type, setError } = props;
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const openRules = () => {
+    const params = new URLSearchParams();
+    params.set('title', title);
+    const resolvedType = getType(type);
+    if (resolvedType) params.set('type', resolvedType);
+    params.set('returnTo', `${location.pathname}${location.search}`);
+    navigate(`/rules/${encodeURIComponent(id)}?${params.toString()}`);
+  };
 
   return (
-    <>
-      <div className={styles.entry} data-hj-suppress>
-        <div className={styles.objectMeta}>
-          <BlockIcon icon={icon} />
-          <span>{title}</span>
-        </div>
-        <div className={styles.objectActions}>
-          <ObjectAction
-            url={url}
-            image="/icons/Anki_app_logo.png"
-            onClick={(event) => {
-              event.preventDefault();
-              get2ankiApi()
-                .convert(id, getType(type), title)
-                .then((response) => {
-                  if (response.status === OK) {
-                    window.location.href = '/uploads';
-                  } else {
-                    response.text().then(setError);
-                  }
-                })
-                .catch((error) => {
-                  setError(error);
-                });
-            }}
-          />
-          <ObjectAction url={url} image="/icons/Notion_app_logo.png" />
-          <div
-            role="button"
-            tabIndex={-1}
-            onClick={() => setShowSettings(!showSettings)}
-            onKeyDown={(event) => {
-              if (event.key === 'F1') {
-                setShowSettings(!showSettings);
-              }
-            }}
-          >
-            <DotsHorizontal width={32} height={32} />
-          </div>
-        </div>
+    <div className={styles.entry} data-hj-suppress>
+      <div className={styles.objectMeta}>
+        <BlockIcon icon={icon} />
+        <span>{title}</span>
       </div>
-      {showSettings && (
-        <DefineRules
-          setError={setError}
-          type={getType(type)}
-          isFavorite={isFavorite}
-          setFavorites={setFavorites}
-          parent={title}
-          id={id}
-          setDone={() => setShowSettings(false)}
+      <div className={styles.objectActions}>
+        <ObjectAction
+          url={url}
+          image="/icons/Anki_app_logo.png"
+          onClick={(event) => {
+            event.preventDefault();
+            get2ankiApi()
+              .convert(id, getType(type), title)
+              .then((response) => {
+                if (response.status === OK) {
+                  window.location.href = '/uploads';
+                } else {
+                  response.text().then(setError);
+                }
+              })
+              .catch((error) => {
+                setError(error);
+              });
+          }}
         />
-      )}
-    </>
+        <ObjectAction url={url} image="/icons/Notion_app_logo.png" />
+        <button
+          type="button"
+          className={styles.rulesButton}
+          onClick={openRules}
+          aria-label={`Configure rules for ${title}`}
+        >
+          <DotsHorizontal width={32} height={32} />
+        </button>
+      </div>
+    </div>
   );
 }
 

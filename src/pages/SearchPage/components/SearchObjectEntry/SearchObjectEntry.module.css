@@ -24,3 +24,17 @@
   display: flex;
   grid-gap: 1rem;
 }
+
+.rulesButton {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+}
+
+.rulesButton:hover {
+  color: var(--color-primary);
+}
