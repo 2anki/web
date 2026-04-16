@@ -5,7 +5,6 @@ import getAcceptedContentTypes from '../../helpers/getAcceptedContentTypes';
 import getHeadersFilename from '../../helpers/getHeadersFilename';
 import DownloadButton from '../DownloadButton';
 import { useDrag } from './hooks/useDrag';
-import { ClaudeProgress } from './ClaudeProgress';
 import formStyles from './UploadForm.module.css';
 import styles from '../../../../styles/shared.module.css';
 
@@ -17,7 +16,6 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
   const [uploading, setUploading] = useState(false);
   const [downloadLink, setDownloadLink] = useState<null | string>('');
   const [deckName, setDeckName] = useState('');
-  const claudeEnabled = localStorage.getItem('claude-ai-flashcards') === 'true';
   const fileInputRef = useRef<HTMLInputElement>(null);
   const convertRef = useRef<HTMLButtonElement>(null);
 
@@ -107,7 +105,6 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
         deckName={deckName}
         uploading={uploading}
       />
-      <ClaudeProgress active={uploading && claudeEnabled} />
       <button
         aria-label="Upload file"
         className={styles.hidden}
