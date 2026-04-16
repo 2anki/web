@@ -3,7 +3,7 @@ import styles from './DocsPage.module.css';
 export function WipBanner() {
   return (
     <div className={styles.wipBanner} role="note">
-      <span className={styles.wipLabel}>Work in progress</span>
+      <span className={styles.wipLabel}>WIP</span>
       <span className={styles.wipText}>
         These docs are being actively rewritten. Found something wrong or
         missing?{' '}
