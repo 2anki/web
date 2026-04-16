@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import Switch from '../../components/input/Switch';
 import TemplateSelect from '../../components/TemplateSelect';
@@ -6,10 +6,11 @@ import RuleDefinition from '../SearchPage/components/RuleDefinition';
 import { NewRule } from '../SearchPage/types';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
 import { get2ankiApi } from '../../lib/backend/get2ankiApi';
-import LoadingIndicator from '../../components/Loading';
-import { CardOptionsForm } from '../../components/CardOptionsForm/CardOptionsForm';
+import {
+  CardOptionsForm,
+  CardOptionsFormHandle,
+} from '../../components/CardOptionsForm/CardOptionsForm';
 import sharedStyles from '../../styles/shared.module.css';
-import rulesStyles from '../SearchPage/components/Rules.module.css';
 import styles from './RulesPage.module.css';
 
 interface Props {
@@ -41,12 +42,26 @@ const defaultRules: NewRule = {
   email_notification: false,
 };
 
+type RuleListKey = 'flashcard_is' | 'sub_deck_is' | 'deck_is';
+
+function snapshot(rules: NewRule, tags: string, email: boolean) {
+  return JSON.stringify({
+    flashcard_is: [...rules.flashcard_is].sort(),
+    sub_deck_is: [...rules.sub_deck_is].sort(),
+    deck_is: [...rules.deck_is].sort(),
+    tags_is: tags,
+    email_notification: email,
+  });
+}
+
 export default function RulesPage({ setErrorMessage }: Readonly<Props>) {
   const { id = '' } = useParams<{ id: string }>();
   const [params] = useSearchParams();
   const navigate = useNavigate();
 
-  const parent = params.get('title') ?? 'this page';
+  const titleParam = params.get('title');
+  const headingTitle = titleParam ?? 'Conversion rules';
+  const parent = titleParam ?? 'this page';
   const type = params.get('type');
   const returnTo = params.get('returnTo') ?? '/search';
 
@@ -56,24 +71,37 @@ export default function RulesPage({ setErrorMessage }: Readonly<Props>) {
   const [tags, setTags] = useState(defaultRules.tags_is);
   const [sendEmail, setSendEmail] = useState(defaultRules.email_notification);
   const [favorite, setFavorite] = useState<boolean>(false);
+  const [isTogglingFavorite, setIsTogglingFavorite] = useState(false);
+  const [initialSnapshot, setInitialSnapshot] = useState('');
+
+  const cardOptionsRef = useRef<CardOptionsFormHandle>(null);
+
+  const currentSnapshot = useMemo(
+    () => snapshot(rules, tags, sendEmail),
+    [rules, tags, sendEmail]
+  );
+  const isDirty = initialSnapshot !== '' && currentSnapshot !== initialSnapshot;
 
   useEffect(() => {
     let cancelled = false;
     Promise.all([get2ankiApi().getRules(id), get2ankiApi().getFavorites()])
       .then(([rule, favorites]) => {
         if (cancelled) return;
-        if (rule) {
-          const next: NewRule = {
-            ...rule,
-            flashcard_is: rule.flashcard_is.split(','),
-            sub_deck_is: rule.sub_deck_is.split(','),
-            deck_is: rule.deck_is.split(','),
-          };
-          setRules(next);
-          setSendEmail(next.email_notification);
-          setTags(next.tags_is);
-        }
+        const loaded: NewRule = rule
+          ? {
+              ...rule,
+              flashcard_is: rule.flashcard_is.split(','),
+              sub_deck_is: rule.sub_deck_is.split(','),
+              deck_is: rule.deck_is.split(','),
+            }
+          : defaultRules;
+        setRules(loaded);
+        setSendEmail(loaded.email_notification);
+        setTags(loaded.tags_is);
         setFavorite(favorites.some((f) => f.id === id));
+        setInitialSnapshot(
+          snapshot(loaded, loaded.tags_is, loaded.email_notification)
+        );
         setIsLoading(false);
       })
       .catch((error) => {
@@ -87,7 +115,18 @@ export default function RulesPage({ setErrorMessage }: Readonly<Props>) {
 
   const goBack = () => navigate(returnTo);
 
-  const saveRules = async (
+  const confirmDiscard = () => {
+    if (!isDirty) return true;
+    return window.confirm(
+      'You have unsaved rules. Leave without saving?'
+    );
+  };
+
+  const handleBack = () => {
+    if (confirmDiscard()) goBack();
+  };
+
+  const saveAll = async (
     event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement, MouseEvent>
   ) => {
     event.preventDefault();
@@ -103,6 +142,11 @@ export default function RulesPage({ setErrorMessage }: Readonly<Props>) {
         tags,
         sendEmail
       );
+      const cardOptionsOk = await cardOptionsRef.current?.save();
+      if (cardOptionsOk === false) {
+        setIsSaving(false);
+        return;
+      }
       goBack();
     } catch (error) {
       setErrorMessage(error);
@@ -110,10 +154,7 @@ export default function RulesPage({ setErrorMessage }: Readonly<Props>) {
     }
   };
 
-  const toggleSelection = (
-    key: 'flashcard_is' | 'sub_deck_is' | 'deck_is',
-    value: string
-  ) => {
+  const toggleSelection = (key: RuleListKey, value: string) => {
     setRules((prev) => {
       const current = prev[key];
       const next = current.includes(value)
@@ -124,128 +165,152 @@ export default function RulesPage({ setErrorMessage }: Readonly<Props>) {
   };
 
   const toggleFavorite = async () => {
+    if (isTogglingFavorite) return;
+    setIsTogglingFavorite(true);
+    const next = !favorite;
     try {
       if (favorite) {
         await get2ankiApi().deleteFavorite(id);
       } else {
         await get2ankiApi().addFavorite(id, type);
       }
-      setFavorite(!favorite);
+      setFavorite(next);
     } catch (error) {
       setErrorMessage(error);
+    } finally {
+      setIsTogglingFavorite(false);
     }
   };
-
-  if (isLoading) {
-    return (
-      <div className={sharedStyles.page}>
-        <LoadingIndicator />
-      </div>
-    );
-  }
 
   return (
     <div className={sharedStyles.page}>
       <header className={sharedStyles.pageHeader}>
-        <button type="button" onClick={goBack} className={styles.backLink}>
+        <button type="button" onClick={handleBack} className={styles.backLink}>
           ← Back
         </button>
-        <h1 className={sharedStyles.title} data-hj-suppress>
-          Rules for {parent}
-        </h1>
-        <p className={sharedStyles.subtitle}>
-          Tell 2anki which Notion blocks should become decks, sub-decks, and
-          flashcards.
-        </p>
+        <div className={styles.headerRow}>
+          <div className={styles.headerText}>
+            <h1 className={sharedStyles.title} data-hj-suppress>
+              {headingTitle}
+            </h1>
+            <p className={sharedStyles.subtitle}>
+              Tell 2anki which Notion blocks should become decks, sub-decks,
+              and flashcards {titleParam ? `for ${parent}` : ''}.
+            </p>
+          </div>
+          <button
+            type="button"
+            className={`${styles.favoriteButton} ${
+              favorite ? styles.favoriteActive : ''
+            }`}
+            onClick={toggleFavorite}
+            disabled={isTogglingFavorite || isLoading}
+            aria-pressed={favorite}
+          >
+            <span aria-hidden="true">{favorite ? '★' : '☆'}</span>
+            {favorite ? 'Favorited' : 'Favorite'}
+          </button>
+        </div>
       </header>
 
-      <div className={styles.card}>
-        <RuleDefinition
-          title="What is a deck?"
-          description="This will be the first ones you see in the deck overview in Anki."
-          value={rules.deck_is}
-          options={deckOptions}
-          onSelected={(fco) => toggleSelection('deck_is', fco)}
-        />
-        <RuleDefinition
-          title="What is a sub deck?"
-          description="These decks will be grouped under the decks above it."
-          value={rules.sub_deck_is}
-          options={subDeckOptions}
-          onSelected={(fco) => toggleSelection('sub_deck_is', fco)}
-        />
-        <RuleDefinition
-          title="What is a flashcard?"
-          description="Select the block types to create flashcards from."
-          value={rules.flashcard_is}
-          options={flashCardOptions}
-          onSelected={(fco) => toggleSelection('flashcard_is', fco)}
-        />
-        <details className={rulesStyles.details}>
-          <summary>Miscellaneous</summary>
-          <TemplateSelect
-            data-hj-suppress
-            pickedTemplate={(name: string) => setTags(name)}
-            values={tagOptions.map((fco) => ({
-              label: `Tags are ${fco}`,
-              value: fco,
-            }))}
-            name="Tags"
-            value={tags}
-          />
-          <Switch
-            key="email-notification"
-            id="email-notification"
-            title="Receive email notifications when deck(s) are ready"
-            checked={sendEmail}
-            onSwitched={() => setSendEmail((prev) => !prev)}
-          />
-          <Switch
-            key="is-favorite"
-            id="is-favorite"
-            title="Mark this as a favorite"
-            checked={favorite}
-            onSwitched={toggleFavorite}
-          />
-        </details>
+      {isLoading ? (
+        <div className={`${styles.card} ${styles.loadingCard}`}>
+          <div className={sharedStyles.spinner} />
+        </div>
+      ) : (
+        <>
+          <div className={styles.card}>
+            <RuleDefinition
+              title="What counts as a deck?"
+              description="The top-level blocks that appear in your Anki deck overview."
+              value={rules.deck_is}
+              options={deckOptions}
+              onSelected={(fco) => toggleSelection('deck_is', fco)}
+            />
+            <RuleDefinition
+              title="What counts as a sub-deck?"
+              description="Nested under the decks above."
+              value={rules.sub_deck_is}
+              options={subDeckOptions}
+              onSelected={(fco) => toggleSelection('sub_deck_is', fco)}
+            />
+            <RuleDefinition
+              title="What counts as a flashcard?"
+              description="Block types converted into individual cards."
+              value={rules.flashcard_is}
+              options={flashCardOptions}
+              onSelected={(fco) => toggleSelection('flashcard_is', fco)}
+            />
 
-        <footer className={styles.actions}>
-          <button
-            type="button"
-            className={sharedStyles.btnPrimary}
-            onClick={saveRules}
-            disabled={isSaving}
-          >
-            {isSaving ? 'Saving...' : 'Save rules'}
-          </button>
-          <button
-            type="button"
-            className={sharedStyles.btnSecondary}
-            onClick={goBack}
-          >
-            Cancel
-          </button>
-        </footer>
-      </div>
+            <div className={styles.miscSection}>
+              <div>
+                <label
+                  htmlFor="tags-format"
+                  className={styles.miscLabel}
+                >
+                  Tag format
+                </label>
+                <p className={sharedStyles.smallDescription}>
+                  Which Notion formatting marks a block as a tag.
+                </p>
+                <TemplateSelect
+                  data-hj-suppress
+                  pickedTemplate={(name: string) => setTags(name)}
+                  values={tagOptions.map((fco) => ({
+                    label: `Tags are ${fco}`,
+                    value: fco,
+                  }))}
+                  name="tags-format"
+                  value={tags}
+                />
+              </div>
 
-      <section className={styles.card}>
-        <header className={styles.sectionHeader}>
-          <h2 className={sharedStyles.subHeading}>Card options</h2>
-          <p className={sharedStyles.subtitle}>
-            Customize the deck name, templates, and conversion behavior for
-            this page.
-          </p>
-        </header>
-        <CardOptionsForm
-          pageId={id}
-          pageTitle={parent}
-          onSaved={goBack}
-          onReset={() => {
-            /* stay on page after resetting */
-          }}
-          setError={setErrorMessage}
-        />
-      </section>
+              <Switch
+                id="email-notification"
+                title="Email me when conversion is ready"
+                checked={sendEmail}
+                onSwitched={() => setSendEmail((prev) => !prev)}
+              />
+            </div>
+          </div>
+
+          <section className={styles.card}>
+            <header className={styles.sectionHeader}>
+              <h2 className={sharedStyles.subHeading}>Card options</h2>
+              <p className={sharedStyles.subtitle}>
+                Customize the deck name, templates, and conversion behavior
+                for this page.
+              </p>
+            </header>
+            <CardOptionsForm
+              ref={cardOptionsRef}
+              pageId={id}
+              pageTitle={parent}
+              setError={setErrorMessage}
+              hideActions
+            />
+          </section>
+
+          <div className={styles.stickyActions}>
+            <button
+              type="button"
+              className={`${sharedStyles.btnSecondary} ${styles.actionButton}`}
+              onClick={handleBack}
+              disabled={isSaving}
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              className={`${sharedStyles.btnPrimary} ${styles.actionButton}`}
+              onClick={saveAll}
+              disabled={isSaving}
+            >
+              {isSaving ? 'Saving...' : 'Save changes'}
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 }
