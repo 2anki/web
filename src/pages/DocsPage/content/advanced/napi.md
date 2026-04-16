@@ -1,6 +1,6 @@
 ---
-title: New API
-description: Status of the public 2anki.net HTTP API
+title: API access
+description: Status of the 2anki.net HTTP API and how to request early access
 ---
 
 The new 2anki.net HTTP API is under heavy development. **It is not open to the public yet.** Endpoints, payloads, and authentication are all subject to change without notice, so please treat the API as **private** for now.
