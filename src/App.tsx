@@ -29,6 +29,7 @@ const AccountPage = lazy(() => import('./pages/AccountPage/AccountPage'));
 const SuccessfulCheckoutPage = lazy(
   () => import('./pages/SuccessfulCheckout/SuccessfulCheckout')
 );
+const DocsPage = lazy(() => import('./pages/DocsPage/DocsPage'));
 
 const queryClient = new QueryClient();
 
@@ -103,6 +104,8 @@ function AppContent({
           <Route path="/account" element={<AccountPage />} />
           <Route path="/settings" element={<AccountPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/documentation" element={<DocsPage />} />
+          <Route path="/documentation/*" element={<DocsPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </PageLayout>
