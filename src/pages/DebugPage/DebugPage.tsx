@@ -7,12 +7,6 @@ import debugStyles from './DebugPage.module.css';
 
 const SHARE_FILES_KEY = 'share-files-for-debugging';
 
-function formatValue(value: unknown): string {
-  if (value === null || value === undefined) return String(value);
-  if (typeof value === 'string') return value;
-  return JSON.stringify(value);
-}
-
 interface UserLocalsShape {
   user?: { id?: number };
   locals?: {
@@ -30,7 +24,18 @@ function getPlanLabel(locals: UserLocalsShape['locals']): string {
   return 'Free';
 }
 
-function UserLocalsCard({ data }: { data: unknown }) {
+function KeyValueTableHead() {
+  return (
+    <thead className={debugStyles.visuallyHidden}>
+      <tr>
+        <th scope="col">Key</th>
+        <th scope="col">Value</th>
+      </tr>
+    </thead>
+  );
+}
+
+function UserLocalsCard({ data }: Readonly<{ data: unknown }>) {
   const shape =
     data && typeof data === 'object' ? (data as UserLocalsShape) : null;
   const userId = shape?.user?.id ?? null;
@@ -42,6 +47,7 @@ function UserLocalsCard({ data }: { data: unknown }) {
         <div className={debugStyles.dataEmpty}>Not signed in</div>
       ) : (
         <table className={debugStyles.dataTable}>
+          <KeyValueTableHead />
           <tbody>
             <tr>
               <td className={debugStyles.dataKey}>user id</td>
@@ -58,18 +64,21 @@ function UserLocalsCard({ data }: { data: unknown }) {
   );
 }
 
-function LocalStorageCard({ highlightKey }: { highlightKey: string }) {
+function LocalStorageCard({
+  highlightKey,
+}: Readonly<{ highlightKey: string }>) {
   const keys = getKeys(localStorage);
   return (
     <section className={debugStyles.dataCard}>
       <header className={debugStyles.dataCardHeader}>
-        Local Storage
+        <span>Local Storage</span>
         <span className={debugStyles.dataCardCount}>{keys.length}</span>
       </header>
       {keys.length === 0 ? (
         <div className={debugStyles.dataEmpty}>Empty</div>
       ) : (
         <table className={debugStyles.dataTable}>
+          <KeyValueTableHead />
           <tbody>
             {keys.map((key) => (
               <tr
@@ -116,7 +125,7 @@ export function DebugPage() {
       <section className={debugStyles.shareCard}>
         <div className={debugStyles.shareHeader}>
           <span className={debugStyles.shareBadge}>Opt-in</span>
-          Help us fix bugs faster
+          <span>Help us fix bugs faster</span>
         </div>
         <p className={debugStyles.shareDescription}>
           When a conversion fails, enabling this sends the uploaded files and
@@ -132,7 +141,7 @@ export function DebugPage() {
               checked={shareFiles}
               onChange={toggleShareFiles}
             />
-            Share files when a conversion fails
+            <span>Share files when a conversion fails</span>
           </label>
           <span
             className={`${debugStyles.shareStatus} ${
@@ -141,7 +150,9 @@ export function DebugPage() {
                 : debugStyles.shareStatusOff
             }`}
           >
-            {shareFiles ? 'On — files will be sent on failure' : 'Off — nothing is sent'}
+            {shareFiles
+              ? 'On — files will be sent on failure'
+              : 'Off — nothing is sent'}
           </span>
         </div>
       </section>
