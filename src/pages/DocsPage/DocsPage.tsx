@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { DocsSidebar } from './DocsSidebar';
 import { DocContent } from './DocContent';
 import { DocsHome } from './DocsHome';
+import { WipBanner } from './WipBanner';
 import styles from './DocsPage.module.css';
 
 function stripTrailingSlashes(value: string): string {
@@ -40,6 +41,7 @@ export default function DocsPage() {
       </aside>
 
       <main className={styles.main}>
+        <WipBanner />
         {slug ? <DocContent slug={slug} /> : <DocsHome />}
       </main>
     </div>
