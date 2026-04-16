@@ -32,14 +32,14 @@
 }
 
 .profileName {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
   color: var(--color-text-primary);
   margin: 0 0 0.25rem;
 }
 
 .profileEmail {
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   color: var(--color-text-secondary);
   margin: 0 0 0.5rem;
 }
@@ -48,16 +48,16 @@
   display: inline-flex;
   align-items: center;
   padding: 0.25rem 0.75rem;
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
   color: var(--color-primary);
   background: var(--color-primary-light);
   border-radius: var(--radius-full);
 }
 
 .sectionTitle {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
   color: var(--color-text-primary);
   margin: 1.5rem 0 1rem;
 }
@@ -77,14 +77,14 @@
 }
 
 .planName {
-  font-size: 0.9375rem;
-  font-weight: 600;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
   color: var(--color-text-primary);
   margin: 0;
 }
 
 .planDescription {
-  font-size: 0.8125rem;
+  font-size: var(--text-sm);
   color: var(--color-text-secondary);
   margin: 0.25rem 0 0;
 }
@@ -93,8 +93,8 @@
   display: inline-flex;
   align-items: center;
   padding: 0.5rem 1rem;
-  font-size: 0.8125rem;
-  font-weight: 500;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
   color: #fff;
   background: var(--color-primary);
   border: none;
@@ -118,8 +118,8 @@
 }
 
 .managementTitle {
-  font-size: 0.9375rem;
-  font-weight: 600;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
   color: var(--color-text-primary);
   margin: 0 0 1rem;
 }
@@ -133,18 +133,18 @@
   background: var(--color-success-light);
   border: 1px solid #a7f3d0;
   border-radius: var(--radius-md);
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   color: #065f46;
 }
 
 .helpDanger {
-  font-size: 0.75rem;
+  font-size: var(--text-xs);
   color: var(--color-danger);
   margin-top: 0.375rem;
 }
 
 .helpSuccess {
-  font-size: 0.75rem;
+  font-size: var(--text-xs);
   color: var(--color-success);
   margin-top: 0.375rem;
 }
@@ -156,8 +156,8 @@
 }
 
 .dangerTitle {
-  font-size: 0.9375rem;
-  font-weight: 600;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
   color: var(--color-danger);
   margin: 0 0 0.75rem;
 }
@@ -167,18 +167,18 @@
   background: var(--color-danger-light);
   border: 1px solid var(--color-danger-border);
   border-radius: var(--radius-md);
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   color: var(--color-danger);
   margin-bottom: 1rem;
-  line-height: 1.5;
+  line-height: var(--leading-normal);
 }
 
 .dangerButton {
   display: inline-flex;
   align-items: center;
   padding: 0.5rem 1rem;
-  font-size: 0.8125rem;
-  font-weight: 500;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
   color: var(--color-danger);
   background: transparent;
   border: 1px solid var(--color-danger-border);
@@ -202,8 +202,8 @@
   display: inline-flex;
   align-items: center;
   padding: 0.5rem 1rem;
-  font-size: 0.8125rem;
-  font-weight: 500;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
   color: var(--color-text-secondary);
   background: transparent;
   border: 1px solid var(--color-border);

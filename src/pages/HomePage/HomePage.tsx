@@ -1,7 +1,7 @@
 import HeroSection from './components/Sections/hero';
 import UploadForm from '../UploadPage/components/UploadForm/UploadForm';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
-import { FormSection } from './components/Sections/hero/styled';
+import heroStyles from './components/Sections/hero/Hero.module.css';
 import { useSettingsCardsOptions } from '../../components/modals/SettingsModal/useSettingsCardsOptions';
 import { HomePageAnonHeader } from './components/HomePageAnonHeader';
 import { HomePageLoggedInHeader } from './components/HomePageLoggedInHeader';
@@ -22,9 +22,9 @@ export function HomePage({
   return (
     <div>
       <HeroSection />
-      <FormSection>
+      <div className={heroStyles.formSection}>
         <UploadForm setErrorMessage={setErrorMessage} />
-      </FormSection>
+      </div>
       <div className={styles.contentSection}>
         {!isLoggedIn && <HomePageAnonHeader />}
         {isLoggedIn && <HomePageLoggedInHeader />}

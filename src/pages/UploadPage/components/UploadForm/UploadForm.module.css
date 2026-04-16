@@ -21,19 +21,19 @@
 }
 
 .dropIcon {
-  font-size: 2.5rem;
+  font-size: var(--text-4xl);
   line-height: 1;
   margin-bottom: 0.25rem;
 }
 
 .dropText {
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
   color: var(--color-text-primary);
 }
 
 .dropHint {
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   color: var(--color-text-secondary);
 }
 
@@ -52,8 +52,8 @@
   color: #fff;
   border: none;
   border-radius: var(--radius-full);
-  font-size: 0.9375rem;
-  font-weight: 500;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
   cursor: pointer;
   text-decoration: none;
   transition: background 0.15s ease;
@@ -77,8 +77,8 @@
   color: #fff;
   border: none;
   border-radius: var(--radius-full);
-  font-size: 0.9375rem;
-  font-weight: 500;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
   cursor: pointer;
   margin: 1rem auto 0;
   transition: background 0.15s ease;

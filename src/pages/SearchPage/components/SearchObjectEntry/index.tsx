@@ -2,15 +2,14 @@ import { Dispatch, SetStateAction, useState } from 'react';
 
 import DefineRules from '../DefineRules';
 
-import ObjectActions from '../actions/ObjectActions';
 import ObjectAction from '../actions/ObjectAction';
-import { Entry, ObjectMeta } from './styled';
 import DotsHorizontal from '../../../../components/icons/DotsHorizontal';
 import NotionObject from '../../../../lib/interfaces/NotionObject';
 import { OK } from '../../../../lib/backend/http';
 import { BlockIcon } from '../BlockIcon';
 import { ErrorHandlerType } from '../../../../components/errors/helpers/getErrorMessage';
 import { get2ankiApi } from '../../../../lib/backend/get2ankiApi';
+import styles from './SearchObjectEntry.module.css';
 
 interface Props {
   isFavorite: boolean | undefined;
@@ -34,19 +33,19 @@ const getType = (data: string | { object: string }): string | null => {
   return typeof data === 'string' ? data : null;
 };
 
-function SearchObjectEntry(props: Props) {
+function SearchObjectEntry(props: Readonly<Props>) {
   const { title, icon, url, id, type, isFavorite, setFavorites, setError } =
     props;
   const [showSettings, setShowSettings] = useState(false);
 
   return (
     <>
-      <Entry data-hj-suppress>
-        <ObjectMeta>
+      <div className={styles.entry} data-hj-suppress>
+        <div className={styles.objectMeta}>
           <BlockIcon icon={icon} />
           <span>{title}</span>
-        </ObjectMeta>
-        <ObjectActions>
+        </div>
+        <div className={styles.objectActions}>
           <ObjectAction
             url={url}
             image="/icons/Anki_app_logo.png"
@@ -79,8 +78,8 @@ function SearchObjectEntry(props: Props) {
           >
             <DotsHorizontal width={32} height={32} />
           </div>
-        </ObjectActions>
-      </Entry>
+        </div>
+      </div>
       {showSettings && (
         <DefineRules
           setError={setError}

@@ -1,22 +1,22 @@
 import HeroText from './HeroText';
-import styles from '../../../../../styles/shared.module.css';
-import {
-  HeroSubtitle,
-  HeroSubtitleAlignRight,
-  HeroTitle,
-  HeroTitleContainer,
-} from './styled';
+import shared from '../../../../../styles/shared.module.css';
+import styles from './Hero.module.css';
 
 function HeroSection() {
   return (
-    <div className={styles.heroSection}>
-      <div className={styles.heroInner}>
-        <HeroTitleContainer>
-          <HeroTitle>
-            Create <HeroSubtitle>Anki flashcards </HeroSubtitle>
-            <HeroSubtitleAlignRight>fast</HeroSubtitleAlignRight>
-          </HeroTitle>
-        </HeroTitleContainer>
+    <div className={shared.heroSection}>
+      <div className={shared.heroInner}>
+        <h1 className={styles.heroTitleContainer}>
+          <span className={styles.heroTitle}>
+            Create{' '}
+            <span className={`${styles.heroTitle} ${styles.heroSubtitle}`}>
+              Anki flashcards{' '}
+            </span>
+            <span className={`${styles.heroTitle} ${styles.heroSubtitleAlignRight}`}>
+              fast
+            </span>
+          </span>
+        </h1>
         <HeroText>
           We are making it the easiest and fastest way to create beautiful Anki
           flashcards for anyone anywhere around the world!

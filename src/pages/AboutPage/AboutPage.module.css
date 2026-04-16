@@ -10,14 +10,14 @@
 }
 
 .heroTitle {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
   color: var(--color-text-primary);
   margin: 0 0 0.5rem;
 }
 
 .heroSubtitle {
-  font-size: 1.0625rem;
+  font-size: var(--text-base);
   color: var(--color-text-secondary);
   margin: 0;
 }
@@ -40,8 +40,8 @@
 
 .cardDark h2 {
   color: #f9fafb;
-  font-size: 1.125rem;
-  font-weight: 600;
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
   margin: 0 0 1rem;
 }
 
@@ -90,8 +90,8 @@
   display: inline-flex;
   align-items: center;
   padding: 0.625rem 1.5rem;
-  font-size: 0.9375rem;
-  font-weight: 500;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
   color: #fff;
   background: var(--color-primary);
   border-radius: var(--radius-full);
@@ -105,7 +105,7 @@
 }
 
 .smallText {
-  font-size: 0.75rem;
+  font-size: var(--text-xs);
   color: #9ca3af;
   margin-top: 1rem;
 }

@@ -1,6 +1,5 @@
-/* eslint-disable react/require-default-props */
 import { MouseEventHandler } from 'react';
-import { ObjectIconAction } from '../SearchObjectEntry/styled';
+import styles from '../SearchObjectEntry/SearchObjectEntry.module.css';
 
 export interface ObjectActionProps {
   url: string;
@@ -12,10 +11,15 @@ export default function ObjectAction({
   url,
   image,
   onClick,
-}: ObjectActionProps) {
+}: Readonly<ObjectActionProps>) {
   return (
     <a href={url} target="_blank" rel="noreferrer" onClick={onClick}>
-      <ObjectIconAction alt="Page action" width="32px" src={image} />
+      <img
+        className={styles.objectIconAction}
+        alt="Page action"
+        width="32"
+        src={image}
+      />
     </a>
   );
 }

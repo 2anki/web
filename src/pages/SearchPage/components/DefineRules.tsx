@@ -6,10 +6,10 @@ import TemplateSelect from '../../../components/TemplateSelect';
 import NotionObject from '../../../lib/interfaces/NotionObject';
 import { NewRule } from '../types';
 import RuleDefinition from './RuleDefinition';
-import { Details } from './styled';
 import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
 import { get2ankiApi } from '../../../lib/backend/get2ankiApi';
 import styles from '../../../styles/shared.module.css';
+import rulesStyles from './Rules.module.css';
 
 interface Props {
   id: string;
@@ -81,7 +81,7 @@ function DefineRules(props: Props) {
   }, [id]);
 
   const saveRules = async (
-    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+    event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement, MouseEvent>
   ) => {
     event.preventDefault();
     if (isLoading) {
@@ -184,7 +184,7 @@ function DefineRules(props: Props) {
                 }}
               />
             )}
-            <div>
+            <div className={styles.modalBody}>
               <RuleDefinition
                 title="What is a deck?"
                 description="This will be the first ones you see in the deck overview in Anki."
@@ -206,7 +206,7 @@ function DefineRules(props: Props) {
                 options={flashCardOptions}
                 onSelected={onSelectedFlashcardTypes}
               />
-              <Details>
+              <details className={rulesStyles.details}>
                 <summary>Miscellaneous</summary>
                 <TemplateSelect
                   data-hj-suppress
@@ -232,42 +232,35 @@ function DefineRules(props: Props) {
                   key="is-favorite"
                   id="is-favorite"
                   title="Mark this as a favorite"
-                  checked={favorite || false} // TODO: review if we can make this assumption
+                  checked={favorite || false}
                   onSwitched={toggleFavorite}
                 />
-              </Details>
-              <div className={`${styles.textCenter} ${styles.marginBottomMd}`}>
-                <hr />
+              </details>
+              <div className={styles.textCenter}>
                 <button
                   type="button"
                   className={styles.btnSmall}
                   onClick={() => setMore(!more)}
                 >
-                  More!
+                  More options
                 </button>
               </div>
             </div>
-            <footer className={styles.modalFooterSplit}>
-              <a
-                href="/save-rules"
+            <footer className={styles.modalFooter}>
+              <button
+                type="button"
                 className={styles.btnPrimary}
-                onClick={(event) => {
-                  event.preventDefault();
-                  saveRules(event);
-                }}
+                onClick={(event) => saveRules(event)}
               >
                 Save
-              </a>
-              <a
-                href="/cancel-rules"
+              </button>
+              <button
+                type="button"
                 className={styles.btnSecondary}
-                onClick={(event) => {
-                  event.preventDefault();
-                  setDone();
-                }}
+                onClick={() => setDone()}
               >
                 Cancel
-              </a>
+              </button>
             </footer>
           </>
         )}

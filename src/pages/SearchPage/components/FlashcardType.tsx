@@ -1,17 +1,17 @@
+import styles from '../../../styles/shared.module.css';
+
 interface FlashcardTypeProps {
   active: boolean;
   name: string;
   onSwitch: (name: string) => void;
 }
 
-export default function FlashcardType(props: FlashcardTypeProps) {
-  const { name, onSwitch, active } = props;
+export default function FlashcardType({ name, onSwitch, active }: Readonly<FlashcardTypeProps>) {
   return (
     <button
       type="button"
-      aria-label="tag"
       onClick={() => onSwitch(name)}
-      className={`tag is-small mx-1 ${active ? 'is-link' : ''}`}
+      className={`${styles.chip} ${active ? styles.chipActive : ''}`}
     >
       {name}
     </button>
