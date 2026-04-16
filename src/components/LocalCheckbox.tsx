@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import styles from '../styles/shared.module.css';
 
 interface Props {
@@ -14,18 +13,13 @@ function LocalCheckbox({
   description = null,
   onChecked,
 }: Props) {
-  const [isChecked, setChecked] = useState(defaultValue);
-
   return (
     <label htmlFor={label} className={styles.checkbox}>
       <input
         name={label}
         type="checkbox"
-        checked={isChecked}
-        onChange={(event) => {
-          onChecked(event.target.checked);
-          setChecked(event.target.checked);
-        }}
+        checked={defaultValue}
+        onChange={(event) => onChecked(event.target.checked)}
       />
       <strong>{label}</strong>
       {description && (

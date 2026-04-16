@@ -82,7 +82,11 @@ export default function RulesPage({ setErrorMessage }: Readonly<Props>) {
     () => snapshot(rules, tags, sendEmail),
     [rules, tags, sendEmail]
   );
-  const isDirty = initialSnapshot !== '' && currentSnapshot !== initialSnapshot;
+  const isRulesDirty =
+    initialSnapshot !== '' && currentSnapshot !== initialSnapshot;
+
+  const hasUnsavedChanges = () =>
+    isRulesDirty || !!cardOptionsRef.current?.isDirty();
 
   useEffect(() => {
     let cancelled = false;
@@ -118,9 +122,9 @@ export default function RulesPage({ setErrorMessage }: Readonly<Props>) {
   const goBack = () => navigate(returnTo);
 
   const confirmDiscard = () => {
-    if (!isDirty) return true;
+    if (!hasUnsavedChanges()) return true;
     return globalThis.confirm(
-      'You have unsaved rules. Leave without saving?'
+      'You have unsaved changes. Leave without saving?'
     );
   };
 
@@ -196,8 +200,8 @@ export default function RulesPage({ setErrorMessage }: Readonly<Props>) {
               {headingTitle}
             </h1>
             <p className={sharedStyles.subtitle}>
-              Tell 2anki which Notion blocks should become decks, sub-decks,
-              and flashcards {titleParam ? `for ${parent}` : ''}.
+              Tell 2anki which Notion blocks should become decks, sub-decks, and
+              flashcards {titleParam ? `for ${parent}` : ''}.
             </p>
           </div>
           <button
@@ -246,10 +250,7 @@ export default function RulesPage({ setErrorMessage }: Readonly<Props>) {
 
             <div className={styles.miscSection}>
               <div>
-                <label
-                  htmlFor="tags-format"
-                  className={styles.miscLabel}
-                >
+                <label htmlFor="tags-format" className={styles.miscLabel}>
                   Tag format
                 </label>
                 <p className={sharedStyles.smallDescription}>
@@ -280,8 +281,8 @@ export default function RulesPage({ setErrorMessage }: Readonly<Props>) {
             <header className={styles.sectionHeader}>
               <h2 className={sharedStyles.subHeading}>Card options</h2>
               <p className={sharedStyles.subtitle}>
-                Customize the deck name, templates, and conversion behavior
-                for this page.
+                Customize the deck name, templates, and conversion behavior for
+                this page.
               </p>
             </header>
             <CardOptionsForm

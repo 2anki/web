@@ -4,6 +4,7 @@ import React, {
   forwardRef,
   useEffect,
   useImperativeHandle,
+  useMemo,
   useState,
 } from 'react';
 import { SettingsPayload } from '../../lib/types';
@@ -17,7 +18,6 @@ import { ErrorHandlerType } from '../errors/helpers/getErrorMessage';
 import { clearStoredCardOptions } from '../../lib/data_layer/clearStoredCardOptions';
 import { availableTemplates } from '../modals/SettingsModal/constants';
 import { getLocalStorageValue } from '../../lib/data_layer/getLocalStorageValue';
-import { sendError } from '../../lib/SendError';
 import { get2ankiApi } from '../../lib/backend/get2ankiApi';
 import { getLocalStorageBooleanValue } from '../../lib/data_layer/getLocalStorageBooleanValue';
 import CardOption from '../../lib/data_layer/model/CardOption';
@@ -37,6 +37,39 @@ interface Props {
 export interface CardOptionsFormHandle {
   save: () => Promise<boolean>;
   reset: () => Promise<void>;
+  isDirty: () => boolean;
+}
+
+const DEFAULT_TEMPLATE = 'specialstyle';
+const DEFAULT_TOGGLE_MODE = 'close_toggle';
+const DEFAULT_PAGE_EMOJI = 'first_emoji';
+const DEFAULT_FONT_SIZE = '20';
+const DEFAULT_USER_INSTRUCTIONS = `Some extra rules and explanations:
+- Read the document from start to finish and identify any question and answers.
+- Use the same language as the document or infer the language based on what is mostly used.
+- Use the same text as in the document and do not make up any questions or answers.
+- Cite the document as source for the text.
+- Be complete by finding all of the questions and answer in the document.
+- Do not limit the number of number of questions and answer but create all of them!
+- Do not make up any questions and use the questions in the document!
+- Create a ul for every question pair, not one ul for all of them with li!`;
+
+function computeSnapshot(values: {
+  deckName: string;
+  fontSize: string;
+  template: string;
+  toggleMode: string;
+  pageEmoji: string;
+  basicName: string;
+  clozeName: string;
+  inputName: string;
+  userInstructions: string;
+  checkboxValues: Record<string, boolean>;
+}) {
+  const sortedCheckboxes = Object.keys(values.checkboxValues)
+    .sort((a, b) => a.localeCompare(b))
+    .map((key) => [key, values.checkboxValues[key]]);
+  return JSON.stringify({ ...values, checkboxValues: sortedCheckboxes });
 }
 
 export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
@@ -67,13 +100,13 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
       getLocalStorageValue('font-size', '', settings)
     );
     const [template, setTemplate] = useState(
-      getLocalStorageValue('template', 'specialstyle', settings)
+      getLocalStorageValue('template', DEFAULT_TEMPLATE, settings)
     );
     const [toggleMode, setToggleMode] = useState(
-      getLocalStorageValue('toggle-mode', 'close_toggle', settings)
+      getLocalStorageValue('toggle-mode', DEFAULT_TOGGLE_MODE, settings)
     );
     const [pageEmoji, setPageEmoji] = useState(
-      getLocalStorageValue('page-emoji', 'first_emoji', settings)
+      getLocalStorageValue('page-emoji', DEFAULT_PAGE_EMOJI, settings)
     );
     const [basicName, setBasicName] = useState(
       getLocalStorageValue('basic_model_name', '', settings)
@@ -87,71 +120,153 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
     const [userInstructions, setUserInstructions] = useState(
       getLocalStorageValue(
         'user-instructions',
-        `Some extra rules and explanations:
-- Read the document from start to finish and identify any question and answers.
-- Use the same language as the document or infer the language based on what is mostly used.
-- Use the same text as in the document and do not make up any questions or answers.
-- Cite the document as source for the text.
-- Be complete by finding all of the questions and answer in the document.
-- Do not limit the number of number of questions and answer but create all of them!
-- Do not make up any questions and use the questions in the document!
-- Create a ul for every question pair, not one ul for all of them with li!`,
+        DEFAULT_USER_INSTRUCTIONS,
         settings
       )
     );
+    const [checkboxValues, setCheckboxValues] = useState<
+      Record<string, boolean>
+    >({});
+    const [initialSnapshot, setInitialSnapshot] = useState<string | null>(null);
 
+    // Seed checkbox state from options + settings when they load.
     useEffect(() => {
-      if (pageId) {
-        setLoading(true);
-        get2ankiApi()
-          .getSettings(pageId)
-          .then((payload) => {
-            if (payload) {
-              if (payload.deckName) setDeckName(payload.deckName);
-              setToggleMode(payload['toggle-mode']);
-              setPageEmoji(payload['page-emoji']);
-              setTemplate(payload.template);
-              setSettings(payload);
-            }
-            setLoading(false);
-          })
-          .catch((error) => {
-            setLoading(false);
-            setError(error);
-          });
+      if (!options) return;
+      const next: Record<string, boolean> = {};
+      options.forEach((o: CardOption) => {
+        next[o.key] = getLocalStorageBooleanValue(
+          o.key,
+          o.value.toString(),
+          settings
+        );
+      });
+      setCheckboxValues(next);
+    }, [options, settings]);
+
+    // Hydrate every server-backed field when settings load.
+    useEffect(() => {
+      if (!pageId) {
+        setLoading(false);
+        return;
       }
+      setLoading(true);
+      get2ankiApi()
+        .getSettings(pageId)
+        .then((payload) => {
+          if (payload) {
+            if (payload.deckName) setDeckName(payload.deckName);
+            if (payload['toggle-mode']) setToggleMode(payload['toggle-mode']);
+            if (payload['page-emoji']) setPageEmoji(payload['page-emoji']);
+            if (payload.template) setTemplate(payload.template);
+            if (payload['font-size']) setFontSize(payload['font-size']);
+            if (payload.basic_model_name)
+              setBasicName(payload.basic_model_name);
+            if (payload.cloze_model_name)
+              setClozeName(payload.cloze_model_name);
+            if (payload.input_model_name)
+              setInputName(payload.input_model_name);
+            if (payload['user-instructions'])
+              setUserInstructions(payload['user-instructions']);
+            setSettings(payload);
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+          setError(error);
+        });
     }, [pageId]);
 
-    if (isError) setError(loadingDefaultsError);
+    // Surface card-option loading errors without firing setError during render.
+    useEffect(() => {
+      if (isError && loadingDefaultsError) {
+        setError(loadingDefaultsError);
+      }
+    }, [isError, loadingDefaultsError, setError]);
+
+    const currentSnapshot = useMemo(
+      () =>
+        computeSnapshot({
+          deckName,
+          fontSize,
+          template,
+          toggleMode,
+          pageEmoji,
+          basicName,
+          clozeName,
+          inputName,
+          userInstructions,
+          checkboxValues,
+        }),
+      [
+        deckName,
+        fontSize,
+        template,
+        toggleMode,
+        pageEmoji,
+        basicName,
+        clozeName,
+        inputName,
+        userInstructions,
+        checkboxValues,
+      ]
+    );
+
+    // Capture initial snapshot once fields and checkbox state are seeded.
+    useEffect(() => {
+      if (loading || isLoading) return;
+      if (initialSnapshot !== null) return;
+      const expectedCheckboxes = options?.length ?? 0;
+      if (expectedCheckboxes > 0 && Object.keys(checkboxValues).length === 0)
+        return;
+      setInitialSnapshot(currentSnapshot);
+    }, [
+      loading,
+      isLoading,
+      initialSnapshot,
+      options,
+      checkboxValues,
+      currentSnapshot,
+    ]);
+
+    const toggleCheckbox = (key: string, checked: boolean) => {
+      setCheckboxValues((prev) => ({ ...prev, [key]: checked }));
+      saveValueInLocalStorage(key, checked.toString(), pageId);
+    };
 
     const resetStore = async () => {
       if (pageId) {
-        setDeckName(pageTitle || '');
         await get2ankiApi().deleteSettings(pageId);
-      } else {
-        setDeckName('');
       }
       if (options) clearStoredCardOptions(options);
-      setFontSize('20');
-      setToggleMode('close_toggle');
-      setTemplate('specialstyle');
+      localStorage.removeItem('page-emoji');
+      localStorage.removeItem('user-instructions');
       setDeckName('');
+      setFontSize(DEFAULT_FONT_SIZE);
+      setToggleMode(DEFAULT_TOGGLE_MODE);
+      setTemplate(DEFAULT_TEMPLATE);
+      setPageEmoji(DEFAULT_PAGE_EMOJI);
       setBasicName('');
       setClozeName('');
       setInputName('');
+      setUserInstructions(DEFAULT_USER_INSTRUCTIONS);
+      if (options) {
+        const reset: Record<string, boolean> = {};
+        options.forEach((o: CardOption) => {
+          reset[o.key] = false;
+        });
+        setCheckboxValues(reset);
+      }
+      setInitialSnapshot(null);
       onReset?.();
     };
 
     const serverSave = async (): Promise<boolean> => {
       if (!pageId) return true;
       const payload: { [key: string]: string } = {};
-      if (options) {
-        options.forEach((option: CardOption) => {
-          payload[option.key] = option.value.toString();
-        });
-      } else {
-        sendError(new Error('No options found'));
-      }
+      Object.entries(checkboxValues).forEach(([key, value]) => {
+        payload[key] = value.toString();
+      });
       payload.deckName = deckName;
       payload['toggle-mode'] = toggleMode;
       payload.template = template;
@@ -160,9 +275,11 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
       payload.input_model_name = inputName;
       payload['font-size'] = fontSize;
       payload['page-emoji'] = pageEmoji;
+      payload['user-instructions'] = userInstructions;
 
       try {
         await get2ankiApi().saveSettings({ object_id: pageId, payload });
+        setInitialSnapshot(currentSnapshot);
         return true;
       } catch (error) {
         setError(error);
@@ -170,14 +287,12 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
       }
     };
 
-    useImperativeHandle(
-      ref,
-      () => ({
-        save: serverSave,
-        reset: resetStore,
-      }),
-      [serverSave, resetStore]
-    );
+    useImperativeHandle(ref, () => ({
+      save: serverSave,
+      reset: resetStore,
+      isDirty: () =>
+        initialSnapshot !== null && currentSnapshot !== initialSnapshot,
+    }));
 
     const onSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
       if (!pageId) {
@@ -188,7 +303,11 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
       if (ok) onSaved?.(event);
     };
 
-    if (loading || isLoading) {
+    const checkboxesReady =
+      !options ||
+      options.length === 0 ||
+      Object.keys(checkboxValues).length > 0;
+    if (loading || isLoading || !checkboxesReady) {
       return (
         <div className={fieldStyles.loading}>
           <div className={sharedStyles.spinner} />
@@ -260,19 +379,13 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
           />
         </div>
 
-        {options?.map((o) => (
+        {options?.map((o: CardOption) => (
           <LocalCheckbox
             key={o.key}
-            defaultValue={getLocalStorageBooleanValue(
-              o.key,
-              o.value.toString(),
-              settings
-            )}
+            defaultValue={checkboxValues[o.key] ?? false}
             label={o.label}
             description={o.description}
-            onChecked={(checked) => {
-              saveValueInLocalStorage(o.key, checked.toString(), pageId);
-            }}
+            onChecked={(checked) => toggleCheckbox(o.key, checked)}
           />
         ))}
 
