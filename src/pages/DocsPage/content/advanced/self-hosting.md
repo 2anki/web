@@ -1,85 +1,93 @@
 ---
 title: Self-hosting
-description: tutorial on how to run 2anki.net
+description: How to run your own 2anki.net instance
 ---
 
-The instructions here are written for the Debian operating system. If you are using a different operating system, you may need to adjust the commands accordingly.
-Please contribute back to the community by providing instructions for other operating systems https://github.com/2anki/docs.2anki.net
+These instructions are written for Debian-style Linux. Adjust commands for your OS and contribute back via [github.com/2anki/web](https://github.com/2anki/web).
 
-Note that commands might require root access, so you may need to prepend them with `sudo`
-but it is not recommended to run the application as root. Lines starting `#` are example output and can be omitted.
+You will need two repositories:
+
+- [2anki/server](https://github.com/2anki/server) — Node.js API (port `2020`)
+- [2anki/web](https://github.com/2anki/web) — React frontend (Vite)
 
 ## Prerequisites
 
-Assuming you have your system up and running we will start by installing all the development requirements.
-
-First we will install [git](https://git-scm.com/) get the [Node Version Manager](https://github.com/nvm-sh/nvm).
+- **Node.js** — the version pinned in each repo's `.nvmrc` / `package.json` (`packageManager` field)
+- **pnpm** — the package manager for both repos (don't use npm or yarn)
+- **PostgreSQL** — any recent version; you will need a database and a user with create-table privileges
+- **LibreOffice** — required by the server to convert PPT/PPTX to PDF
+- **Poppler** (`pdftoppm`) — required to convert PDF pages to images
 
 ```bash
-apt-get install -y git
+sudo apt-get install -y git postgresql libreoffice poppler-utils
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+# restart your shell, then:
+nvm install --lts
+npm install -g pnpm
 ```
 
-Now close that terminal and open up a new one to confirm that nvm is installed.
-
-```bash
-nvm --version
-# 0.39.7
-```
-
-## Getting the source code
-
-Clone the repository and navigate to the directory.
+## Clone the repositories
 
 ```bash
 mkdir -pv ~/src/github.com/2anki
 cd ~/src/github.com/2anki
 git clone https://github.com/2anki/server
-git clone https://github.com/2anki/web server/web
-git clone https://github.com/2anki/create_deck
+git clone https://github.com/2anki/web
 ```
 
-## Building the frontend
+## Database
 
-Navigate to the web directory and install the dependencies.
+Create a database and user, then export a connection string. Example:
 
 ```bash
-cd web
-nvm install
-npm install
-npm run build
+sudo -u postgres psql -c "CREATE USER tanki WITH PASSWORD 'tanki';"
+sudo -u postgres psql -c "CREATE DATABASE tanki OWNER tanki;"
 ```
 
-## Setup card creation service
+## Server configuration
 
-Navigate to the create_deck directory and install the dependencies.
-
-```bash
-cd ../create_deck
-apt-get install -y python3-pip
-pip install --break-system-packages -r requirements.txt
-```
-
-## Running the server
-
-Navigate to the server directory and install the dependencies.
-
-Make sure your to add your ip address in the whitelist `src/lib/constants.ts` file.
-
-Also setup a environment file in the server directory:
+Create `server/.env`. Minimum variables:
 
 ```bash
-cat >> ~/src/github.com/2anki/server/.env <<EOF
+PORT=2020
 WORKSPACE_BASE=/tmp/genanki
-EOF
-mkdir -pv /tmp/genanki
+UPLOAD_BASE=/tmp/genanki-uploads
+WEB_BUILD_DIR=../web/build
+RUN_MIGRATIONS=true
+
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_USER=tanki
+POSTGRES_PASSWORD=tanki
+POSTGRES_DATABASE=tanki
 ```
+
+Optional integrations:
+
+- `NOTION_CLIENT_ID`, `NOTION_CLIENT_SECRET`, `NOTION_REDIRECT_URI` — enables the Notion OAuth flow
+- `ANTHROPIC_API_KEY` — enables the Claude-based flashcard generation feature
+- S3 / DigitalOcean Spaces variables — enables remote storage for uploads
+
+`RUN_MIGRATIONS=true` applies the Knex migrations on boot; leave it unset in production deployments where you run migrations out of band.
+
+## Build the frontend
 
 ```bash
-cd ../server
-npm install
-npm run build
-node src/server.js
+cd ~/src/github.com/2anki/web
+pnpm install
+pnpm build
 ```
 
-The server should now be running on port 2020. You can access it by visiting `http://<server-ip-address>:2020` in your browser.
+The build output lands in `web/build`, which the server serves via `WEB_BUILD_DIR`.
+
+## Run the server
+
+```bash
+cd ~/src/github.com/2anki/server
+pnpm install
+pnpm dev
+```
+
+The server listens on `http://localhost:2020`. In development the React app can be run separately with `pnpm dev` inside `web/` — it proxies `/api` to `:2020` (see `web/vite.config.ts`).
+
+The swagger UI is served at `/api/docs`.

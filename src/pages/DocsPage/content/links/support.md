@@ -4,9 +4,10 @@ title: Support
 
 2anki is a open source project. It's freely available to anyone anywhere around the world. While you are not required to pay, if you can afford it, please do consider either becoming a patron, sponsoring or any of the below mentioned options.
 
-Here is link to the source code. Contributions are welcome!
+Here are the project repositories. Contributions are welcome!
 
-https://github.com/alemayhu/notion2anki
+- Server: [github.com/2anki/server](https://github.com/2anki/server)
+- Web: [github.com/2anki/web](https://github.com/2anki/web)
 
 ## Paypal
 

@@ -1,20 +1,19 @@
 ---
-title: The Strategy
+title: Strategy
+description: Where 2anki.net is heading
 ---
 
-The long-term is to provide a smooth experience collaborating on Anki deck creation. Whether you are doing this alone as an indiviual or a group of people.
+The long-term goal is a smooth experience for creating Anki decks — alone or together — from the tools people already use.
 
+## v1 — Web support
 
-## v1 - Web support
+The first major version added Notion support and conversion for HTML, ZIP, CSV, and Markdown. That foundation is stable and in wide use.
 
-The first major version of 2anki.net added support for Notion and enabling you to convert HTML, ZIP, CSV and Markdown files. This has been succesfull to a varying degree depending on your use case.
+## v2 — Stabilisation and more platforms
 
-## v2 - stabilization and more platforms
+The focus of the current phase is quality and flexibility:
 
-There are still several issues in 2anki.net that needs to be a adressed. Some of them are due to the poor design. Desing in this case is meant how you use. For the next phase of this project, I want to re-design the user journey and feature
-set to provide you with more flexibility while increasing stability.
-
-So the focus for 2024 and 2025 is providing the following things
-- New API which is more flexible and stable
-- A redesigned web app that is progressive with offline-support
-- A better synchronisation mechanism into Anki-web (less manual)
+- A documented public API (served at [`/api/docs`](/api/docs)).
+- A redesigned web app with progressive/offline support.
+- Better synchronisation into AnkiWeb so users don't have to download and re-import manually.
+- AI-assisted flashcard generation via Claude for long-form material.

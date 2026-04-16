@@ -1,45 +1,46 @@
 ---
 title: Bug report
+description: Template for reporting bugs
 ---
 
-Create a report to help us improve! Use this template and submit it either privately via email to [alexander@alemayhu.com](mailto:alexander@alemayhu.com) or publicly on [GitHub](https://github.com/alemayhu/2anki.net/issues/new?assignees=&labels=&template=bug_report.md&title=).
+Help us improve 2anki.net by filing a bug report. You can submit it publicly on [GitHub](https://github.com/2anki/2anki.net/issues/new?assignees=&labels=&template=bug_report.md&title=) or privately by emailing [support@2anki.net](mailto:support@2anki.net).
 
-[Build software better, together](https://github.com/alemayhu/2anki.net/issues/new?assignees=&labels=&template=bug_report.md&title=)
+Use the template below.
 
-## **Describe the bug**
+## Describe the bug
 
 A clear and concise description of what the bug is.
 
-## **To Reproduce**
+## To reproduce
 
-Steps to reproduce the behavior:
+Steps to reproduce the behaviour:
 
 1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
+2. Click on '...'
+3. Scroll down to '...'
 4. See error
 
-## **Expected behavior**
+## Expected behaviour
 
 A clear and concise description of what you expected to happen.
 
-## **Screenshots**
+## Screenshots
 
-If applicable, add screenshots to help explain your problem.
+If applicable, attach screenshots or a short screen recording.
 
-### **Desktop (please complete the following information):**
+### Desktop
 
-- OS: [e.g. iOS]
-- Browser [e.g. chrome, safari]
-- Version [e.g. 22]
+- OS: [e.g. macOS 14]
+- Browser: [e.g. Chrome, Safari]
+- Version: [e.g. 131]
 
-### **Smartphone (please complete the following information):**
+### Smartphone
 
-- Device: [e.g. iPhone6]
-- OS: [e.g. iOS8.1]
-- Browser [e.g. stock browser, safari]
-- Version [e.g. 22]
+- Device: [e.g. iPhone 15]
+- OS: [e.g. iOS 17]
+- Browser: [e.g. stock browser, Safari]
+- Version: [e.g. 17.3]
 
-## **Additional context**
+## Additional context
 
-Add any other context about the problem here.
+Anything else that might help us reproduce the issue — upload IDs, file sizes, whether Claude AI generation was enabled, etc.
