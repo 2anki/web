@@ -17,7 +17,7 @@ export default function RuleDefinition(props: RuleDefinitionProps) {
   return (
     <Details>
       <summary>{title}</summary>
-      <p>{description}</p>
+      <p className={styles.smallDescription}>{description}</p>
       <div className={styles.flexWrap}>
         {options.map((fco) => (
           <FlashcardType

@@ -13,10 +13,50 @@ export const StickyContainer = styled.div`
 `;
 
 export const Details = styled.details`
-  padding: 0.5rem 1rem;
-  font-size: 1.25rem;
-  font-weight: 400;
-  line-height: 2rem;
+  border-bottom: 1px solid var(--color-border);
+
+  summary {
+    padding: 0.75rem 0;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.4;
+    cursor: pointer;
+    color: var(--color-text-primary);
+    list-style: none;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary::after {
+    content: '';
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+    margin-left: 0.5rem;
+  }
+
+  &[open] summary {
+    color: var(--color-primary);
+  }
+
+  &[open] summary::after {
+    transform: rotate(-135deg);
+  }
+
+  & > *:not(summary) {
+    padding-bottom: 0.75rem;
+  }
 `;
 
 export const ButtonWrapper = styled.div`

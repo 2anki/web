@@ -81,7 +81,7 @@ function DefineRules(props: Props) {
   }, [id]);
 
   const saveRules = async (
-    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+    event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement, MouseEvent>
   ) => {
     event.preventDefault();
     if (isLoading) {
@@ -184,7 +184,7 @@ function DefineRules(props: Props) {
                 }}
               />
             )}
-            <div>
+            <div className={styles.modalBody}>
               <RuleDefinition
                 title="What is a deck?"
                 description="This will be the first ones you see in the deck overview in Anki."
@@ -232,42 +232,36 @@ function DefineRules(props: Props) {
                   key="is-favorite"
                   id="is-favorite"
                   title="Mark this as a favorite"
-                  checked={favorite || false} // TODO: review if we can make this assumption
+                  checked={favorite || false}
                   onSwitched={toggleFavorite}
                 />
               </Details>
-              <div className={`${styles.textCenter} ${styles.marginBottomMd}`}>
-                <hr />
+              <div className={styles.textCenter}>
                 <button
                   type="button"
                   className={styles.btnSmall}
                   onClick={() => setMore(!more)}
                 >
-                  More!
+                  More options
                 </button>
               </div>
             </div>
-            <footer className={styles.modalFooterSplit}>
-              <a
-                href="/save-rules"
-                className={styles.btnPrimary}
-                onClick={(event) => {
-                  event.preventDefault();
-                  saveRules(event);
-                }}
-              >
-                Save
-              </a>
-              <a
-                href="/cancel-rules"
+            <footer className={styles.modalFooter}>
+              <button
+                type="button"
                 className={styles.btnSecondary}
-                onClick={(event) => {
-                  event.preventDefault();
-                  setDone();
-                }}
+                onClick={() => setDone()}
               >
                 Cancel
-              </a>
+              </button>
+              <button
+                type="button"
+                className={styles.btnPrimary}
+                style={{ width: 'auto' }}
+                onClick={(event) => saveRules(event)}
+              >
+                Save
+              </button>
             </footer>
           </>
         )}
