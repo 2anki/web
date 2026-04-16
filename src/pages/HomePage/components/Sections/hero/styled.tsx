@@ -74,11 +74,13 @@ export const Illustration1 = styled(PersonIllustration)`
 `;
 
 export const HeroTitle = styled.span`
-    font-size: 90px;
-    font-weight: bold;
+    font-size: var(--text-8xl);
+    font-weight: var(--font-bold);
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-tight);
     color: #2b2e3c;
     @media (max-width: 1024px) {
-        font-size: 40px;
+        font-size: var(--text-4xl);
         text-align: left;
     }
 `;
@@ -107,9 +109,9 @@ export const HeroSubtitleAlignRight = styled(HeroTitle)`
 `;
 
 export const StyledParagraph = styled.p`
-    font-size: 1.25em;
+    font-size: var(--text-xl);
     @media (max-width: 1024px) {
-        font-size: 16px;
+        font-size: var(--text-base);
         text-align: left;
         margin: unset;
     }

@@ -8,7 +8,7 @@ export const FlexColumn = styled.div`
 `;
 
 export const InfoMessage = styled.p`
-  font-size: 11px;
+  font-size: var(--text-xs);
   margin: 0 auto;
   max-width: 480px;
   color: grey;
@@ -16,8 +16,8 @@ export const InfoMessage = styled.p`
 `;
 
 export const ImportTitle = styled.h2`
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
 `;
 
 export const CardOptionsLink = styled.div`

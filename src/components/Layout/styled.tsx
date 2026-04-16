@@ -21,7 +21,7 @@ export const ClaudePromoBanner = styled.div`
   background: linear-gradient(135deg, #f5f0ff 0%, #ede9fe 100%);
   border-bottom: 1px solid #c4b5fd;
   padding: 0.6rem 1.25rem;
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   color: #4c1d95;
   display: flex;
   align-items: center;
@@ -30,7 +30,7 @@ export const ClaudePromoBanner = styled.div`
 
   a {
     color: #7c3aed;
-    font-weight: 600;
+    font-weight: var(--font-semibold);
     text-decoration: underline;
   }
 `;

@@ -41,6 +41,10 @@
   --text-2xl: 1.5rem;
   --text-3xl: 1.875rem;
   --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  --text-7xl: 4.5rem;
+  --text-8xl: 6rem;
 
   /* Line heights */
   --leading-tight: 1.25;
@@ -58,6 +62,11 @@
   --tracking-tight: -0.025em;
   --tracking-normal: 0em;
   --tracking-wide: 0.025em;
+  --tracking-wider: 0.1em;
+  --tracking-widest: 0.2em;
+
+  /* Additional color tokens */
+  --color-success-hover: #047857;
 }
 
 *,

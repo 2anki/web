@@ -5,7 +5,7 @@ const StyledLoader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2rem;
+  font-size: var(--text-3xl);
   height: 100vh;
   width: 60vw;
   margin: 0 auto;

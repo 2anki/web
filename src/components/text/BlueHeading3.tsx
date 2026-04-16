@@ -4,16 +4,16 @@ const BlueHeading3 = styled.h3`
   left: 845px;
   top: 1608px;
 
-  font-family: Rubik;
+  font-family: var(--font-sans);
   font-style: normal;
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 42px;
+  font-weight: var(--font-semibold);
+  font-size: var(--text-2xl);
+  line-height: var(--leading-snug);
   color: #5397f5;
 
   @media (max-width: 1024px) {
-    font-size: 20px;
-    line-height: 30px;
+    font-size: var(--text-xl);
+    line-height: var(--leading-snug);
   }
 `;
 

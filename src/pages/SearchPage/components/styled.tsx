@@ -17,9 +17,9 @@ export const Details = styled.details`
 
   summary {
     padding: 0.75rem 0;
-    font-size: 0.9375rem;
-    font-weight: 600;
-    line-height: 1.4;
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    line-height: var(--leading-snug);
     cursor: pointer;
     color: var(--color-text-primary);
     list-style: none;

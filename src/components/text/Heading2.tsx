@@ -9,16 +9,17 @@ interface Props {
 }
 
 const StyledHeading2 = styled.h2`
-  font-family: Rubik;
+  font-family: var(--font-sans);
   font-style: normal;
-  font-weight: 600;
-  font-size: 50px;
-  line-height: 50px;
+  font-weight: var(--font-semibold);
+  font-size: var(--text-5xl);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
 
   color: #2b2e3c;
 
   @media (max-width: 1024px) {
-    font-size: 30px;
+    font-size: var(--text-3xl);
   }
 `;
 

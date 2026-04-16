@@ -13,10 +13,10 @@ export const Navbar = styled.nav`
 `;
 
 export const StyledNavbarItem = styled.a`
-    font-size: 20px;
+    font-size: var(--text-xl);
     color: #1364e3;
 
     :hover {
-        font-weight: bold;
+        font-weight: var(--font-bold);
     }
 `;

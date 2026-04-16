@@ -24,16 +24,16 @@ export const StyledButton = styled.a`
 
 
     /* Typography */
-    font-family: Rubik;
-    font-size: 20px;
+    font-family: var(--font-sans);
+    font-size: var(--text-xl);
     font-style: normal;
-    font-weight: 600;
-    line-height: 30px;
-    letter-spacing: 0em;
+    font-weight: var(--font-semibold);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-normal);
     text-align: center;
 
     @media (max-width: 1024px) {
-        font-size: 16px;
+        font-size: var(--text-base);
         height: 54px;
         margin-right: auto;
     }

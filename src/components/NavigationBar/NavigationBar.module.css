@@ -31,7 +31,7 @@
 .logoLink {
   display: flex;
   align-items: center;
-  font-weight: 700;
+  font-weight: var(--font-bold);
   text-decoration: none;
   padding: 0.5rem 0;
 }
@@ -107,15 +107,15 @@
   padding: 0.5rem 0.75rem;
   color: var(--color-primary);
   text-decoration: none;
-  font-size: 1rem;
+  font-size: var(--text-base);
 }
 
 .navLink:hover {
-  font-weight: 700;
+  font-weight: var(--font-bold);
 }
 
 .navLinkActive {
-  font-weight: 700;
+  font-weight: var(--font-bold);
 }
 
 .loginButton {
@@ -129,8 +129,8 @@
   border: none;
   border-radius: var(--radius-full);
   text-decoration: none;
-  font-size: 0.9375rem;
-  font-weight: 500;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
   transition: background var(--transition-fast);
 }
 
@@ -151,17 +151,17 @@
   background: none;
   border: none;
   color: var(--color-primary);
-  font-size: 1rem;
+  font-size: var(--text-base);
   cursor: pointer;
 }
 
 .dropdownToggle:hover {
-  font-weight: 700;
+  font-weight: var(--font-bold);
 }
 
 .dropdownToggleText {
-  font-size: 1.5rem;
-  letter-spacing: 0.1em;
+  font-size: var(--text-2xl);
+  letter-spacing: var(--tracking-wider);
 }
 
 .dropdownMenu {
@@ -187,7 +187,7 @@
   padding: 0.5rem 1rem;
   color: var(--color-text-primary);
   text-decoration: none;
-  font-size: 0.9375rem;
+  font-size: var(--text-sm);
 }
 
 .dropdownItem:hover {

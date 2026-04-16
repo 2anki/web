@@ -5,13 +5,13 @@
 }
 
 .sectionLabel {
-  font-weight: 600;
-  font-size: 0.875rem;
+  font-weight: var(--font-semibold);
+  font-size: var(--text-sm);
   color: var(--color-text-primary);
 }
 
 .sectionHint {
-  font-size: 0.8rem;
+  font-size: var(--text-xs);
   color: var(--color-text-secondary);
   margin: 0;
 }
@@ -21,7 +21,7 @@
   padding: 0.5rem 0.75rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   color: var(--color-text-primary);
   background: var(--color-bg-primary);
 }
@@ -33,9 +33,9 @@
 }
 
 .detailsSummary {
-  font-weight: 500;
+  font-weight: var(--font-medium);
   cursor: pointer;
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
 }
 
 .instructionsTextarea {
@@ -44,14 +44,14 @@
   padding: 0.5rem 0.75rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   resize: vertical;
   background: var(--color-bg-primary);
   color: var(--color-text-primary);
 }
 
 .templateHeading {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
   margin: 0;
 }
