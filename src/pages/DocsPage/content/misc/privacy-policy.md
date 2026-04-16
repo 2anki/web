@@ -25,3 +25,4 @@ The source code is available at [2anki/server](https://github.com/2anki/server).
 | Google Analytics | Usage tracking | [Privacy Policy](https://policies.google.com/privacy?hl=en-US) |
 | Bugsnag | Error reporting | [Privacy Policy](https://smartbear.com/privacy/) |
 | ChatGPT | HTML conversion | [Privacy Policy](https://openai.com/policies/privacy-policy/?utm_source=chatgpt.com) |
+| Claude | AI flashcard generation | [Privacy Policy](https://www.anthropic.com/legal/privacy) |
