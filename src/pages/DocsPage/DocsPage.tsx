@@ -9,9 +9,15 @@ const EXTERNAL_REDIRECTS: Record<string, string> = {
   'advanced/api': '/api/docs',
 };
 
+function stripTrailingSlashes(value: string): string {
+  let end = value.length;
+  while (end > 0 && value.charCodeAt(end - 1) === 47) end--;
+  return end === value.length ? value : value.slice(0, end);
+}
+
 export default function DocsPage() {
   const params = useParams();
-  const slug = (params['*'] ?? '').replace(/\/+$/, '');
+  const slug = stripTrailingSlashes(params['*'] ?? '');
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
