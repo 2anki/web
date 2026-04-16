@@ -249,18 +249,17 @@ function DefineRules(props: Props) {
             <footer className={styles.modalFooter}>
               <button
                 type="button"
+                className={styles.btnPrimary}
+                onClick={(event) => saveRules(event)}
+              >
+                Save
+              </button>
+              <button
+                type="button"
                 className={styles.btnSecondary}
                 onClick={() => setDone()}
               >
                 Cancel
-              </button>
-              <button
-                type="button"
-                className={styles.btnPrimary}
-                style={{ width: 'auto' }}
-                onClick={(event) => saveRules(event)}
-              >
-                Save
               </button>
             </footer>
           </>
