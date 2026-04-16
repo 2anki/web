@@ -13,6 +13,7 @@ export interface DocFrontmatter {
 export interface LoadedDoc {
   frontmatter: DocFrontmatter;
   body: string;
+  sourcePath: string;
 }
 
 function unquote(value: string): string {
@@ -73,14 +74,17 @@ function splitLines(input: string): string[] {
   return lines;
 }
 
-function parseFrontmatter(raw: string): LoadedDoc {
+function parseFrontmatter(
+  raw: string,
+  sourcePath: string,
+): LoadedDoc {
   let offset: number;
   if (raw.startsWith('---\n')) offset = 4;
   else if (raw.startsWith('---\r\n')) offset = 5;
-  else return { frontmatter: {}, body: raw };
+  else return { frontmatter: {}, body: raw, sourcePath };
 
   const closeIdx = raw.indexOf('\n---', offset);
-  if (closeIdx === -1) return { frontmatter: {}, body: raw };
+  if (closeIdx === -1) return { frontmatter: {}, body: raw, sourcePath };
 
   const fmBlock = raw.slice(offset, closeIdx);
   let bodyStart = closeIdx + 4;
@@ -94,7 +98,7 @@ function parseFrontmatter(raw: string): LoadedDoc {
     if (kv) (frontmatter as Record<string, string>)[kv[0]] = kv[1];
   }
 
-  return { frontmatter, body };
+  return { frontmatter, body, sourcePath };
 }
 
 const ASSET_PATH = /\]\((?:\.\.\/){1,8}assets\/([^)\s]{1,256})\)/g;
@@ -112,13 +116,18 @@ function slugFromPath(path: string): string {
   return path.slice(start, end);
 }
 
+const SOURCE_ROOT = 'src/pages/DocsPage/';
+
 const docs: Record<string, LoadedDoc> = {};
 for (const [path, raw] of Object.entries(modules)) {
   const slug = slugFromPath(path);
-  const parsed = parseFrontmatter(raw);
+  const relPath = path.startsWith('./') ? path.slice(2) : path;
+  const sourcePath = `${SOURCE_ROOT}${relPath}`;
+  const parsed = parseFrontmatter(raw, sourcePath);
   docs[slug] = {
     frontmatter: parsed.frontmatter,
     body: rewriteAssetPaths(parsed.body),
+    sourcePath,
   };
 }
 
