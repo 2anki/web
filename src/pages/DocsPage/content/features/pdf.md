@@ -3,42 +3,32 @@ title: PDF
 description: PDF support on 2anki.net
 ---
 
-There are two ways to create Anki flashcards from PDFs on 2anki.net
+There are two ways to turn PDFs into Anki decks on 2anki.net.
 
-## 1. AI-Powered Question Generation (Premium Feature)
+## 1. Page-to-flashcard conversion (default)
 
-This method uses Google's Vertex AI to automatically generate questions from your PDF content.
+Each pair of consecutive pages becomes one flashcard.
 
-**Note:** This is a premium subscriber-only feature. If enabled, your PDF content will be processed through Google Cloud's Vertex AI service.
+1. Upload your PDF file.
+2. Odd-numbered pages (1, 3, 5…) become card fronts; even-numbered pages become the backs.
+3. Pages are rendered to images locally so they work on any Anki client.
+4. Download the APKG and import into Anki.
 
-### How it works:
+This method keeps your PDF contents on our servers only for the short processing window and does not send content to third-party AI services.
 
-1. Upload your PDF file
-2. AI converts PDF content to HTML
-3. Questions and answers are automatically generated
-4. Download as Anki deck
+**Limits**
 
-**Privacy Note:** Using this feature means your PDF content will be sent to Google Cloud for processing. If you have sensitive content, consider using Method 2 instead.
+- Free users: up to 100 pages per PDF.
+- Paying subscribers: 1000+ pages.
 
-## 2. PDF Page-to-Flashcard Conversion
+Best suited for PDFs already organised as Q&A pairs (e.g. a question on one page and the answer on the next).
 
-This method converts your PDF pages directly into flashcards, with each page becoming either the front or back of a card.
+## 2. AI-powered flashcard generation (paying feature)
 
-### How it works:
-1. Upload your PDF file
-2. Each pair of consecutive pages becomes one flashcard:
-   - Odd-numbered pages (1,3,5...) become card fronts
-   - Even-numbered pages (2,4,6...) become card backs
-3. The pages are converted to images for compatibility
-4. Download as Anki deck
+Paying subscribers can opt in to the Claude AI generation flow from the upload page. The server sends your document to Anthropic's Claude model, which extracts topics and produces structured flashcards (basic, cloze, and input cards).
 
-### Limitations:
-- Default method when AI generation is not activated
-- Free users: Maximum 100 pages per PDF
-- Premium users: Support for 1000+ pages
-- All processing happens locally - no cloud services involved
+- Toggle "✨ Generate flashcards with Claude AI" on `/upload` to enable it for your next upload.
+- Large PDFs are chunked automatically so very long documents are supported.
+- See the [privacy policy](/documentation/misc/privacy-policy) for a list of processors involved.
 
-### Best suited for:
-- Pre-formatted question/answer PDFs
-- Study materials already organized in a Q&A format
-- Maintaining complete privacy of PDF contents
+If you have sensitive content, stick with method 1 — it does not leave our infrastructure.

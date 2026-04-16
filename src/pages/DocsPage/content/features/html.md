@@ -1,12 +1,11 @@
 ---
-title: HTML file uploads
-description: Information on how HTML files are handled on 2anki.net
+title: HTML
+description: HTML uploads on 2anki.net
 ---
 
-To perserve colors, fonts and backgrounds use HTML file uploads. 
-2anki.net has support for Notion but you can upload custom HTML files to 2anki.net.
+Uploading HTML preserves colours, fonts, and backgrounds. 2anki.net is built around Notion exports but accepts hand-written HTML just the same.
 
-The default behavior is to use toggles for the flashcards. Below are examples of the suppported flashcards.
+By default each top-level toggle (`<details>`) becomes a flashcard — the `<summary>` is the front and the rest of the element is the back.
 
 ## Basic flashcard
 
@@ -17,21 +16,33 @@ The default behavior is to use toggles for the flashcards. Below are examples of
 </details>
 ```
 
-
 ## Cloze deletion
+
+Wrap the hidden segments in `<code>` tags and 2anki.net will convert them into Anki cloze syntax automatically:
 
 ```html
 <details>
   <summary>The capital of <code>Albania</code> is <code>Tirana</code></summary>
-</details>  
+</details>
 ```
 
-If you would like to group your cloze and add hints it can be done this way:
+For explicit numbered clozes (and optional hints), use Anki's native syntax directly:
 
 ```html
-<div class='toggle'>{{c1::Canberra::city}} was founded in {{c2::1913::year}}</div>
+<div class="toggle">{{c1::Canberra::city}} was founded in {{c2::1913::year}}</div>
 ```
 
-## Input flashcard
+## Input cards
 
-TODO: show example using bold text
+Enable **Treat Bold Text as Input** in the upload settings. Any `<strong>` / `<b>` text on the back of a card becomes an input field that learners type into.
+
+```html
+<details>
+  <summary>What is 21 + 21?</summary>
+  <p><strong>42</strong></p>
+</details>
+```
+
+## Media
+
+Images, audio, and other assets referenced from your HTML are embedded in the deck. If you're uploading a Notion export, submit the original `.zip` so the HTML and its `assets/` folder stay together — see [ZIP uploads](/documentation/features/zip).

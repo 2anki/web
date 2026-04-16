@@ -1,24 +1,26 @@
 ---
 title: Limits
-description: The size limits on 2anki
+description: Size and quota limits on 2anki.net
 ---
 
-2anki.net is a free service that is available to everyone. To ensure that the service is available to everyone, 
-there are some limits in place.
+2anki.net is free for everyone. To keep it that way, there are a few limits on the hosted service. Self-hosted deployments can adjust them — see [self-hosting](/documentation/advanced/self-hosting).
 
 ## Free users
 
-- There is a 100mb limit on JSON payloads between the server and client.
-- You can only upload a maximum of 21 files at a time.
-- The default maximum file size is 100 megabytes (MB).
-- Maximum of 100 pages per PDF file.
+- Maximum upload size: **100 MB** per request.
+- Up to **21 files** per upload.
+- Up to **100 flashcards** per deck.
+- PDFs capped at **100 pages**.
+- One active conversion job at a time.
+- Uploaded files are deleted automatically **2 hours** after processing.
 
-## Paying users
+## Paying subscribers
 
-For paying subscribers
+- Maximum upload size up to **~10 GB** per request.
+- Up to **2,100 files** per upload.
+- **No cap** on the number of flashcards per deck.
+- PDFs with **1000+ pages** supported.
+- Access to Claude AI flashcard generation from the upload page.
+- No limit on concurrent conversion jobs.
 
-- There is artifical file limit of 2100 files per upload.
-- The maximum file size is 9.77 gigabytes (GB).
-- No limits on number of flashcards.
-- Process PDFs with over 1000 pages.
-- Access to Vertex AI for automated question generation from PDFs
+See the [pricing page](/pricing) for subscription details. If you run into a limit that looks wrong, [contact us](/documentation/troubleshooting/contact).

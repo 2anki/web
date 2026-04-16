@@ -1,12 +1,12 @@
 ---
 title: Contact
-description: How to reach the 2anki developer
+description: How to reach the 2anki team
 ---
 
-The easiest way to reach Alexander is to send an email to [alexander@alemayhu.com](mailto:alexander@alemayhu.com)
-
-**Your thoughts matter!** Place share your constructive feedback with me. 
+The fastest way to reach us is by email at [support@2anki.net](mailto:support@2anki.net). Constructive feedback — good or bad — is always welcome.
 
 ## Reporting issues
 
-The preferred place to report issues is on [GitHub](https://github.com/2anki/2anki.net/issues). Please use the template provided to fill out and provide an example when possible. https://github.com/2anki/2anki.net/issues. If you are not comfortable in a public setting, you can always email me privately (use template from [**Bug report**](https://www.notion.so/Bug-report-ad4a9454983c48828c37cd7bdee525fb?pvs=21)).
+Public bug reports go on [GitHub](https://github.com/2anki/2anki.net/issues). Please use the provided template and include a minimal example where possible.
+
+If you'd rather not share the details publicly, send the same information privately to [support@2anki.net](mailto:support@2anki.net) — see the [bug report template](/documentation/troubleshooting/bug-report).

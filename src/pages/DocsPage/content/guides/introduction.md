@@ -1,22 +1,32 @@
 ---
 title: What is 2anki.net?
-description: Introduction of 2anki.net
+description: Introduction to 2anki.net
 ---
 
-2anki.net is a free to use service and it is a [open source](https://github.com/2anki) project. 
-The hosted services allows you to create Anki flashcards fast.
+2anki.net is a free, [open source](https://github.com/2anki) service that turns your notes into Anki flashcards. It started as a Notion-to-Anki converter and has grown to support a range of input formats.
 
-We are making it the easiest and fastest way to create beautiful ⭐️ Anki flashcards for anyone anywhere around the world 🌎
+## Benefits
 
-## Benefits of using 2anki.net
+- Supports every Anki note type: basic, reversed, cloze deletion, and input cards.
+- Embeds images, audio, and other media from your source files.
+- Mobile-friendly — nothing to install locally.
+- Handles math equations (KaTeX) from Notion and raw HTML.
+- Optional Claude AI flashcard generation for paying subscribers turns long documents into structured decks automatically.
 
-We have support for all of the Anki note types. You can create basic cards, reversed cards, cloze deletions and input cards.
+## Supported inputs
 
-Your media files like images and audio files will be embedded. We also have some minor support for using Math equations.
+You can upload any of the following directly, or bundle them inside a `.zip`:
 
-The service is also mobile friendly and does not require you to install anything to run it.
+- Notion HTML exports
+- Raw HTML (`.html`, `.htm`)
+- Markdown (`.md`) — including Obsidian-style nested bullet points
+- Spreadsheets (`.csv`, `.xlsx`)
+- Documents (`.doc`, `.docx`)
+- Slide decks (`.ppt`, `.pptx`)
+- PDFs
+
+You can also connect Notion directly — see the [getting started guide](/documentation/guides/getting-started).
 
 ## Background
 
-This project was created after seeing this post on Reddit: [Cards imported from Notion?](https://www.reddit.com/r/Anki/comments/g29mzk/cards_imported_from_notion/)
-
+This project started after this thread on Reddit: [Cards imported from Notion?](https://www.reddit.com/r/Anki/comments/g29mzk/cards_imported_from_notion/). It has been used by students, professionals, and autodidacts around the world ever since.
