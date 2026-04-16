@@ -30,6 +30,7 @@ const SuccessfulCheckoutPage = lazy(
   () => import('./pages/SuccessfulCheckout/SuccessfulCheckout')
 );
 const DocsPage = lazy(() => import('./pages/DocsPage/DocsPage'));
+const CardOptionsPage = lazy(() => import('./pages/CardOptionsPage'));
 
 const queryClient = new QueryClient();
 
@@ -106,6 +107,10 @@ function AppContent({
           <Route path="/about" element={<AboutPage />} />
           <Route path="/documentation" element={<DocsPage />} />
           <Route path="/documentation/*" element={<DocsPage />} />
+          <Route
+            path="/settings/card-options"
+            element={<CardOptionsPage setErrorMessage={setErrorMessage} />}
+          />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </PageLayout>
