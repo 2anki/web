@@ -26,7 +26,7 @@ export function DebugPage() {
   };
 
   return (
-    <div className={styles.pageNarrow}>
+    <div className={styles.page}>
       <h1 className={styles.title}>Debug page</h1>
 
       <section className={debugStyles.shareCard}>
