@@ -65,7 +65,7 @@ export default function RulesPage({ setErrorMessage }: Readonly<Props>) {
   const headingTitle = titleParam ?? 'Conversion rules';
   const parent = titleParam ?? 'this page';
   const type = params.get('type');
-  const returnTo = params.get('returnTo') ?? '/search';
+  const returnTo = params.get('returnTo') ?? '/notion';
 
   const [rules, setRules] = useState<NewRule>(defaultRules);
   const [isLoading, setIsLoading] = useState(true);

@@ -19,7 +19,7 @@ export function EmptyDownloadsSection({ hasActiveJobs, uploads }: Prop) {
         <p className={styles.emptyDescription}>
           Convert a Notion page or upload a file to get started.
         </p>
-        <Link to="/search" className={styles.emptyLink}>
+        <Link to="/notion" className={styles.emptyLink}>
           Get started
         </Link>
       </div>

@@ -12,7 +12,7 @@ export const TimeoutWarning = ({ show }: TimeoutWarningProps) => {
       <p>
         <strong>Note:</strong> We're still processing your subscription
         activation. If you're already logged in, you can try visiting the{' '}
-        <a href="/search">search page</a> directly, or refresh this page to
+        <a href="/notion">Notion page</a> directly, or refresh this page to
         check again.
       </p>
     </div>

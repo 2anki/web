@@ -58,7 +58,7 @@ export default function useNavbarEnd(path: string, backend: Backend) {
         {getVisibleText('navigation.upload')}
       </NavbarItem>
       {isLoggedIn && (
-        <NavbarItem href="/search" path={path}>
+        <NavbarItem href="/notion" path={path}>
           {getVisibleText('navigation.search')}
         </NavbarItem>
       )}
