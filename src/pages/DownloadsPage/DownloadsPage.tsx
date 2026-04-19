@@ -3,7 +3,7 @@ import Index from './components/ListJobs';
 
 import useUploads from './hooks/useUploads';
 import useJobs from './hooks/useJobs';
-import LoadingIndicator from '../../components/Loading';
+import { SkeletonList } from '../../components/Skeleton/Skeleton';
 import { FinishedJobs } from './components/FinishedJobs';
 import { EmptyDownloadsSection } from './components/EmptyDownloadsSection';
 import { redirectOnError } from '../../components/shared/redirectOnError';
@@ -67,7 +67,7 @@ export function DownloadsPage({ setError }: DownloadsPageProps) {
       </div>
 
       {loading ? (
-        <LoadingIndicator />
+        <SkeletonList count={4} />
       ) : (
         <>
           <EmptyDownloadsSection
