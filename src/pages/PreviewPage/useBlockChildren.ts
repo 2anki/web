@@ -10,7 +10,9 @@ export function useBlockChildren(blockId: string, enabled: boolean) {
     enabled,
     initialPageParam: null,
     queryFn: ({ pageParam }) =>
-      getPreviewBatch(blockId, pageParam as string | null),
+      getPreviewBatch(blockId, pageParam as string | null, {
+        parentKind: 'block',
+      }),
     getNextPageParam: (lastPage) =>
       lastPage.hasMore && lastPage.nextCursor ? lastPage.nextCursor : undefined,
     staleTime: 30_000,

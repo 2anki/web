@@ -17,12 +17,18 @@ export interface PreviewBatch {
   pageUrl?: string | null;
 }
 
+interface PreviewBatchOptions {
+  parentKind?: 'page' | 'block';
+}
+
 export const getPreviewBatch = async (
   pageId: string,
-  cursor?: string | null
+  cursor?: string | null,
+  options: PreviewBatchOptions = {}
 ): Promise<PreviewBatch> => {
   const params = new URLSearchParams();
   if (cursor) params.set('cursor', cursor);
+  if (options.parentKind) params.set('parent', options.parentKind);
   const qs = params.toString();
   const url = `/api/notion/preview/${encodeURIComponent(pageId)}${
     qs ? `?${qs}` : ''
