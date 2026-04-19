@@ -5,16 +5,35 @@ interface ClientSideOptions {
   redirect?: boolean;
 }
 
-const AUTH_PATHS = ['/login', '/register', '/forgot', '/users/r/'];
+// Pages reachable without a session. A 401 fired from any of these
+// shouldn't bounce the user to /login — the page itself works for
+// anons, so a background 401 is fine to swallow.
+const NON_AUTH_PATHS = [
+  '/',
+  '/login',
+  '/register',
+  '/forgot',
+  '/users/r/',
+  '/upload',
+  '/pricing',
+  '/about',
+  '/contact',
+  '/documentation',
+  '/debug',
+  '/successful-checkout',
+];
+
+function isNonAuthPath(pathname: string): boolean {
+  return NON_AUTH_PATHS.some((prefix) => {
+    if (prefix === '/') return pathname === '/';
+    return pathname === prefix || pathname.startsWith(`${prefix}/`);
+  });
+}
 
 function redirectToLogin() {
   const currentPath = globalThis.location?.pathname ?? '';
-  const alreadyOnAuthPage = AUTH_PATHS.some((prefix) =>
-    currentPath.startsWith(prefix)
-  );
-  if (!alreadyOnAuthPage) {
-    globalThis.location.href = '/login';
-  }
+  if (isNonAuthPath(currentPath)) return;
+  globalThis.location.href = '/login';
 }
 
 export const getLoginURL = (baseURL: string) => `${baseURL}users/login`;
