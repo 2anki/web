@@ -67,7 +67,7 @@ export const useSubscriptionStatus = () => {
       ) {
         const destination = query.data.authenticated
           ? '/account?subscribed=1'
-          : '/search';
+          : '/notion';
         globalThis.location.href = destination;
       }
     }

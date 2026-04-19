@@ -104,10 +104,14 @@ function AppContent({
             element={<RegisterPage setErrorMessage={setErrorMessage} />}
           />
           <Route
-            path="/search"
+            path="/notion"
             element={requireAuth(
               <SearchPage setError={setErrorMessage} />
             )}
+          />
+          <Route
+            path="/search"
+            element={<Navigate to="/notion" replace />}
           />
           <Route path="/login" element={<LoginPage />} />
           <Route

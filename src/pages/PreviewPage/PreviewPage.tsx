@@ -82,8 +82,8 @@ export default function PreviewPage({ setError }: Readonly<PreviewPageProps>) {
   return (
     <div className={sharedStyles.page}>
       <header className={sharedStyles.pageHeader}>
-        <Link to="/search" className={styles.backLink}>
-          ← Back to search
+        <Link to="/notion" className={styles.backLink}>
+          ← Back to Notion search
         </Link>
         <h1 className={sharedStyles.title} data-hj-suppress>
           {pageTitle}

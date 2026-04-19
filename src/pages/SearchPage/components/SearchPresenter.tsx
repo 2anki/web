@@ -38,7 +38,7 @@ export default function SearchPresenter(props: SearchPresenterProps) {
           inProgress={inProgress}
           onSearchQueryChanged={(s) => {
             navigate(
-              { pathname: '/search', search: s ? `?q=${encodeURIComponent(s)}` : '' },
+              { pathname: '/notion', search: s ? `?q=${encodeURIComponent(s)}` : '' },
               { replace: true }
             );
             setSearchQuery(s);
