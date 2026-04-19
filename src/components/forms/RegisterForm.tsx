@@ -1,10 +1,11 @@
 import { SyntheticEvent, useState } from 'react';
 import TopMessage from '../TopMessage/TopMessage';
 import { ErrorHandlerType } from '../errors/helpers/getErrorMessage';
-import { FormContainer } from './styled';
 import { get2ankiApi } from '../../lib/backend/get2ankiApi';
 import { WithGoogleLink } from './WithGoogleLink';
 import { getVisibleText } from '../../lib/text/getVisibleText';
+import styles from '../../styles/auth.module.css';
+import sharedStyles from '../../styles/shared.module.css';
 
 interface Props {
   readonly setErrorMessage: ErrorHandlerType;
@@ -53,153 +54,124 @@ function RegisterForm({ setErrorMessage, redirect }: Props) {
     }
   };
   return (
-    <FormContainer>
-      <section className="section">
-        <div className="container">
-          <div className="columns is-centered">
-            <div className="column is-half">
-              <TopMessage />
-              <h1 className="title">Register</h1>
-              <div>
-                <WithGoogleLink
-                  text={getVisibleText('navigation.register.google')}
-                />
-              </div>
-              <hr />
-              <p className="subtitle">Or create a new account.</p>
-              <form onSubmit={handleSubmit}>
-                <div className="field">
-                  <label htmlFor="name" className="label">
-                    Name
-                    <div className="control">
-                      <input
-                        name="name"
-                        min="1"
-                        max="255"
-                        className="input"
-                        value={name}
-                        onChange={(event) => {
-                          setName(event.target.value);
-                          localStorage.setItem('name', event.target.value);
-                        }}
-                        type="text"
-                        placeholder="Your name"
-                        required
-                      />
-                    </div>
-                  </label>
-                </div>
-                <div className="field">
-                  <label htmlFor="email" className="label">
-                    Email
-                    <input
-                      min="3"
-                      max="255"
-                      value={email}
-                      onChange={(event) => {
-                        setEmail(event.target.value);
-                        localStorage.setItem('email', event.target.value);
-                      }}
-                      className="input"
-                      type="email"
-                      placeholder="Your e-mail"
-                      required
-                      name="email"
-                    />
-                  </label>
-                </div>
-                <div className="field">
-                  <label htmlFor="password" className="label">
-                    Password Minimum 8 characters
-                    <div className="control">
-                      <input
-                        name="password"
-                        min="8"
-                        max="255"
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
-                        required
-                        className="input"
-                        type="password"
-                        placeholder="Your password"
-                      />
-                    </div>
-                  </label>
-                  <label htmlFor="password" className="label">
-                    Confirm Password
-                    <div className="control">
-                      <input
-                        name="confirm_password"
-                        min="8"
-                        max="255"
-                        value={confirmPassword}
-                        onChange={(event) =>
-                          setConfirmPassword(event.target.value)
-                        }
-                        required
-                        className="input"
-                        type="password"
-                        placeholder="Confirm password"
-                      />
-                    </div>
-                  </label>
-                </div>
-
-                <div className="field">
-                  <div className="control">
-                    <label htmlFor="tos" className="checkbox">
-                      <input
-                        name="tos"
-                        required
-                        type="checkbox"
-                        checked={tos}
-                        onChange={(event) => {
-                          setTos(event.target.checked);
-                          localStorage.setItem(
-                            'tos',
-                            event.target.checked.toString()
-                          );
-                        }}
-                      />{' '}
-                      I agree to the{' '}
-                      <a
-                        rel="noreferrer"
-                        target="_blank"
-                        href="https://alemayhu.notion.site/Terms-of-services-931865161517453b99fb6495e400061d"
-                      >
-                        terms of service
-                      </a>{' '}
-                      and have read the{' '}
-                      <a
-                        rel="noreferrer"
-                        target="_blank"
-                        href="https://alemayhu.notion.site/Privacy-38c6e8238ac04ea9b2485bf488909fd0"
-                      >
-                        privacy policy
-                      </a>
-                      .
-                    </label>
-                  </div>
-                </div>
-
-                <div className="field">
-                  <div className="control" style={{ width: '100%' }}>
-                    <button
-                      type="submit"
-                      className="button is-link is-medium"
-                      style={{ width: '100%' }}
-                      disabled={!isValid() || loading}
-                    >
-                      Create my account
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
+    <div className={styles.formPage}>
+      <div className={styles.formCard}>
+        <TopMessage />
+        <h1 className={styles.formTitle}>Register</h1>
+        <WithGoogleLink text={getVisibleText('navigation.register.google')} />
+        <hr />
+        <p className={sharedStyles.formDescription}>Or create a new account.</p>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.field}>
+            <label htmlFor="name">
+              <span>Name</span>
+              <input
+                name="name"
+                min="1"
+                max="255"
+                value={name}
+                onChange={(event) => {
+                  setName(event.target.value);
+                  localStorage.setItem('name', event.target.value);
+                }}
+                type="text"
+                placeholder="Your name"
+                required
+              />
+            </label>
           </div>
-        </div>
-      </section>
-    </FormContainer>
+          <div className={styles.field}>
+            <label htmlFor="email">
+              <span>Email</span>
+              <input
+                min="3"
+                max="255"
+                value={email}
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                  localStorage.setItem('email', event.target.value);
+                }}
+                type="email"
+                placeholder="Your e-mail"
+                required
+                name="email"
+              />
+            </label>
+          </div>
+          <div className={styles.field}>
+            <label htmlFor="password">
+              <span>Password (minimum 8 characters)</span>
+              <input
+                name="password"
+                min="8"
+                max="255"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                required
+                type="password"
+                placeholder="Your password"
+              />
+            </label>
+            <label
+              htmlFor="confirm_password"
+              className={sharedStyles.marginTopSm}
+            >
+              <span>Confirm Password</span>
+              <input
+                name="confirm_password"
+                min="8"
+                max="255"
+                value={confirmPassword}
+                onChange={(event) => setConfirmPassword(event.target.value)}
+                required
+                type="password"
+                placeholder="Confirm password"
+              />
+            </label>
+          </div>
+          <div className={styles.field}>
+            <label htmlFor="tos" className={styles.checkbox}>
+              <input
+                name="tos"
+                required
+                type="checkbox"
+                checked={tos}
+                onChange={(event) => {
+                  setTos(event.target.checked);
+                  localStorage.setItem('tos', event.target.checked.toString());
+                }}
+              />{' '}
+              I agree to the{' '}
+              <a
+                rel="noreferrer"
+                target="_blank"
+                href="https://alemayhu.notion.site/Terms-of-services-931865161517453b99fb6495e400061d"
+              >
+                terms of service
+              </a>{' '}
+              and have read the{' '}
+              <a
+                rel="noreferrer"
+                target="_blank"
+                href="https://alemayhu.notion.site/Privacy-38c6e8238ac04ea9b2485bf488909fd0"
+              >
+                privacy policy
+              </a>
+              .
+            </label>
+          </div>
+          <div className={styles.field}>
+            <button
+              type="submit"
+              className={styles.submitButton}
+              disabled={!isValid() || loading}
+            >
+              Create my account
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
 

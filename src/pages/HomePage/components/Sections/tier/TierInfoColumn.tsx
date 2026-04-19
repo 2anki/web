@@ -1,3 +1,5 @@
+import styles from '../../../../../styles/shared.module.css';
+
 interface TierInfoColumnProps {
   title: string;
   description: string;
@@ -7,14 +9,17 @@ interface TierInfoColumnProps {
   };
 }
 
-export function TierInfoColumn({ title, description, action }: Readonly<TierInfoColumnProps>) {
+export function TierInfoColumn({
+  title,
+  description,
+  action,
+}: Readonly<TierInfoColumnProps>) {
   return (
-    <div
-      className="tier-column one-third has-border-light box is-justify-content-space-around is-flex is-flex-direction-column mx-4">
-      <h1 className="tier-title is-4">{title}</h1>
+    <div className={styles.sectionCard}>
+      <h1 className={styles.sectionTitle}>{title}</h1>
       <p>{description}</p>
-      {action && <a className="is-text is-link" href={action.link}>{action.text}</a>}
-      {!action && <p className="tier-title is-4">FREE</p>}
+      {action && <a href={action.link}>{action.text}</a>}
+      {!action && <p className={styles.sectionTitle}>FREE</p>}
     </div>
   );
 }

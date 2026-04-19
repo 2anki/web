@@ -9,7 +9,9 @@ export interface NotionData {
   error?: Error;
 }
 
-export default function useNotionData(backend: Backend): NotionData {
+export default function useNotionData(
+  backend: Backend
+): NotionData & { refetch: () => void } {
   const [state, setState] = useState<NotionData>(() => ({
     loading: true,
     workSpace: localStorage.getItem('__workspace'),
@@ -44,5 +46,8 @@ export default function useNotionData(backend: Backend): NotionData {
     }
   }, [state.loading]);
 
-  return state;
+  const refetch = () =>
+    setState((prev) => ({ ...prev, loading: true, error: undefined }));
+
+  return { ...state, refetch };
 }

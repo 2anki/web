@@ -5,6 +5,37 @@ interface ClientSideOptions {
   redirect?: boolean;
 }
 
+// Pages reachable without a session. A 401 fired from any of these
+// shouldn't bounce the user to /login — the page itself works for
+// anons, so a background 401 is fine to swallow.
+const NON_AUTH_PATHS = [
+  '/',
+  '/login',
+  '/register',
+  '/forgot',
+  '/users/r/',
+  '/upload',
+  '/pricing',
+  '/about',
+  '/contact',
+  '/documentation',
+  '/debug',
+  '/successful-checkout',
+];
+
+function isNonAuthPath(pathname: string): boolean {
+  return NON_AUTH_PATHS.some((prefix) => {
+    if (prefix === '/') return pathname === '/';
+    return pathname === prefix || pathname.startsWith(`${prefix}/`);
+  });
+}
+
+function redirectToLogin() {
+  const currentPath = globalThis.location?.pathname ?? '';
+  if (isNonAuthPath(currentPath)) return;
+  globalThis.location.href = '/login';
+}
+
 export const getLoginURL = (baseURL: string) => `${baseURL}users/login`;
 
 export const post = async (url: string, body: unknown) =>
@@ -32,7 +63,7 @@ export const get = async (
 
   if (!response.ok) {
     if (response.status === UNAUTHORIZED) {
-      window.location.href = '/login';
+      redirectToLogin();
       return undefined;
     }
     if (response.status === NOT_FOUND) {

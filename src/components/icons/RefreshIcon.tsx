@@ -6,7 +6,8 @@ interface IconProps {
 export default function RefreshIcon({ width = 20, height = 20 }: IconProps) {
   return (
     <svg
-      style={{ width, height }}
+      width={width}
+      height={height}
       fill="currentColor"
       viewBox="0 0 20 20"
       xmlns="http://www.w3.org/2000/svg"

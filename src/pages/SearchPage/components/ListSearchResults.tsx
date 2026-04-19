@@ -1,40 +1,80 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useMemo } from 'react';
 import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
 import NotionObject from '../../../lib/interfaces/NotionObject';
 import SearchObjectEntry from './SearchObjectEntry';
+import styles from '../../../styles/shared.module.css';
 
 interface ListSearchResultsProps {
   results: NotionObject[];
   setFavorites: Dispatch<SetStateAction<NotionObject[]>>;
   handleEmpty?: boolean;
   setError: ErrorHandlerType;
+  searchQuery?: string;
+  workSpace?: string | null;
+}
+
+function relevanceRank(title: string, query: string): number {
+  const normalizedTitle = title.trim().toLowerCase();
+  const normalizedQuery = query.trim().toLowerCase();
+  if (!normalizedQuery) return 3;
+  if (normalizedTitle === normalizedQuery) return 0;
+  if (normalizedTitle.startsWith(normalizedQuery)) return 1;
+  if (normalizedTitle.includes(normalizedQuery)) return 2;
+  return 3;
 }
 
 export default function ListSearchResults(
   props: ListSearchResultsProps
 ): React.ReactNode {
-  const { results, handleEmpty, setFavorites, setError } = props;
-  const isEmpty = results.length < 1;
+  const {
+    results,
+    handleEmpty = true,
+    setFavorites,
+    setError,
+    searchQuery,
+    workSpace,
+  } = props;
+
+  const orderedResults = useMemo(() => {
+    if (!searchQuery?.trim()) return results;
+    return results
+      .map((item, index) => ({
+        item,
+        rank: relevanceRank(item.title, searchQuery),
+        index,
+      }))
+      .sort((a, b) => a.rank - b.rank || a.index - b.index)
+      .map((entry) => entry.item);
+  }, [results, searchQuery]);
+
+  const isEmpty = orderedResults.length < 1;
 
   if (isEmpty && handleEmpty) {
+    const scope = workSpace ? `in “${workSpace}”` : 'in your Notion workspace';
+    const headline = searchQuery
+      ? `No pages match “${searchQuery}” ${scope}`
+      : `No pages found ${scope}`;
     return (
-      <div className="column is-main-content has-text-centered">
-        <div className="subtitle my-4">
-          No search results, try typing something above 👌🏾 Also ensure you{' '}
+      <div className={styles.emptyState}>
+        <p>{headline}</p>
+        <p className={styles.secondaryText}>
+          Try a different search term, or make sure the page is shared with
+          the 2anki integration — see{' '}
           <a
             target="_blank"
             rel="noreferrer"
             href="https://www.notion.so/help/guides/understanding-notions-sharing-settings"
           >
-            understand notions sharing settings
+            Notion's sharing settings
           </a>
-        </div>
+          .
+        </p>
       </div>
     );
   }
   return (
     <>
-      {results.map((p) => (
+      {orderedResults.map((p) => (
         <SearchObjectEntry
           setError={setError}
           setFavorites={setFavorites}
@@ -50,7 +90,3 @@ export default function ListSearchResults(
     </>
   );
 }
-
-ListSearchResults.defaultProps = {
-  handleEmpty: true,
-};

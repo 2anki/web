@@ -1,6 +1,6 @@
-import { PageContainer } from '../../../components/styled';
 import Backend from '../../../lib/backend';
-import LoadingIndicator from '../../../components/Loading';
+import { SkeletonList } from '../../../components/Skeleton/Skeleton';
+import styles from '../../../styles/shared.module.css';
 
 import FavoritesPresenter from './FavoritesPresenter';
 import useFavorites from '../helpers/useFavorites';
@@ -17,7 +17,6 @@ export default function FavoritesContainer({
   backend,
 }: FavoritesContentProps) {
   const { loading, favorites, setFavorites, error } = useFavorites(backend);
-  if (loading) return <LoadingIndicator />;
 
   if (error) {
     redirectOnError(error);
@@ -25,12 +24,22 @@ export default function FavoritesContainer({
   }
 
   return (
-    <PageContainer>
-      <FavoritesPresenter
-        favorites={favorites}
-        setFavorites={setFavorites}
-        setError={setError}
-      />
-    </PageContainer>
+    <div className={styles.page}>
+      <header className={styles.pageHeader}>
+        <h1 className={styles.title}>Favorites</h1>
+        <p className={styles.subtitle}>
+          Pages you&apos;ve starred for quick access.
+        </p>
+      </header>
+      {loading ? (
+        <SkeletonList count={5} />
+      ) : (
+        <FavoritesPresenter
+          favorites={favorites}
+          setFavorites={setFavorites}
+          setError={setError}
+        />
+      )}
+    </div>
   );
 }

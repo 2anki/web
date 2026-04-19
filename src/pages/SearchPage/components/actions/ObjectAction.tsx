@@ -1,21 +1,44 @@
-/* eslint-disable react/require-default-props */
 import { MouseEventHandler } from 'react';
-import { ObjectIconAction } from '../SearchObjectEntry/styled';
+import styles from '../SearchObjectEntry/SearchObjectEntry.module.css';
 
 export interface ObjectActionProps {
   url: string;
   image: string;
+  label: string;
   onClick?: MouseEventHandler;
+  disabled?: boolean;
 }
 
 export default function ObjectAction({
   url,
   image,
+  label,
   onClick,
-}: ObjectActionProps) {
+  disabled = false,
+}: Readonly<ObjectActionProps>) {
   return (
-    <a href={url} target="_blank" rel="noreferrer" onClick={onClick}>
-      <ObjectIconAction alt="Page action" width="32px" src={image} />
+    <a
+      href={url}
+      target="_blank"
+      rel="noreferrer"
+      onClick={(event) => {
+        if (disabled) {
+          event.preventDefault();
+          return;
+        }
+        onClick?.(event);
+      }}
+      aria-label={label}
+      title={label}
+      aria-disabled={disabled || undefined}
+      className={disabled ? styles.actionDisabled : undefined}
+    >
+      <img
+        className={styles.objectIconAction}
+        alt=""
+        width="32"
+        src={image}
+      />
     </a>
   );
 }

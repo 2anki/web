@@ -1,16 +1,15 @@
 import { Dispatch, SetStateAction, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-import DefineRules from '../DefineRules';
-
-import ObjectActions from '../actions/ObjectActions';
 import ObjectAction from '../actions/ObjectAction';
-import { Entry, ObjectMeta } from './styled';
 import DotsHorizontal from '../../../../components/icons/DotsHorizontal';
+import EyeIcon from '../../../../components/icons/EyeIcon';
 import NotionObject from '../../../../lib/interfaces/NotionObject';
 import { OK } from '../../../../lib/backend/http';
 import { BlockIcon } from '../BlockIcon';
 import { ErrorHandlerType } from '../../../../components/errors/helpers/getErrorMessage';
 import { get2ankiApi } from '../../../../lib/backend/get2ankiApi';
+import styles from './SearchObjectEntry.module.css';
 
 interface Props {
   isFavorite: boolean | undefined;
@@ -34,65 +33,86 @@ const getType = (data: string | { object: string }): string | null => {
   return typeof data === 'string' ? data : null;
 };
 
-function SearchObjectEntry(props: Props) {
-  const { title, icon, url, id, type, isFavorite, setFavorites, setError } =
-    props;
-  const [showSettings, setShowSettings] = useState(false);
+function SearchObjectEntry(props: Readonly<Props>) {
+  const { title, icon, url, id, type, setError } = props;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [converting, setConverting] = useState(false);
+
+  const openRules = () => {
+    const params = new URLSearchParams();
+    params.set('title', title);
+    const resolvedType = getType(type);
+    if (resolvedType) params.set('type', resolvedType);
+    params.set('returnTo', `${location.pathname}${location.search}`);
+    navigate(`/rules/${encodeURIComponent(id)}?${params.toString()}`);
+  };
+
+  const handleConvert = (event: React.MouseEvent) => {
+    event.preventDefault();
+    if (converting) return;
+    setConverting(true);
+    get2ankiApi()
+      .convert(id, getType(type), title)
+      .then((response) => {
+        if (response.status === OK) {
+          window.location.href = '/downloads';
+        } else {
+          setConverting(false);
+          response.text().then(setError);
+        }
+      })
+      .catch((error) => {
+        setConverting(false);
+        setError(error);
+      });
+  };
 
   return (
-    <>
-      <Entry data-hj-suppress>
-        <ObjectMeta>
-          <BlockIcon icon={icon} />
-          <span className="subtitle is-6">{title}</span>
-        </ObjectMeta>
-        <ObjectActions>
-          <ObjectAction
-            url={url}
-            image="/icons/Anki_app_logo.png"
-            onClick={(event) => {
-              event.preventDefault();
-              get2ankiApi()
-                .convert(id, getType(type), title)
-                .then((response) => {
-                  if (response.status === OK) {
-                    window.location.href = '/uploads';
-                  } else {
-                    response.text().then(setError);
-                  }
-                })
-                .catch((error) => {
-                  setError(error);
-                });
-            }}
-          />
-          <ObjectAction url={url} image="/icons/Notion_app_logo.png" />
-          <div
-            role="button"
-            tabIndex={-1}
-            onClick={() => setShowSettings(!showSettings)}
-            onKeyDown={(event) => {
-              if (event.key === 'F1') {
-                setShowSettings(!showSettings);
-              }
-            }}
-          >
-            <DotsHorizontal width={32} height={32} />
-          </div>
-        </ObjectActions>
-      </Entry>
-      {showSettings && (
-        <DefineRules
-          setError={setError}
-          type={getType(type)}
-          isFavorite={isFavorite}
-          setFavorites={setFavorites}
-          parent={title}
-          id={id}
-          setDone={() => setShowSettings(false)}
+    <div className={styles.entry} data-hj-suppress>
+      <div className={styles.objectMeta}>
+        <BlockIcon icon={icon} />
+        <span>{title}</span>
+      </div>
+      <div className={styles.objectActions}>
+        {converting && (
+          <output className={styles.convertingBadge}>
+            Starting conversion…
+          </output>
+        )}
+        <ObjectAction
+          url={url}
+          image="/icons/Anki_app_logo.png"
+          label={converting ? `Converting ${title}…` : `Convert ${title} to Anki`}
+          onClick={handleConvert}
+          disabled={converting}
         />
-      )}
-    </>
+        <ObjectAction
+          url={url}
+          image="/icons/Notion_app_logo.png"
+          label={`Open ${title} in Notion`}
+        />
+        {getType(type) !== 'database' && (
+          <Link
+            to={`/preview/${encodeURIComponent(id)}`}
+            className={styles.rulesButton}
+            aria-label={`Preview ${title}`}
+            title={`Preview ${title}`}
+          >
+            <EyeIcon width={32} height={32} />
+          </Link>
+        )}
+        <button
+          type="button"
+          className={styles.rulesButton}
+          onClick={openRules}
+          aria-label={`Configure rules for ${title}`}
+          title={`Configure rules for ${title}`}
+        >
+          <DotsHorizontal width={32} height={32} />
+        </button>
+      </div>
+    </div>
   );
 }
 

@@ -1,17 +1,26 @@
 import { test, expect } from '@playwright/test';
 
 test('homepage has correct title and hero text', async ({ page }) => {
+  await page.route('**/api/users/debug/locals**', (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        locals: { owner: null, patreon: false, subscriber: false },
+        features: {},
+      }),
+    })
+  );
+
   await page.goto('/');
 
   // Check title
   await expect(page).toHaveTitle(/2anki/);
 
-  // Check hero section is present
-  const heroSection = page.locator('.hero');
-  await expect(heroSection).toBeVisible();
-
-  // Check that the hero section contains the key text elements
-  await expect(heroSection).toContainText('Create');
-  await expect(heroSection).toContainText('Anki flashcards');
-  await expect(heroSection).toContainText('fast');
+  // Check that the hero heading is present
+  const heroHeading = page.locator('h1');
+  await expect(heroHeading).toBeVisible();
+  await expect(heroHeading).toContainText('Create');
+  await expect(heroHeading).toContainText('Anki flashcards');
+  await expect(heroHeading).toContainText('fast');
 });

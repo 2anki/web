@@ -1,6 +1,10 @@
 import React, { ChangeEvent, useEffect } from 'react';
 import { useEmailLinking } from '../hooks/useEmailLinking';
 import { useSubscriptionCancellation } from '../hooks/useSubscriptionCancellation';
+import { useStripeSubscriptions } from '../../../lib/hooks/useStripeSubscriptions';
+import { StripeSubscriptionSummary } from '../../../lib/backend/getSubscriptionStatus';
+import styles from '../AccountPage.module.css';
+import sharedStyles from '../../../styles/shared.module.css';
 
 interface User {
   email: string;
@@ -23,6 +27,25 @@ interface SubscriptionManagementProps {
   readonly onRefetch: () => Promise<any>;
 }
 
+const formatDate = (seconds: number | null): string => {
+  if (!seconds) return 'an unknown date';
+  return new Date(seconds * 1000).toLocaleDateString(undefined, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+
+const formatPlan = (sub: StripeSubscriptionSummary): string | null => {
+  const plan = sub.plan;
+  if (!plan || plan.amount == null || !plan.currency) return null;
+  const price = (plan.amount / 100).toLocaleString(undefined, {
+    style: 'currency',
+    currency: plan.currency.toUpperCase(),
+  });
+  return plan.interval ? `${price} / ${plan.interval}` : price;
+};
+
 export function SubscriptionManagement({
   user,
   locals,
@@ -38,8 +61,18 @@ export function SubscriptionManagement({
     performLinkEmail,
   } = useEmailLinking(onRefetch);
 
-  const { cancelUserSubscription, isCancelling } =
-    useSubscriptionCancellation(onRefetch);
+  const stripeStatus = useStripeSubscriptions(Boolean(locals?.subscriber));
+
+  const refetchAll = async () => {
+    await Promise.all([onRefetch(), stripeStatus.refetch()]);
+  };
+
+  const {
+    cancelUserSubscription,
+    isCancelling,
+    cancelError,
+    cancelSuccess,
+  } = useSubscriptionCancellation(refetchAll);
 
   useEffect(() => {
     if (locals?.subscriptionInfo?.linked_email) {
@@ -61,94 +94,160 @@ export function SubscriptionManagement({
     return null;
   }
 
+  const { view } = stripeStatus;
+
   return (
-    <div className="box mt-5">
-      <h3 className="title is-5">Subscription Management</h3>
-      <div className="content">
-        {locals?.subscriber && (
-          <div className="mb-4">
-            <p className="mb-3">
-              Manage your active subscription. You can cancel anytime and will
-              retain access until the end of your current billing period.
-            </p>
-            <button
-              type="button"
-              className={`button is-danger ${isCancelling ? 'is-loading' : ''}`}
-              onClick={cancelUserSubscription}
-              disabled={isCancelling}
-            >
-              Cancel Subscription
-            </button>
-          </div>
-        )}
-
-        <div className="content mt-4">
-          <p>
-            <strong>Need help?</strong>
-          </p>
-          <ul>
-            <li>
-              Email us at{' '}
-              <a href="mailto:support@2anki.net">support@2anki.net</a>
-            </li>
-          </ul>
-        </div>
-
-        {locals?.subscriber && (
-          <div className="mt-5">
-            <h4 className="title is-6">Linked 2anki.net Email</h4>
-            {isEmailLinked ? (
-              <div className="notification is-success is-light">
-                <p>
-                  Your subscription is managed through your Stripe account at{' '}
-                  <strong>{locals.subscriptionInfo?.email}</strong>. You can:
+    <div className={styles.managementCard}>
+      <h3 className={styles.managementTitle}>Subscription Management</h3>
+      {locals?.subscriber && (
+        <div className={sharedStyles.marginBottomMd}>
+          {view.kind === 'active' && (
+            <div className={styles.activeBadge}>
+              Active — renews on{' '}
+              <strong>{formatDate(view.subscription.current_period_end)}</strong>
+              .
+              {formatPlan(view.subscription) && (
+                <p className={styles.planDetail}>
+                  {formatPlan(view.subscription)}
                 </p>
-                <ul className="mt-2">
-                  <li>Manage your subscription</li>
-                  <li>Update payment details</li>
-                  <li>Cancel your subscription</li>
-                </ul>
-              </div>
-            ) : (
-              <div>
-                <div className="field">
-                  <label className="label" htmlFor="subscription-email">
-                    Subscription Email
-                  </label>
-                  <div className={`control ${isLinking ? 'is-loading' : ''}`}>
-                    <input
-                      id="subscription-email"
-                      value={linkEmail}
-                      onChange={onChangeLinkEmail}
-                      className={`input ${linkError ? 'is-danger' : ''} ${
-                        linkSuccess ? 'is-success' : ''
-                      }`}
-                      type="email"
-                      placeholder="Enter subscription email"
-                      disabled={isEmailLinked}
-                    />
-                  </div>
-                  {linkError && <p className="help is-danger">{linkError}</p>}
-                  {linkSuccess && (
-                    <p className="help is-success">
-                      Email linked successfully!
-                    </p>
-                  )}
-                </div>
+              )}
+            </div>
+          )}
 
+          {view.kind === 'scheduled' && (
+            <div className={styles.scheduledBadge}>
+              Scheduled to cancel on{' '}
+              <strong>{formatDate(view.subscription.current_period_end)}</strong>
+              . You will keep access until then.
+              {formatPlan(view.subscription) && (
+                <p className={styles.planDetail}>
+                  {formatPlan(view.subscription)}
+                </p>
+              )}
+            </div>
+          )}
+
+          {view.kind === 'cancelled' && (
+            <div className={styles.cancelledBadge}>
+              Cancelled on{' '}
+              <strong>{formatDate(view.subscription.canceled_at)}</strong>. Your
+              subscription is no longer active.
+              {formatPlan(view.subscription) && (
+                <p className={styles.planDetail}>
+                  Previous plan: {formatPlan(view.subscription)}
+                </p>
+              )}
+            </div>
+          )}
+
+          {view.kind === 'none' && stripeStatus.isLoading && (
+            <p className={sharedStyles.smallDescription}>
+              Loading subscription status…
+            </p>
+          )}
+
+          <div className={styles.buttonRow}>
+            {view.kind === 'active' && (
+              <>
                 <button
                   type="button"
-                  className={`button is-link ${isLinking ? 'is-loading' : ''}`}
-                  onClick={onLink}
-                  disabled={isEmailLinked || !linkEmail.trim()}
+                  className={styles.dangerButton}
+                  onClick={() => cancelUserSubscription('period_end')}
+                  disabled={isCancelling}
                 >
-                  Link Email
+                  {isCancelling
+                    ? 'Processing…'
+                    : 'Cancel at end of billing period'}
                 </button>
-              </div>
+                <button
+                  type="button"
+                  className={styles.dangerButton}
+                  onClick={() => cancelUserSubscription('immediate')}
+                  disabled={isCancelling}
+                >
+                  {isCancelling ? 'Processing…' : 'Cancel immediately'}
+                </button>
+              </>
+            )}
+            {view.kind === 'scheduled' && (
+              <button
+                type="button"
+                className={styles.dangerButton}
+                onClick={() => cancelUserSubscription('immediate')}
+                disabled={isCancelling}
+              >
+                {isCancelling ? 'Processing…' : 'Cancel immediately instead'}
+              </button>
             )}
           </div>
-        )}
+
+          {cancelError && (
+            <p className={styles.helpDanger}>{cancelError}</p>
+          )}
+          {cancelSuccess && (
+            <p className={styles.helpSuccess}>{cancelSuccess}</p>
+          )}
+        </div>
+      )}
+
+      <div className={sharedStyles.marginTopMd}>
+        <p className={sharedStyles.smallDescription}>
+          <strong>Need help?</strong>
+        </p>
+        <ul className={sharedStyles.featureList}>
+          <li>
+            Email us at <a href="mailto:support@2anki.net">support@2anki.net</a>
+          </li>
+        </ul>
       </div>
+
+      {locals?.subscriber && (
+        <div className={sharedStyles.marginTopLg}>
+          <h4 className={sharedStyles.smallHeading}>Linked 2anki.net Email</h4>
+          {isEmailLinked ? (
+            <div className={styles.linkedEmail}>
+              <p>
+                Your subscription is managed through your Stripe account at{' '}
+                <strong>{locals.subscriptionInfo?.email}</strong>. You can:
+              </p>
+              <ul className={sharedStyles.featureList}>
+                <li>Manage your subscription</li>
+                <li>Update payment details</li>
+                <li>Cancel your subscription</li>
+              </ul>
+            </div>
+          ) : (
+            <div>
+              <div className={styles.field}>
+                <label htmlFor="subscription-email">Subscription Email</label>
+                <input
+                  id="subscription-email"
+                  value={linkEmail}
+                  onChange={onChangeLinkEmail}
+                  type="email"
+                  placeholder="Enter subscription email"
+                  disabled={isEmailLinked}
+                />
+                {linkError && <p className={styles.helpDanger}>{linkError}</p>}
+                {linkSuccess && (
+                  <p className={styles.helpSuccess}>
+                    Email linked successfully!
+                  </p>
+                )}
+              </div>
+
+              <button
+                type="button"
+                className={styles.planButton}
+                onClick={onLink}
+                disabled={isEmailLinked || !linkEmail.trim()}
+              >
+                {isLinking ? 'Linking...' : 'Link Email'}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

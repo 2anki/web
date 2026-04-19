@@ -1,34 +1,59 @@
 import { useEffect, useRef } from 'react';
 import { getDownloadFileName } from '../../DownloadsPage/helpers/getDownloadFileName';
+import formStyles from './UploadForm/UploadForm.module.css';
+import sharedStyles from '../../../styles/shared.module.css';
 
 interface Props {
   downloadLink: string | null | undefined;
   deckName: string | undefined;
   uploading: boolean;
+  cardCount?: number | null;
+}
+
+function getButtonLabel(uploading: boolean, isEmptyDeck: boolean): string {
+  if (uploading) return 'Converting...';
+  if (isEmptyDeck) return 'Download empty deck';
+  return 'Download';
 }
 
 function DownloadButton(props: Props) {
-  const { downloadLink, deckName, uploading } = props;
+  const { downloadLink, deckName, uploading, cardCount } = props;
   const isDownloadable = downloadLink && deckName;
   const downloadRef = useRef<HTMLAnchorElement>(null);
 
-  const className = `button cta
-              ${isDownloadable ? 'is-primary' : 'is-light'} 
-              ${uploading ? 'is-loading' : ''}`;
-
   const isReady = downloadLink && !uploading;
+  const isEmptyDeck = cardCount === 0;
 
   useEffect(() => {
-    if (isReady) {
+    if (isReady && !isEmptyDeck) {
       downloadRef.current?.click();
     }
-  }, [isReady, downloadRef]);
+  }, [isReady, isEmptyDeck, downloadRef]);
+
+  if (!isDownloadable && !uploading) {
+    return null;
+  }
 
   return (
-    <div>
+    <div className={formStyles.downloadWrapper}>
+      {isReady && isEmptyDeck && (
+        <div className={sharedStyles.alertDanger}>
+          <p>
+            <strong>Your deck was created but contains no cards.</strong>{' '}
+            Check that your Notion page uses toggle blocks, or adjust your
+            conversion rules and try again.
+          </p>
+          <p className={sharedStyles.smallDescription}>
+            You can still download the empty deck below if you want to inspect
+            it.
+          </p>
+        </div>
+      )}
       <button
         type="button"
-        className={className}
+        className={`${formStyles.downloadButton} ${
+          isReady ? formStyles.downloadButtonReady : ''
+        }`}
         onClick={(event) => {
           if (!isDownloadable) {
             event?.preventDefault();
@@ -37,7 +62,7 @@ function DownloadButton(props: Props) {
         }}
         disabled={!isDownloadable}
       >
-        Download
+        {getButtonLabel(uploading, isEmptyDeck)}
       </button>
       {downloadLink && (
         <a

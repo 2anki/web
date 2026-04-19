@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getVisibleText } from '../../../lib/text/getVisibleText';
 import Backend from '../../../lib/backend';
 import NavbarItem from '../NavbarItem';
-import { getSearchPath } from './getSearchPath';
 import { useUserLocals } from '../../../lib/hooks/useUserLocals';
+import { useFavoritesCount } from '../../../lib/hooks/useFavoritesCount';
+import styles from '../NavigationBar.module.css';
 
 export default function useNavbarEnd(path: string, backend: Backend) {
   const [isActive, setIsActive] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   const onLogOut = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     event.preventDefault();
+    const confirmed = globalThis.confirm('Are you sure you want to log out?');
+    if (!confirmed) return;
     backend.logout();
   };
 
@@ -16,75 +21,101 @@ export default function useNavbarEnd(path: string, backend: Backend) {
   const isPaying = data?.locals?.patreon || data?.locals?.subscriber;
   const isLoggedIn = !!data?.user;
   const showKiLink = data?.features?.kiUI;
+  const favoritesCount = useFavoritesCount(isLoggedIn);
 
-  const toggleDropdown = () => setIsActive(!isActive);
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      toggleDropdown();
-    }
-  };
+  const toggleDropdown = () => setIsActive((prev) => !prev);
+  const closeDropdown = () => setIsActive(false);
+
+  useEffect(() => {
+    if (!isActive) return;
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsActive(false);
+      }
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsActive(false);
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isActive]);
 
   return (
-    <div className="navbar-end">
+    <div className={styles.navEnd}>
       {showKiLink && (
         <NavbarItem href="/ki" path={path}>
           KI 🧪
         </NavbarItem>
       )}
+      <NavbarItem href="/upload" path={path}>
+        {getVisibleText('navigation.upload')}
+      </NavbarItem>
+      {isLoggedIn && (
+        <NavbarItem href="/notion" path={path}>
+          {getVisibleText('navigation.search')}
+        </NavbarItem>
+      )}
+      <NavbarItem href="/downloads" path={path}>
+        {getVisibleText('navigation.uploads')}
+      </NavbarItem>
       {!isLoading && !isPaying && (
         <NavbarItem href="/pricing" path={path}>
           {getVisibleText('navigation.pricing')}
         </NavbarItem>
       )}
-      <NavbarItem href="/marketplace" path={path}>
-        Marketplace
-      </NavbarItem>
-      <NavbarItem href="https://templates.2anki.net" path={path}>
-        Templates
-      </NavbarItem>
-      <NavbarItem href="/upload" path={path}>
-        {getVisibleText('navigation.upload')}
-      </NavbarItem>
-      <NavbarItem href="/uploads" path={path}>
-        {getVisibleText('navigation.uploads')}
-      </NavbarItem>
-      <NavbarItem href={getSearchPath('anki')} path={path}>
-        {getVisibleText('navigation.search')}
-      </NavbarItem>
       {isLoggedIn && (
-        <div
-          className={`navbar-item has-dropdown ${isActive ? 'is-active' : ''}`}
-        >
+        <div className={styles.dropdown} id="navbar-user-menu" ref={dropdownRef}>
           <button
             onClick={toggleDropdown}
-            onKeyDown={handleKeyDown}
-            className="navbar-link button is-ghost"
+            className={styles.dropdownToggle}
             aria-haspopup="true"
-            aria-controls="dropdown-menu"
+            aria-expanded={isActive}
+            aria-controls="navbar-user-menu"
+            aria-label="Account menu"
             type="button"
           >
-            <figure className="image is-32x32">
-              <img
-                className="is-rounded"
-                src={
-                  data?.user?.picture ??
-                  `https://www.gravatar.com/avatar/${
-                    data?.user?.email ?? ''
-                  }?s=32&d=mp`
-                }
-                alt="User avatar"
-              />
-            </figure>
+            <span className={styles.dropdownToggleText}>⋯</span>
           </button>
-          <div className="navbar-dropdown is-right">
-            <NavbarItem href="/account" path={path}>
+          <div
+            className={`${styles.dropdownMenu} ${
+              isActive ? styles.dropdownMenuActive : ''
+            }`}
+          >
+            {favoritesCount > 0 && (
+              <NavbarItem
+                href="/favorites"
+                path={path}
+                onClick={closeDropdown}
+              >
+                {getVisibleText('navigation.favorites')}
+              </NavbarItem>
+            )}
+            <NavbarItem
+              href="/documentation"
+              path={path}
+              onClick={closeDropdown}
+            >
+              {getVisibleText('navigation.documentation')}
+            </NavbarItem>
+            <NavbarItem href="/contact" path={path} onClick={closeDropdown}>
+              {getVisibleText('navigation.contact')}
+            </NavbarItem>
+            <hr className={styles.dropdownDivider} />
+            <NavbarItem href="/account" path={path} onClick={closeDropdown}>
               Account
             </NavbarItem>
-            <NavbarItem href="/favorites" path={path}>
-              {getVisibleText('navigation.favorites')}
-            </NavbarItem>
-            <hr className="navbar-divider" />
-            <a className="navbar-item" href="/users/logout" onClick={onLogOut}>
+            <a
+              className={styles.dropdownItem}
+              href="/users/logout"
+              onClick={onLogOut}
+            >
               {getVisibleText('navigation.logout')}
             </a>
           </div>

@@ -1,36 +1,38 @@
 import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
-import { PageContainer } from '../../../components/styled';
 import Backend from '../../../lib/backend';
 
-import { NotionData } from '../helpers/useNotionData';
 import useSearchQuery from '../helpers/useSearchQuery';
 import SearchPresenter from './SearchPresenter';
-import WorkSpaceHeader from './WorkspaceHeader';
 
 interface SearchContainerProps {
-  notionData: NotionData;
   backend: Backend;
   setError: ErrorHandlerType;
+  workSpace: string | null;
 }
 
 export default function SearchContainer({
-  notionData,
   backend,
   setError,
+  workSpace,
 }: SearchContainerProps) {
-  const { myPages, inProgress, triggerSearch, isLoading, setSearchQuery } =
-    useSearchQuery(backend, setError);
+  const {
+    myPages,
+    inProgress,
+    triggerSearch,
+    isLoading,
+    setSearchQuery,
+    searchQuery,
+  } = useSearchQuery(backend, setError);
 
   return (
-    <PageContainer>
-      <WorkSpaceHeader notionData={notionData} />
-      <SearchPresenter
-        setError={setError}
-        myPages={myPages}
-        inProgress={isLoading || inProgress}
-        setSearchQuery={setSearchQuery}
-        triggerSearch={triggerSearch}
-      />
-    </PageContainer>
+    <SearchPresenter
+      setError={setError}
+      myPages={myPages}
+      inProgress={isLoading || inProgress}
+      setSearchQuery={setSearchQuery}
+      searchQuery={searchQuery}
+      triggerSearch={triggerSearch}
+      workSpace={workSpace}
+    />
   );
 }

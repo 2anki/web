@@ -1,7 +1,6 @@
-import React from 'react';
 import NavbarItem from '../NavbarItem';
 import { getVisibleText } from '../../../lib/text/getVisibleText';
-import { LoginButton } from './LoginButton';
+import styles from '../NavigationBar.module.css';
 
 interface RightSideProps {
   path: string;
@@ -9,22 +8,16 @@ interface RightSideProps {
 
 export function RightSide({ path }: Readonly<RightSideProps>) {
   return (
-    <div className="navbar-end">
-      <NavbarItem href="/marketplace" path={path}>
-        Marketplace
-      </NavbarItem>
-      <NavbarItem href="https://templates.2anki.net" path={path}>
-        Templates
-      </NavbarItem>
-      <NavbarItem href="/contact" path={path}>
-        {getVisibleText('navigation.contact')}
+    <div className={styles.navEnd}>
+      <NavbarItem href="/upload" path={path}>
+        {getVisibleText('navigation.upload')}
       </NavbarItem>
       <NavbarItem path="pricing" href="/pricing">
         {getVisibleText('navigation.pricing')}
       </NavbarItem>
-      <LoginButton className="button has-text-white m-2" href="/login#login">
+      <a className={styles.loginButton} href="/login#login">
         {getVisibleText('navigation.login')}
-      </LoginButton>
+      </a>
     </div>
   );
 }

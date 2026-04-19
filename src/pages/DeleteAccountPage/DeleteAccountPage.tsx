@@ -1,11 +1,11 @@
 import React from 'react';
 
 import Cookies from 'universal-cookie';
-import { UploadContainer } from '../UploadPage/styled';
-import { Layout } from '../../components/Layout/styled';
 import { redirectToFrontPage } from '../../lib/redirects';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
 import { get2ankiApi } from '../../lib/backend/get2ankiApi';
+import styles from '../AccountPage/AccountPage.module.css';
+import sharedStyles from '../../styles/shared.module.css';
 
 interface Prop {
   setError: ErrorHandlerType;
@@ -36,42 +36,48 @@ export function DeleteAccountPage({ setError }: Prop) {
   };
 
   return (
-    <Layout>
-      <UploadContainer>
-        <div className="content">
-          <h1>Delete Account</h1>
-          <p>Are you sure you want to delete your account?</p>
-          <p>
-            This action is irreversible and will also cancel any active
-            subscriptions.
-          </p>
+    <div className={styles.page}>
+      <header className={sharedStyles.pageHeader}>
+        <h1 className={sharedStyles.title}>Delete account</h1>
+        <p className={sharedStyles.subtitle}>
+          This action is irreversible and will cancel any active subscriptions.
+        </p>
+      </header>
+      <div className={styles.mainCard}>
+        <p
+          className={`${sharedStyles.smallDescription} ${sharedStyles.marginBottomLg}`}
+        >
+          Are you sure you want to delete your account? All of your uploads,
+          favorites, and preferences will be removed.
+        </p>
 
-          {isDeleting && (
-            <div className="notification is-info">
-              <p>Deleting your account and cancelling subscriptions...</p>
-              <progress className="progress is-primary" max="100">
-                Deleting...
-              </progress>
-            </div>
-          )}
+        {isDeleting && (
+          <div className={sharedStyles.infoBox}>
+            Deleting your account and cancelling subscriptions...
+          </div>
+        )}
 
-          <button
-            onClick={handleDelete}
-            className={`button is-small is-danger ${
-              isDeleting ? 'is-loading' : ''
-            }`}
-            type="button"
-            disabled={isDeleting}
+        <button
+          onClick={handleDelete}
+          className={styles.dangerButton}
+          type="button"
+          disabled={isDeleting}
+        >
+          {isDeleting ? 'Deleting...' : deleteButtonText}
+        </button>
+        <p
+          className={`${sharedStyles.smallDescription} ${sharedStyles.marginTopLg} ${sharedStyles.wordBreak}`}
+        >
+          Also disconnect it from Notion:{' '}
+          <a
+            href="https://www.notion.so/help/add-and-manage-integrations-with-the-api"
+            target="_blank"
+            rel="noreferrer"
           >
-            {deleteButtonText}
-          </button>
-          <p className="is-wrap">
-            {' '}
-            Also disconnect it from Notion:
             https://www.notion.so/help/add-and-manage-integrations-with-the-api
-          </p>
-        </div>
-      </UploadContainer>
-    </Layout>
+          </a>
+        </p>
+      </div>
+    </div>
   );
 }

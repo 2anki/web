@@ -1,7 +1,7 @@
-import { Entry, ObjectActions, ObjectMeta, UploadTitle } from './styled';
 import { DeleteButton } from './ListJobs/DeleteButton';
-import { ObjectIconAction } from '../../SearchPage/components/SearchObjectEntry/styled';
 import { getDownloadFileName } from '../helpers/getDownloadFileName';
+import styles from './UploadObjectEntry.module.css';
+import entryStyles from '../../SearchPage/components/SearchObjectEntry/SearchObjectEntry.module.css';
 
 interface Props {
   title: string;
@@ -10,35 +10,36 @@ interface Props {
 }
 
 export default function UploadObjectEntry({
-                                            title,
-                                            url,
-                                            deleteUpload
-                                          }: Props) {
+  title,
+  url,
+  deleteUpload,
+}: Readonly<Props>) {
   return (
-    <Entry>
-      <ObjectMeta>
+    <div className={styles.entry}>
+      <div className={styles.objectMeta}>
         <DeleteButton onDelete={deleteUpload} />
         <div />
-        <UploadTitle
+        <span
+          className={styles.uploadTitle}
           data-hj-suppress
-          className="subtitle ml-2 is-6"
           dangerouslySetInnerHTML={{ __html: title }}
         />
-      </ObjectMeta>
-      <ObjectActions>
+      </div>
+      <div className={styles.objectActions}>
         <a
           download={getDownloadFileName(title)}
           href={url}
           target="_blank"
           rel="noreferrer"
         >
-          <ObjectIconAction
+          <img
+            className={entryStyles.objectIconAction}
             alt="Page action"
-            width="32px"
+            width="32"
             src="/icons/Anki_app_logo.png"
           />
         </a>
-      </ObjectActions>
-    </Entry>
+      </div>
+    </div>
   );
 }

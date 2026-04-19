@@ -1,13 +1,12 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { lazy, useState } from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { lazy, ReactElement, useState } from 'react';
 
 import { useCookies, CookiesProvider } from 'react-cookie';
 import UploadPage from './pages/UploadPage';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage/AboutPage';
 
-import Footer from './components/Footer';
 import isOfflineMode from './lib/isOfflineMode';
 import DebugPage from './pages/DebugPage';
 import { ContactPage } from './pages/ContactPage/ContactPage';
@@ -17,6 +16,7 @@ import DeleteAccountPage from './pages/DeleteAccountPage';
 import { getErrorMessage } from './components/errors/helpers/getErrorMessage';
 import { sendError } from './lib/SendError';
 import { useUserLocals } from './lib/hooks/useUserLocals';
+import { SkeletonPage } from './components/Skeleton/Skeleton';
 import NotFoundPage from './pages/NotFoundPage';
 
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
@@ -30,9 +30,31 @@ const AccountPage = lazy(() => import('./pages/AccountPage/AccountPage'));
 const SuccessfulCheckoutPage = lazy(
   () => import('./pages/SuccessfulCheckout/SuccessfulCheckout')
 );
-const MarketplacePage = lazy(() => import('./pages/MarketplacePage'));
+const DocsPage = lazy(() => import('./pages/DocsPage/DocsPage'));
+const CardOptionsPage = lazy(() => import('./pages/CardOptionsPage'));
+const RulesPage = lazy(() => import('./pages/RulesPage'));
+const PreviewPage = lazy(() => import('./pages/PreviewPage'));
+const PreviewApkgPage = lazy(() => import('./pages/PreviewApkgPage'));
 
 const queryClient = new QueryClient();
+
+function RequireAuth({
+  isLoggedIn,
+  isLoading,
+  children,
+}: Readonly<{
+  isLoggedIn: boolean;
+  isLoading: boolean;
+  children: ReactElement;
+}>) {
+  if (isLoading) {
+    return <SkeletonPage />;
+  }
+  if (!isLoggedIn) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+}
 
 function AppContent({
   error,
@@ -43,20 +65,36 @@ function AppContent({
   setErrorMessage: (error: unknown) => void;
 }>) {
   const { data, isLoading } = useUserLocals();
-  const isLoggedIn = !isLoading && !!data?.user?.id;
+  const isLoggedIn = isLoading ? undefined : !!data?.user?.id;
+  const isLoggedInResolved = isLoggedIn === true;
   const isPaying =
     !isLoading && (!!data?.locals?.patreon || !!data?.locals?.subscriber);
+
+  const requireAuth = (element: ReactElement) => (
+    <RequireAuth isLoggedIn={isLoggedInResolved} isLoading={isLoading}>
+      {element}
+    </RequireAuth>
+  );
+
   return (
     <BrowserRouter>
       <PageLayout error={error} isLoggedIn={isLoggedIn} isPaying={isPaying}>
         <Routes>
           <Route
             path="/favorites"
-            element={<FavoritesPage setError={setErrorMessage} />}
+            element={requireAuth(
+              <FavoritesPage setError={setErrorMessage} />
+            )}
+          />
+          <Route
+            path="/downloads"
+            element={requireAuth(
+              <DownloadsPage setError={setErrorMessage} />
+            )}
           />
           <Route
             path="/uploads"
-            element={<DownloadsPage setError={setErrorMessage} />}
+            element={<Navigate to="/downloads" replace />}
           />
           <Route
             path="/upload"
@@ -67,8 +105,14 @@ function AppContent({
             element={<RegisterPage setErrorMessage={setErrorMessage} />}
           />
           <Route
+            path="/notion"
+            element={requireAuth(
+              <SearchPage setError={setErrorMessage} />
+            )}
+          />
+          <Route
             path="/search"
-            element={<SearchPage setError={setErrorMessage} />}
+            element={<Navigate to="/notion" replace />}
           />
           <Route path="/login" element={<LoginPage />} />
           <Route
@@ -83,18 +127,20 @@ function AppContent({
           <Route path="/contact" element={<ContactPage />} />
           <Route
             path="/delete-account"
-            element={<DeleteAccountPage setError={setErrorMessage} />}
+            element={requireAuth(
+              <DeleteAccountPage setError={setErrorMessage} />
+            )}
           />
           <Route
             path="/pricing"
-            element={<PricingPage isLoggedIn={isLoggedIn} />}
+            element={<PricingPage isLoggedIn={isLoggedInResolved} />}
           />
           <Route
             path="/"
             element={
               <HomePage
                 setErrorMessage={setErrorMessage}
-                isLoggedIn={isLoggedIn}
+                isLoggedIn={isLoggedInResolved}
               />
             }
           />
@@ -102,13 +148,37 @@ function AppContent({
             path="/successful-checkout"
             element={<SuccessfulCheckoutPage />}
           />
-          <Route path="/account" element={<AccountPage />} />
-          <Route path="/settings" element={<AccountPage />} />
+          <Route path="/account" element={requireAuth(<AccountPage />)} />
+          <Route path="/settings" element={requireAuth(<AccountPage />)} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/marketplace" element={<MarketplacePage />} />
+          <Route path="/documentation" element={<DocsPage />} />
+          <Route path="/documentation/*" element={<DocsPage />} />
+          <Route
+            path="/settings/card-options"
+            element={requireAuth(
+              <CardOptionsPage setErrorMessage={setErrorMessage} />
+            )}
+          />
+          <Route
+            path="/rules/:id"
+            element={requireAuth(
+              <RulesPage setErrorMessage={setErrorMessage} />
+            )}
+          />
+          <Route
+            path="/preview/:id"
+            element={requireAuth(
+              <PreviewPage setError={setErrorMessage} />
+            )}
+          />
+          <Route
+            path="/preview/apkg/:key"
+            element={requireAuth(
+              <PreviewApkgPage setError={setErrorMessage} />
+            )}
+          />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
-        <Footer />
       </PageLayout>
     </BrowserRouter>
   );

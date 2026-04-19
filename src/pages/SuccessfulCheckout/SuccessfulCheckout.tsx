@@ -1,20 +1,19 @@
 import Confetti from 'react-confetti';
 
-import { Container } from '../../components/styled';
+import styles from '../../styles/shared.module.css';
 import { useSubscriptionStatus } from './hooks/useSubscriptionStatus';
 import { LoadingState } from './components/LoadingState';
 import { SuccessContent } from './components/SuccessContent';
 
 export default function SuccessfulCheckout() {
-  const { shouldShowLoading, timeoutReached } =
-    useSubscriptionStatus();
+  const { shouldShowLoading, timeoutReached } = useSubscriptionStatus();
 
   if (shouldShowLoading) {
     return <LoadingState />;
   }
 
   return (
-    <Container className="content">
+    <div className={styles.pageNarrow}>
       <SuccessContent timeoutReached={timeoutReached} />
 
       <Confetti
@@ -23,6 +22,6 @@ export default function SuccessfulCheckout() {
         gravity={0.05}
         recycle={false}
       />
-    </Container>
+    </div>
   );
 }

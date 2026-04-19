@@ -11,20 +11,36 @@ interface SubscriptionStatus {
   };
 }
 
-const fetchSubscriptionStatus = async (): Promise<SubscriptionStatus> => {
-  const response = await fetch('/api/stripe/subscription-status', {
+const fetchSubscriptionStatus = async (
+  sessionId: string | null
+): Promise<SubscriptionStatus> => {
+  const url = sessionId
+    ? `/api/stripe/subscription-status?session_id=${encodeURIComponent(
+        sessionId
+      )}`
+    : '/api/stripe/subscription-status';
+  const response = await fetch(url, {
     credentials: 'include',
   });
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error(
+      `Subscription status check failed (${response.status}): ${body}`
+    );
+  }
   return response.json();
 };
 
 export const useSubscriptionStatus = () => {
   const [shouldPoll, setShouldPoll] = useState(true);
   const [timeoutReached, setTimeoutReached] = useState(false);
+  const sessionId = new URLSearchParams(globalThis.location.search).get(
+    'session_id'
+  );
 
   const query = useQuery({
-    queryKey: ['subscription-status'],
-    queryFn: fetchSubscriptionStatus,
+    queryKey: ['subscription-status', sessionId],
+    queryFn: () => fetchSubscriptionStatus(sessionId),
     refetchInterval: shouldPoll ? 2000 : false,
     retry: 3,
     retryDelay: 1000,
@@ -41,17 +57,21 @@ export const useSubscriptionStatus = () => {
 
   useEffect(() => {
     if (query.data) {
-      // Stop polling if user is not authenticated
       if (!query.data.authenticated) {
         setShouldPoll(false);
       }
 
-      // Redirect if user has active subscription
-      if (query.data.hasActiveSubscription) {
-        globalThis.location.href = '/search';
+      if (
+        query.data.hasActiveSubscription ||
+        (query.data.authenticated && timeoutReached)
+      ) {
+        const destination = query.data.authenticated
+          ? '/account?subscribed=1'
+          : '/notion';
+        globalThis.location.href = destination;
       }
     }
-  }, [query.data]);
+  }, [query.data, timeoutReached]);
 
   return {
     ...query,

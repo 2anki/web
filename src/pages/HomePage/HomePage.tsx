@@ -1,12 +1,12 @@
+import { Navigate } from 'react-router-dom';
 import HeroSection from './components/Sections/hero';
-import { HomeContainer } from '../../components/styled';
 import UploadForm from '../UploadPage/components/UploadForm/UploadForm';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
-import { FormSection } from './components/Sections/hero/styled';
+import heroStyles from './components/Sections/hero/Hero.module.css';
 import { useSettingsCardsOptions } from '../../components/modals/SettingsModal/useSettingsCardsOptions';
 import { HomePageAnonHeader } from './components/HomePageAnonHeader';
-import { HomePageLoggedInHeader } from './components/HomePageLoggedInHeader';
 import { VideosAndDocs } from './components/VideosAndDocs';
+import styles from '../../styles/shared.module.css';
 
 interface HomePageProps {
   setErrorMessage: ErrorHandlerType;
@@ -14,24 +14,26 @@ interface HomePageProps {
 }
 
 export function HomePage({
-                           setErrorMessage,
-                           isLoggedIn
-                         }: Readonly<HomePageProps>) {
-  // Load the default settings cards options for backend compatibility
+  setErrorMessage,
+  isLoggedIn,
+}: Readonly<HomePageProps>) {
   useSettingsCardsOptions(null);
 
+  if (isLoggedIn) {
+    return <Navigate to="/upload" replace />;
+  }
+
   return (
-    <HomeContainer>
+    <div>
       <HeroSection />
-      <FormSection>
+      <div className={heroStyles.formSection}>
         <UploadForm setErrorMessage={setErrorMessage} />
-      </FormSection>
-      <div className="container content">
-        {!isLoggedIn && <HomePageAnonHeader />}
-        {isLoggedIn && <HomePageLoggedInHeader />}
+      </div>
+      <div className={styles.contentSection}>
+        <HomePageAnonHeader />
         <VideosAndDocs />
         <p>Happy learning!</p>
       </div>
-    </HomeContainer>
+    </div>
   );
 }

@@ -1,3 +1,5 @@
+import styles from '../styles/shared.module.css';
+
 interface SelectOption {
   value: string;
   label: string;
@@ -12,29 +14,26 @@ interface TemplateSelectPicker {
 }
 
 function TemplateSelect({
-                          name,
-                          value,
-                          pickedTemplate,
-                          values,
-                          className
-                        }: TemplateSelectPicker) {
+  name,
+  value,
+  pickedTemplate,
+  values,
+  className,
+}: TemplateSelectPicker) {
   return (
-    <div className={`${className ?? ''} field`}>
-      <div className="control">
-        <div className="select">
-          <select
-            name={name}
-            value={value}
-            onChange={(event) => pickedTemplate(event.target.value)}
-          >
-            {values.map((v) => (
-              <option key={v.value} value={v.value}>
-                {v.label}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
+    <div className={className ?? ''}>
+      <select
+        className={styles.select}
+        name={name}
+        value={value}
+        onChange={(event) => pickedTemplate(event.target.value)}
+      >
+        {values.map((v) => (
+          <option key={v.value} value={v.value}>
+            {v.label}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }
