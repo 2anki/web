@@ -91,15 +91,30 @@ export function CardStyleRow({
     onStyleChange(nextId, next?.name ?? '');
   };
 
+  const effectiveStyleId = isMissing ? DEFAULT_STYLE_ID : styleId;
+  const summaryLabel =
+    selected?.name ??
+    BUILTIN_STYLES.find((s) => s.id === effectiveStyleId)?.label ??
+    'Default';
+
   return (
-    <div className={styles.row}>
-      <span className={styles.heading}>{KIND_LABEL[kind]}</span>
-      <div className={styles.controls}>
+    <details className={styles.row}>
+      <summary className={styles.summary}>
+        <span className={styles.chevron} aria-hidden="true">
+          ›
+        </span>
+        <span className={styles.heading}>{KIND_LABEL[kind]}</span>
+        <span className={styles.summaryValue} data-hj-suppress>
+          {summaryLabel}
+          {name ? ` · ${name}` : ''}
+        </span>
+      </summary>
+      <div className={styles.body}>
         <label className={styles.control}>
-          <span className={styles.srOnly}>{KIND_LABEL[kind]}</span>
+          <span className={styles.fieldLabel}>Style</span>
           <select
             className={styles.select}
-            value={isMissing ? DEFAULT_STYLE_ID : styleId}
+            value={effectiveStyleId}
             onChange={handleSelect}
           >
             <optgroup label="Built-in">
@@ -130,7 +145,7 @@ export function CardStyleRow({
         </label>
 
         <label className={styles.control}>
-          <span className={styles.secondaryLabel}>Name in Anki</span>
+          <span className={styles.fieldLabel}>Name in Anki</span>
           <input
             type="text"
             className={styles.input}
@@ -144,18 +159,19 @@ export function CardStyleRow({
             name.
           </span>
         </label>
+
+        {isMissing && (
+          <p className={styles.warning} role="alert">
+            ⚠ &quot;{styleId}&quot; no longer exists — using Default. Pick
+            another above.
+          </p>
+        )}
+        {duplicateName && (
+          <p className={styles.warning} role="alert">
+            ⚠ Each kind needs a unique name in Anki.
+          </p>
+        )}
       </div>
-      {isMissing && (
-        <p className={styles.warning} role="alert">
-          ⚠ &quot;{styleId}&quot; no longer exists — using Default. Pick another
-          above.
-        </p>
-      )}
-      {duplicateName && (
-        <p className={styles.warning} role="alert">
-          ⚠ Each kind needs a unique name in Anki.
-        </p>
-      )}
-    </div>
+    </details>
   );
 }
