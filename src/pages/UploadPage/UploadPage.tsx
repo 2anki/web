@@ -40,16 +40,14 @@ export function UploadPage({ setErrorMessage }: Props) {
       {isDevelopment ? <WarningMessage /> : null}
       <header className={`${styles.pageHeader} ${styles.flexBetween}`}>
         <h1 className={styles.title}>{getVisibleText('upload.page.title')}</h1>
-        {fileInteracted && (
-          <Link
-            className={styles.secondaryText}
-            to="?view=template"
-            onClick={() => setShowCardOptionsModal(true)}
-            aria-label="Card and deck options"
-          >
-            <SettingsIcon />
-          </Link>
-        )}
+        <Link
+          className={styles.secondaryText}
+          to="?view=template"
+          onClick={() => setShowCardOptionsModal(true)}
+          aria-label="Card and deck options"
+        >
+          <SettingsIcon />
+        </Link>
       </header>
       <UploadForm
         setErrorMessage={setErrorMessage}
