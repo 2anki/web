@@ -111,7 +111,7 @@ function UploadForm({
       }
       if (request.status === 202) {
         setUploading(false);
-        globalThis.location.href = '/uploads';
+        globalThis.location.href = '/downloads';
         return true;
       }
       if (request.status !== 200) {

@@ -62,7 +62,7 @@ export default function useNavbarEnd(path: string, backend: Backend) {
           {getVisibleText('navigation.search')}
         </NavbarItem>
       )}
-      <NavbarItem href="/uploads" path={path}>
+      <NavbarItem href="/downloads" path={path}>
         {getVisibleText('navigation.uploads')}
       </NavbarItem>
       {!isLoading && !isPaying && (

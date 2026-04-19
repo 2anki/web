@@ -86,10 +86,14 @@ function AppContent({
             )}
           />
           <Route
-            path="/uploads"
+            path="/downloads"
             element={requireAuth(
               <DownloadsPage setError={setErrorMessage} />
             )}
+          />
+          <Route
+            path="/uploads"
+            element={<Navigate to="/downloads" replace />}
           />
           <Route
             path="/upload"
