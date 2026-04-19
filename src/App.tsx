@@ -63,12 +63,13 @@ function AppContent({
   setErrorMessage: (error: unknown) => void;
 }>) {
   const { data, isLoading } = useUserLocals();
-  const isLoggedIn = !isLoading && !!data?.user?.id;
+  const isLoggedIn = isLoading ? undefined : !!data?.user?.id;
+  const isLoggedInResolved = isLoggedIn === true;
   const isPaying =
     !isLoading && (!!data?.locals?.patreon || !!data?.locals?.subscriber);
 
   const requireAuth = (element: ReactElement) => (
-    <RequireAuth isLoggedIn={isLoggedIn} isLoading={isLoading}>
+    <RequireAuth isLoggedIn={isLoggedInResolved} isLoading={isLoading}>
       {element}
     </RequireAuth>
   );
@@ -122,14 +123,14 @@ function AppContent({
           />
           <Route
             path="/pricing"
-            element={<PricingPage isLoggedIn={isLoggedIn} />}
+            element={<PricingPage isLoggedIn={isLoggedInResolved} />}
           />
           <Route
             path="/"
             element={
               <HomePage
                 setErrorMessage={setErrorMessage}
-                isLoggedIn={isLoggedIn}
+                isLoggedIn={isLoggedInResolved}
               />
             }
           />
