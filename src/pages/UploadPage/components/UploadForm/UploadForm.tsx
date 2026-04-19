@@ -53,9 +53,22 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
         return true;
       }
       if (request.status !== 200) {
-        const text = await request.text();
+        const fallback =
+          'The server rejected the upload. Please try again or contact support@2anki.net.';
+        let message = fallback;
+        try {
+          const body = await request.clone().json();
+          if (typeof body?.message === 'string' && body.message.trim().length > 0) {
+            message = body.message;
+          }
+        } catch {
+          const text = await request.text().catch(() => '');
+          if (text && text.length > 0 && text.length < 500 && !text.startsWith('<')) {
+            message = text;
+          }
+        }
         setDownloadLink(null);
-        return setErrorMessage(text);
+        return setErrorMessage(new Error(message));
       }
       const fileNameHeader = getHeadersFilename(request.headers);
       const fallback =
@@ -73,7 +86,15 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
       setUploading(false);
     } catch (error) {
       setDownloadLink(null);
-      setErrorMessage(error as Error);
+      const isNetworkError =
+        error instanceof TypeError ||
+        (error instanceof Error && /fetch|network/i.test(error.message));
+      const friendly = isNetworkError
+        ? new Error(
+            "We couldn't upload your file. Please check your connection and try again."
+          )
+        : (error as Error);
+      setErrorMessage(friendly);
       setUploading(false);
       return false;
     }
