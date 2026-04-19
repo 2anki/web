@@ -1,8 +1,9 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, Suspense, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ErrorPresenter } from '../errors/ErrorPresenter';
 import NavigationBar from '../NavigationBar/NavigationBar';
 import Footer from '../Footer';
+import { SkeletonList } from '../Skeleton/Skeleton';
 import sharedStyles from '../../styles/shared.module.css';
 import styles from './Layout.module.css';
 
@@ -56,7 +57,9 @@ export function PageLayout({
         </div>
       )}
       {error && <ErrorPresenter error={error} />}
-      <main className={sharedStyles.flexGrow}>{children}</main>
+      <main className={sharedStyles.flexGrow}>
+        <Suspense fallback={<SkeletonList count={5} />}>{children}</Suspense>
+      </main>
       <Footer />
     </div>
   );
