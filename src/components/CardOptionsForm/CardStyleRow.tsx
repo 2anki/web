@@ -4,7 +4,24 @@ import { NoteBaseType } from '../../pages/TemplatesPage/types/NoteBaseType';
 import { TemplateProject } from '../../pages/TemplatesPage/types/AnkiNoteType';
 import styles from './CardStyleRow.module.css';
 
-export const DEFAULT_STYLE_ID = 'default';
+export const DEFAULT_STYLE_ID = 'specialstyle';
+
+// Legacy built-in render styles bundled in the 2anki/templates repo.
+// Kept in the dropdown for backwards compatibility with users who
+// already rely on them.
+export const BUILTIN_STYLES: ReadonlyArray<{ id: string; label: string }> = [
+  { id: 'specialstyle', label: 'Default' },
+  { id: 'notionstyle', label: 'Only Notion' },
+  { id: 'nostyle', label: 'Raw Note (no style)' },
+  { id: 'abhiyan', label: 'Abhiyan Bhandari (Night Mode)' },
+  { id: 'alex_deluxe', label: 'Alexander Deluxe (Blue)' },
+];
+
+const BUILTIN_IDS = new Set(BUILTIN_STYLES.map((s) => s.id));
+
+export function isBuiltinStyleId(id: string): boolean {
+  return BUILTIN_IDS.has(id);
+}
 
 const KIND_LABEL: Record<Kind, string> = {
   basic: 'Basic card style',
@@ -62,12 +79,12 @@ export function CardStyleRow({
   const options = matchingTemplates(kind, templates);
   const selected = options.find((t) => t.id === styleId);
   const isMissing =
-    styleId !== DEFAULT_STYLE_ID && !selected;
+    !isBuiltinStyleId(styleId) && !selected;
 
   const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
     const nextId = event.target.value;
-    if (nextId === DEFAULT_STYLE_ID) {
-      onStyleChange(DEFAULT_STYLE_ID, '');
+    if (isBuiltinStyleId(nextId)) {
+      onStyleChange(nextId, '');
       return;
     }
     const next = options.find((t) => t.id === nextId);
@@ -85,12 +102,22 @@ export function CardStyleRow({
             value={isMissing ? DEFAULT_STYLE_ID : styleId}
             onChange={handleSelect}
           >
-            <option value={DEFAULT_STYLE_ID}>Default</option>
-            {options.map((t) => (
-              <option key={t.id} value={t.id}>
-                {t.name}
-              </option>
-            ))}
+            <optgroup label="Built-in">
+              {BUILTIN_STYLES.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.label}
+                </option>
+              ))}
+            </optgroup>
+            {options.length > 0 && (
+              <optgroup label="My card styles">
+                {options.map((t) => (
+                  <option key={t.id} value={t.id}>
+                    {t.name}
+                  </option>
+                ))}
+              </optgroup>
+            )}
           </select>
           {options.length === 0 && (
             <span className={styles.hint}>
