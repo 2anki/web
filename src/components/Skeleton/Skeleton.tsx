@@ -70,8 +70,8 @@ interface SkeletonPageProps {
 
 export function SkeletonPage({ rows = 5 }: Readonly<SkeletonPageProps>) {
   return (
-    <div className={styles.pageShell} role="status" aria-label="Loading">
-      <div className={styles.pageHeader}>
+    <div className={styles.pageShell}>
+      <div className={styles.pageHeader} aria-hidden="true">
         <Skeleton width="40%" height="2rem" />
         <Skeleton width="60%" height="1rem" />
       </div>
