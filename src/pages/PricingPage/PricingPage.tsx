@@ -11,7 +11,9 @@ interface PricingPageProps {
 export default function PricingPage({
   isLoggedIn,
 }: Readonly<PricingPageProps>) {
-  const subcribeLink = isLoggedIn ? getSubscribeLink() : '/login';
+  const subcribeLink = isLoggedIn
+    ? getSubscribeLink()
+    : '/login?redirect=/pricing';
   const lifetimeLink = getLifetimeLink();
 
   return (

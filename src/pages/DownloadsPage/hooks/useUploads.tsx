@@ -8,6 +8,7 @@ interface UseUploads {
   loading: boolean;
   uploads: UserUpload[] | undefined;
   deleteUpload: (key: string) => Promise<void>;
+  refreshUploads: () => Promise<void>;
 }
 
 export default function useUploads(backend: Backend): UseUploads {
@@ -15,6 +16,22 @@ export default function useUploads(backend: Backend): UseUploads {
   const [error, setError] = useState<unknown>(null);
   const [loading, setLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const fetchUploads = async () => {
+    try {
+      return await backend.getUploads();
+    } catch (fetchError) {
+      setError(fetchError);
+    }
+    return undefined;
+  };
+
+  const refreshUploads = async () => {
+    const data = await fetchUploads();
+    if (data) {
+      setUploads(data);
+    }
+  };
   const deleteUpload = async (key: string) => {
     if (isDeleting) {
       return;
@@ -31,15 +48,6 @@ export default function useUploads(backend: Backend): UseUploads {
   };
 
   useEffect(() => {
-    async function fetchUploads() {
-      try {
-        return await backend.getUploads();
-      } catch (fetchError) {
-        setError(fetchError);
-      }
-      return undefined;
-    }
-
     fetchUploads().then((data) => {
       setUploads(data);
       setLoading(false);
@@ -54,6 +62,7 @@ export default function useUploads(backend: Backend): UseUploads {
     }, 10000);
 
     return () => clearInterval(intervalId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [backend]);
 
   return {
@@ -61,5 +70,6 @@ export default function useUploads(backend: Backend): UseUploads {
     loading,
     uploads,
     error,
+    refreshUploads,
   };
 }

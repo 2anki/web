@@ -1,10 +1,10 @@
+import { Navigate } from 'react-router-dom';
 import HeroSection from './components/Sections/hero';
 import UploadForm from '../UploadPage/components/UploadForm/UploadForm';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
 import heroStyles from './components/Sections/hero/Hero.module.css';
 import { useSettingsCardsOptions } from '../../components/modals/SettingsModal/useSettingsCardsOptions';
 import { HomePageAnonHeader } from './components/HomePageAnonHeader';
-import { HomePageLoggedInHeader } from './components/HomePageLoggedInHeader';
 import { VideosAndDocs } from './components/VideosAndDocs';
 import styles from '../../styles/shared.module.css';
 
@@ -19,6 +19,10 @@ export function HomePage({
 }: Readonly<HomePageProps>) {
   useSettingsCardsOptions(null);
 
+  if (isLoggedIn) {
+    return <Navigate to="/upload" replace />;
+  }
+
   return (
     <div>
       <HeroSection />
@@ -26,8 +30,7 @@ export function HomePage({
         <UploadForm setErrorMessage={setErrorMessage} />
       </div>
       <div className={styles.contentSection}>
-        {!isLoggedIn && <HomePageAnonHeader />}
-        {isLoggedIn && <HomePageLoggedInHeader />}
+        <HomePageAnonHeader />
         <VideosAndDocs />
         <p>Happy learning!</p>
       </div>

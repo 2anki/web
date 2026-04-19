@@ -32,6 +32,7 @@ interface Props {
   onReset?: () => void;
   setError: ErrorHandlerType;
   hideActions?: boolean;
+  layout?: 'stack' | 'grid';
 }
 
 export interface CardOptionsFormHandle {
@@ -81,6 +82,7 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
       onReset,
       setError,
       hideActions = false,
+      layout = 'stack',
     }: Readonly<Props>,
     ref
   ) {
@@ -337,8 +339,11 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
       );
     }
 
+    const formClassName =
+      layout === 'grid' ? fieldStyles.formGrid : fieldStyles.form;
+
     return (
-      <div className={fieldStyles.form}>
+      <div className={formClassName}>
         <div className={fieldStyles.section}>
           <label htmlFor="deck-name" className={fieldStyles.sectionLabel}>
             Deck Name
@@ -383,7 +388,7 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
           />
         </div>
 
-        <div className={fieldStyles.section}>
+        <div className={`${fieldStyles.section} ${fieldStyles.fullRow}`}>
           <p className={fieldStyles.sectionHint}>
             <strong>How toggles become cards:</strong> each toggle&apos;s header
             is the front of a card, and its contents become the back. A toggle
@@ -448,7 +453,7 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
           </details>
         </div>
 
-        <div className={fieldStyles.section}>
+        <div className={`${fieldStyles.section} ${fieldStyles.fullRow}`}>
           <h3 className={fieldStyles.templateHeading}>Template Options</h3>
           <TemplateSelect
             values={availableTemplates}
@@ -500,7 +505,7 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
         />
 
         {!hideActions && (
-          <div className={fieldStyles.actions}>
+          <div className={`${fieldStyles.actions} ${fieldStyles.fullRow}`}>
             <button
               type="button"
               className={`${sharedStyles.btnPrimary} ${fieldStyles.actionButton}`}

@@ -65,7 +65,10 @@ export const useSubscriptionStatus = () => {
         query.data.hasActiveSubscription ||
         (query.data.authenticated && timeoutReached)
       ) {
-        globalThis.location.href = '/search';
+        const destination = query.data.authenticated
+          ? '/account?subscribed=1'
+          : '/search';
+        globalThis.location.href = destination;
       }
     }
   }, [query.data, timeoutReached]);

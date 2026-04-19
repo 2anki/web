@@ -20,9 +20,12 @@ export function UploadPage({ setErrorMessage }: Props) {
   const query = useQuery();
   const view = query.get('view');
 
+  const forceCardOptionsOpen =
+    view === 'template' || view === 'deck-options' || view === 'card-options';
   const [showCardOptionsModal, setShowCardOptionsModal] = useState(
-    view === 'template' || view === 'deck-options' || view === 'card-options'
+    forceCardOptionsOpen
   );
+  const [fileInteracted, setFileInteracted] = useState(forceCardOptionsOpen);
 
   const readableSupportedFiles = getAcceptedContentTypes()
     .split(',')
@@ -37,16 +40,21 @@ export function UploadPage({ setErrorMessage }: Props) {
       {isDevelopment ? <WarningMessage /> : null}
       <header className={`${styles.pageHeader} ${styles.flexBetween}`}>
         <h1 className={styles.title}>{getVisibleText('upload.page.title')}</h1>
-        <Link
-          className={styles.secondaryText}
-          to="?view=template"
-          onClick={() => setShowCardOptionsModal(true)}
-          aria-label="Card and deck options"
-        >
-          <SettingsIcon />
-        </Link>
+        {fileInteracted && (
+          <Link
+            className={styles.secondaryText}
+            to="?view=template"
+            onClick={() => setShowCardOptionsModal(true)}
+            aria-label="Card and deck options"
+          >
+            <SettingsIcon />
+          </Link>
+        )}
       </header>
-      <UploadForm setErrorMessage={setErrorMessage} />
+      <UploadForm
+        setErrorMessage={setErrorMessage}
+        onFileSelected={() => setFileInteracted(true)}
+      />
       <p>The following files are supported: {readableSupportedFiles}</p>
       <p className={styles.smallDescription}>
         All files uploaded here are automatically deleted after 2 hours.

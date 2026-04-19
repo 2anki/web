@@ -10,6 +10,7 @@ import styles from '../../../../styles/shared.module.css';
 
 interface UploadFormProps {
   setErrorMessage: ErrorHandlerType;
+  onFileSelected?: () => void;
 }
 
 const REJECTED_FALLBACK =
@@ -73,7 +74,10 @@ function resolveDeckName(headers: Headers): string {
   return fileNameHeader ?? fallback;
 }
 
-function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
+function UploadForm({
+  setErrorMessage,
+  onFileSelected,
+}: Readonly<UploadFormProps>) {
   const [uploading, setUploading] = useState(false);
   const [downloadLink, setDownloadLink] = useState<null | string>('');
   const [deckName, setDeckName] = useState('');
@@ -86,6 +90,7 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
       const { dataTransfer } = event;
       if (dataTransfer && dataTransfer.files.length > 0) {
         fileInputRef.current!.files = dataTransfer.files;
+        onFileSelected?.();
         convertRef.current?.click();
       }
       event.preventDefault();
@@ -153,7 +158,10 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
           accept={getAcceptedContentTypes()}
           required
           multiple
-          onChange={() => convertRef.current?.click()}
+          onChange={() => {
+            onFileSelected?.();
+            convertRef.current?.click();
+          }}
         />
       </label>
       <DownloadButton
