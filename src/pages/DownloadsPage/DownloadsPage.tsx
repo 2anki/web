@@ -45,10 +45,6 @@ export function DownloadsPage({ setError }: DownloadsPageProps) {
     return null;
   }
 
-  if (loading) {
-    return <LoadingIndicator />;
-  }
-
   return (
     <div className={styles.page}>
       <div className={styles.header}>
@@ -62,7 +58,7 @@ export function DownloadsPage({ setError }: DownloadsPageProps) {
           type="button"
           className={styles.refreshButton}
           onClick={handleRefresh}
-          disabled={refreshing}
+          disabled={refreshing || loading}
           aria-label="Refresh downloads"
         >
           <i className="fa-solid fa-arrows-rotate" aria-hidden="true" />
@@ -70,32 +66,46 @@ export function DownloadsPage({ setError }: DownloadsPageProps) {
         </button>
       </div>
 
-      <EmptyDownloadsSection hasActiveJobs={unfinishedJob} uploads={uploads} />
-
-      {unfinishedJob && (
-        <div className={styles.section}>
-          <UnfinishedJobsInfo />
-          <Index
-            restartJob={restartJob}
-            jobs={activeJobs}
-            deleteJob={(id) => deleteJob(id)}
-            refreshJobs={refreshJobs}
+      {loading ? (
+        <LoadingIndicator />
+      ) : (
+        <>
+          <EmptyDownloadsSection
+            hasActiveJobs={unfinishedJob}
+            uploads={uploads}
           />
-        </div>
-      )}
 
-      {failedJobs.length > 0 && (
-        <div className={styles.section}>
-          <Index
-            restartJob={restartJob}
-            jobs={failedJobs}
-            deleteJob={(id) => deleteJob(id)}
-            refreshJobs={refreshJobs}
+          {unfinishedJob && (
+            <div className={styles.section}>
+              <UnfinishedJobsInfo />
+              <Index
+                restartJob={restartJob}
+                jobs={activeJobs}
+                deleteJob={(id) => deleteJob(id)}
+                refreshJobs={refreshJobs}
+              />
+            </div>
+          )}
+
+          {failedJobs.length > 0 && (
+            <div className={styles.section}>
+              <Index
+                restartJob={restartJob}
+                jobs={failedJobs}
+                deleteJob={(id) => deleteJob(id)}
+                refreshJobs={refreshJobs}
+              />
+            </div>
+          )}
+
+          <FinishedJobs
+            uploads={uploads}
+            deleteUpload={deleteUpload}
+            doneJobs={doneJobs}
+            deleteJob={deleteJob}
           />
-        </div>
+        </>
       )}
-
-      <FinishedJobs uploads={uploads} deleteUpload={deleteUpload} doneJobs={doneJobs} deleteJob={deleteJob} />
     </div>
   );
 }
