@@ -5,6 +5,18 @@ interface ClientSideOptions {
   redirect?: boolean;
 }
 
+const AUTH_PATHS = ['/login', '/register', '/forgot', '/users/r/'];
+
+function redirectToLogin() {
+  const currentPath = globalThis.location?.pathname ?? '';
+  const alreadyOnAuthPage = AUTH_PATHS.some((prefix) =>
+    currentPath.startsWith(prefix)
+  );
+  if (!alreadyOnAuthPage) {
+    globalThis.location.href = '/login';
+  }
+}
+
 export const getLoginURL = (baseURL: string) => `${baseURL}users/login`;
 
 export const post = async (url: string, body: unknown) =>
@@ -32,7 +44,7 @@ export const get = async (
 
   if (!response.ok) {
     if (response.status === UNAUTHORIZED) {
-      window.location.href = '/login';
+      redirectToLogin();
       return undefined;
     }
     if (response.status === NOT_FOUND) {
