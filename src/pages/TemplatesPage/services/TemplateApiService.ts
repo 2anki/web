@@ -59,7 +59,14 @@ class TemplateApiService {
     const defaultTemplates = await this.fetchDefaultTemplates();
     const data = await this.loadServerData();
     const userTemplates = data.templates || [];
-    return [...defaultTemplates, ...userTemplates];
+    const seen = new Set<string>();
+    const merged: TemplateProject[] = [];
+    for (const item of [...defaultTemplates, ...userTemplates]) {
+      if (!item?.id || seen.has(item.id)) continue;
+      seen.add(item.id);
+      merged.push(item);
+    }
+    return merged;
   }
 
   private async fetchDefaultTemplates(): Promise<TemplateProject[]> {
@@ -84,16 +91,9 @@ class TemplateApiService {
   }
 
   async getSharedTemplates(): Promise<TemplateProject[]> {
-    try {
-      const response = await fetch(`${getBaseURL()}/api/templates/public`);
-      if (!response.ok) return [];
-      const all: TemplateProject[] = await response.json();
-      const defaults = await this.fetchDefaultTemplates();
-      const defaultIds = new Set(defaults.map((t) => t.id));
-      return all.filter((t) => !defaultIds.has(t.id));
-    } catch {
-      return [];
-    }
+    // The /api/templates/public marketplace endpoint is parked; return an
+    // empty list so the editor doesn't log 404s on every mount.
+    return [];
   }
 
   async saveTemplate(template: TemplateProject): Promise<void> {
