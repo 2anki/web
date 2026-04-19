@@ -31,7 +31,9 @@ export function SearchPage({ setError }: SearchPageProps) {
       </div>
     );
   } else if (notionData.error) {
-    content = <ErrorPresenter error={notionData.error} />;
+    content = (
+      <ErrorPresenter error={notionData.error} onRetry={notionData.refetch} />
+    );
   } else if (!notionData.connected) {
     content = (
       <ConnectNotion

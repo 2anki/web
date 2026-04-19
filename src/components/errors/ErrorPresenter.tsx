@@ -1,30 +1,48 @@
-import { getErrorMessage } from './helpers/getErrorMessage';
+import { classifyError } from './helpers/getErrorMessage';
 import { useDismissed } from './helpers/useDismissed';
 import styles from '../../styles/shared.module.css';
 
 interface ErrorPresenterProps {
   error: unknown;
+  onRetry?: () => void;
 }
 
-export function ErrorPresenter({ error }: ErrorPresenterProps) {
+export function ErrorPresenter({ error, onRetry }: ErrorPresenterProps) {
   const { dismissed, setDismissed } = useDismissed(error);
 
   if (!error || dismissed) {
     return null;
   }
 
+  const { title, detail } = classifyError(error);
+
   return (
     <article className={styles.alertInfo}>
       <div className={styles.modalBody}>
-        <div dangerouslySetInnerHTML={{ __html: getErrorMessage(error) }} />
+        <p>
+          <strong>{title}</strong>
+        </p>
+        {detail && <p className={styles.smallDescription}>{detail}</p>}
       </div>
       <div className={styles.modalFooter}>
+        {onRetry && (
+          <button
+            type="button"
+            className={styles.btnPrimary}
+            onClick={() => {
+              setDismissed(true);
+              onRetry();
+            }}
+          >
+            Try again
+          </button>
+        )}
         <button
           type="button"
           className={styles.btnSecondary}
           onClick={() => setDismissed(true)}
         >
-          Close
+          Dismiss
         </button>
       </div>
     </article>
