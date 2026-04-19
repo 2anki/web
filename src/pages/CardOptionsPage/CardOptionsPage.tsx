@@ -39,6 +39,7 @@ export default function CardOptionsPage({ setErrorMessage }: Readonly<Props>) {
           onSaved={goBack}
           onReset={goBack}
           setError={setErrorMessage}
+          layout="grid"
         />
       </div>
     </div>
