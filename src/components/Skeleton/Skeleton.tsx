@@ -56,11 +56,11 @@ export function SkeletonList({
   rowProps,
 }: Readonly<SkeletonListProps>) {
   return (
-    <div role="status" aria-label="Loading">
+    <output aria-label="Loading">
       {Array.from({ length: count }, (_, idx) => (
         <SkeletonRow key={idx} {...rowProps} />
       ))}
-    </div>
+    </output>
   );
 }
 
