@@ -35,6 +35,7 @@ const CardOptionsPage = lazy(() => import('./pages/CardOptionsPage'));
 const RulesPage = lazy(() => import('./pages/RulesPage'));
 const PreviewPage = lazy(() => import('./pages/PreviewPage'));
 const PreviewApkgPage = lazy(() => import('./pages/PreviewApkgPage'));
+const TemplatesPage = lazy(() => import('./pages/TemplatesPage'));
 
 const queryClient = new QueryClient();
 
@@ -176,6 +177,10 @@ function AppContent({
             element={requireAuth(
               <PreviewApkgPage setError={setErrorMessage} />
             )}
+          />
+          <Route
+            path="/templates"
+            element={requireAuth(<TemplatesPage />)}
           />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

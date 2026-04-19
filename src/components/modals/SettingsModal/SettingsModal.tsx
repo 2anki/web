@@ -23,9 +23,6 @@ function SettingsModal({
 }: Readonly<Props>) {
   const location = useLocation();
   const returnTo = `${location.pathname}${location.search}`;
-  const editTemplatesHref = import.meta.env.DEV
-    ? 'http://localhost:3001'
-    : 'https://templates.2anki.net';
 
   const params = new URLSearchParams();
   if (pageId) params.set('pageId', pageId);
@@ -47,14 +44,9 @@ function SettingsModal({
             {getVisibleText('card.options')}
           </div>
           <div className={styles.headerActions}>
-            <a
-              href={editTemplatesHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.openFullPage}
-            >
-              Edit Templates ↗
-            </a>
+            <Link to="/templates" className={styles.openFullPage}>
+              Edit Templates
+            </Link>
             <Link to={fullPageHref} className={styles.openFullPage}>
               Open full page ↗
             </Link>
