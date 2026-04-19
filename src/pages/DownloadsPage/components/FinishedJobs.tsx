@@ -5,6 +5,9 @@ import UserUpload from '../../../lib/interfaces/UserUpload';
 import { JobsId } from '../../../schemas/public/Jobs';
 import JobResponse from '../../../schemas/public/JobResponse';
 import { getDistance } from '../../../lib/getDistance';
+import DownloadIcon from '../../../components/icons/DownloadIcon';
+import EyeIcon from '../../../components/icons/EyeIcon';
+import TrashIcon from '../../../components/icons/TrashIcon';
 import styles from '../DownloadsPage.module.css';
 import sharedStyles from '../../../styles/shared.module.css';
 
@@ -76,18 +79,20 @@ export function FinishedJobs({ uploads, deleteUpload, doneJobs = [], deleteJob }
                       <button
                         type="button"
                         onClick={() => deleteJob(j.id)}
-                        className={styles.deleteButton}
+                        className={`${styles.iconButton} ${styles.iconButtonDanger}`}
+                        aria-label={`Delete ${j.title}`}
+                        title="Delete"
                       >
-                        <i className="fa-solid fa-trash" aria-hidden="true" />
-                        Delete
+                        <TrashIcon width={18} height={18} />
                       </button>
                     )}
                     <a
                       href={`/api/upload/jobs/${j.object_id}/download`}
-                      className={styles.downloadButton}
+                      className={styles.iconButton}
+                      aria-label={`Download ${j.title}`}
+                      title="Download"
                     >
-                      <i className="fa-solid fa-download" aria-hidden="true" />
-                      Download
+                      <DownloadIcon width={18} height={18} />
                     </a>
                   </div>
                 </td>
@@ -112,27 +117,30 @@ export function FinishedJobs({ uploads, deleteUpload, doneJobs = [], deleteJob }
                     <button
                       type="button"
                       onClick={() => handleDelete(u.key)}
-                      className={styles.deleteButton}
+                      className={`${styles.iconButton} ${styles.iconButtonDanger}`}
                       disabled={deletingKey === u.key}
+                      aria-label={`Delete ${u.filename}`}
+                      title={deletingKey === u.key ? 'Deleting…' : 'Delete'}
                     >
-                      <i className="fa-solid fa-trash" aria-hidden="true" />
-                      {deletingKey === u.key ? 'Deleting…' : 'Delete'}
+                      <TrashIcon width={18} height={18} />
                     </button>
                     {APKG_PATTERN.test(u.key) && (
                       <Link
                         to={`/preview/apkg/${encodeURIComponent(u.key)}`}
-                        className={styles.previewButton}
+                        className={styles.iconButton}
+                        aria-label={`Preview ${u.filename}`}
+                        title="Preview"
                       >
-                        <i className="fa-solid fa-eye" aria-hidden="true" />
-                        Preview
+                        <EyeIcon width={18} height={18} />
                       </Link>
                     )}
                     <a
                       href={`/api/download/u/${u.key}`}
-                      className={styles.downloadButton}
+                      className={styles.iconButton}
+                      aria-label={`Download ${u.filename}`}
+                      title="Download"
                     >
-                      <i className="fa-solid fa-download" aria-hidden="true" />
-                      Download
+                      <DownloadIcon width={18} height={18} />
                     </a>
                   </div>
                 </td>
