@@ -22,6 +22,10 @@ export default function ConnectNotion({ ready, connectionLink }: Props) {
         <a className={styles.btnPrimary} href={connectionLink}>
           Connect
         </a>
+        <p className={styles.smallDescription}>
+          We only read the pages you select. We don&apos;t store your Notion
+          content.
+        </p>
       </div>
       <div className={styles.sectionCard}>
         <h3 className={styles.sectionTitle}>Manual File Upload</h3>
