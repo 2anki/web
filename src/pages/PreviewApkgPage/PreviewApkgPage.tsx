@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ErrorPresenter } from '../../components/errors/ErrorPresenter';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
@@ -11,6 +11,11 @@ import {
 } from './useApkgPreviewStream';
 import { CardFrame } from './CardFrame';
 
+function indent(depth: number): string {
+  if (depth <= 0) return '';
+  return `${'\u00a0\u00a0'.repeat(depth)}↳ `;
+}
+
 interface PreviewApkgPageProps {
   setError: ErrorHandlerType;
 }
@@ -20,9 +25,10 @@ export default function PreviewApkgPage({
 }: Readonly<PreviewApkgPageProps>) {
   const { key } = useParams<{ key: string }>();
   const sentinelRef = useRef<HTMLDivElement>(null);
+  const [deckId, setDeckId] = useState<number | null>(null);
 
   const meta = useApkgPreviewMeta(key);
-  const stream = useApkgPreviewStream(key);
+  const stream = useApkgPreviewStream(key, deckId);
 
   useEffect(() => {
     const firstError = stream.error ?? meta.error;
@@ -79,8 +85,11 @@ export default function PreviewApkgPage({
     );
   }
 
-  const total = meta.data?.totalCards ?? stream.data?.pages[0]?.total;
+  const filteredTotal = stream.data?.pages[0]?.total;
+  const totalAll = meta.data?.totalCards;
   const loadedCount = cards.length;
+  const decks = meta.data?.decks ?? [];
+  const selectedDeck = decks.find((d) => d.id === deckId) ?? null;
 
   return (
     <div className={sharedStyles.page}>
@@ -92,13 +101,41 @@ export default function PreviewApkgPage({
           Deck preview
         </h1>
         <p className={styles.summary}>
-          {meta.data?.deckNames.length
-            ? `${meta.data.deckNames.join(', ')} · `
-            : ''}
-          {total != null
-            ? `${loadedCount} of ${total} cards loaded`
-            : 'Loading…'}
+          {selectedDeck ? (
+            <>
+              {selectedDeck.fullName} · {loadedCount} of{' '}
+              {filteredTotal ?? selectedDeck.cardCount} cards loaded
+            </>
+          ) : (
+            <>
+              {decks.length > 1 ? `${decks.length} decks · ` : ''}
+              {totalAll != null
+                ? `${loadedCount} of ${totalAll} cards loaded`
+                : 'Loading…'}
+            </>
+          )}
         </p>
+        {decks.length > 1 && (
+          <label className={styles.deckFilter}>
+            Deck:
+            <select
+              value={deckId ?? ''}
+              onChange={(event) => {
+                const raw = event.target.value;
+                setDeckId(raw === '' ? null : Number.parseInt(raw, 10));
+              }}
+            >
+              <option value="">All decks ({totalAll ?? '…'} cards)</option>
+              {decks.map((deck) => (
+                <option key={deck.id} value={deck.id}>
+                  {indent(Math.max(0, deck.path.length - 1))}
+                  {deck.path[deck.path.length - 1] ?? deck.fullName} (
+                  {deck.cardCount})
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
       </header>
 
       {stream.isLoading && cards.length === 0 ? (

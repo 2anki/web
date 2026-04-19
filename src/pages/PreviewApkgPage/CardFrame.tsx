@@ -35,9 +35,20 @@ export function CardFrame({ card }: Readonly<CardFrameProps>) {
   return (
     <section className={styles.card}>
       <header className={styles.cardHeader}>
-        <div>
-          <span className={styles.cardDeck}>{card.deckName}</span>
-          <span className={styles.cardDot}>·</span>
+        <div className={styles.cardDeckPath}>
+          {card.deckPath.map((segment, idx) => (
+            <span key={`${segment}-${idx}`} className={styles.cardDeckSegment}>
+              {idx > 0 && (
+                <span className={styles.cardDeckSeparator} aria-hidden="true">
+                  ›
+                </span>
+              )}
+              {segment}
+            </span>
+          ))}
+          <span className={styles.cardDot} aria-hidden="true">
+            ·
+          </span>
           <span className={styles.cardTemplate}>{card.templateName}</span>
         </div>
         <button
