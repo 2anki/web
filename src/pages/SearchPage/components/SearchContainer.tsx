@@ -7,14 +7,22 @@ import SearchPresenter from './SearchPresenter';
 interface SearchContainerProps {
   backend: Backend;
   setError: ErrorHandlerType;
+  workSpace: string | null;
 }
 
 export default function SearchContainer({
   backend,
   setError,
+  workSpace,
 }: SearchContainerProps) {
-  const { myPages, inProgress, triggerSearch, isLoading, setSearchQuery } =
-    useSearchQuery(backend, setError);
+  const {
+    myPages,
+    inProgress,
+    triggerSearch,
+    isLoading,
+    setSearchQuery,
+    searchQuery,
+  } = useSearchQuery(backend, setError);
 
   return (
     <SearchPresenter
@@ -22,7 +30,9 @@ export default function SearchContainer({
       myPages={myPages}
       inProgress={isLoading || inProgress}
       setSearchQuery={setSearchQuery}
+      searchQuery={searchQuery}
       triggerSearch={triggerSearch}
+      workSpace={workSpace}
     />
   );
 }

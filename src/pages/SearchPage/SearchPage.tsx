@@ -38,7 +38,13 @@ export function SearchPage({ setError }: SearchPageProps) {
       />
     );
   } else {
-    content = <SearchContainer backend={get2ankiApi()} setError={setError} />;
+    content = (
+      <SearchContainer
+        backend={get2ankiApi()}
+        setError={setError}
+        workSpace={notionData.workSpace}
+      />
+    );
   }
 
   return (

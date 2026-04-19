@@ -1,22 +1,26 @@
-import { getQueryValue } from '../helpers/getQueryValue';
 import searchStyles from '../SearchPage.module.css';
 
 interface SearchBarProps {
+  value: string;
   onSearchQueryChanged: (query: string) => void;
   onSearchClicked: () => void;
   inProgress: boolean;
 }
 
 function SearchBar({
+  value,
   onSearchQueryChanged,
   onSearchClicked,
   inProgress,
 }: SearchBarProps) {
   return (
     <div>
-      <div className={searchStyles.searchLabel}>Search Notion</div>
+      <label className={searchStyles.searchLabel} htmlFor="notion-search-input">
+        Search Notion
+      </label>
       <input
-        defaultValue={getQueryValue()}
+        id="notion-search-input"
+        value={value}
         type="text"
         className={searchStyles.searchInput}
         placeholder="Start typing..."
@@ -30,12 +34,14 @@ function SearchBar({
         }}
       />
       <div className={searchStyles.returnHint}>Results update as you type</div>
-      {inProgress && (
-        <div className={searchStyles.searchingIndicator}>
-          <span className={searchStyles.searchingDot} />
-          <span className={searchStyles.searchingDot} />{' Searching...'}
-        </div>
-      )}
+      <div
+        className={searchStyles.searchingIndicator}
+        aria-live="polite"
+        data-visible={inProgress ? 'true' : 'false'}
+      >
+        <span className={searchStyles.searchingDot} />
+        <span className={searchStyles.searchingDot} /> Searching…
+      </div>
     </div>
   );
 }
