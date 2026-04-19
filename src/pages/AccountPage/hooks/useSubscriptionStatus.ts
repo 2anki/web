@@ -8,12 +8,6 @@ interface UserLocals {
 type SubscriptionType = 'subscriber' | 'lifetime' | 'free';
 
 export function useSubscriptionStatus(locals: UserLocals | undefined) {
-  const subscriptionStatus = useMemo(() => {
-    if (locals?.subscriber) return 'Active Subscriber';
-    if (locals?.patreon) return 'Lifetime Member';
-    return 'Free Plan';
-  }, [locals?.subscriber, locals?.patreon]);
-
   const subscriptionType = useMemo((): SubscriptionType => {
     if (locals?.subscriber) return 'subscriber';
     if (locals?.patreon) return 'lifetime';
@@ -25,7 +19,6 @@ export function useSubscriptionStatus(locals: UserLocals | undefined) {
   }, [locals?.subscriber, locals?.patreon]);
 
   return {
-    subscriptionStatus,
     subscriptionType,
     hasActivePlan,
   };

@@ -1,26 +1,28 @@
 import { post } from './api';
 
 const UNAUTHORIZED = 401;
+const OK = 200;
 
-export const cancelSubscription = async (): Promise<{ message: string }> => {
-  try {
-    const response = await post('/api/users/cancel-subscription', {});
-    if (response?.status === UNAUTHORIZED) {
-      globalThis.location.href = '/login';
-      throw new Error('Authentication required');
-    }
-    if (response?.status !== 200) {
-      throw new Error(
-        `Failed to cancel subscription: ${
-          response?.statusText || 'Unknown error'
-        }`
-      );
-    }
-    return await response.json();
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-    throw new Error('An unexpected error occurred');
+export type CancelMode = 'immediate' | 'period_end';
+
+export const cancelSubscription = async (
+  mode: CancelMode = 'period_end'
+): Promise<{ message: string }> => {
+  const response = await post('/api/users/cancel-subscription', { mode });
+
+  if (response?.status === UNAUTHORIZED) {
+    globalThis.location.href = '/login';
+    throw new Error('Authentication required');
   }
+
+  if (response?.status !== OK) {
+    const fallback = response?.statusText || 'Unknown error';
+    const message = await response
+      ?.json()
+      .then((body: { message?: string }) => body?.message ?? fallback)
+      .catch(() => fallback);
+    throw new Error(message);
+  }
+
+  return response.json();
 };
