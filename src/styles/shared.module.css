@@ -333,6 +333,20 @@
   font-size: var(--text-sm);
 }
 
+.alertSuccess {
+  background: var(--color-success-light);
+  border: 1px solid #a7f3d0;
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  color: #065f46;
+  font-size: var(--text-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
 .alertWarning {
   background: var(--color-warning-light);
   border: 1px solid #fbbf24;
