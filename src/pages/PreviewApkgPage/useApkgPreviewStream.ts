@@ -15,13 +15,18 @@ export function useApkgPreviewMeta(key: string | undefined) {
   });
 }
 
-export function useApkgPreviewStream(key: string | undefined) {
+export function useApkgPreviewStream(
+  key: string | undefined,
+  deckId: number | null = null
+) {
   return useInfiniteQuery<ApkgPreviewBatch, Error>({
-    queryKey: ['apkgPreview', key],
+    queryKey: ['apkgPreview', key, deckId],
     enabled: !!key,
     initialPageParam: null,
     queryFn: ({ pageParam }) =>
-      getApkgPreviewBatch(key as string, pageParam as number | null),
+      getApkgPreviewBatch(key as string, pageParam as number | null, {
+        deckId,
+      }),
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     staleTime: 5 * 60 * 1000,
   });

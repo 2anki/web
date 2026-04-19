@@ -5,6 +5,7 @@ export interface ApkgPreviewCard {
   ord: number;
   templateName: string;
   deckName: string;
+  deckPath: string[];
   noteTypeName: string;
   css: string;
   front: string;
@@ -17,9 +18,16 @@ export interface ApkgPreviewBatch {
   total: number;
 }
 
+export interface ApkgDeckMeta {
+  id: number;
+  fullName: string;
+  path: string[];
+  cardCount: number;
+}
+
 export interface ApkgPreviewMeta {
   totalCards: number;
-  deckNames: string[];
+  decks: ApkgDeckMeta[];
 }
 
 export async function getApkgPreviewMeta(
@@ -32,11 +40,13 @@ export async function getApkgPreviewMeta(
 export async function getApkgPreviewBatch(
   key: string,
   cursor: number | null,
-  pageSize = 20
+  options: { pageSize?: number; deckId?: number | null } = {}
 ): Promise<ApkgPreviewBatch> {
+  const { pageSize = 20, deckId = null } = options;
   const params = new URLSearchParams();
   if (cursor) params.set('cursor', String(cursor));
   params.set('page_size', String(pageSize));
+  if (deckId != null) params.set('deck_id', String(deckId));
   const url = `/api/apkg/${encodeURIComponent(key)}/cards?${params.toString()}`;
   return (await get(url)) as ApkgPreviewBatch;
 }
