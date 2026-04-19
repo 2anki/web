@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Index from './components/ListJobs';
 
 import useUploads from './hooks/useUploads';
@@ -16,11 +17,24 @@ interface DownloadsPageProps {
 }
 
 export function DownloadsPage({ setError }: DownloadsPageProps) {
-  const { deleteUpload, loading, uploads, error } = useUploads(get2ankiApi());
+  const { deleteUpload, loading, uploads, error, refreshUploads } = useUploads(
+    get2ankiApi()
+  );
   const { jobs, deleteJob, restartJob, refreshJobs } = useJobs(
     get2ankiApi(),
     setError
   );
+  const [refreshing, setRefreshing] = useState(false);
+
+  const handleRefresh = async () => {
+    if (refreshing) return;
+    setRefreshing(true);
+    try {
+      await Promise.all([refreshJobs(), refreshUploads()]);
+    } finally {
+      setRefreshing(false);
+    }
+  };
   const activeJobs = jobs.filter((j) => !['done', 'failed', 'cancelled', 'interrupted'].includes(j.status));
   const doneJobs = jobs.filter((j) => j.status === 'done');
   const failedJobs = jobs.filter((j) => ['failed', 'cancelled', 'interrupted'].includes(j.status));
@@ -38,10 +52,22 @@ export function DownloadsPage({ setError }: DownloadsPageProps) {
   return (
     <div className={styles.page}>
       <div className={styles.header}>
-        <h1 className={styles.title}>Downloads</h1>
-        <p className={styles.subtitle}>
-          Track your conversions and download completed flashcard decks.
-        </p>
+        <div className={styles.headerCopy}>
+          <h1 className={styles.title}>Downloads</h1>
+          <p className={styles.subtitle}>
+            Track your conversions and download completed flashcard decks.
+          </p>
+        </div>
+        <button
+          type="button"
+          className={styles.refreshButton}
+          onClick={handleRefresh}
+          disabled={refreshing}
+          aria-label="Refresh downloads"
+        >
+          <i className="fa-solid fa-arrows-rotate" aria-hidden="true" />
+          {refreshing ? 'Refreshing…' : 'Refresh'}
+        </button>
       </div>
 
       <EmptyDownloadsSection hasActiveJobs={unfinishedJob} uploads={uploads} />
