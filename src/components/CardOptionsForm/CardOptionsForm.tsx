@@ -9,10 +9,13 @@ import React, {
 } from 'react';
 import { SettingsPayload } from '../../lib/types';
 
+import { Link } from 'react-router-dom';
 import FontSizePicker from '../FontSizePicker';
 import LocalCheckbox from '../LocalCheckbox';
 import TemplateName from '../TemplateName';
+import { TemplateNameSuggestions } from '../TemplateNameSuggestions';
 import TemplateSelect from '../TemplateSelect';
+import { useUserTemplates } from './useUserTemplates';
 import { saveValueInLocalStorage } from '../../lib/data_layer/saveValueInLocalStorage';
 import { ErrorHandlerType } from '../errors/helpers/getErrorMessage';
 import { clearStoredCardOptions } from '../../lib/data_layer/clearStoredCardOptions';
@@ -88,6 +91,7 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
   ) {
     const { isLoading, isError, options, loadingDefaultsError } =
       useSettingsCardsOptions(pageId);
+    const userTemplates = useUserTemplates();
     const [settings, setSettings] = useState<SettingsPayload>({});
     const [loading, setLoading] = useState(!!pageId);
     const deckNameKey = 'deckName';
@@ -454,7 +458,17 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
         </div>
 
         <div className={`${fieldStyles.section} ${fieldStyles.fullRow}`}>
-          <h3 className={fieldStyles.templateHeading}>Template Options</h3>
+          <div className={fieldStyles.templateHeadingRow}>
+            <h3 className={fieldStyles.templateHeading}>Template Options</h3>
+            <Link
+              to="/templates"
+              className={fieldStyles.editTemplatesLink}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Open template editor ↗
+            </Link>
+          </div>
           <TemplateSelect
             values={availableTemplates}
             value={template}
@@ -474,6 +488,14 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
               saveValueInLocalStorage('basic_model_name', name, pageId);
             }}
           />
+          <TemplateNameSuggestions
+            templates={userTemplates}
+            kind="basic"
+            onPick={(name) => {
+              setBasicName(name);
+              saveValueInLocalStorage('basic_model_name', name, pageId);
+            }}
+          />
           <TemplateName
             name="cloze_model_name"
             value={clozeName}
@@ -484,12 +506,28 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
               saveValueInLocalStorage('cloze_model_name', name, pageId);
             }}
           />
+          <TemplateNameSuggestions
+            templates={userTemplates}
+            kind="cloze"
+            onPick={(name) => {
+              setClozeName(name);
+              saveValueInLocalStorage('cloze_model_name', name, pageId);
+            }}
+          />
           <TemplateName
             name="input_model_name"
             value={inputName}
             placeholder="Defaults to n2a-input"
             label="Input Template Name"
             pickedName={(name) => {
+              setInputName(name);
+              saveValueInLocalStorage('input_model_name', name, pageId);
+            }}
+          />
+          <TemplateNameSuggestions
+            templates={userTemplates}
+            kind="input"
+            onPick={(name) => {
               setInputName(name);
               saveValueInLocalStorage('input_model_name', name, pageId);
             }}
