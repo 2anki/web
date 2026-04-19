@@ -7,7 +7,7 @@ import BugsnagPluginReact from '@bugsnag/plugin-react';
 
 import App from './App';
 
-import LoadingIndicator from './components/Loading';
+import { SkeletonPage } from './components/Skeleton/Skeleton';
 
 function main() {
   Bugsnag.start({
@@ -23,7 +23,7 @@ function main() {
 
   root.render(
     <React.StrictMode>
-      <Suspense fallback={<LoadingIndicator />}>
+      <Suspense fallback={<SkeletonPage />}>
         <ErrorBoundary>
           <App />
         </ErrorBoundary>

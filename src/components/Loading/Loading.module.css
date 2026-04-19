@@ -1,8 +1,0 @@
-.loader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: var(--text-3xl);
-  min-height: 50vh;
-  width: 100%;
-}
