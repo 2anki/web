@@ -19,7 +19,7 @@
 
 .pageSubtitle {
   font-size: 15px;
-  color: #7a7a78;
+  color: #595957;
   margin: 0 0 24px;
 }
 
@@ -52,7 +52,7 @@
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  color: #6c63ff;
+  color: #5b54dc;
 }
 
 .aiBannerText {
@@ -67,7 +67,7 @@
 
 .aiBannerDesc {
   font-size: 12px;
-  color: #7a7a78;
+  color: #595957;
 }
 
 .aiBannerArrow {
@@ -85,7 +85,7 @@
 .filterPill {
   border: 0.5px solid #e5e5e3;
   background: transparent;
-  color: #7a7a78;
+  color: #595957;
   border-radius: 20px;
   padding: 6px 14px;
   font-size: 13px;
@@ -101,9 +101,9 @@
 }
 
 .filterPillActive {
-  background: #6c63ff;
+  background: #5b54dc;
   color: #ffffff;
-  border-color: #6c63ff;
+  border-color: #5b54dc;
 }
 
 .filterPillActive:hover {
@@ -132,7 +132,7 @@
 .featuredBadge {
   display: inline-block;
   background: #f0efff;
-  color: #6c63ff;
+  color: #5b54dc;
   font-size: 11px;
   font-weight: 500;
   border-radius: 12px;
@@ -149,7 +149,7 @@
 
 .featuredDesc {
   font-size: 13px;
-  color: #7a7a78;
+  color: #595957;
   margin: 0 0 10px;
   line-height: 1.5;
 }
@@ -159,7 +159,7 @@
   align-items: center;
   gap: 14px;
   font-size: 12px;
-  color: #7a7a78;
+  color: #595957;
 }
 
 .starRating {
@@ -186,12 +186,12 @@
 }
 
 .previewButton:hover {
-  border-color: #6c63ff;
-  color: #6c63ff;
+  border-color: #5b54dc;
+  color: #5b54dc;
 }
 
 .downloadButtonFilled {
-  background: #6c63ff;
+  background: #5b54dc;
   border: none;
   border-radius: 8px;
   padding: 9px 18px;
@@ -257,7 +257,7 @@
 
 .cardDesc {
   font-size: 13px;
-  color: #7a7a78;
+  color: #595957;
   line-height: 1.5;
   margin: 0 0 10px;
 }
@@ -271,7 +271,7 @@
 
 .cardTag {
   background: #f3f3f1;
-  color: #7a7a78;
+  color: #595957;
   font-size: 11px;
   border-radius: 12px;
   padding: 3px 9px;
@@ -282,7 +282,7 @@
   align-items: center;
   gap: 14px;
   font-size: 12px;
-  color: #7a7a78;
+  color: #595957;
   margin-top: auto;
   margin-bottom: 14px;
 }
@@ -302,9 +302,9 @@
 }
 
 .downloadButton:hover {
-  background: #6c63ff;
+  background: #5b54dc;
   color: #ffffff;
-  border-color: #6c63ff;
+  border-color: #5b54dc;
 }
 
 .downloadButton:disabled {
@@ -327,7 +327,7 @@
   border: 0.5px solid #e5e5e3;
   border-radius: 12px;
   padding: 14px 18px;
-  color: #7a7a78;
+  color: #595957;
   font-size: 14px;
   margin-bottom: 24px;
 }

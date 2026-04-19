@@ -72,7 +72,7 @@ async function downloadTemplate(template: PublicTemplate): Promise<void> {
   a.download = `${template.name}.apkg`;
   document.body.appendChild(a);
   a.click();
-  document.body.removeChild(a);
+  a.remove();
   URL.revokeObjectURL(url);
 }
 
