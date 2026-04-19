@@ -52,6 +52,8 @@ export default function PreviewPage({ setError }: Readonly<PreviewPageProps>) {
   const firstPage = data?.pages?.[0];
   const pageTitle = firstPage?.pageTitle ?? 'Loading…';
   const pageUrl = firstPage?.pageUrl;
+  const returnTo = encodeURIComponent(`/preview/${id}`);
+  const rulesHref = `/rules/${id}?returnTo=${returnTo}`;
 
   const blocks = useMemo(
     () => data?.pages.flatMap((page) => page.blocks) ?? [],
@@ -94,10 +96,7 @@ export default function PreviewPage({ setError }: Readonly<PreviewPageProps>) {
           </p>
         )}
         <div className={styles.actionsRow}>
-          <Link
-            to={`/rules/${id}?returnTo=${encodeURIComponent(`/preview/${id}`)}`}
-            className={sharedStyles.btnSecondary}
-          >
+          <Link to={rulesHref} className={sharedStyles.btnSecondary}>
             Conversion rules
           </Link>
         </div>

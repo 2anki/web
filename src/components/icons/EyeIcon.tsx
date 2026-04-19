@@ -3,7 +3,7 @@ interface IconProps {
   height: number;
 }
 
-export default function EyeIcon({ width, height }: IconProps) {
+export default function EyeIcon({ width, height }: Readonly<IconProps>) {
   return (
     <svg
       width={width}
