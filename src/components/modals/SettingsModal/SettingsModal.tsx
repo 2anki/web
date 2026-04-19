@@ -41,12 +41,9 @@ function SettingsModal({
       <div className={sharedStyles.modalCard}>
         <div className={sharedStyles.modalHeader}>
           <div className={sharedStyles.modalHeaderTitle}>
-            {getVisibleText('card.options')}
+            Conversion settings
           </div>
           <div className={styles.headerActions}>
-            <Link to="/templates" className={styles.openFullPage}>
-              Edit Templates
-            </Link>
             <Link to={fullPageHref} className={styles.openFullPage}>
               Open full page ↗
             </Link>

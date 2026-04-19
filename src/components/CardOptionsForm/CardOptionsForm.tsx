@@ -10,16 +10,13 @@ import React, {
 import { SettingsPayload } from '../../lib/types';
 
 import { Link } from 'react-router-dom';
-import FontSizePicker from '../FontSizePicker';
 import LocalCheckbox from '../LocalCheckbox';
-import TemplateName from '../TemplateName';
-import { TemplateNameSuggestions } from '../TemplateNameSuggestions';
 import TemplateSelect from '../TemplateSelect';
+import { CardStyleRow, DEFAULT_STYLE_ID } from './CardStyleRow';
 import { useUserTemplates } from './useUserTemplates';
 import { saveValueInLocalStorage } from '../../lib/data_layer/saveValueInLocalStorage';
 import { ErrorHandlerType } from '../errors/helpers/getErrorMessage';
 import { clearStoredCardOptions } from '../../lib/data_layer/clearStoredCardOptions';
-import { availableTemplates } from '../modals/SettingsModal/constants';
 import { getLocalStorageValue } from '../../lib/data_layer/getLocalStorageValue';
 import { get2ankiApi } from '../../lib/backend/get2ankiApi';
 import { getLocalStorageBooleanValue } from '../../lib/data_layer/getLocalStorageBooleanValue';
@@ -44,10 +41,8 @@ export interface CardOptionsFormHandle {
   isDirty: () => boolean;
 }
 
-const DEFAULT_TEMPLATE = 'specialstyle';
 const DEFAULT_TOGGLE_MODE = 'close_toggle';
 const DEFAULT_PAGE_EMOJI = 'first_emoji';
-const DEFAULT_FONT_SIZE = '20';
 const DEFAULT_USER_INSTRUCTIONS = `Some extra rules and explanations:
 - Read the document from start to finish and identify any question and answers.
 - Use the same language as the document or infer the language based on what is mostly used.
@@ -60,10 +55,11 @@ const DEFAULT_USER_INSTRUCTIONS = `Some extra rules and explanations:
 
 function computeSnapshot(values: {
   deckName: string;
-  fontSize: string;
-  template: string;
   toggleMode: string;
   pageEmoji: string;
+  basicStyleId: string;
+  clozeStyleId: string;
+  inputStyleId: string;
   basicName: string;
   clozeName: string;
   inputName: string;
@@ -102,12 +98,6 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
         settings
       )
     );
-    const [fontSize, setFontSize] = useState(
-      getLocalStorageValue('font-size', '', settings)
-    );
-    const [template, setTemplate] = useState(
-      getLocalStorageValue('template', DEFAULT_TEMPLATE, settings)
-    );
     const [toggleMode, setToggleMode] = useState(
       getLocalStorageValue('toggle-mode', DEFAULT_TOGGLE_MODE, settings)
     );
@@ -122,6 +112,24 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
     );
     const [inputName, setInputName] = useState(
       getLocalStorageValue('input_model_name', '', settings)
+    );
+    const [basicStyleId, setBasicStyleId] = useState(
+      getLocalStorageValue('basic_style_id', DEFAULT_STYLE_ID, settings)
+    );
+    const [clozeStyleId, setClozeStyleId] = useState(
+      getLocalStorageValue('cloze_style_id', DEFAULT_STYLE_ID, settings)
+    );
+    const [inputStyleId, setInputStyleId] = useState(
+      getLocalStorageValue('input_style_id', DEFAULT_STYLE_ID, settings)
+    );
+    const [basicNameIsCustom, setBasicNameIsCustom] = useState(
+      getLocalStorageValue('basic_name_custom', '', settings) === 'true'
+    );
+    const [clozeNameIsCustom, setClozeNameIsCustom] = useState(
+      getLocalStorageValue('cloze_name_custom', '', settings) === 'true'
+    );
+    const [inputNameIsCustom, setInputNameIsCustom] = useState(
+      getLocalStorageValue('input_name_custom', '', settings) === 'true'
     );
     const [userInstructions, setUserInstructions] = useState(
       getLocalStorageValue(
@@ -161,13 +169,29 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
       // Reset to the same defaults used for the first mount so switching
       // pageId doesn't carry over the previous page's values.
       setDeckName(pageTitle ?? localStorage.getItem(deckNameKey) ?? '');
-      setFontSize(localStorage.getItem('font-size') ?? '');
-      setTemplate(localStorage.getItem('template') ?? DEFAULT_TEMPLATE);
       setToggleMode(localStorage.getItem('toggle-mode') ?? DEFAULT_TOGGLE_MODE);
       setPageEmoji(localStorage.getItem('page-emoji') ?? DEFAULT_PAGE_EMOJI);
       setBasicName(localStorage.getItem('basic_model_name') ?? '');
       setClozeName(localStorage.getItem('cloze_model_name') ?? '');
       setInputName(localStorage.getItem('input_model_name') ?? '');
+      setBasicStyleId(
+        localStorage.getItem('basic_style_id') ?? DEFAULT_STYLE_ID
+      );
+      setClozeStyleId(
+        localStorage.getItem('cloze_style_id') ?? DEFAULT_STYLE_ID
+      );
+      setInputStyleId(
+        localStorage.getItem('input_style_id') ?? DEFAULT_STYLE_ID
+      );
+      setBasicNameIsCustom(
+        localStorage.getItem('basic_name_custom') === 'true'
+      );
+      setClozeNameIsCustom(
+        localStorage.getItem('cloze_name_custom') === 'true'
+      );
+      setInputNameIsCustom(
+        localStorage.getItem('input_name_custom') === 'true'
+      );
       setUserInstructions(
         localStorage.getItem('user-instructions') ?? DEFAULT_USER_INSTRUCTIONS
       );
@@ -178,11 +202,12 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
           ['deckName', setDeckName],
           ['toggle-mode', setToggleMode],
           ['page-emoji', setPageEmoji],
-          ['template', setTemplate],
-          ['font-size', setFontSize],
           ['basic_model_name', setBasicName],
           ['cloze_model_name', setClozeName],
           ['input_model_name', setInputName],
+          ['basic_style_id', setBasicStyleId],
+          ['cloze_style_id', setClozeStyleId],
+          ['input_style_id', setInputStyleId],
           ['user-instructions', setUserInstructions],
         ];
         assignments.forEach(([key, setter]) => {
@@ -216,10 +241,11 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
       () =>
         computeSnapshot({
           deckName,
-          fontSize,
-          template,
           toggleMode,
           pageEmoji,
+          basicStyleId,
+          clozeStyleId,
+          inputStyleId,
           basicName,
           clozeName,
           inputName,
@@ -228,10 +254,11 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
         }),
       [
         deckName,
-        fontSize,
-        template,
         toggleMode,
         pageEmoji,
+        basicStyleId,
+        clozeStyleId,
+        inputStyleId,
         basicName,
         clozeName,
         inputName,
@@ -269,14 +296,24 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
       if (options) clearStoredCardOptions(options);
       localStorage.removeItem('page-emoji');
       localStorage.removeItem('user-instructions');
+      localStorage.removeItem('basic_style_id');
+      localStorage.removeItem('cloze_style_id');
+      localStorage.removeItem('input_style_id');
+      localStorage.removeItem('basic_name_custom');
+      localStorage.removeItem('cloze_name_custom');
+      localStorage.removeItem('input_name_custom');
       setDeckName('');
-      setFontSize(DEFAULT_FONT_SIZE);
       setToggleMode(DEFAULT_TOGGLE_MODE);
-      setTemplate(DEFAULT_TEMPLATE);
       setPageEmoji(DEFAULT_PAGE_EMOJI);
       setBasicName('');
       setClozeName('');
       setInputName('');
+      setBasicStyleId(DEFAULT_STYLE_ID);
+      setClozeStyleId(DEFAULT_STYLE_ID);
+      setInputStyleId(DEFAULT_STYLE_ID);
+      setBasicNameIsCustom(false);
+      setClozeNameIsCustom(false);
+      setInputNameIsCustom(false);
       setUserInstructions(DEFAULT_USER_INSTRUCTIONS);
       if (options) {
         const reset: Record<string, boolean> = {};
@@ -297,11 +334,12 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
       });
       payload.deckName = deckName;
       payload['toggle-mode'] = toggleMode;
-      payload.template = template;
       payload.basic_model_name = basicName;
       payload.cloze_model_name = clozeName;
       payload.input_model_name = inputName;
-      payload['font-size'] = fontSize;
+      payload.basic_style_id = basicStyleId;
+      payload.cloze_style_id = clozeStyleId;
+      payload.input_style_id = inputStyleId;
       payload['page-emoji'] = pageEmoji;
       payload['user-instructions'] = userInstructions;
 
@@ -459,88 +497,101 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
 
         <div className={`${fieldStyles.section} ${fieldStyles.fullRow}`}>
           <div className={fieldStyles.templateHeadingRow}>
-            <h3 className={fieldStyles.templateHeading}>Template Options</h3>
+            <h3 className={fieldStyles.templateHeading}>Card styles</h3>
             <Link
               to="/templates"
               className={fieldStyles.editTemplatesLink}
               target="_blank"
               rel="noreferrer"
             >
-              Open template editor ↗
+              Edit card styles ↗
             </Link>
           </div>
-          <TemplateSelect
-            values={availableTemplates}
-            value={template}
-            name="template"
-            pickedTemplate={(t) => {
-              setTemplate(t);
-              saveValueInLocalStorage('template', t, pageId);
-            }}
-          />
-          <TemplateName
-            name="basic_model_name"
-            value={basicName}
-            placeholder="Defaults to n2a-basic"
-            label="Basic Template Name"
-            pickedName={(name) => {
-              setBasicName(name);
-              saveValueInLocalStorage('basic_model_name', name, pageId);
-            }}
-          />
-          <TemplateNameSuggestions
-            templates={userTemplates}
+          <CardStyleRow
             kind="basic"
-            onPick={(name) => {
+            templates={userTemplates}
+            styleId={basicStyleId}
+            name={basicName}
+            duplicateName={
+              basicName !== '' &&
+              (basicName === clozeName || basicName === inputName)
+            }
+            onStyleChange={(id, autoName) => {
+              setBasicStyleId(id);
+              saveValueInLocalStorage('basic_style_id', id, pageId);
+              if (!basicNameIsCustom) {
+                setBasicName(autoName);
+                saveValueInLocalStorage('basic_model_name', autoName, pageId);
+              }
+            }}
+            onNameChange={(name) => {
               setBasicName(name);
+              setBasicNameIsCustom(true);
               saveValueInLocalStorage('basic_model_name', name, pageId);
+              saveValueInLocalStorage(
+                'basic_name_custom',
+                'true',
+                pageId
+              );
             }}
           />
-          <TemplateName
-            name="cloze_model_name"
-            value={clozeName}
-            placeholder="Defaults to n2a-cloze"
-            label="Cloze Template Name"
-            pickedName={(name) => {
-              setClozeName(name);
-              saveValueInLocalStorage('cloze_model_name', name, pageId);
-            }}
-          />
-          <TemplateNameSuggestions
-            templates={userTemplates}
+          <CardStyleRow
             kind="cloze"
-            onPick={(name) => {
-              setClozeName(name);
-              saveValueInLocalStorage('cloze_model_name', name, pageId);
-            }}
-          />
-          <TemplateName
-            name="input_model_name"
-            value={inputName}
-            placeholder="Defaults to n2a-input"
-            label="Input Template Name"
-            pickedName={(name) => {
-              setInputName(name);
-              saveValueInLocalStorage('input_model_name', name, pageId);
-            }}
-          />
-          <TemplateNameSuggestions
             templates={userTemplates}
+            styleId={clozeStyleId}
+            name={clozeName}
+            duplicateName={
+              clozeName !== '' &&
+              (clozeName === basicName || clozeName === inputName)
+            }
+            onStyleChange={(id, autoName) => {
+              setClozeStyleId(id);
+              saveValueInLocalStorage('cloze_style_id', id, pageId);
+              if (!clozeNameIsCustom) {
+                setClozeName(autoName);
+                saveValueInLocalStorage('cloze_model_name', autoName, pageId);
+              }
+            }}
+            onNameChange={(name) => {
+              setClozeName(name);
+              setClozeNameIsCustom(true);
+              saveValueInLocalStorage('cloze_model_name', name, pageId);
+              saveValueInLocalStorage(
+                'cloze_name_custom',
+                'true',
+                pageId
+              );
+            }}
+          />
+          <CardStyleRow
             kind="input"
-            onPick={(name) => {
+            templates={userTemplates}
+            styleId={inputStyleId}
+            name={inputName}
+            duplicateName={
+              inputName !== '' &&
+              (inputName === basicName || inputName === clozeName)
+            }
+            onStyleChange={(id, autoName) => {
+              setInputStyleId(id);
+              saveValueInLocalStorage('input_style_id', id, pageId);
+              if (!inputNameIsCustom) {
+                setInputName(autoName);
+                saveValueInLocalStorage('input_model_name', autoName, pageId);
+              }
+            }}
+            onNameChange={(name) => {
               setInputName(name);
+              setInputNameIsCustom(true);
               saveValueInLocalStorage('input_model_name', name, pageId);
+              saveValueInLocalStorage(
+                'input_name_custom',
+                'true',
+                pageId
+              );
             }}
           />
         </div>
-
-        <FontSizePicker
-          fontSize={fontSize}
-          pickedFontSize={(fs) => {
-            setFontSize(fs);
-            saveValueInLocalStorage('font-size', fs.toString(), pageId);
-          }}
-        />
 
         {!hideActions && (
           <div className={`${fieldStyles.actions} ${fieldStyles.fullRow}`}>
