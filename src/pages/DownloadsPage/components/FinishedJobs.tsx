@@ -78,6 +78,7 @@ export function FinishedJobs({ uploads, deleteUpload, doneJobs = [], deleteJob }
                         onClick={() => deleteJob(j.id)}
                         className={styles.deleteButton}
                       >
+                        <i className="fa-solid fa-trash" aria-hidden="true" />
                         Delete
                       </button>
                     )}
@@ -85,6 +86,7 @@ export function FinishedJobs({ uploads, deleteUpload, doneJobs = [], deleteJob }
                       href={`/api/upload/jobs/${j.object_id}/download`}
                       className={styles.downloadButton}
                     >
+                      <i className="fa-solid fa-download" aria-hidden="true" />
                       Download
                     </a>
                   </div>
@@ -113,13 +115,15 @@ export function FinishedJobs({ uploads, deleteUpload, doneJobs = [], deleteJob }
                       className={styles.deleteButton}
                       disabled={deletingKey === u.key}
                     >
-                      {deletingKey === u.key ? 'Deleting...' : 'Delete'}
+                      <i className="fa-solid fa-trash" aria-hidden="true" />
+                      {deletingKey === u.key ? 'Deleting…' : 'Delete'}
                     </button>
                     {APKG_PATTERN.test(u.key) && (
                       <Link
                         to={`/preview/apkg/${encodeURIComponent(u.key)}`}
                         className={styles.previewButton}
                       >
+                        <i className="fa-solid fa-eye" aria-hidden="true" />
                         Preview
                       </Link>
                     )}
@@ -127,6 +131,7 @@ export function FinishedJobs({ uploads, deleteUpload, doneJobs = [], deleteJob }
                       href={`/api/download/u/${u.key}`}
                       className={styles.downloadButton}
                     >
+                      <i className="fa-solid fa-download" aria-hidden="true" />
                       Download
                     </a>
                   </div>
