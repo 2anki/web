@@ -16,6 +16,7 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
   const [uploading, setUploading] = useState(false);
   const [downloadLink, setDownloadLink] = useState<null | string>('');
   const [deckName, setDeckName] = useState('');
+  const [cardCount, setCardCount] = useState<number | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const convertRef = useRef<HTMLButtonElement>(null);
 
@@ -60,6 +61,12 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
       const fallback =
         contentType === 'application/zip' ? 'Your Decks.zip' : 'Your deck.apkg';
       setDeckName(fileNameHeader ?? fallback);
+      const cardCountHeader = request.headers.get('X-Card-Count');
+      const parsedCardCount =
+        cardCountHeader !== null ? Number.parseInt(cardCountHeader, 10) : null;
+      setCardCount(
+        Number.isFinite(parsedCardCount as number) ? (parsedCardCount as number) : null
+      );
       const blob = await request.blob();
       setDownloadLink(window.URL.createObjectURL(blob));
       setUploading(false);
@@ -104,6 +111,7 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
         downloadLink={downloadLink}
         deckName={deckName}
         uploading={uploading}
+        cardCount={cardCount}
       />
       <button
         aria-label="Upload file"
