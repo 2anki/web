@@ -1,0 +1,100 @@
+.backLink {
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  padding: 0;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.backLink:hover {
+  color: var(--color-text-primary);
+  text-decoration: underline;
+}
+
+.summary {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  margin: 0 0 1.5rem;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.card {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-secondary);
+  font-size: var(--text-sm);
+}
+
+.cardDeck {
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+}
+
+.cardDot {
+  margin: 0 0.5rem;
+  color: var(--color-text-secondary);
+}
+
+.cardTemplate {
+  color: var(--color-text-secondary);
+}
+
+.flipButton {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.25rem 0.75rem;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  font-size: var(--text-xs);
+}
+
+.flipButton:hover {
+  background: var(--color-bg-primary);
+}
+
+.cardFrame {
+  border: 0;
+  width: 100%;
+  min-height: 160px;
+  height: 260px;
+  background: #fff;
+}
+
+.sentinel {
+  height: 1px;
+}
+
+.loadingRow {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+
+.empty {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--color-text-secondary);
+}

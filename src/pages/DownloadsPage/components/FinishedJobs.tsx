@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import UserUpload from '../../../lib/interfaces/UserUpload';
 import { JobsId } from '../../../schemas/public/Jobs';
@@ -6,6 +7,8 @@ import JobResponse from '../../../schemas/public/JobResponse';
 import { getDistance } from '../../../lib/getDistance';
 import styles from '../DownloadsPage.module.css';
 import sharedStyles from '../../../styles/shared.module.css';
+
+const APKG_PATTERN = /\.apkg$/i;
 
 interface Prop {
   readonly uploads: UserUpload[] | undefined;
@@ -112,6 +115,14 @@ export function FinishedJobs({ uploads, deleteUpload, doneJobs = [], deleteJob }
                     >
                       {deletingKey === u.key ? 'Deleting...' : 'Delete'}
                     </button>
+                    {APKG_PATTERN.test(u.key) && (
+                      <Link
+                        to={`/preview/apkg/${encodeURIComponent(u.key)}`}
+                        className={styles.previewButton}
+                      >
+                        Preview
+                      </Link>
+                    )}
                     <a
                       href={`/api/download/u/${u.key}`}
                       className={styles.downloadButton}
