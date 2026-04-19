@@ -384,9 +384,24 @@ export const CardOptionsForm = forwardRef<CardOptionsFormHandle, Props>(
         </div>
 
         <div className={fieldStyles.section}>
+          <p className={fieldStyles.sectionHint}>
+            <strong>How toggles become cards:</strong> each toggle&apos;s header
+            is the front of a card, and its contents become the back. A toggle
+            inside a toggle (nested toggle) becomes its own card using the
+            rules below.
+          </p>
+        </div>
+
+        <div className={fieldStyles.section}>
           <label htmlFor="toggle-mode" className={fieldStyles.sectionLabel}>
             Toggle Mode
           </label>
+          <p className={fieldStyles.sectionHint}>
+            Controls how nested toggles render on the back of a card.{' '}
+            <em>Open nested toggles</em> shows their contents expanded;{' '}
+            <em>Close nested toggles</em> keeps them collapsed so you can reveal
+            them one at a time while reviewing.
+          </p>
           <TemplateSelect
             values={[
               { label: 'Open nested toggles', value: 'open_toggle' },
