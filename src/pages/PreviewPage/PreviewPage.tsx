@@ -6,6 +6,7 @@ import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessag
 import sharedStyles from '../../styles/shared.module.css';
 import styles from './PreviewPage.module.css';
 import { usePreviewStream } from './usePreviewStream';
+import { BlockNode } from './BlockNode';
 
 interface PreviewPageProps {
   setError: ErrorHandlerType;
@@ -112,11 +113,7 @@ export default function PreviewPage({ setError }: Readonly<PreviewPageProps>) {
             <p className={styles.empty}>This page has no blocks to preview.</p>
           )}
           {blocks.map((block) => (
-            <div
-              key={block.id}
-              // eslint-disable-next-line react/no-danger
-              dangerouslySetInnerHTML={{ __html: block.html }}
-            />
+            <BlockNode key={block.id} block={block} />
           ))}
         </article>
       )}

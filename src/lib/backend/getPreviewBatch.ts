@@ -3,7 +3,10 @@ import { get } from './api';
 export interface PreviewBlock {
   id: string;
   type: string;
+  hasChildren: boolean;
+  canExpand: boolean;
   html: string;
+  summaryHtml?: string;
 }
 
 export interface PreviewBatch {
