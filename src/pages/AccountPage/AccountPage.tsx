@@ -14,8 +14,9 @@ import styles from './AccountPage.module.css';
 
 export default function AccountPage() {
   const { isLoading, data, refetch } = useUserLocals();
-  const { subscriptionStatus, subscriptionType, hasActivePlan } =
-    useSubscriptionStatus(data?.locals);
+  const { subscriptionType, hasActivePlan } = useSubscriptionStatus(
+    data?.locals
+  );
   const notionData = useNotionData(get2ankiApi());
 
   if (isLoading) return <LoadingIndicator />;
@@ -37,7 +38,7 @@ export default function AccountPage() {
       </header>
 
       <div className={styles.mainCard}>
-        <UserProfile user={user} subscriptionStatus={subscriptionStatus} />
+        <UserProfile user={user} />
 
         <h2 className={styles.sectionTitle}>Plan details</h2>
         <PlanDetails subscriptionType={subscriptionType} />

@@ -44,17 +44,6 @@
   margin: 0 0 0.5rem;
 }
 
-.statusBadge {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.25rem 0.75rem;
-  font-size: var(--text-xs);
-  font-weight: var(--font-medium);
-  color: var(--color-primary);
-  background: var(--color-primary-light);
-  border-radius: var(--radius-full);
-}
-
 .sectionTitle {
   font-size: var(--text-base);
   font-weight: var(--font-semibold);
@@ -216,4 +205,41 @@
 .secondaryButton:hover {
   background: var(--color-bg-secondary);
   color: var(--color-text-primary);
+}
+
+.scheduledBadge {
+  padding: 0.75rem 1rem;
+  background: var(--color-warning-light, #fef3c7);
+  border: 1px solid var(--color-warning-border, #fcd34d);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--color-warning-text, #92400e);
+  margin-bottom: 0.75rem;
+}
+
+.activeBadge {
+  padding: 0.75rem 1rem;
+  background: var(--color-success-light, #d1fae5);
+  border: 1px solid #a7f3d0;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: #065f46;
+  margin-bottom: 0.75rem;
+}
+
+.cancelledBadge {
+  padding: 0.75rem 1rem;
+  background: var(--color-bg-secondary, #f3f4f6);
+  border: 1px solid var(--color-border, #d1d5db);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary, #4b5563);
+  margin-bottom: 0.75rem;
+}
+
+.planDetail {
+  margin: 0.25rem 0 0;
+  font-size: var(--text-xs);
+  color: inherit;
+  opacity: 0.85;
 }

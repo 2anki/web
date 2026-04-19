@@ -8,10 +8,9 @@ interface User {
 
 interface UserProfileProps {
   readonly user: User;
-  readonly subscriptionStatus: string;
 }
 
-export function UserProfile({ user, subscriptionStatus }: UserProfileProps) {
+export function UserProfile({ user }: UserProfileProps) {
   return (
     <div className={styles.profileSection}>
       <div className={styles.profileInfo}>
@@ -21,7 +20,6 @@ export function UserProfile({ user, subscriptionStatus }: UserProfileProps) {
         <p className={styles.profileEmail} data-hj-suppress>
           {user.email}
         </p>
-        <span className={styles.statusBadge}>{subscriptionStatus}</span>
       </div>
     </div>
   );

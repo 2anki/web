@@ -1,6 +1,8 @@
 import React, { ChangeEvent, useEffect } from 'react';
 import { useEmailLinking } from '../hooks/useEmailLinking';
 import { useSubscriptionCancellation } from '../hooks/useSubscriptionCancellation';
+import { useStripeSubscriptions } from '../../../lib/hooks/useStripeSubscriptions';
+import { StripeSubscriptionSummary } from '../../../lib/backend/getSubscriptionStatus';
 import styles from '../AccountPage.module.css';
 import sharedStyles from '../../../styles/shared.module.css';
 
@@ -25,6 +27,25 @@ interface SubscriptionManagementProps {
   readonly onRefetch: () => Promise<any>;
 }
 
+const formatDate = (seconds: number | null): string => {
+  if (!seconds) return 'an unknown date';
+  return new Date(seconds * 1000).toLocaleDateString(undefined, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+
+const formatPlan = (sub: StripeSubscriptionSummary): string | null => {
+  const plan = sub.plan;
+  if (!plan || plan.amount == null || !plan.currency) return null;
+  const price = (plan.amount / 100).toLocaleString(undefined, {
+    style: 'currency',
+    currency: plan.currency.toUpperCase(),
+  });
+  return plan.interval ? `${price} / ${plan.interval}` : price;
+};
+
 export function SubscriptionManagement({
   user,
   locals,
@@ -40,8 +61,18 @@ export function SubscriptionManagement({
     performLinkEmail,
   } = useEmailLinking(onRefetch);
 
-  const { cancelUserSubscription, isCancelling } =
-    useSubscriptionCancellation(onRefetch);
+  const stripeStatus = useStripeSubscriptions(Boolean(locals?.subscriber));
+
+  const refetchAll = async () => {
+    await Promise.all([onRefetch(), stripeStatus.refetch()]);
+  };
+
+  const {
+    cancelUserSubscription,
+    isCancelling,
+    cancelError,
+    cancelSuccess,
+  } = useSubscriptionCancellation(refetchAll);
 
   useEffect(() => {
     if (locals?.subscriptionInfo?.linked_email) {
@@ -63,23 +94,99 @@ export function SubscriptionManagement({
     return null;
   }
 
+  const { view } = stripeStatus;
+
   return (
     <div className={styles.managementCard}>
       <h3 className={styles.managementTitle}>Subscription Management</h3>
       {locals?.subscriber && (
         <div className={sharedStyles.marginBottomMd}>
-          <p className={sharedStyles.smallDescription}>
-            Manage your active subscription. You can cancel anytime and will
-            retain access until the end of your current billing period.
-          </p>
-          <button
-            type="button"
-            className={styles.dangerButton}
-            onClick={cancelUserSubscription}
-            disabled={isCancelling}
-          >
-            {isCancelling ? 'Cancelling...' : 'Cancel Subscription'}
-          </button>
+          {view.kind === 'active' && (
+            <div className={styles.activeBadge}>
+              Active — renews on{' '}
+              <strong>{formatDate(view.subscription.current_period_end)}</strong>
+              .
+              {formatPlan(view.subscription) && (
+                <p className={styles.planDetail}>
+                  {formatPlan(view.subscription)}
+                </p>
+              )}
+            </div>
+          )}
+
+          {view.kind === 'scheduled' && (
+            <div className={styles.scheduledBadge}>
+              Scheduled to cancel on{' '}
+              <strong>{formatDate(view.subscription.current_period_end)}</strong>
+              . You will keep access until then.
+              {formatPlan(view.subscription) && (
+                <p className={styles.planDetail}>
+                  {formatPlan(view.subscription)}
+                </p>
+              )}
+            </div>
+          )}
+
+          {view.kind === 'cancelled' && (
+            <div className={styles.cancelledBadge}>
+              Cancelled on{' '}
+              <strong>{formatDate(view.subscription.canceled_at)}</strong>. Your
+              subscription is no longer active.
+              {formatPlan(view.subscription) && (
+                <p className={styles.planDetail}>
+                  Previous plan: {formatPlan(view.subscription)}
+                </p>
+              )}
+            </div>
+          )}
+
+          {view.kind === 'none' && stripeStatus.isLoading && (
+            <p className={sharedStyles.smallDescription}>
+              Loading subscription status…
+            </p>
+          )}
+
+          <div className={styles.buttonRow}>
+            {view.kind === 'active' && (
+              <>
+                <button
+                  type="button"
+                  className={styles.dangerButton}
+                  onClick={() => cancelUserSubscription('period_end')}
+                  disabled={isCancelling}
+                >
+                  {isCancelling
+                    ? 'Processing…'
+                    : 'Cancel at end of billing period'}
+                </button>
+                <button
+                  type="button"
+                  className={styles.dangerButton}
+                  onClick={() => cancelUserSubscription('immediate')}
+                  disabled={isCancelling}
+                >
+                  {isCancelling ? 'Processing…' : 'Cancel immediately'}
+                </button>
+              </>
+            )}
+            {view.kind === 'scheduled' && (
+              <button
+                type="button"
+                className={styles.dangerButton}
+                onClick={() => cancelUserSubscription('immediate')}
+                disabled={isCancelling}
+              >
+                {isCancelling ? 'Processing…' : 'Cancel immediately instead'}
+              </button>
+            )}
+          </div>
+
+          {cancelError && (
+            <p className={styles.helpDanger}>{cancelError}</p>
+          )}
+          {cancelSuccess && (
+            <p className={styles.helpSuccess}>{cancelSuccess}</p>
+          )}
         </div>
       )}
 
