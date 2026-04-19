@@ -3,12 +3,12 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import ObjectAction from '../actions/ObjectAction';
 import DotsHorizontal from '../../../../components/icons/DotsHorizontal';
+import EyeIcon from '../../../../components/icons/EyeIcon';
 import NotionObject from '../../../../lib/interfaces/NotionObject';
 import { OK } from '../../../../lib/backend/http';
 import { BlockIcon } from '../BlockIcon';
 import { ErrorHandlerType } from '../../../../components/errors/helpers/getErrorMessage';
 import { get2ankiApi } from '../../../../lib/backend/get2ankiApi';
-import sharedStyles from '../../../../styles/shared.module.css';
 import styles from './SearchObjectEntry.module.css';
 
 interface Props {
@@ -77,9 +77,10 @@ function SearchObjectEntry(props: Readonly<Props>) {
         {getType(type) !== 'database' && (
           <Link
             to={`/preview/${encodeURIComponent(id)}`}
-            className={sharedStyles.btnSmallPill}
+            className={styles.rulesButton}
+            aria-label={`Preview ${title}`}
           >
-            Preview
+            <EyeIcon width={32} height={32} />
           </Link>
         )}
         <button
