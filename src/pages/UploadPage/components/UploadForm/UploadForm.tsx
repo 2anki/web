@@ -51,7 +51,7 @@ function toFriendlyThrownError(error: unknown): Error {
 
 function buildFormData(form: HTMLFormElement): FormData {
   const formData = new FormData(form);
-  for (const [key, value] of Object.entries(window.localStorage)) {
+  for (const [key, value] of Object.entries(globalThis.localStorage)) {
     formData.append(key, value);
   }
   return formData;
@@ -97,7 +97,7 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
     setUploading(true);
     try {
       const formData = buildFormData(event.currentTarget as HTMLFormElement);
-      const request = await window.fetch('/api/upload/file', {
+      const request = await globalThis.fetch('/api/upload/file', {
         method: 'post',
         body: formData,
       });
@@ -117,7 +117,7 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
       setDeckName(resolveDeckName(request.headers));
       setCardCount(parseCardCountHeader(request.headers));
       const blob = await request.blob();
-      setDownloadLink(window.URL.createObjectURL(blob));
+      setDownloadLink(globalThis.URL.createObjectURL(blob));
       setUploading(false);
     } catch (error) {
       setDownloadLink(null);
