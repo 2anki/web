@@ -109,15 +109,15 @@ export default function PreviewApkgPage({
           ) : (
             <>
               {decks.length > 1 ? `${decks.length} decks · ` : ''}
-              {totalAll != null
-                ? `${loadedCount} of ${totalAll} cards loaded`
-                : 'Loading…'}
+              {totalAll == null
+                ? 'Loading…'
+                : `${loadedCount} of ${totalAll} cards loaded`}
             </>
           )}
         </p>
         {decks.length > 1 && (
           <label className={styles.deckFilter}>
-            Deck:
+            <span>Deck:</span>
             <select
               value={deckId ?? ''}
               onChange={(event) => {
