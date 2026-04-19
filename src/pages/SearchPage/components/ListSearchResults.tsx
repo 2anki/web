@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useMemo } from 'react';
 import { ErrorHandlerType } from '../../../components/errors/helpers/getErrorMessage';
 import NotionObject from '../../../lib/interfaces/NotionObject';
 import SearchObjectEntry from './SearchObjectEntry';
@@ -13,6 +13,16 @@ interface ListSearchResultsProps {
   workSpace?: string | null;
 }
 
+function relevanceRank(title: string, query: string): number {
+  const normalizedTitle = title.trim().toLowerCase();
+  const normalizedQuery = query.trim().toLowerCase();
+  if (!normalizedQuery) return 3;
+  if (normalizedTitle === normalizedQuery) return 0;
+  if (normalizedTitle.startsWith(normalizedQuery)) return 1;
+  if (normalizedTitle.includes(normalizedQuery)) return 2;
+  return 3;
+}
+
 export default function ListSearchResults(
   props: ListSearchResultsProps
 ): React.ReactNode {
@@ -24,7 +34,20 @@ export default function ListSearchResults(
     searchQuery,
     workSpace,
   } = props;
-  const isEmpty = results.length < 1;
+
+  const orderedResults = useMemo(() => {
+    if (!searchQuery?.trim()) return results;
+    return results
+      .map((item, index) => ({
+        item,
+        rank: relevanceRank(item.title, searchQuery),
+        index,
+      }))
+      .sort((a, b) => a.rank - b.rank || a.index - b.index)
+      .map((entry) => entry.item);
+  }, [results, searchQuery]);
+
+  const isEmpty = orderedResults.length < 1;
 
   if (isEmpty && handleEmpty) {
     const scope = workSpace ? `in “${workSpace}”` : 'in your Notion workspace';
@@ -51,7 +74,7 @@ export default function ListSearchResults(
   }
   return (
     <>
-      {results.map((p) => (
+      {orderedResults.map((p) => (
         <SearchObjectEntry
           setError={setError}
           setFavorites={setFavorites}
