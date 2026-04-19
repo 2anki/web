@@ -57,6 +57,11 @@ export default function useNavbarEnd(path: string, backend: Backend) {
       <NavbarItem href="/upload" path={path}>
         {getVisibleText('navigation.upload')}
       </NavbarItem>
+      {isLoggedIn && (
+        <NavbarItem href="/search" path={path}>
+          {getVisibleText('navigation.search')}
+        </NavbarItem>
+      )}
       <NavbarItem href="/uploads" path={path}>
         {getVisibleText('navigation.uploads')}
       </NavbarItem>
@@ -83,9 +88,6 @@ export default function useNavbarEnd(path: string, backend: Backend) {
               isActive ? styles.dropdownMenuActive : ''
             }`}
           >
-            <NavbarItem href="/search" path={path} onClick={closeDropdown}>
-              {getVisibleText('navigation.search')}
-            </NavbarItem>
             {favoritesCount > 0 && (
               <NavbarItem
                 href="/favorites"
