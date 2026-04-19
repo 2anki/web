@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { lazy, ReactElement, useState } from 'react';
+import { lazy, ReactElement, Suspense, useState } from 'react';
 
 import { useCookies, CookiesProvider } from 'react-cookie';
 import UploadPage from './pages/UploadPage';
@@ -36,6 +36,7 @@ const RulesPage = lazy(() => import('./pages/RulesPage'));
 const PreviewPage = lazy(() => import('./pages/PreviewPage'));
 const PreviewApkgPage = lazy(() => import('./pages/PreviewApkgPage'));
 const TemplatesPage = lazy(() => import('./pages/TemplatesPage'));
+import { TemplatesSkeleton } from './pages/TemplatesPage/TemplatesSkeleton';
 
 const queryClient = new QueryClient();
 
@@ -180,7 +181,11 @@ function AppContent({
           />
           <Route
             path="/templates"
-            element={requireAuth(<TemplatesPage />)}
+            element={
+              <Suspense fallback={<TemplatesSkeleton />}>
+                {requireAuth(<TemplatesPage />)}
+              </Suspense>
+            }
           />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
