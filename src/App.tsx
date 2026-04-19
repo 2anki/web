@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { lazy, useState } from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { lazy, ReactElement, useState } from 'react';
 
 import { useCookies, CookiesProvider } from 'react-cookie';
 import UploadPage from './pages/UploadPage';
@@ -16,6 +16,7 @@ import DeleteAccountPage from './pages/DeleteAccountPage';
 import { getErrorMessage } from './components/errors/helpers/getErrorMessage';
 import { sendError } from './lib/SendError';
 import { useUserLocals } from './lib/hooks/useUserLocals';
+import LoadingIndicator from './components/Loading';
 import NotFoundPage from './pages/NotFoundPage';
 
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
@@ -35,6 +36,24 @@ const RulesPage = lazy(() => import('./pages/RulesPage'));
 
 const queryClient = new QueryClient();
 
+function RequireAuth({
+  isLoggedIn,
+  isLoading,
+  children,
+}: Readonly<{
+  isLoggedIn: boolean;
+  isLoading: boolean;
+  children: ReactElement;
+}>) {
+  if (isLoading) {
+    return <LoadingIndicator />;
+  }
+  if (!isLoggedIn) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+}
+
 function AppContent({
   error,
   setErrorMessage,
@@ -47,17 +66,28 @@ function AppContent({
   const isLoggedIn = !isLoading && !!data?.user?.id;
   const isPaying =
     !isLoading && (!!data?.locals?.patreon || !!data?.locals?.subscriber);
+
+  const requireAuth = (element: ReactElement) => (
+    <RequireAuth isLoggedIn={isLoggedIn} isLoading={isLoading}>
+      {element}
+    </RequireAuth>
+  );
+
   return (
     <BrowserRouter>
       <PageLayout error={error} isLoggedIn={isLoggedIn} isPaying={isPaying}>
         <Routes>
           <Route
             path="/favorites"
-            element={<FavoritesPage setError={setErrorMessage} />}
+            element={requireAuth(
+              <FavoritesPage setError={setErrorMessage} />
+            )}
           />
           <Route
             path="/uploads"
-            element={<DownloadsPage setError={setErrorMessage} />}
+            element={requireAuth(
+              <DownloadsPage setError={setErrorMessage} />
+            )}
           />
           <Route
             path="/upload"
@@ -69,7 +99,9 @@ function AppContent({
           />
           <Route
             path="/search"
-            element={<SearchPage setError={setErrorMessage} />}
+            element={requireAuth(
+              <SearchPage setError={setErrorMessage} />
+            )}
           />
           <Route path="/login" element={<LoginPage />} />
           <Route
@@ -84,7 +116,9 @@ function AppContent({
           <Route path="/contact" element={<ContactPage />} />
           <Route
             path="/delete-account"
-            element={<DeleteAccountPage setError={setErrorMessage} />}
+            element={requireAuth(
+              <DeleteAccountPage setError={setErrorMessage} />
+            )}
           />
           <Route
             path="/pricing"
@@ -103,18 +137,22 @@ function AppContent({
             path="/successful-checkout"
             element={<SuccessfulCheckoutPage />}
           />
-          <Route path="/account" element={<AccountPage />} />
-          <Route path="/settings" element={<AccountPage />} />
+          <Route path="/account" element={requireAuth(<AccountPage />)} />
+          <Route path="/settings" element={requireAuth(<AccountPage />)} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/documentation" element={<DocsPage />} />
           <Route path="/documentation/*" element={<DocsPage />} />
           <Route
             path="/settings/card-options"
-            element={<CardOptionsPage setErrorMessage={setErrorMessage} />}
+            element={requireAuth(
+              <CardOptionsPage setErrorMessage={setErrorMessage} />
+            )}
           />
           <Route
             path="/rules/:id"
-            element={<RulesPage setErrorMessage={setErrorMessage} />}
+            element={requireAuth(
+              <RulesPage setErrorMessage={setErrorMessage} />
+            )}
           />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
