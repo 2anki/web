@@ -13,6 +13,67 @@ interface UploadFormProps {
   onFileSelected?: () => void;
 }
 
+const REJECTED_FALLBACK =
+  'The server rejected the upload. Please try again or contact support@2anki.net.';
+const NETWORK_FALLBACK =
+  "We couldn't upload your file. Please check your connection and try again.";
+
+async function extractErrorMessage(response: Response): Promise<string> {
+  try {
+    const body = await response.clone().json();
+    if (
+      typeof body?.message === 'string' &&
+      body.message.trim().length > 0
+    ) {
+      return body.message;
+    }
+  } catch {
+    const text = await response.text().catch(() => '');
+    if (
+      text.length > 0 &&
+      text.length < 500 &&
+      !text.startsWith('<')
+    ) {
+      return text;
+    }
+  }
+  return REJECTED_FALLBACK;
+}
+
+function toFriendlyThrownError(error: unknown): Error {
+  const isNetworkError =
+    error instanceof TypeError ||
+    (error instanceof Error && /fetch|network/i.test(error.message));
+  if (isNetworkError) {
+    return new Error(NETWORK_FALLBACK);
+  }
+  return error as Error;
+}
+
+function buildFormData(form: HTMLFormElement): FormData {
+  const formData = new FormData(form);
+  for (const [key, value] of Object.entries(globalThis.localStorage)) {
+    formData.append(key, value);
+  }
+  return formData;
+}
+
+function parseCardCountHeader(headers: Headers): number | null {
+  const cardCountHeader = headers.get('X-Card-Count');
+  if (!cardCountHeader) return null;
+  const parsed = Number.parseInt(cardCountHeader, 10);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function resolveDeckName(headers: Headers): string {
+  const fileNameHeader = getHeadersFilename(headers);
+  const fallback =
+    headers.get('Content-Type') === 'application/zip'
+      ? 'Your Decks.zip'
+      : 'Your deck.apkg';
+  return fileNameHeader ?? fallback;
+}
+
 function UploadForm({
   setErrorMessage,
   onFileSelected,
@@ -40,15 +101,11 @@ function UploadForm({
     event.preventDefault();
     setUploading(true);
     try {
-      const storedFields = Object.entries(window.localStorage);
-      const element = event.currentTarget as HTMLFormElement;
-      const formData = new FormData(element);
-      storedFields.forEach((sf) => formData.append(sf[0], sf[1]));
-      const request = await window.fetch('/api/upload/file', {
+      const formData = buildFormData(event.currentTarget as HTMLFormElement);
+      const request = await globalThis.fetch('/api/upload/file', {
         method: 'post',
         body: formData,
       });
-      const contentType = request.headers.get('Content-Type');
       if (request.redirected) {
         return handleRedirect(request);
       }
@@ -58,27 +115,18 @@ function UploadForm({
         return true;
       }
       if (request.status !== 200) {
-        const text = await request.text();
+        const message = await extractErrorMessage(request);
         setDownloadLink(null);
-        return setErrorMessage(text);
+        return setErrorMessage(new Error(message));
       }
-      const fileNameHeader = getHeadersFilename(request.headers);
-      const fallback =
-        contentType === 'application/zip' ? 'Your Decks.zip' : 'Your deck.apkg';
-      setDeckName(fileNameHeader ?? fallback);
-      const cardCountHeader = request.headers.get('X-Card-Count');
-      const parsedCardCount = cardCountHeader
-        ? Number.parseInt(cardCountHeader, 10)
-        : null;
-      setCardCount(
-        Number.isFinite(parsedCardCount) ? parsedCardCount : null
-      );
+      setDeckName(resolveDeckName(request.headers));
+      setCardCount(parseCardCountHeader(request.headers));
       const blob = await request.blob();
-      setDownloadLink(window.URL.createObjectURL(blob));
+      setDownloadLink(globalThis.URL.createObjectURL(blob));
       setUploading(false);
     } catch (error) {
       setDownloadLink(null);
-      setErrorMessage(error as Error);
+      setErrorMessage(toFriendlyThrownError(error));
       setUploading(false);
       return false;
     }
