@@ -36,8 +36,15 @@ export default function useNavbarEnd(path: string, backend: Backend) {
         setIsActive(false);
       }
     };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsActive(false);
+    };
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, [isActive]);
 
   return (
@@ -75,26 +82,30 @@ export default function useNavbarEnd(path: string, backend: Backend) {
             className={`${styles.dropdownMenu} ${
               isActive ? styles.dropdownMenuActive : ''
             }`}
-            onClick={closeDropdown}
-            onKeyDown={(event) => {
-              if (event.key === 'Escape') closeDropdown();
-            }}
           >
-            <NavbarItem href="/account" path={path}>
+            <NavbarItem href="/account" path={path} onClick={closeDropdown}>
               Account
             </NavbarItem>
-            <NavbarItem href="/search" path={path}>
+            <NavbarItem href="/search" path={path} onClick={closeDropdown}>
               {getVisibleText('navigation.search')}
             </NavbarItem>
             {favoritesCount > 0 && (
-              <NavbarItem href="/favorites" path={path}>
+              <NavbarItem
+                href="/favorites"
+                path={path}
+                onClick={closeDropdown}
+              >
                 {getVisibleText('navigation.favorites')}
               </NavbarItem>
             )}
-            <NavbarItem href="/documentation" path={path}>
+            <NavbarItem
+              href="/documentation"
+              path={path}
+              onClick={closeDropdown}
+            >
               {getVisibleText('navigation.documentation')}
             </NavbarItem>
-            <NavbarItem href="/contact" path={path}>
+            <NavbarItem href="/contact" path={path} onClick={closeDropdown}>
               {getVisibleText('navigation.contact')}
             </NavbarItem>
             <hr className={styles.dropdownDivider} />
