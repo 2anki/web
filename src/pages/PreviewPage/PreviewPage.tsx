@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import LoadingIndicator from '../../components/Loading';
+import { SkeletonList } from '../../components/Skeleton/Skeleton';
 import { ErrorPresenter } from '../../components/errors/ErrorPresenter';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
 import sharedStyles from '../../styles/shared.module.css';
@@ -103,9 +103,7 @@ export default function PreviewPage({ setError }: Readonly<PreviewPageProps>) {
       </header>
 
       {isLoading && !data ? (
-        <div className={styles.loadingRow}>
-          <LoadingIndicator />
-        </div>
+        <SkeletonList count={4} />
       ) : (
         <article className={styles.preview}>
           {blocks.length === 0 && (

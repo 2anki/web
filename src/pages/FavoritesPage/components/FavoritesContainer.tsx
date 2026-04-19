@@ -1,5 +1,5 @@
 import Backend from '../../../lib/backend';
-import LoadingIndicator from '../../../components/Loading';
+import { SkeletonList } from '../../../components/Skeleton/Skeleton';
 import styles from '../../../styles/shared.module.css';
 
 import FavoritesPresenter from './FavoritesPresenter';
@@ -32,7 +32,7 @@ export default function FavoritesContainer({
         </p>
       </header>
       {loading ? (
-        <LoadingIndicator />
+        <SkeletonList count={5} />
       ) : (
         <FavoritesPresenter
           favorites={favorites}

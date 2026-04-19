@@ -1,6 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 import { useUserLocals } from '../../lib/hooks/useUserLocals';
-import LoadingIndicator from '../../components/Loading';
+import { SkeletonPage } from '../../components/Skeleton/Skeleton';
 import { useSubscriptionStatus } from './hooks';
 import {
   UserProfile,
@@ -28,7 +28,7 @@ export default function AccountPage() {
     setSearchParams(next, { replace: true });
   };
 
-  if (isLoading) return <LoadingIndicator />;
+  if (isLoading) return <SkeletonPage rows={4} />;
 
   if (!data?.user?.email) {
     window.location.href = '/login';

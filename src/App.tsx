@@ -16,7 +16,7 @@ import DeleteAccountPage from './pages/DeleteAccountPage';
 import { getErrorMessage } from './components/errors/helpers/getErrorMessage';
 import { sendError } from './lib/SendError';
 import { useUserLocals } from './lib/hooks/useUserLocals';
-import LoadingIndicator from './components/Loading';
+import { SkeletonPage } from './components/Skeleton/Skeleton';
 import NotFoundPage from './pages/NotFoundPage';
 
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
@@ -47,7 +47,7 @@ function RequireAuth({
   children: ReactElement;
 }>) {
   if (isLoading) {
-    return <LoadingIndicator />;
+    return <SkeletonPage />;
   }
   if (!isLoggedIn) {
     return <Navigate to="/login" replace />;
