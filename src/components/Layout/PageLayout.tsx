@@ -7,7 +7,7 @@ import sharedStyles from '../../styles/shared.module.css';
 import styles from './Layout.module.css';
 
 interface PageLayoutProps {
-  isLoggedIn: boolean;
+  isLoggedIn: boolean | undefined;
   isPaying: boolean;
   children: ReactNode;
   error?: Error | null;

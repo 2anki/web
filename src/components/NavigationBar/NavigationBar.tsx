@@ -7,13 +7,15 @@ import useNavbarEnd from './helpers/useNavbarEnd';
 import { get2ankiApi } from '../../lib/backend/get2ankiApi';
 
 interface NavigationBarProps {
-  isLoggedIn: boolean;
+  isLoggedIn: boolean | undefined;
 }
 
 function NavigationBar({ isLoggedIn }: Readonly<NavigationBarProps>) {
   const [active, setActive] = useState(false);
   const path = window.location.pathname;
   const loggedInNavbar = useNavbarEnd(path, get2ankiApi());
+
+  const isResolved = isLoggedIn !== undefined;
 
   return (
     <nav className={styles.navbar} aria-label="main navigation">
@@ -39,12 +41,13 @@ function NavigationBar({ isLoggedIn }: Readonly<NavigationBarProps>) {
       <div className={active ? styles.menuActive : styles.menu}>
         <div
           className={
-            isLoggedIn === undefined
-              ? styles.navMenuContent
-              : `${styles.navMenuContent} ${styles.navMenuContentVisible}`
+            isResolved
+              ? `${styles.navMenuContent} ${styles.navMenuContentVisible}`
+              : styles.navMenuContent
           }
         >
-          {isLoggedIn ? loggedInNavbar : <RightSide path={path} />}
+          {isResolved &&
+            (isLoggedIn ? loggedInNavbar : <RightSide path={path} />)}
         </div>
       </div>
     </nav>
