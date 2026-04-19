@@ -62,10 +62,11 @@ function UploadForm({ setErrorMessage }: Readonly<UploadFormProps>) {
         contentType === 'application/zip' ? 'Your Decks.zip' : 'Your deck.apkg';
       setDeckName(fileNameHeader ?? fallback);
       const cardCountHeader = request.headers.get('X-Card-Count');
-      const parsedCardCount =
-        cardCountHeader !== null ? Number.parseInt(cardCountHeader, 10) : null;
+      const parsedCardCount = cardCountHeader
+        ? Number.parseInt(cardCountHeader, 10)
+        : null;
       setCardCount(
-        Number.isFinite(parsedCardCount as number) ? (parsedCardCount as number) : null
+        Number.isFinite(parsedCardCount) ? parsedCardCount : null
       );
       const blob = await request.blob();
       setDownloadLink(window.URL.createObjectURL(blob));
