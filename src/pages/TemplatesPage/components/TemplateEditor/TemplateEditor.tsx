@@ -340,31 +340,6 @@ const TemplateEditor: React.FC = () => {
     setTempDescription("");
   }, []);
 
-  const [shareError, setShareError] = useState<string | null>(null);
-
-  const handleShareTemplate = useCallback(async () => {
-    if (!selectedTemplate || selectedTemplate.isShared) return;
-
-    const confirmed = window.confirm(
-      "Share this template publicly? It will be visible to all 2anki users and cannot be removed once shared."
-    );
-    if (!confirmed) return;
-
-    try {
-      setShareError(null);
-      await apiService.publishTemplate(selectedTemplate);
-      const updated = { ...selectedTemplate, isShared: true };
-      setSelectedTemplate(updated);
-      setUserTemplates((prev) =>
-        prev.map((t) => (t.id === updated.id ? updated : t))
-      );
-    } catch (error) {
-      setShareError(
-        error instanceof Error ? error.message : "Failed to share template"
-      );
-    }
-  }, [selectedTemplate, apiService]);
-
   const handleExportTemplate = useCallback(async () => {
     if (!selectedTemplate) return;
 
@@ -544,22 +519,6 @@ const TemplateEditor: React.FC = () => {
                   </div>
                 )}
 
-                <button
-                  className={styles.actionButton}
-                  disabled={selectedTemplate.isShared}
-                  onClick={handleShareTemplate}
-                  title={
-                    selectedTemplate.isShared
-                      ? "Already shared"
-                      : "Share to marketplace"
-                  }
-                >
-                  <Icons.Share className={styles.actionIcon} />
-                  {selectedTemplate.isShared ? "Shared" : "Share"}
-                </button>
-                {shareError && (
-                  <span className={styles.shareError}>{shareError}</span>
-                )}
               </div>
             </div>
 

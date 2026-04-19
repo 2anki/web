@@ -133,30 +133,6 @@ class TemplateApiService {
     await this.syncToServer({ ...data, templates });
   }
 
-  // Publish template to the public marketplace
-  async publishTemplate(template: TemplateProject): Promise<void> {
-    const response = await fetch(`${getBaseURL()}/api/templates/publish`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({
-        name: template.name,
-        description: template.description,
-        baseType: template.baseType,
-        noteType: template.noteType,
-        previewData: template.previewData,
-        tags: template.tags,
-      }),
-    });
-
-    if (response.status === 401) {
-      throw new Error("Please log in to 2anki.net to share templates");
-    }
-    if (!response.ok) {
-      throw new Error("Failed to publish template");
-    }
-  }
-
   // Export template for Anki
   async exportTemplate(templateId: string): Promise<ArrayBuffer> {
     const templates = await this.getUserTemplates();
