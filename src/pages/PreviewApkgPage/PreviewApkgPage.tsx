@@ -88,7 +88,7 @@ export default function PreviewApkgPage({
   const filteredTotal = stream.data?.pages[0]?.total;
   const totalAll = meta.data?.totalCards;
   const loadedCount = cards.length;
-  const decks = meta.data?.decks ?? [];
+  const decks = Array.isArray(meta.data?.decks) ? meta.data.decks : [];
   const selectedDeck = decks.find((d) => d.id === deckId) ?? null;
 
   return (

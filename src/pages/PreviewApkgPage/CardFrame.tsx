@@ -25,18 +25,27 @@ ${card.css}
 </html>`;
 }
 
+function resolveDeckSegments(card: ApkgPreviewCard): string[] {
+  if (Array.isArray(card.deckPath) && card.deckPath.length > 0) {
+    return card.deckPath;
+  }
+  if (card.deckName) return card.deckName.split('::');
+  return [];
+}
+
 export function CardFrame({ card }: Readonly<CardFrameProps>) {
   const [showBack, setShowBack] = useState(false);
   const srcDoc = useMemo(
     () => buildSrcDoc(card, showBack ? 'back' : 'front'),
     [card, showBack]
   );
+  const deckSegments = useMemo(() => resolveDeckSegments(card), [card]);
 
   return (
     <section className={styles.card}>
       <header className={styles.cardHeader}>
         <div className={styles.cardDeckPath}>
-          {card.deckPath.map((segment, idx) => (
+          {deckSegments.map((segment, idx) => (
             <span key={`${segment}-${idx}`} className={styles.cardDeckSegment}>
               {idx > 0 && (
                 <span className={styles.cardDeckSeparator} aria-hidden="true">
