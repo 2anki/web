@@ -10,6 +10,12 @@ interface Props {
   cardCount?: number | null;
 }
 
+function getButtonLabel(uploading: boolean, isEmptyDeck: boolean): string {
+  if (uploading) return 'Converting...';
+  if (isEmptyDeck) return 'Download empty deck';
+  return 'Download';
+}
+
 function DownloadButton(props: Props) {
   const { downloadLink, deckName, uploading, cardCount } = props;
   const isDownloadable = downloadLink && deckName;
@@ -56,11 +62,7 @@ function DownloadButton(props: Props) {
         }}
         disabled={!isDownloadable}
       >
-        {uploading
-          ? 'Converting...'
-          : isEmptyDeck
-            ? 'Download empty deck'
-            : 'Download'}
+        {getButtonLabel(uploading, isEmptyDeck)}
       </button>
       {downloadLink && (
         <a
