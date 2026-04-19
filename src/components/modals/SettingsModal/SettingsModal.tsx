@@ -24,7 +24,7 @@ function SettingsModal({
   const location = useLocation();
   const returnTo = `${location.pathname}${location.search}`;
   const editTemplatesHref = import.meta.env.DEV
-    ? 'http://localhost:3000'
+    ? 'http://localhost:3001'
     : 'https://templates.2anki.net';
 
   const params = new URLSearchParams();
