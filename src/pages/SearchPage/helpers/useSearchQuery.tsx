@@ -13,7 +13,10 @@ interface SearchQuery {
   inProgress: boolean;
   triggerSearch: (force: boolean) => void;
   setSearchQuery: (value: string) => void;
+  searchQuery: string;
 }
+
+const DEBOUNCE_MS = 600;
 
 export default function useSearchQuery(
   backend: Backend,
@@ -60,7 +63,7 @@ export default function useSearchQuery(
   useEffect(() => {
     const timeout = setTimeout(() => {
       triggerSearch();
-    }, 400);
+    }, DEBOUNCE_MS);
     return () => clearTimeout(timeout);
   }, [searchQuery, triggerSearch]);
 
@@ -70,5 +73,6 @@ export default function useSearchQuery(
     triggerSearch,
     isLoading,
     setSearchQuery: updateSearchQuery,
+    searchQuery,
   };
 }

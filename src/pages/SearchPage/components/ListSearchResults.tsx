@@ -9,27 +9,42 @@ interface ListSearchResultsProps {
   setFavorites: Dispatch<SetStateAction<NotionObject[]>>;
   handleEmpty?: boolean;
   setError: ErrorHandlerType;
+  searchQuery?: string;
+  workSpace?: string | null;
 }
 
 export default function ListSearchResults(
   props: ListSearchResultsProps
 ): React.ReactNode {
-  const { results, handleEmpty = true, setFavorites, setError } = props;
+  const {
+    results,
+    handleEmpty = true,
+    setFavorites,
+    setError,
+    searchQuery,
+    workSpace,
+  } = props;
   const isEmpty = results.length < 1;
 
   if (isEmpty && handleEmpty) {
+    const scope = workSpace ? `in “${workSpace}”` : 'in your Notion workspace';
+    const headline = searchQuery
+      ? `No pages match “${searchQuery}” ${scope}`
+      : `No pages found ${scope}`;
     return (
       <div className={styles.emptyState}>
-        <p>No results found</p>
+        <p>{headline}</p>
         <p className={styles.secondaryText}>
-          Try a different search term. Also ensure you{' '}
+          Try a different search term, or make sure the page is shared with
+          the 2anki integration — see{' '}
           <a
             target="_blank"
             rel="noreferrer"
             href="https://www.notion.so/help/guides/understanding-notions-sharing-settings"
           >
-            understand Notion's sharing settings
+            Notion's sharing settings
           </a>
+          .
         </p>
       </div>
     );

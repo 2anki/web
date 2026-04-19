@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import ObjectAction from '../actions/ObjectAction';
@@ -37,6 +37,7 @@ function SearchObjectEntry(props: Readonly<Props>) {
   const { title, icon, url, id, type, setError } = props;
   const navigate = useNavigate();
   const location = useLocation();
+  const [converting, setConverting] = useState(false);
 
   const openRules = () => {
     const params = new URLSearchParams();
@@ -47,6 +48,26 @@ function SearchObjectEntry(props: Readonly<Props>) {
     navigate(`/rules/${encodeURIComponent(id)}?${params.toString()}`);
   };
 
+  const handleConvert = (event: React.MouseEvent) => {
+    event.preventDefault();
+    if (converting) return;
+    setConverting(true);
+    get2ankiApi()
+      .convert(id, getType(type), title)
+      .then((response) => {
+        if (response.status === OK) {
+          window.location.href = '/uploads';
+        } else {
+          setConverting(false);
+          response.text().then(setError);
+        }
+      })
+      .catch((error) => {
+        setConverting(false);
+        setError(error);
+      });
+  };
+
   return (
     <div className={styles.entry} data-hj-suppress>
       <div className={styles.objectMeta}>
@@ -54,31 +75,29 @@ function SearchObjectEntry(props: Readonly<Props>) {
         <span>{title}</span>
       </div>
       <div className={styles.objectActions}>
+        {converting && (
+          <output className={styles.convertingBadge}>
+            Starting conversion…
+          </output>
+        )}
         <ObjectAction
           url={url}
           image="/icons/Anki_app_logo.png"
-          onClick={(event) => {
-            event.preventDefault();
-            get2ankiApi()
-              .convert(id, getType(type), title)
-              .then((response) => {
-                if (response.status === OK) {
-                  window.location.href = '/uploads';
-                } else {
-                  response.text().then(setError);
-                }
-              })
-              .catch((error) => {
-                setError(error);
-              });
-          }}
+          label={converting ? `Converting ${title}…` : `Convert ${title} to Anki`}
+          onClick={handleConvert}
+          disabled={converting}
         />
-        <ObjectAction url={url} image="/icons/Notion_app_logo.png" />
+        <ObjectAction
+          url={url}
+          image="/icons/Notion_app_logo.png"
+          label={`Open ${title} in Notion`}
+        />
         {getType(type) !== 'database' && (
           <Link
             to={`/preview/${encodeURIComponent(id)}`}
             className={styles.rulesButton}
             aria-label={`Preview ${title}`}
+            title={`Preview ${title}`}
           >
             <EyeIcon width={32} height={32} />
           </Link>
@@ -88,6 +107,7 @@ function SearchObjectEntry(props: Readonly<Props>) {
           className={styles.rulesButton}
           onClick={openRules}
           aria-label={`Configure rules for ${title}`}
+          title={`Configure rules for ${title}`}
         >
           <DotsHorizontal width={32} height={32} />
         </button>

@@ -11,26 +11,36 @@ interface SearchPresenterProps {
   inProgress: boolean;
   myPages: NotionObject[];
   setSearchQuery: (value: string) => void;
+  searchQuery: string;
   triggerSearch: (force: boolean) => void;
   setError: ErrorHandlerType;
+  workSpace: string | null;
 }
 
 export default function SearchPresenter(props: SearchPresenterProps) {
   const navigate = useNavigate();
-  const { inProgress, myPages, setSearchQuery, triggerSearch, setError } =
-    props;
+  const {
+    inProgress,
+    myPages,
+    setSearchQuery,
+    searchQuery,
+    triggerSearch,
+    setError,
+    workSpace,
+  } = props;
   const [, setFavorites] = useFavorites(new Backend());
 
   return (
     <>
       <div className={searchStyles.stickyBar}>
         <SearchBar
+          value={searchQuery}
           inProgress={inProgress}
           onSearchQueryChanged={(s) => {
-            navigate({
-              pathname: '/search',
-              search: `?q=${s}`,
-            });
+            navigate(
+              { pathname: '/search', search: s ? `?q=${encodeURIComponent(s)}` : '' },
+              { replace: true }
+            );
             setSearchQuery(s);
           }}
           onSearchClicked={() => triggerSearch(false)}
@@ -41,6 +51,8 @@ export default function SearchPresenter(props: SearchPresenterProps) {
         setFavorites={setFavorites}
         results={myPages}
         handleEmpty={!inProgress}
+        searchQuery={searchQuery}
+        workSpace={workSpace}
       />
     </>
   );
