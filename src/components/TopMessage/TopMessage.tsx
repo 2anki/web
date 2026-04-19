@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import useQuery from '../../lib/hooks/useQuery';
 import styles from '../../styles/shared.module.css';
 
@@ -8,7 +9,10 @@ function TopMessage() {
   if (errorMessage === 'upload_limit_exceeded') {
     return (
       <div className={styles.alertDanger}>
-        <p>You have reached the upload limit of 100 flashcards.</p>
+        <p>
+          You&apos;ve reached your conversion limit.{' '}
+          <Link to="/pricing">Upgrade</Link> to convert more.
+        </p>
       </div>
     );
   }
