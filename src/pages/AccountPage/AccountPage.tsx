@@ -1,3 +1,4 @@
+import { useSearchParams } from 'react-router-dom';
 import { useUserLocals } from '../../lib/hooks/useUserLocals';
 import LoadingIndicator from '../../components/Loading';
 import { useSubscriptionStatus } from './hooks';
@@ -18,6 +19,14 @@ export default function AccountPage() {
     data?.locals
   );
   const notionData = useNotionData(get2ankiApi());
+  const [searchParams, setSearchParams] = useSearchParams();
+  const justSubscribed = searchParams.get('subscribed') === '1';
+
+  const dismissSubscribedBanner = () => {
+    const next = new URLSearchParams(searchParams);
+    next.delete('subscribed');
+    setSearchParams(next, { replace: true });
+  };
 
   if (isLoading) return <LoadingIndicator />;
 
@@ -36,6 +45,26 @@ export default function AccountPage() {
           Manage your profile, plan, and connected services.
         </p>
       </header>
+
+      {justSubscribed && (
+        <div
+          className={sharedStyles.alertSuccess}
+          role="status"
+          aria-live="polite"
+        >
+          <p>
+            <strong>Thanks for subscribing!</strong> Your plan is active —
+            you can see the details below.
+          </p>
+          <button
+            type="button"
+            className={sharedStyles.btnGhost}
+            onClick={dismissSubscribedBanner}
+          >
+            Dismiss
+          </button>
+        </div>
+      )}
 
       <div className={styles.mainCard}>
         <UserProfile user={user} />
