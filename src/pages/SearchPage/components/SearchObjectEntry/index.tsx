@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import ObjectAction from '../actions/ObjectAction';
 import DotsHorizontal from '../../../../components/icons/DotsHorizontal';
@@ -8,6 +8,7 @@ import { OK } from '../../../../lib/backend/http';
 import { BlockIcon } from '../BlockIcon';
 import { ErrorHandlerType } from '../../../../components/errors/helpers/getErrorMessage';
 import { get2ankiApi } from '../../../../lib/backend/get2ankiApi';
+import sharedStyles from '../../../../styles/shared.module.css';
 import styles from './SearchObjectEntry.module.css';
 
 interface Props {
@@ -73,6 +74,14 @@ function SearchObjectEntry(props: Readonly<Props>) {
           }}
         />
         <ObjectAction url={url} image="/icons/Notion_app_logo.png" />
+        {getType(type) !== 'database' && (
+          <Link
+            to={`/preview/${encodeURIComponent(id)}`}
+            className={sharedStyles.btnSmallPill}
+          >
+            Preview
+          </Link>
+        )}
         <button
           type="button"
           className={styles.rulesButton}

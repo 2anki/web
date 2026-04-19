@@ -33,6 +33,7 @@ const SuccessfulCheckoutPage = lazy(
 const DocsPage = lazy(() => import('./pages/DocsPage/DocsPage'));
 const CardOptionsPage = lazy(() => import('./pages/CardOptionsPage'));
 const RulesPage = lazy(() => import('./pages/RulesPage'));
+const PreviewPage = lazy(() => import('./pages/PreviewPage'));
 
 const queryClient = new QueryClient();
 
@@ -153,6 +154,12 @@ function AppContent({
             path="/rules/:id"
             element={requireAuth(
               <RulesPage setErrorMessage={setErrorMessage} />
+            )}
+          />
+          <Route
+            path="/preview/:id"
+            element={requireAuth(
+              <PreviewPage setError={setErrorMessage} />
             )}
           />
           <Route path="*" element={<NotFoundPage />} />
