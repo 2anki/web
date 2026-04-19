@@ -33,6 +33,7 @@ export default function useSearchQuery(
   const updateSearchQuery = useCallback((value: string) => {
     setSearchQuery(value);
     setMyPages([]);
+    setInProgress(true);
     sessionStorage.setItem(SESSION_STORAGE_KEY, value);
   }, []);
   const [myPages, setMyPages] = useState<NotionObject[]>([]);
