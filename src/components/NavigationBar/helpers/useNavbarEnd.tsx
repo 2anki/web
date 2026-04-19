@@ -79,7 +79,6 @@ export default function useNavbarEnd(path: string, backend: Backend) {
             onKeyDown={(event) => {
               if (event.key === 'Escape') closeDropdown();
             }}
-            role="menu"
           >
             <NavbarItem href="/account" path={path}>
               Account
