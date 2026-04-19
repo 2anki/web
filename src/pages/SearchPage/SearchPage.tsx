@@ -3,7 +3,7 @@ import React from 'react';
 import SearchContainer from './components/SearchContainer';
 import useNotionData from './helpers/useNotionData';
 import ConnectNotion from './components/ConnectNotion';
-import LoadingIndicator from '../../components/Loading';
+import { SkeletonList } from '../../components/Skeleton/Skeleton';
 import { ErrorHandlerType } from '../../components/errors/helpers/getErrorMessage';
 import { get2ankiApi } from '../../lib/backend/get2ankiApi';
 import { ErrorPresenter } from '../../components/errors/ErrorPresenter';
@@ -25,11 +25,7 @@ export function SearchPage({ setError }: SearchPageProps) {
 
   let content;
   if (notionData.loading) {
-    content = (
-      <div className={styles.textCenter}>
-        <LoadingIndicator />
-      </div>
-    );
+    content = <SkeletonList count={6} />;
   } else if (notionData.error) {
     content = (
       <ErrorPresenter error={notionData.error} onRetry={notionData.refetch} />
