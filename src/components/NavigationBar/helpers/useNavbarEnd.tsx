@@ -83,9 +83,6 @@ export default function useNavbarEnd(path: string, backend: Backend) {
               isActive ? styles.dropdownMenuActive : ''
             }`}
           >
-            <NavbarItem href="/account" path={path} onClick={closeDropdown}>
-              Account
-            </NavbarItem>
             <NavbarItem href="/search" path={path} onClick={closeDropdown}>
               {getVisibleText('navigation.search')}
             </NavbarItem>
@@ -109,6 +106,9 @@ export default function useNavbarEnd(path: string, backend: Backend) {
               {getVisibleText('navigation.contact')}
             </NavbarItem>
             <hr className={styles.dropdownDivider} />
+            <NavbarItem href="/account" path={path} onClick={closeDropdown}>
+              Account
+            </NavbarItem>
             <a
               className={styles.dropdownItem}
               href="/users/logout"
