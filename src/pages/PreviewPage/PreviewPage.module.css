@@ -77,11 +77,48 @@
   border-radius: var(--radius-sm);
 }
 
-.preview :global(details em) {
-  display: block;
+.toggleBlock {
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.75rem;
+}
+
+.toggleSummary {
+  cursor: pointer;
+  font-weight: var(--font-medium);
+}
+
+.toggleSummary :global(h1),
+.toggleSummary :global(h2),
+.toggleSummary :global(h3),
+.toggleSummary :global(h4) {
+  display: inline;
+  margin: 0;
+}
+
+.toggleChildren {
+  margin-top: 0.5rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.muted {
   color: var(--color-text-secondary);
   font-size: var(--text-xs);
-  margin-top: 0.25rem;
+  margin: 0;
+}
+
+.retryButton {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-primary);
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: inherit;
 }
 
 .preview :global(figure) {
