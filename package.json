@@ -27,7 +27,7 @@
     "test:e2e:with-servers": "concurrently \"pnpm mock-server\" \"pnpm start\" --names \"mock,app\" --prefix-colors \"blue,green\""
   },
   "dependencies": {
-    "@bugsnag/js": "^7.23.0",
+    "@bugsnag/js": "^8.9.0",
     "@bugsnag/plugin-react": "^8.8.0",
     "@tanstack/react-query": "^5.90.20",
     "date-fns": "^4.1.0",
