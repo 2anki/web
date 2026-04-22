@@ -81,6 +81,24 @@
   margin: 0;
 }
 
+.templateHeadingRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.editTemplatesLink {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.editTemplatesLink:hover {
+  color: var(--color-text-primary);
+  text-decoration: underline;
+}
+
 .loading {
   display: flex;
   justify-content: center;

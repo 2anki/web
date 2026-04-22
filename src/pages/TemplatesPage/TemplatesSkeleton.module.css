@@ -1,0 +1,120 @@
+.skeletonShell {
+  display: flex;
+  min-height: 100vh;
+  background: #f6f9fc;
+  color: transparent;
+}
+
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  padding: 1rem;
+  background: #ffffff;
+  border-right: 1px solid #e3e8ee;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.sidebarTop {
+  height: 48px;
+  border-radius: 10px;
+  background: linear-gradient(
+    90deg,
+    #edf0f4 0%,
+    #e3e8ee 50%,
+    #edf0f4 100%
+  );
+  background-size: 200% 100%;
+  animation: templatesShimmer 1.4s ease-in-out infinite;
+  margin-bottom: 0.75rem;
+}
+
+.sidebarRow {
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    #edf0f4 0%,
+    #e3e8ee 50%,
+    #edf0f4 100%
+  );
+  background-size: 200% 100%;
+  animation: templatesShimmer 1.4s ease-in-out infinite;
+}
+
+.canvas {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.canvasHeader {
+  height: 40px;
+  width: 40%;
+  border-radius: 10px;
+  background: linear-gradient(
+    90deg,
+    #edf0f4 0%,
+    #e3e8ee 50%,
+    #edf0f4 100%
+  );
+  background-size: 200% 100%;
+  animation: templatesShimmer 1.4s ease-in-out infinite;
+}
+
+.canvasRow {
+  height: 24px;
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    #edf0f4 0%,
+    #e3e8ee 50%,
+    #edf0f4 100%
+  );
+  background-size: 200% 100%;
+  animation: templatesShimmer 1.4s ease-in-out infinite;
+}
+
+.canvasGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex: 1;
+}
+
+.canvasCell {
+  border-radius: 14px;
+  background: linear-gradient(
+    90deg,
+    #edf0f4 0%,
+    #e3e8ee 50%,
+    #edf0f4 100%
+  );
+  background-size: 200% 100%;
+  animation: templatesShimmer 1.4s ease-in-out infinite;
+  min-height: 280px;
+}
+
+@keyframes templatesShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebarTop,
+  .sidebarRow,
+  .canvasHeader,
+  .canvasRow,
+  .canvasCell {
+    animation: none;
+    background: #e3e8ee;
+  }
+}
