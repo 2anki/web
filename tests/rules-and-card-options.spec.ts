@@ -163,32 +163,32 @@ test.describe('RulesPage', () => {
 
   test('Save changes navigates back to returnTo', async ({ page }) => {
     await page.goto(
-      '/rules/page-1?title=My%20Page&type=page&returnTo=/search?q=hello'
+      '/rules/page-1?title=My%20Page&type=page&returnTo=/notion?q=hello'
     );
     await page.getByRole('button', { name: /Save changes/ }).waitFor();
 
     await page.getByRole('button', { name: /Save changes/ }).click();
 
-    await page.waitForURL('**/search?q=hello');
-    expect(page.url()).toContain('/search?q=hello');
+    await page.waitForURL('**/notion?q=hello');
+    expect(page.url()).toContain('/notion?q=hello');
   });
 
   test('Back navigates to returnTo when there are no unsaved changes', async ({
     page,
   }) => {
-    await page.goto('/rules/page-1?title=My%20Page&returnTo=/search?q=notion');
+    await page.goto('/rules/page-1?title=My%20Page&returnTo=/notion?q=notion');
     await page.getByRole('button', { name: '← Back' }).waitFor();
 
     await page.getByRole('button', { name: '← Back' }).click();
 
-    await page.waitForURL('**/search?q=notion');
-    expect(page.url()).toContain('/search?q=notion');
+    await page.waitForURL('**/notion?q=notion');
+    expect(page.url()).toContain('/notion?q=notion');
   });
 
   test('Back prompts confirm when rules are dirty; cancelling stays on page', async ({
     page,
   }) => {
-    await page.goto('/rules/page-1?title=My%20Page&returnTo=/search');
+    await page.goto('/rules/page-1?title=My%20Page&returnTo=/notion');
     await page.getByRole('button', { name: /Save changes/ }).waitFor();
 
     // Toggle a chip to make the page dirty.
