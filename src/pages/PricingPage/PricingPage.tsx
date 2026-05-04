@@ -6,13 +6,15 @@ import styles from './PricingPage.module.css';
 
 interface PricingPageProps {
   isLoggedIn: boolean;
+  email?: string;
 }
 
 export default function PricingPage({
   isLoggedIn,
+  email,
 }: Readonly<PricingPageProps>) {
   const subcribeLink = isLoggedIn
-    ? getSubscribeLink()
+    ? getSubscribeLink(email)
     : '/login?redirect=/pricing';
   const lifetimeLink = getLifetimeLink();
 
