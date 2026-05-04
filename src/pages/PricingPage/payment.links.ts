@@ -2,7 +2,7 @@ export const getSubscribeLink = (email?: string) => {
   const base =
     process.env.NODE_ENV === 'development'
       ? 'https://buy.stripe.com/test_fZebM83k00Rj6PeeUU'
-      : 'https://buy.stripe.com/cN2cPC6ek7RCbjGdQU';
+      : 'https://buy.stripe.com/8x27sK9aV44W4rG3ek3Je08';
   return email ? `${base}?prefilled_email=${encodeURIComponent(email)}` : base;
 };
 
