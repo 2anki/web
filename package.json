@@ -71,7 +71,7 @@
     "swagger-typescript-api": "^13.7.2",
     "swagger-ui-express": "^5.0.1",
     "terser": "^5.46.2",
-    "typescript": "^5.8.2",
+    "typescript": "^6.0.3",
     "vite": "^8.0.10",
     "vite-plugin-svgr": "^5.2.0",
     "vitest": "^4.1.5"
