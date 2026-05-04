@@ -133,7 +133,7 @@ function AppContent({
           />
           <Route
             path="/pricing"
-            element={<PricingPage isLoggedIn={isLoggedInResolved} />}
+            element={<PricingPage isLoggedIn={isLoggedInResolved} email={data?.user?.email} />}
           />
           <Route
             path="/"
