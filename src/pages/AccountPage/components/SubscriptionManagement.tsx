@@ -104,7 +104,7 @@ export function SubscriptionManagement({
           {view.kind === 'active' && (
             <div className={styles.activeBadge}>
               Active — renews on{' '}
-              <strong>{formatDate(view.subscription.current_period_end)}</strong>
+              <strong>{formatDate(view.subscription.cancel_at)}</strong>
               .
               {formatPlan(view.subscription) && (
                 <p className={styles.planDetail}>
@@ -117,7 +117,7 @@ export function SubscriptionManagement({
           {view.kind === 'scheduled' && (
             <div className={styles.scheduledBadge}>
               Scheduled to cancel on{' '}
-              <strong>{formatDate(view.subscription.current_period_end)}</strong>
+              <strong>{formatDate(view.subscription.cancel_at)}</strong>
               . You will keep access until then.
               {formatPlan(view.subscription) && (
                 <p className={styles.planDetail}>
