@@ -11,10 +11,10 @@ jobs:
         node-version: [v22.15.1]
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
       - name: Web
