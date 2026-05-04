@@ -37,7 +37,7 @@ export default function PricingPage({
           benefits={['100 flashcards and max upload (100mb)']}
         />
         <PricingCard
-          price="$2"
+          price="$6"
           title="Subscriber Plan - Monthly"
           benefits={[
             'Unlimited Flashcards (9GB++)',
