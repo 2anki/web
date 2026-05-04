@@ -3,6 +3,7 @@ import { useEmailLinking } from '../hooks/useEmailLinking';
 import { useSubscriptionCancellation } from '../hooks/useSubscriptionCancellation';
 import { useStripeSubscriptions } from '../../../lib/hooks/useStripeSubscriptions';
 import { StripeSubscriptionSummary } from '../../../lib/backend/getSubscriptionStatus';
+import { CancellationSurveyModal } from './CancellationSurveyModal';
 import styles from '../AccountPage.module.css';
 import sharedStyles from '../../../styles/shared.module.css';
 
@@ -69,6 +70,9 @@ export function SubscriptionManagement({
 
   const {
     cancelUserSubscription,
+    confirmCancellation,
+    dismissSurvey,
+    pendingMode,
     isCancelling,
     cancelError,
     cancelSuccess,
@@ -97,6 +101,14 @@ export function SubscriptionManagement({
   const { view } = stripeStatus;
 
   return (
+    <>
+    {pendingMode && (
+      <CancellationSurveyModal
+        mode={pendingMode}
+        onConfirm={confirmCancellation}
+        onClose={dismissSurvey}
+      />
+    )}
     <div className={styles.managementCard}>
       <h3 className={styles.managementTitle}>Subscription Management</h3>
       {locals?.subscriber && (
@@ -258,5 +270,6 @@ export function SubscriptionManagement({
         </div>
       )}
     </div>
+    </>
   );
 }

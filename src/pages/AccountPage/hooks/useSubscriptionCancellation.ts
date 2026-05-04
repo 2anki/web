@@ -4,26 +4,19 @@ import {
   cancelSubscription,
   CancelMode,
 } from '../../../lib/backend/cancelSubscription';
-
-const CONFIRM_MESSAGES: Record<CancelMode, string> = {
-  period_end:
-    'Are you sure you want to cancel your subscription? You will still have access until the end of your current billing period.',
-  immediate:
-    'Are you sure you want to cancel your subscription immediately? You will lose access right away and will not be refunded the remainder of the current period.',
-};
+import { CancellationReason } from '../components/CancellationSurveyModal';
 
 export function useSubscriptionCancellation(onSuccess?: () => void) {
   const [cancelError, setCancelError] = useState<string>('');
   const [cancelSuccess, setCancelSuccess] = useState<string>('');
+  const [pendingMode, setPendingMode] = useState<CancelMode | null>(null);
 
   const { mutate, isPending: isCancelling } = useMutation({
-    mutationFn: (mode: CancelMode) => cancelSubscription(mode),
+    mutationFn: ({ mode, reason, comment }: { mode: CancelMode; reason: string; comment: string }) =>
+      cancelSubscription(mode, reason, comment),
     onSuccess: (data) => {
       setCancelError('');
-      setCancelSuccess(
-        data?.message ??
-          'Your subscription change has been processed.'
-      );
+      setCancelSuccess(data?.message ?? 'Your subscription change has been processed.');
       onSuccess?.();
     },
     onError: (error: Error) => {
@@ -33,15 +26,24 @@ export function useSubscriptionCancellation(onSuccess?: () => void) {
   });
 
   const cancelUserSubscription = (mode: CancelMode = 'period_end') => {
-    if (globalThis.confirm(CONFIRM_MESSAGES[mode])) {
-      setCancelError('');
-      setCancelSuccess('');
-      mutate(mode);
-    }
+    setPendingMode(mode);
   };
+
+  const confirmCancellation = (reason: CancellationReason, comment: string) => {
+    if (!pendingMode) return;
+    setCancelError('');
+    setCancelSuccess('');
+    mutate({ mode: pendingMode, reason, comment });
+    setPendingMode(null);
+  };
+
+  const dismissSurvey = () => setPendingMode(null);
 
   return {
     cancelUserSubscription,
+    confirmCancellation,
+    dismissSurvey,
+    pendingMode,
     isCancelling,
     cancelError,
     cancelSuccess,
