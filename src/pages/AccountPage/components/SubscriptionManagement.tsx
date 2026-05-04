@@ -146,6 +146,15 @@ export function SubscriptionManagement({
             </p>
           )}
 
+          {view.kind === 'active' &&
+            view.subscription.plan?.amount != null &&
+            view.subscription.plan.amount < 600 && (
+              <div className={styles.scheduledBadge}>
+                You're on our legacy $2/mo plan. If you cancel, this rate won't
+                be available again — the current price is $6/mo.
+              </div>
+            )}
+
           <div className={styles.buttonRow}>
             {view.kind === 'active' && (
               <>
