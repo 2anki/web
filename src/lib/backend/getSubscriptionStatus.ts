@@ -10,7 +10,7 @@ export interface StripeSubscriptionSummary {
   id: string;
   status: string;
   cancel_at_period_end: boolean;
-  current_period_end: number | null;
+  cancel_at: number | null;
   canceled_at: number | null;
   plan: StripePlanSummary | null;
 }
