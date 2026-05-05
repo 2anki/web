@@ -82,6 +82,7 @@ function UploadForm({
   const [downloadLink, setDownloadLink] = useState<null | string>('');
   const [deckName, setDeckName] = useState('');
   const [cardCount, setCardCount] = useState<number | null>(null);
+  const [warningMessage, setWarningMessage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const convertRef = useRef<HTMLButtonElement>(null);
 
@@ -119,6 +120,7 @@ function UploadForm({
         setDownloadLink(null);
         return setErrorMessage(new Error(message));
       }
+      setWarningMessage(request.headers.get('X-Warning'));
       setDeckName(resolveDeckName(request.headers));
       setCardCount(parseCardCountHeader(request.headers));
       const blob = await request.blob();
@@ -170,6 +172,9 @@ function UploadForm({
         uploading={uploading}
         cardCount={cardCount}
       />
+      {warningMessage && (
+        <p className={styles.notificationWarning}>{warningMessage}</p>
+      )}
       <button
         aria-label="Upload file"
         className={styles.hidden}
