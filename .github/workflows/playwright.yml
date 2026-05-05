@@ -10,10 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v6
         with:
           node-version: v22.15.1
-      - uses: pnpm/action-setup@v6
+          cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Cache Playwright browsers
@@ -25,7 +26,14 @@ jobs:
       - name: Install Playwright Browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm exec playwright install --with-deps chromium
+      - name: Cache dist
+        id: dist-cache
+        uses: actions/cache@v4
+        with:
+          path: dist
+          key: dist-${{ runner.os }}-${{ hashFiles('src/**', 'public/**', 'index.html', 'vite.config.*', 'tsconfig*', 'pnpm-lock.yaml') }}
       - name: Build the application
+        if: steps.dist-cache.outputs.cache-hit != 'true'
         run: pnpm build
       - name: Run Playwright tests
         run: pnpm exec playwright test
