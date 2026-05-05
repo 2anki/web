@@ -92,7 +92,9 @@ export function SubscriptionManagement({
     performLinkEmail(linkEmail);
   };
 
-  const isEmailLinked = locals?.subscriptionInfo?.linked_email === user.email;
+  const isEmailLinked =
+    locals?.subscriptionInfo?.linked_email === user.email ||
+    locals?.subscriptionInfo?.email === user.email;
 
   if (!hasActivePlan && !user) {
     return null;
@@ -116,7 +118,7 @@ export function SubscriptionManagement({
           {view.kind === 'active' && (
             <div className={styles.activeBadge}>
               Active — renews on{' '}
-              <strong>{formatDate(view.subscription.cancel_at)}</strong>
+              <strong>{formatDate(view.subscription.current_period_end)}</strong>
               .
               {formatPlan(view.subscription) && (
                 <p className={styles.planDetail}>
@@ -152,7 +154,7 @@ export function SubscriptionManagement({
             </div>
           )}
 
-          {view.kind === 'none' && stripeStatus.isLoading && (
+          {stripeStatus.isLoading && view.kind === 'none' && (
             <p className={sharedStyles.smallDescription}>
               Loading subscription status…
             </p>
@@ -161,7 +163,7 @@ export function SubscriptionManagement({
           {view.kind === 'active' &&
             view.subscription.plan?.amount != null &&
             view.subscription.plan.amount < 600 && (
-              <div className={styles.scheduledBadge}>
+              <div className={styles.infoBadge}>
                 You're on our legacy $2/mo plan. If you cancel, this rate won't
                 be available again — the current price is $6/mo.
               </div>
