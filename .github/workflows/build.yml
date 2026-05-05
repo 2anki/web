@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
   build:
+    name: build (v22.15.1)
     runs-on: ubuntu-latest
 
     steps:
