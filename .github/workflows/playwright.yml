@@ -18,7 +18,14 @@ jobs:
         with:
           node-version: v22.15.1
           cache: pnpm
+      - name: Cache node_modules
+        id: modules-cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
       - name: Install dependencies
+        if: steps.modules-cache.outputs.cache-hit != 'true'
         run: pnpm install --frozen-lockfile
       - name: Cache Playwright browsers
         uses: actions/cache@v4
