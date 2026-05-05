@@ -12,6 +12,7 @@ export interface StripeSubscriptionSummary {
   cancel_at_period_end: boolean;
   cancel_at: number | null;
   canceled_at: number | null;
+  current_period_end: number | null;
   plan: StripePlanSummary | null;
 }
 
