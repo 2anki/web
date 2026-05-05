@@ -30,7 +30,7 @@ jobs:
         id: dist-cache
         uses: actions/cache@v4
         with:
-          path: dist
+          path: build
           key: dist-${{ runner.os }}-${{ hashFiles('src/**', 'public/**', 'index.html', 'vite.config.*', 'tsconfig*', 'pnpm-lock.yaml') }}
       - name: Build the application
         if: steps.dist-cache.outputs.cache-hit != 'true'
