@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> **This repository has moved.** Development now happens in the [`2anki/server`](https://github.com/2anki/server) monorepo under the [`web/`](https://github.com/2anki/server/tree/main/web) folder. Please open new issues and pull requests there.
+
 Frontend code for [2anki.net](https://2anki.net), for backend see https://github.com/2anki/server
 
 <p align="center"><img width="256" src="public/mascot/Notion%201.png?raw=true" alt="Notion to Anki logo" /></p>
